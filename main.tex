@@ -1,0 +1,81 @@
+\documentclass[conference]{IEEEtran}
+
+
+% Fonte em português brasileiro
+\usepackage[american]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+\usepackage{setspace}
+\usepackage{pgfgantt}
+\usepackage{booktabs}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{xspace}
+\usepackage{balance}
+
+% Default fixed font does not support bold face
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{12}  % for normal
+
+% Custom colors
+\definecolor{keywords}{rgb}{0.5,0,0.35}
+\definecolor{comments}{RGB}{0,0,113}
+\definecolor{red}{RGB}{160,0,0}
+\definecolor{green}{RGB}{0,150,0}
+ 
+\lstset{language=Python, 
+        basicstyle=\ttfamily\small, 
+        keywordstyle=\color{keywords}\bfseries,
+        commentstyle=\color{comments},
+        stringstyle=\color{red},
+        showstringspaces=false,
+        %identifierstyle=\color{red},
+       }
+       
+% Identação e Margens
+\usepackage{fullpage}      % Margens
+\usepackage{indentfirst}   % Autoidentar
+
+% Figuras
+\usepackage{graphicx}       % Pictures
+
+\title{Mining Android Sandox: Some possible improvement to be done ?}
+
+\author{
+\IEEEauthorblockN{
+    Francisco Handrick da Costa\IEEEauthorrefmark{1},
+    Ismael Medeiros\IEEEauthorrefmark{1},
+    Rodrigo Bonif\'{a}cio\IEEEauthorrefmark{1},
+    Marcio Ribeiro\IEEEauthorrefmark{3}, \\ 
+    Gabriel Martins\IEEEauthorrefmark{1},
+    Mira Mezini\IEEEauthorrefmark{2}, and
+    Krishna Narasimhan\IEEEauthorrefmark{2}
+}
+
+\IEEEauthorblockA{
+  \IEEEauthorrefmark{1}Computer Science Department, University of Bras\'{i}lia, Brazil,
+  \IEEEauthorrefmark{2}Software Technology Group, TU Darmstadt, Germany, \\ 
+  \IEEEauthorrefmark{3}Institute of Computing, Federal University of Alagoas, Brazil
+  }
+}
+
+
+\newcommand{\droidxp}{DroidXP\xspace}
+
+\begin{document}
+\maketitle
+
+\input{abstract}
+\input{introduction}
+\input{background}
+\input{sandboxweakness}
+\input{methodology}
+\input{evaluation}
+\input{relatedwork}
+\input{conclusions}
+
+\balance 
+\bibliographystyle{IEEEtran}
+\bibliography{ref}
+
+\end{document}
