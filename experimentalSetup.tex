@@ -1,6 +1,6 @@
 \section{Experimental Setup}\label{sec:experimentalSetup}
 
-In this section, we describe how to setup our study. We first describe how we mined the data-set of Android app pairs that will serve as a benchmark for our study. Then we enlist and justify the test generation tools that mine for android sandboxes. Then, we describe the setup of our infrastructure used to perform the study. 
+In this section, we describe how to setup our study. We first describe how we mined the data-set of Android app pairs that will serve as a benchmark for our study.Then we enlist and justify the test generation tools that mine for android sandboxes. Then, we describe the setup of our infrastructure used to perform the study. 
 
 \subsection{Dataset}
 \textbf{Collect apps pair (benign-malicious).} Most malware are simply repackage of official app where repackage app injects an extra code, often malicious, to original apps. Zhou et al.~\cite{DBLP:conf/sp/ZhouJ12} provided a wide-ranging malware collection, where 80\% of samples are know to be built by repackaging other apps. Because of this our dataset is composed by app pairs (benign-malicious).
@@ -91,7 +91,7 @@ For our study, we configured DroidXP to run each of the 824 app pairs using each
 Although it was possible to run more than 10 emulators in parallel on one physical machine, to avoid any interference due to context switching within the operating system, we choose to run one emulator at a time. Hence, all evaluation processes took around 41 days and additional five days for environment deployment.
 
 In the following subsections, we describe the setup required to perform custom analysis that were central to our study. 
-\subsection{Similarity analysis}
+\subsection{Similarity analysis} \label{sec:similarity}
 
 To validate the impact of repackaged apps for sandbox approaches, we perform a \textit{similarity analysis} of the app pairs using SimiDroid~\cite{DBLP:conf/trustcom/0029BK17}. It quantifies and qualifies the similarity between pair following four metrics that is considered most relevant~\cite{DBLP:conf/wcre/0029BKT16}. The four metrics are primarily based on method level differences:
 

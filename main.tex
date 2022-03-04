@@ -15,6 +15,7 @@
 \usepackage{balance}
 \usepackage{parselines}
 \usepackage{comment}
+\usepackage[most]{tcolorbox}
 
 \usepackage{csvsimple}
 \usepackage{pgfplotstable}
@@ -102,7 +103,7 @@ unknown/angeeks,1
 % Figuras
 \usepackage{graphicx}       % Pictures
 
-\title{Mining Android Sandox: Some possible improvement to be done ?}
+\title{Towards detecting blindspots in Android sandbox approaches for detecting malware: An empirical study}
 
 \author{
 \IEEEauthorblockN{
@@ -125,6 +126,12 @@ unknown/angeeks,1
 
 
 
+\newtcbtheorem{obs}{Research Question}{%
+        theorem name,%
+        colback=green!5,%
+        colframe=green!35!black,%
+        fonttitle=\bfseries,title after break={Lemma  -- \raggedleft Continued}%
+    }{lem}
 
 \newcommand{\droidxp}{DroidXP\xspace}
 \newcommand\kn[1]{\textcolor{red}{KN: #1}}
