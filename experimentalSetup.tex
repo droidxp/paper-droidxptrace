@@ -1,6 +1,6 @@
 \section{Experimental Setup}\label{sec:experimentalSetup}
 
-In this section, we describe how to setup our study. We first describe how we mined the data-set of Android app pairs that will serve as a benchmark for our study.Then we enlist and justify the test generation tools that mine for android sandboxes. Then, we describe the setup of our infrastructure used to perform the study. 
+In this section, we describe how to setup our study. We first describe how we mined the data-set of Android app pairs that will serve as a benchmark for our study. Then we enlist and justify the test generation tools that mine for android sandboxes. Then, we describe the setup of our infrastructure used to perform the study.
 
 \subsection{Dataset}
 \textbf{Collect apps pair (benign-malicious).} Most malware are simply repackage of official app where repackage app injects an extra code, often malicious, to original apps. Zhou et al.~\cite{DBLP:conf/sp/ZhouJ12} provided a wide-ranging malware collection, where 80\% of samples are know to be built by repackaging other apps. Because of this our dataset is composed by app pairs (benign-malicious).
@@ -11,28 +11,21 @@ To populate our app pairs, we used Androzoo~\cite{DBLP:conf/msr/AllixBKT16}, a c
 
 Due to space and time constraints, we downloaded 42 GB of apps for 20 hours and ended up with 7268 app pairs. Androzoo sometimes contains multiple malicious versions for the same benign app. In such cases, we pick the first malicious version ensuring that the resulting pairs were unique in terms of their original apps. This step resulted in our dataset containing 1831 app pairs. Among 1831 initial pairs, only 1395 apps could be successfully instrumented by DroidFax. Among the 1395 instrumented pairs, we had installation errors on our emulator (Pixel 4 API 28), many times due to compatibility issues. 
 
-In all, we obtained 824 valid app pairs that could be used for our study. Figure~\ref{fig:stores} presents the markets where the most of malicious version apps were collected according to Androzoo. As we can see, even at the official Google Play market, it is possible to extract several malware.
+In all, we obtained 824 valid app pairs that could be used for our study. For time issues, we decided to use just 95 pairs at our research. Figure~\ref{fig:stores} presents the markets where the most of malicious version apps were collected according to Androzoo. As we can see, even at the official Google Play market, it is possible to extract several malware.
 %\kn{TODO: Convert Table 1 into a bar chart listing only the top 6. The rest of the app stores with less than 10 apps can be listed in the appendix } 
 
 
 \begin{figure}[ht]
 \centering
-\includegraphics[scale=0.32]{images/stores.pdf}
+\includegraphics[scale=0.3]{images/stores.pdf}
 \caption{Markets where malware was downloaded.}
  \label{fig:stores}
 \end{figure}
 
-To perform an in-depth analysis of how various factors influence the quality of android sandboxes, we utilize four state of the art test generation tools: Monkey~\cite{Monkey}, Droidmate2~\cite{DBLP:conf/kbse/BorgesHZ18}, Droidbot~\cite{DBLP:conf/icse/LiYGC17} and Humanoid~\cite{DBLP:conf/kbse/LiY0C19}. We considered Monkey because it is part of the Android SDK, easy-to-use, and compatible with different Android versions. It is also the most widely used randomly test generation tool for Android in industry~\cite{DBLP:conf/sigsoft/ZengLZXDLYX16}. 
+To perform an in-depth analysis of how various factors influence the quality of android sandboxes, we could have used several state of the art test generation tools like: Monkey~\cite{Monkey}, Droidmate2~\cite{DBLP:conf/kbse/BorgesHZ18}, Droidbot~\cite{DBLP:conf/icse/LiYGC17} and Humanoid~\cite{DBLP:conf/kbse/LiY0C19}. However, we considered to use just Droidbot, since several study show that it achieved better performance results when mining sensitives resources in comparison with the state of the art~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22}. Its applies a depth-first strategy (DFS)~\cite{DBLP:conf/oopsla/AzimN13} to dynamically build GUI models, collecting GUI information and running process
+information.
 
-We choose Droidmate2, an enhancement of the Droidmate~\cite{DBLP:conf/icse/JamrozikZ16} project, as it is a state of the art in harnessing random screen actions such as long-clicks, swipes etc. to invoke GUI elements in an app. 
-
-Droidbot is another test generator tool in our study that applies a depth-first strategy (DFS)~\cite{DBLP:conf/oopsla/AzimN13} to dynamically build  GUI models collecting GUI information and running process
-information. Droidbot achieved better performance results when mining sensitives resources in comparison with the state of the art\cite{DBLP:conf/wcre/BaoLL18}~\cite{DBLP:journals/jss/CostaMMSSBNR22}. 
-
-In order to react to the advancements in the field of AI for malware detection, we also used Humanoid~\cite{DBLP:conf/kbse/LiY0C19}, a deep learning-based tool that emulates realistic users, creating human-like test inputs. Humanoid implements a deep neural network model that learns which UI elements an Android user interacts with and how. It is built on Droidbot and has shown to have better code coverage when compared to others test generator tools.
-
-
-\subsection{Mine Android Sandbox Infrastructure}
+\subsection{Mine Android Sandbox Infrastructure}\label{sec:infra}
 
 For our study, we require an extensive infrastructure that will allow us to integrate different test case generation tools. To this end, we used and extended DroidXP\cite{DBLP:conf/scam/CostaMCMVBC20}, a benchmark tool that allows researchers and developers, to integrate and compare test case generation tools for mining sandboxes.
 
@@ -63,8 +56,8 @@ Benchmarking using DroidXP typically happens in three phases:
 \textbf{Phase 2: Execution:} In this phase, the execution is done by deploying an instrumented APK file in an Android emulator and executing the instrumented app using one or more test generation tools for a chosen period of time. To ensure that each execution gets the benefit of running on a fresh android instance without biases that could stem out of history, all data stored on the emulator from previous executions are wiped out from the emulator. 
 
 %\kn{Is the result analysis into logcat done by DroidXP or an extension by us? In general, it is unclear what is existing in DroidXP already and what we do. Isnt logcat a separate tool. If this is done by DroidXP, please make it clear that DroidXP invokes logcat on its own}%
-\textbf{Phase 3: Result Analysis:} During the execution, all the data that is required to compute the results are persisted by DroidXP, using Logcat \cite{Logcat}, one of the Android SDK's native logging tools. This can be used to perform analysis on the results of executing test generators on apps and observe malicious behavior. 
-
+\textbf{Phase 3: Result Analysis:} During the execution, all the data that is required to compute the results are persisted by DroidXP, using Logcat \cite{Logcat}, one of the Android SDK's native logging tools. This can be used to perform analysis on the results of executing test generators on apps and observe malicious behavior.\newline
+\newline
 \textbf{DroidXPTrace}. To leverage our study, we also used an auxiliary tool from DroidXP project called DroidXPTrace~\footnote{The DroidXPTrace is also available at https://github.com/droidxp/droidxptrace}. DroidXPTrace allowed us to monitor aspects like dynamic call graphs which was not possible using vanilla version of DroidXP. DroidXPTrace, using the result from Phase 3 of DroidXP, creates a call graph of app pair, exploring traces from its entry point to sensitive API access. In the end, it compares both call graphs (benign and malicious app version), and generated a JSON file recording the following information:
 %\kn{I have rephrased the previous paragraph, please check if it is still accurate}. 
 
@@ -85,36 +78,52 @@ Thus, we added additional information of call graphs at our study. This informat
 
 We deployed our experiment on a machine running a 64-bit Debian  GNU/Linux 11. The machine used was  a 32-Core, AMD EPYC 7542 CPU, 512 GB RAM, storage Samsung SSD 970 EVO 1TB. We also configure our emulator to run all selected apps on Google Android version 9.0, API 28, 512M SD Card, 7GB internal storage, with X86 ABI image.
 
-For our study, we configured DroidXP to run each of the 824 app pairs using each testing tool for three minutes. To mitigate noise, we repeated the full process three times which took in total ($824 \times 2$ apps $\times 4$ tools $\times 3$ runs $\times 3$ min $\apeq 989$ machine hours).
+For our study, we configured DroidXP to run each of the $95$ app pairs using Droidbot testing tool for three minutes. To mitigate noise, we repeated the full process three times which took in total ($95 \times 2$ apps (benign/malicious) $\times 3$ runs $\times 3$ min) + ($95 \times 2$ apps $\times 1.5$ min for emulator reboot) $\apeq 34$ machine hours.
 %\kn{Initial? Was there a follow up study, if not please use only study. This is feedback for all instances with the word initial}
 
-Although it was possible to run more than 10 emulators in parallel on one physical machine, to avoid any interference due to context switching within the operating system, we choose to run one emulator at a time. Hence, all evaluation processes took around 41 days and additional five days for environment deployment.
+Although it was possible to run more than 10 emulators in parallel on one physical machine, to avoid any interference due to context switching within the operating system, we choose to run one emulator at a time. Hence, all evaluation processes took around $3$ days and additional $5$ days for environment deployment.
 
-In the following subsections, we describe the setup required to perform custom analysis that were central to our study. 
-\subsection{Similarity analysis} \label{sec:similarity}
+In the following subsections, we describe the setup required to perform custom analysis that were central to our study.
 
-To validate the impact of repackaged apps for sandbox approaches, we perform a \textit{similarity analysis} of the app pairs using SimiDroid~\cite{DBLP:conf/trustcom/0029BK17}. It quantifies and qualifies the similarity between pair following four metrics that is considered most relevant~\cite{DBLP:conf/wcre/0029BKT16}. The four metrics are primarily based on method level differences:
+\subsection{False positive analysis} \label{sec:falsePositive}
 
-\begin{itemize}
-    \item \textit{identical}: a given method is considered identical if both versions have the same signature and the same implementation
-    \item \textit{similar}: a given method is similar if both versions have the same signature but not the same implementation.
-    \item \textit{new}: a given method is new if it is present only in the malicious version of the app.
-    \item \textit{deleted}: a given method is deleted if it is present only in the benign version of the app.
-\end{itemize}
+To perform the false positive analysis we used the infrastructure of DroidXP, described in section~\ref{sec:infra}. After finishing \textbf{Phase 2 (execution)}, we have all explorer information about the apps under analysis by Droidbot test generation tools.
 
-Based on these metrics, SimiDroid computes the similarity score of the given app pairs using Formula\eqref{eq:1}.
+Our analysis concert just at the benign version of apps, since false positive alarm could occur when some expected behavior from the benign app version is not seen during mining step. Hence, as a first step we collect all sensitive methods (SM) by the union of three execution of mine sandbox at all benign apps version. With this step, we could have a base set of sensitive methods called by each benign version from all 95 apps explored in our study. After, we executed mine sandbox again at the same set of benign apps version seven times. At each execution we observed the set of sensitive methods called, and compare them with the initial set of sensitive methods composed by the union of methods explored by the first three executions. In the end, we executed 7 tests, checking if the difference between all the these sets are empty sets, as below:\newline
 
-\begin{equation}
- similarity = max \lbrace\frac{identical}{total-new},\frac{identical}{total-deleted}\rbrace  \label{eq:1}
-\end{equation}
+\begin{enumerate}[(Test 1)]
+ \item {$\left\{\left\{SM01\right\} \cup \left\{SM02\right\} \cup \left\{SM03\right\}\right\} \textit{diff} \left\{SM04\right\} = \emptyset$}
+ \item {$\left\{\left\{SM01\right\} \cup \left\{SM02\right\} \cup \left\{SM03\right\}\right\} \textit{diff} \left\{SM05\right\} = \emptyset$}
+ \item {$\left\{\left\{SM01\right\} \cup \left\{SM02\right\} \cup \left\{SM03\right\}\right\} \textit{diff} \left\{SM06\right\} = \emptyset$}
+ \item {$\left\{\left\{SM01\right\} \cup \left\{SM02\right\} \cup \left\{SM03\right\}\right\} \textit{diff} \left\{SM07\right\} = \emptyset$}
+ \item {$\left\{\left\{SM01\right\} \cup \left\{SM02\right\} \cup \left\{SM03\right\}\right\} \textit{diff} \left\{SM08\right\} = \emptyset$}
+ \item {$\left\{\left\{SM01\right\} \cup \left\{SM02\right\} \cup \left\{SM03\right\}\right\} \textit{diff} \left\{SM09\right\} = \emptyset$}
+ \item {$\left\{\left\{SM01\right\} \cup \left\{SM02\right\} \cup \left\{SM03\right\}\right\} \textit{diff} \left\{SM10\right\} = \emptyset$}
+ 
+\end{enumerate}
 
-where
+We observed if all execution explored the same sensitive methods at each benign app in our dataset (95 app pairs). We consider that occur a false positive alert when at least one of seven tests fail, i.e. if one of the 7 tests returns a non-empty set.
 
-\begin{equation}
- total = identical + similar + deleted + new\label{eq:2}
-\end{equation}
-\newline
-Our similarity analysis was important for our experiment since it allowed us to check how similar or different are the pairs in terms of code content. With this information, we could check which strategies for malware detection are more effective when given pairs are very similar. Previous state of the art work \cite{DBLP:conf/codaspy/ZhouZJN12} limited their study of repackaged app detection by setting a similarity threshold of 70\%. In our study, we do not filter any of the select app pairs with any threshold criteria, since our idea is to present a fine-grained analysis of the relationship between app similarity and the ability of different sandbox approaches to detect them.
+As a second step, we also choose a random execution, and check if the set of sensitive methods collected by this execution, is the same of other 9 sensitive methods set, collected by others 9 executions. At this second step, the fifth execution was the choose one as a base execution for tests, as described below:\newline
+
+\begin{enumerate}[(Test 1)] \setcounter{enumi}{7}
+ \item {$\left\{SM05\right\} \textit{diff} \left\{SM01\right\} = \emptyset$}
+ \item {$\left\{SM05\right\} \textit{diff} \left\{SM02\right\} = \emptyset$}
+ \item {$\left\{SM05\right\} \textit{diff} \left\{SM03\right\} = \emptyset$}
+ \item {$\left\{SM05\right\} \textit{diff} \left\{SM04\right\} = \emptyset$}
+ \item {$\left\{SM05\right\} \textit{diff} \left\{SM06\right\} = \emptyset$}
+ \item {$\left\{SM05\right\} \textit{diff} \left\{SM07\right\} = \emptyset$}
+ \item {$\left\{SM05\right\} \textit{diff} \left\{SM08\right\} = \emptyset$}
+ \item {$\left\{SM05\right\} \textit{diff} \left\{SM09\right\} = \emptyset$}
+ \item {$\left\{SM05\right\} \textit{diff} \left\{SM09\right\} = \emptyset$}
+\end{enumerate}
+
+As the first analysis, we also consider a false negative occurrence, if one of the 9 remaining tests returns a non-empty set.
+
+\subsection{Trace analysis} \label{sec:trace}
+
+As described at section~\ref{sec:infra}, we advantage from DroidXP auxiliary tool, DroidXPTrace. It help us to create dynamic call graphs of each app version (benign/malicious), from each test generation tool. With these call graphs, we analysis if there was some app pairs that was not described as a malware, i.e. at mine sandbox exploratory step, the test generation tool collected the same sensitive API set for both version, however dynamic call graph analysis presented different traces from the entry point, to call for these sensitive APIs at the versions.
+
 
 \subsection{Manifest file analysis}\label{sec:manifestAnalysis}
 
