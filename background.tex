@@ -15,7 +15,7 @@ Several works have been proposed to detect malware based on sensitive method cal
 
 On static analysis approaches exploring Android Manifest files, Kim et al. proposed RomaDroid~\cite{DBLP:journals/access/KimLCP19}.  Their approach does not consider the structural context in Manifest files, but rather treat the files as sequence of strings and perform a lowest common subsequence (LCS) based approach to detect repackaged apps. Au el al.~\cite{DBLP:conf/ccs/AuZHL12} also apply static analysis on Android Manifest files to detect vulnerabilities in Android apps. They do this by mapping requested permissions to sensitive API calls in the code.
 
-Li et al.~\cite{DBLP:journals/tifs/0029LBKTLC17} provided a systematic knowledge on Android malware by conducting an empirical study comparing malicious repackage app with their benign counterparts (1,497 app pairs). They found that the majority of Android malware are repackaged versions of benign apps that donot do anything complex modifications, many times simply reusing library code.
+Li et al.~\cite{DBLP:journals/tifs/0029LBKTLC17} provided a systematic knowledge on Android malware by conducting an empirical study comparing malicious repackage app with their benign counterparts (1,497 app pairs). They found that the majority of Android malware are repackaged versions of benign apps that do not do anything complex modifications, many times simply reusing library code.
 
 In the domain of detecting repackaged apps by comparing app pairs, Crussell et al.~\cite{DBLP:conf/esorics/CrussellGC12} proposed  DNADroid, which compares program dependence graphs, and Zhou et al.~\cite{DBLP:conf/codaspy/ZhouZJN12} DroidMoss which detects and analyzes repackaged apps using a fuzzy hashing technique. 
 
@@ -79,13 +79,20 @@ Previous studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:conf/scam/CostaMCMVBC20} that
 investigating and comparing the performance of different test generator tools,
 with diverse exploratory strategies.
 
+\subsection{The Mining Android Sandbox Approach for Malware Identification}
 
-The focus of our paper is in approaches that mine android sandboxes to detect Android Malware.
+The focus of our paper is in approaches that mine android sandboxes to classify Android Malware.
 There is a vast body of research in this direction. 
-Bao et al.~\cite{DBLP:conf/wcre/BaoLL18} conducted an empirical study to investigate the effectiveness of android sandbox approaches
-for detecting malware, exploring test generation tools, including Droidmate. The authors found that in general, the sandboxes constructed by test generator tools can detect more than $70$\% malicious apps in a dataset comprising $102$ pairs (benign/malicious). The study also presented that among 5 test generation tools used, DroidBot~\cite{DBLP:conf/icse/LiYGC17} leads to the most efficient sandbox.
-Le et al.~\cite{le2018towards} extend the work of Bao et al. by combining more categories of APIs, and also considering the impact of
-actual arguments on the sandboxe definition.
-None of the aforementioned studies ~\cite{DBLP:conf/icse/JamrozikSZ16,DBLP:conf/wcre/BaoLL18,le2018towards} neither characterize the APIs included on the repackage versions nor investigate the possibility that trace analysis using call graph or analysis of the manifest file could complement the mining sandbox approach for malware identification.
+Bao et al.~\cite{DBLP:conf/wcre/BaoLL18} conducted an empirical study to investigate the effectiveness of mining android sandbox
+approaches
+for detecting malware, exploring test generation tools, including Droidmate. The authors found that, in general, the sandboxes constructed by test generator tools can detect more than $70$\% malicious apps in a dataset comprising $102$ pairs (benign/malicious). The study also presented that among 5 test generation tools used, DroidBot~\cite{DBLP:conf/icse/LiYGC17} leads to the most effective sandbox.
+Le et al.~\cite{le2018towards} extend the work of Bao et al. by combining more categories of sensitive APIs, and also considering the impact of
+actual arguments on the sandboxes definition.
+\todo[inline]{I could not understand why we did not cite our JSS work here}
+%However, none of the aforementioned studies
+% ~\cite{DBLP:conf/icse/JamrozikSZ16,DBLP:conf/wcre/BaoLL18,le2018towards}
+%neither characterize the APIs included on the repackage versions nor investigate the
+%possibility that trace analysis using call graph or analysis of
+% the manifest file could complement the mining sandbox approach for malware identification.
 
-Hence, our work, although closely related to previous studies, differs from them in several aspects. We present a broader assessment of the effectiveness of the mining sandbox approach for malware identification, resulting in the first in depth characterization of the calls to sensitive APIs that frequently appear in the repackage version of the apps. Our assessment is also more comprehensinve: instead of considering $102$ pairs of benign/malign apps, we execute our study consider {\color{red}800} pairs of apps. We also explore two possible strategis to complement the mining sandbox approach for malware identification. The first explores the impact of dynamic call graphs through the comparisons of traces from entry point to the calls to sensitive APIs that result from the executions of the benign and malign versions of an app. The second explores suspicious change patterns in the Android Manifest file of the apps, using a simple, yet effective, static analysis approach.
+Our work, although closely related to previous studies, differs from them in several aspects. We present a broader assessment of the effectiveness of the mining sandbox approach for malware identification, resulting in the first in depth characterization of the calls to sensitive APIs that frequently appear in the repackage version of the apps. Our assessment is also more comprehensive: instead of considering $102$ pairs of benign/malign apps, we execute our study consider {\color{red}800} pairs of apps. We also explore two possible strategies to complement the mining sandbox approach for malware identification. The first explores the impact of dynamic call graphs through the comparisons of traces from entry point to the calls to sensitive APIs that result from the executions of the benign and malign versions of an app. The second explores suspicious change patterns in the Android Manifest file of the apps, using a simple, yet effective, static analysis approach.
