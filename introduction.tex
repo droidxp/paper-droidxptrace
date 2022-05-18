@@ -1,16 +1,33 @@
 \section{Introduction}\label{sec:introduction}
 
-Almost two-thirds of the world use mobile technologies, such as smartphones and tablets, acquired a central role in everyday life at last decade~\cite{Comscore}\cite{DBLP:journals/tse/MartinSJZH17}. In this context, Android Operation System has dominated this market, with around 150 billions of Android application~\footnote{In this paper, we will use the terms Android Applications, Android Apps and Apps interchangeably, to represent Android software applications} (apps) downloaded by October 2018 from its marketplaces (Google Play)~\cite{Statista}. Due to this growing popularity, we witnessed an unprecedented growth of incidents related to Android malicious app (malware). From $2010$ to $2013$, Android malware increase from a hundred samples to more than thousands of samples~\cite{DBLP:journals/comsur/FarukiBLGGCR15,DBLP:journals/csur/SufatrioTCT15}, becoming security issues in Android apps a relevant research topic. Several techniques emerged to identify malicious behaviour and vulnerabilities in Android apps, such as static analysis algorithms to point private information leaks~\cite{DBLP:conf/pldi/ArztRFBBKTOM14}, or reveal misuse of 
-cryptographic primitives~\cite{DBLP:journals/tse/KrugerSABM21}
+Almost two-thirds of the world use mobile technologies, such as smartphones and tablets, acquired a central role in everyday life in the last decade~\cite{Comscore}\cite{DBLP:journals/tse/MartinSJZH17}. In this context, Android Operation System has dominated this market, with around 150 billions of Android application~\footnote{In this paper, we will use the terms Android Applications, Android Apps and Apps interchangeably, to represent Android software applications} (apps) downloaded by October 2018 from its marketplaces (Google Play)~\cite{Statista}. Due to this growing popularity, we witnessed an unprecedented growth of incidents related to Android malicious app (malware).  becoming security issues in Android apps a relevant research topic. Several techniques emerged to identify malicious behavior and vulnerabilities in Android apps, such as static analysis algorithms to point private information leaks~\cite{DBLP:conf/pldi/ArztRFBBKTOM14}, or reveal misuse of 
+cryptographic primitives.~\cite{DBLP:journals/tse/KrugerSABM21}
 
-In this context, ... (here we write about sandbox approach)
+Another alternative for protection from Android malicious behavior consists in the use of dynamic analysis to mine Android sandboxes~\cite{DBLP:conf/icse/JamrozikSZ16}, which using automated testing tools (i.e., dynamic analysis), it explores apps behavior mining set of resources access during a testing step. However, since prior works focus on testing tools comparisons for mine sandbox, and do not evaluate a relevant amount of real-world malware, they cannot provide direct and in-depth answers to the question "There are blindspots at mine sandbox approach for malware detection?".
 
-%maybe this research question will change. We will probably address the false positive issue at this first question.
+To answer this general question, we divide this paper into two folds. First, we present the results of a study, where we explored the sensitive APIs set from $800$ real apps pairs (benign/malicious). In this study, we presented how many pairs presented different Sensitive API set from both versions, and also check which are the most Sensitive APIs injected by these malicious apps. To this end, we take advantage of DroidXP~\cite{DBLP:conf/scam/CostaMCMVBC20}, a tool suite that supported us in our study setup and data collection. We also take advantage of DroidXP to integrate the test generation tool used in our study, Droidbot\cite{DBLP:conf/icse/LiYGC17}.
 
-We investigated the following questions in our study:
+Second, in this paper we also explore the possibility of dynamic call trace assessment helps identify suspicious traces at malicious apps. In this study, we used an auxiliary tool from DroidXP project called DroidXPTrace. It allows us to compare all traces from an entry point to sensitive APIs call, at both versions, checking if they are divergences, i.e, although both app versions call the same sensitive API, we check if they access these sensitive APIs differently. The fact of the malicious version injects new traces could be considered a suspicious attitude undisclosed by mine sandbox approach, since it just checks for new sensitive APIs injected for malicious apps. To complement this study, we also performed a simple manifest file analysis, where we explored suspicion code injection possibly through automated scripts. This analysis proved to be simple, but also effective in some cases where sandbox failure.
+
+In particular, we investigated the following specific questions in our study: (answered in Section~\ref{sec:results}):
 
 \begin{enumerate}[(RQ1)]
- \item What is the false positive frequency at sandbox approach, in terms of benign behaviors unseen at explorer step?
+ \item Which are the Sensitive APIs most commonly used at malicious apps (repackage)?
  \item Numerically, which relevant are trace analysis to improve malware detection in support of the mine sandbox approach?
- \item Numerically, which relevant are manifest files analysis to improve malware detection in support of the mine sandbox approach?
+ \item Numerically, which relevant are manifest files analysis to improve malware detection in support of the mine sandbox approach?\newline
 \end{enumerate}
+ 
+Our first findings point out that out of 162 sensitive APIs explored, just xx (xx\%) was injected at most repackage apps. It indicates that we have a small set of sensitive APIs used generally by malicious developers, pointing out that researchers can concentrate effort on this specific set of sensitive APIs to improve the security of Android apps (Section~\ref{sec:Sensitive APIs}). By sensitive APIs set comparisons, we find that out of 800 real-world app pairs investigate, xx (xx\%) explored by our test generator tool had a different set of sensitive APIs, indicating that there is an opportunity to improve these number in the short-term (Section~\ref{sec:testGeneration}). Hence, we explored dynamic call trace assessment and manifest file analysis to mitigate this gap, and discovered that both strategies improved previous approaches in xx\% and xx\%. Table~\ref{tab:pa} and table~\ref{tab:mfa} in Section ~\ref{sec:traceResults} summarizes the new insights we obtained from this study.\newline
+\newline
+In summary, this paper makes the following contributions:
+
+\begin{enumerate}[1.]
+\item It carefully setup the droidXP infrastructure, including the truth dataset of 800 real malware. The study results on this dataset present a complementary perspective from previous works, evidencing that previous work overestimated the performance of Android sandbox approach.
+\item It gives a broad comprehension about the role of trace analysis and static analysis on Android manifest file for improve Android sandbox approach.
+\item It availables a reproduction package of the studies online. Scripts for statistic analysis are also available.\footnote{https://github.com/droidxp/paper-droidxp-replication.git}
+\end{enumerate}
+
+
+
+
+

@@ -1,8 +1,8 @@
 \section{Experimental Setup}\label{sec:experimentalSetup}
 
-In this section, we describe how to setup our study. We first describe how we mined the data-set of Android app pairs that will serve as a benchmark for our study. Then we enlist and justify the test generation tools that mine for android sandboxes. Then, we describe the setup of our infrastructure used to perform the study.
+In this section, we describe how the setup of our study. We first describe how we mined the data-set of Android app pairs that will serve as a benchmark for our study (Section~\ref{sec:dataset}).  Then, we describe the setup of our infrastructure used to perform the study(Section~\ref{sec:infra}) followed by a discussion on the hardware setup and configruations used (Section~\ref{sec:hardware}). We finally describe the setup adaptations needed to perform the individual analyses (Section~\ref{sec:sensitivapi}, \ref{sec:pathsetup}, \ref{sec:manifestAnalysis})
 
-\subsection{Dataset}
+\subsection{Dataset}\label{sec:dataset}
 \textbf{Collect apps pair (benign-malicious).} Most malware are simply repackage of official app where repackage app injects an extra code, often malicious, to original apps. Zhou et al.~\cite{DBLP:conf/sp/ZhouJ12} provided a wide-ranging malware collection, where 80\% of samples are know to be built by repackaging other apps. Because of this our dataset is composed by app pairs (benign-malicious).
 
 %\kn{Here we need one or two lines motivating why we need app pairs.} 
@@ -74,7 +74,7 @@ Benchmarking using DroidXP typically happens in three phases:
 
 Thus, we added additional information of call graphs at our study. This information helped us to explore traces between an entry point app and its access to methods sensitives, at runtime. This investigation shows that in several situations, although both app versions (benign-malicious) access the same set of sensitive resources, they access them using different traces, which could mean malicious sensitive resource access.
 
-\subsection{Hardware and procedure setup}
+\subsection{Hardware and procedure setup}\label{sec:hardware}
 
 We deployed our experiment on a machine running a 64-bit Debian  GNU/Linux 11. The machine used was  a 32-Core, AMD EPYC 7542 CPU, 512 GB RAM, storage Samsung SSD 970 EVO 1TB. We also configure our emulator to run all selected apps on Google Android version 9.0, API 28, 512M SD Card, 7GB internal storage, with X86 ABI image.
 
@@ -85,8 +85,8 @@ Although it was possible to run more than 10 emulators in parallel on one physic
 
 In the following subsections, we describe the setup required to perform custom analysis that were central to our study.
 
-\subsection{False positive analysis} \label{sec:falsePositive}
-
+\subsection{Sensitive API setup} \label{sec:sensitivapi}
+\fh{Here the text talk about false positive. We have to change to talk about how we extract the most sensitive APIs used by malicous apps }
 To perform the false positive analysis we used the infrastructure of DroidXP, described in section~\ref{sec:infra}. After finishing \textbf{Phase 2 (execution)}, we have all explorer information about the apps under analysis by Droidbot test generation tools.
 
 Our analysis concert just at the benign version of apps, since false positive alarm could occur when some expected behavior from the benign app version is not seen during mining step. Hence, as a first step we collect all sensitive methods (SM) by the union of three execution of mine sandbox at all benign apps version. With this step, we could have a base set of sensitive methods called by each benign version from all 95 apps explored in our study. After, we executed mine sandbox again at the same set of benign apps version seven times. At each execution we observed the set of sensitive methods called, and compare them with the initial set of sensitive methods composed by the union of methods explored by the first three executions. In the end, we executed 7 tests, checking if the difference between all the these sets are empty sets, as below:\newline
@@ -120,21 +120,32 @@ As a second step, we also choose a random execution, and check if the set of sen
 
 As the first analysis, we also consider a false negative occurrence, if one of the 9 remaining tests returns a non-empty set.
 
-\subsection{Trace analysis} \label{sec:trace}
+\subsection{Trace analysis} \label{sec:pathsetup}
 
-As described at section~\ref{sec:infra}, we advantage from DroidXP auxiliary tool, DroidXPTrace. It help us to create dynamic call graphs of each app version (benign/malicious), from each test generation tool. With these call graphs, we analysis if there was some app pairs that was not described as a malware, i.e. at mine sandbox exploratory step, the test generation tool collected the same sensitive API set for both version, however dynamic call graph analysis presented different traces from the entry point, to call for these sensitive APIs at the versions.
+As described at section~\ref{sec:infra}, we advantage from DroidXP auxiliary tool, DroidXPTrace. It help us to create dynamic call graphs of each app version (benign/malicious), explored by Droidbot test generation tool. With these call graphs, we investigated these app pairs that was not described as a malware, i.e. at exploratory step, the test generation tool collected the same sensitive API set for both version. If a dynamic call graph of these app pairs presented different traces from entry point, to sensitive APIs call at both versions, we point this app pair as malicious app.
+
+Figure~\ref{fig:callGraph} present a example of benign and malicious call graph. Although both app version access the same set of sensitive resources, malicious version follows a different way. These malicious app strategy could hoodwink mine sandbox approach, since there are no different between sensitive resources set at both versions.
+
+
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=0.25]{images/maliciousCallGraph.pdf}
+\caption{Benign and Malicious call graph.}
+ \label{fig:callGraph}
+\end{figure}
 
 
 \subsection{Manifest file analysis}\label{sec:manifestAnalysis}
 
 Our work also observed the Manifest file of all app pairs. These files present essential security information which the Android system must know before executing an app. Among other things, a  list of requested permissions and a list of important components are persisted in the manifest file. Unfortunately, Manifest files are generally not considered by sandbox approaches when detecting malware inspite of the fact that they can are easily modified by malicious developers~\cite{DBLP:journals/corr/abs-1208-4536}. For instance by inserting new permission requests or component capabilities (actions). Such injections can happen either manually or through automated scripts.
 
-Automated process sometimes generate Manifest file with duplicate permission requests, as the original app may already contain the permission request. Such duplication happen with actions too (e.g., where to transfer the ad revenues). On top of this, our manifest analysis also allowed us to monitor suspicious new permissions or excessive amounts of permissions. 
+Automated process sometimes generate Manifest file with duplicate permission requests, as the original app may already contain the permission request. Such duplication also happen when repackage app add a component with a capability which was declared for another component. At benign apps this do not make sense, since it is not necessary to implement several components which do the same operation. On top of this, our manifest analysis also allowed us to monitor suspicious new permissions or excessive amounts of permissions. 
 
-To extract and analyze the Manifest file, we used an in-house Android SDK analyzer called \textit{apkanalyzer}. We implemented a python script that using \textit{apkanalyzer}, computed which malicious apps had duplicated request permission or duplicated actions. The script also extracted how many permissions were requested by all apps, in both versions, to help us monitor suspicious features. Listing~\ref{lst:androidManifestDupli} presents an example of duplicated permission extracted from malicious version of the app \textbf{com.ifeel.frogjump}. The listing suggests that the four first requested permission could have been added automatically as part of a naive hacking script.
+To extract and analyze the Manifest file, we used an in-house Android SDK analyzer called \textit{apkanalyzer}. We implemented a python script that using \textit{apkanalyzer}, computed which malicious apps had duplicated request permission or duplicated actions. The script also extracted how many permissions were requested by all apps, in both versions, to help us monitor suspicious features. Listing~\ref{lst:androidManifestDupli} and Listing~\ref{lst:androidManifestAction} present an example of duplicated permission extracted from malicious version of the app \textbf{[com.ifeel.frogjump]}, and an example of duplicated component capabilities from malicious version of the app \textbf{[com.koushikdutta.superuser]} respectively:
+
 %\kn{app-8 according to what table? reference please}. 
 
-\begin{lstlisting}[caption={Example of duplicated permission from malicious version of app com.ifeel.frogjump}, language=Java,
+\begin{lstlisting}[caption={Example of duplicated permission from malicious version of app (com.ifeel.frogjump)}, language=Java,
     basicstyle=\fontsize{6}{5}\selectfont\ttfamily,
     label={lst:androidManifestDupli}]
 
@@ -170,3 +181,29 @@ To extract and analyze the Manifest file, we used an in-house Android SDK analyz
 149:M > <uses-permission
         android:name="android.permission.ACCESS_WIFI_STATE" />
 \end{lstlisting}
+
+\begin{lstlisting}[caption={An example of duplicated component capability from malicious version of app (com.koushikdutta.superuser)}, language=Java,
+    basicstyle=\fontsize{6}{5}\selectfont\ttfamily,
+    label={lst:androidManifestAction}]
+
+101:M > <receiver
+102:M >  android:name=".SuCheckerReceiver">
+103:M >  <intent-filter>
+104:M >    <action
+105:M >      android:name="android.intent.action.BOOT_COMPLETED" />                 
+106:M >  </intent-filter>
+107:M > </receiver>
+108:M > <receiver
+109:M >  android:name=".PackageChangeReceiver">
+110:M >  <intent-filter>
+111:M >    <action
+112:M >      android:name="android.intent.action.BOOT_COMPLETED" />
+113:M >    <data
+114:M >      android:scheme="package" />
+115:M > </intent-filter>
+     .
+     .
+     .
+\end{lstlisting}
+
+Listing~\ref{lst:androidManifestDupli} suggests that the four first requested permission could have been added automatically. Listing~\ref{lst:androidManifestAction} present a duplicated component where suggests that the first was newly injected by a naive hacking script.

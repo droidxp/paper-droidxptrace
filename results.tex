@@ -1,87 +1,77 @@
 \section{Results and discussion}\label{sec:results}
 
-In this section, we detail the findings of our study.  We remind the reader that our main goal with this study is the detection of false positive in current mining sandbox approaches, and potential blindspots existing when detecting malware. Regarding blindspots, we hypothesize the presence of two major blindspots - trace taken by the app from the entry point to a sensitive API, and the differences in manifest file of repackaged apps. In Section~\ref{sec:testGeneration}, we summarize the results of our study that estimates the performance of Droidbot test generation tools for mine Android Sandboxes, in terms of malware detection. We performance this initial study since it served as reference to solve our research questions. 
+In this section, we detail the findings of our study.  We remind the reader that our main goal with this study is the detection of false negative in current mining sandbox approaches at a real-world and in-depth data set, and potential blindspots existing when detecting malware. Regarding blindspots, we hypothesize the presence of two major blindspots - trace taken by the app from the entry point to a sensitive API, and the differences in manifest file of repackaged apps. In Section~\ref{sec:testGeneration}, we summarize the results of our study that estimates the performance of Droidbot test generation tools for mine Android Sandboxes. For this purpose, we present the amount of app pair that had divergent sensitive app sets. We also present the sensitive APIs generally more used at repackaged apps. We performance this initial study since it help solve our R1, and served as reference to solve R2 and R3.
 
-The remainder of this Section is structured as follows. Section~\ref{sec:falsePositiveResults} presents the false positive rate of our experiment on mine sandbox approach, answering R1. Section~\ref{sec:traceResults} presents the results of our study analysing the impact of trace on sandbox approaches to detect malware thereby answering R2, and Section~\ref{sec:manifestResults} presents the results of our study analysing the impact of modified manifest files on sandbox approaches to detect malware thereby answering R3. Section~\ref{sec:implications} presents some insights gained from the overall study and their potential implications.
+The remainder of this Section is structured as follows. Section~\ref{sec:Sensitive APIs} presents the false negative rate of our experiment, and top 15 most used sensitive APIs injected by malicious apps present at our dataset, answering R1. Section~\ref{sec:traceResults} presents the results of our study analysing the impact of trace on sandbox approaches to detect malware thereby answering R2, and Section~\ref{sec:manifestResults} presents the results of our study analysing the impact of modified manifest files on sandbox approaches to detect malware thereby answering R3. Section~\ref{sec:implications} presents some insights gained from the overall study and their potential implications.
 
-\subsection{Effectiveness of Droidbot test generation tools on Detecting Malicious apps}\label{sec:testGeneration}
+\subsection{False negative rate and Sensitive APIs more used}\label{sec:Sensitive APIs}
 
-%\kn{In this subsection, are we simply reproducing the results of existing papers. Because as far as I understand, tools like DroidBOT etc. were evaluated by simply comparing the sensitive APIs call. I am guessing here our contribution is to evaluate it on the larger dataset. I have given it a shot, please keep me posted if this is correct.}
-
-In this section, we describe the results of reproducing the state of the art android sandbox approaches on the new dataset of $95$ app pairs. We perform this experiment to ensure our analysis of the blind spots are done in the same playing field. Firstly, given a pair of apps, we first execute each version of app using each test generation tool for three minutes. We also repeat all this process three times. 
+In this section, we describe the results of reproducing the state of the art Android sandbox approaches on the new dataset of $800$ app pairs. We perform this experiment to ensure our analysis of the blind spots are done in the same playing field. Firstly, given a pair of apps, we first execute each version of app using test generation tool Droibot at DroidXP infrastructure for three minutes. We also repeat all this process three times.
 
 After all executions, DroidXP produces a dataset with the sensitive methods that both app versions call at each execution. We consider that a test generation tool could construct a sandbox able to detect a specific malware, if a particular sensitive method is called only by the malicious version of the app. This check is done using a Python script that compares the set of sensitive methods, called at both app version (benign/malicious).
 
-Hence, with DroidXP output we generate several reports based on union of each sensitive methods set, explored at each execution. They include a set of observations like set of sensitive methods access by each app version (benign/malicious), the sensitive methods access just for the malicious version, and a summary that present the test tool name used, which app the record was done, and the number of diff sensitive methods. This last information is crucial to indicate whether or not the malware has been identified. 
+Hence, with DroidXP output we generate several reports based on union of each sensitive methods set, explored at each execution. In the end, It include a set of observations like set of sensitive methods access by each app version (benign/malicious), the sensitive methods access just for the malicious version (diff), and a summary that present at each rows: Test tool name used, app identification, and the number of different sensitive APIs find. This last information is crucial to calculate the false negative rate. If the set of sensitive methods access just by malicious app is empty, means that app is not a malicious, and therefore featuring a false negative.
 
-Exploring Droidbot to build sandbox, our results present that it could detect a total of $64$ malware among $95$ app pairs (67.36\%). The result of Droidbot valid our experiment in terms of the detection of apps with malicious behavior, since they show percentages close to previous works that benefited from the same tool, as Bao et al. (66.66\%)~\cite{DBLP:conf/wcre/BaoLL18}, and Costa et al. (76.04\%)~\cite{DBLP:journals/jss/CostaMMSSBNR22}.
+With Droidbot, our results present that it could detect a total of $xx$ sensitive APIs set different among $800$ app pairs (xx.xx\%) explored. The result of Droidbot diverge from previous works that benefited from the same tool, as Bao et al. (66.66\%)~\cite{DBLP:conf/wcre/BaoLL18}, and Costa et al. (76.04\%)~\cite{DBLP:journals/jss/CostaMMSSBNR22}. However, at our work we also used the same app pair from these previous works, amount our $800$ app pair dataset. When we check these specific sample from these works, we realized that we get percentages close to these previous works, (xx.xx\%). 
 
-\subsection{False positive Results}\label{sec:falsePositiveResults}
+In the end, after explorer all sensitive APIs set used by all app pair, we calculated which are the sensitive APIs more used for our repackage apps. At our study we find that when we used Droidbot to explore each repackage app, it calls xx times sensitive APIs from our list of 162 sensitive APIs, calling at least xx sensitive APIs one time. We realized that the first 15 APIs more used accounts for more than half of all calls (xx\%). We summarize our results at Table~\ref{tab:APIused}. 
 
-We summarize our results from the false positive rate at Table~\ref{tab:fpositive}. At our study we characterize the occurrence of false positive whenever one of tests fails, i.e, when one of test returns a non-empty set of sensitive methods. As we can see, just after the execution 9, Droidbot mined a different set of sensitive methods, not explored at first 9 executions. This new set resulted at 19 false positives apps, which provided us a rate of 20\% of false positive. This false positive rate are related to the fact that Droidbot test generator tool also have a random exploratory component. 
+With these results, we believe that mine sandbox approach could have a relevant false negative rate, resulting in a potential amount of \textit{blindspot}, which encouraged us to endorse efforts aimed at answering R2 and R3.
 
-For these reason, we believe that mine sandbox approach could also have a relevant false negative rate, resulting in a potential amount of \textit{blindspot}, which encouraged us to endorse efforts aimed at answering R2 and R3.
-
-\begin{table}[h!]
-  \caption{Results of False positive rate.}
+\begin{table*}[t]
+  \caption{Sessitive APIs more used by repackage apps}
   \centering
   \begin{small}
  \begin{tabular}{lcc}
    \toprule
-   Test executed & Number of Apps & (\%) \\
+   Sensitive API & Occurrences & (\%) \\
    \midrule
-   01 - {$\left\{\left\{SM01\right\} \cup \left\{SM02\right\} \cup \left\{SM03\right\}\right\} \textit{diff} \left\{SM04\right\}  $} &  0 & 0 \\
-   02 - {$\left\{\left\{SM01\right\} \cup \left\{SM02\right\} \cup \left\{SM03\right\}\right\} \textit{diff} \left\{SM05\right\}  $} &  0 & 0 \\
-   03 - {$\left\{\left\{SM01\right\} \cup \left\{SM02\right\} \cup \left\{SM03\right\}\right\} \textit{diff} \left\{SM06\right\}  $}&  0 & 0 \\
-   04 - {$\left\{\left\{SM01\right\} \cup \left\{SM02\right\} \cup \left\{SM03\right\}\right\} \textit{diff} \left\{SM07\right\}  $} &  0 & 0 \\
-   05 - {$\left\{\left\{SM01\right\} \cup \left\{SM02\right\} \cup \left\{SM03\right\}\right\} \textit{diff} \left\{SM08\right\}  $} &  0 & 0 \\
-   06 - {$\left\{\left\{SM01\right\} \cup \left\{SM02\right\} \cup \left\{SM03\right\}\right\} \textit{diff} \left\{SM09\right\}  $} &  0 & 0 \\
-   07 - {$\left\{\left\{SM01\right\} \cup \left\{SM02\right\} \cup \left\{SM03\right\}\right\} \textit{diff} \left\{SM10\right\}  $} &  19 & 20 \\
-   08 - {$\left\{SM05\right\} \textit{diff} \left\{SM01\right\}  $} &  0 & 0 \\
-   09 - {$\left\{SM05\right\} \textit{diff} \left\{SM02\right\}  $} &  0 & 0 \\
-   10 - {$\left\{SM05\right\} \textit{diff} \left\{SM03\right\}  $} &  0 & 0 \\
-   11 - {$\left\{SM05\right\} \textit{diff} \left\{SM04\right\}  $} &  0 & 0 \\
-   12 - {$\left\{SM05\right\} \textit{diff} \left\{SM06\right\}  $} &  0 & 0 \\
-   13 - {$\left\{SM05\right\} \textit{diff} \left\{SM07\right\}  $} &  0 & 0 \\
-   14 - {$\left\{SM05\right\} \textit{diff} \left\{SM08\right\}  $} &  0 & 0 \\
-   15 - {$\left\{SM05\right\} \textit{diff} \left\{SM09\right\}  $} &  0 & 0 \\
-   16 - {$\left\{SM05\right\} \textit{diff} \left\{SM010\right\}  $} &  19 & 20 \\
+   01 <android.telephony.TelephonyManager: java.lang.String getDeviceId()> &  60 & 5.40 \\
+   02 <android.net.wifi.WifiManager: android.net.wifi.WifiInfo getConnectionInfo()> &  50 & 4.50 \\
+   03 <android.net.wifi.WifiInfo: java.lang.String getMacAddress()> &  49 & 4.41 \\
+   04 <android.net.NetworkInfo: java.lang.String getExtraInfo()> &  49 & 4.41 \\
+   05 <android.telephony.TelephonyManager: java.lang.String getSubscriberId()> &  47 & 4.23 \\
+   06 <android.net.NetworkInfo: java.lang.String getTypeName()> &  43 & 3.87 \\
+   07 <android.net.NetworkInfo: android.net.NetworkInfo State getState()> &  38 & 3.42 \\
+   08 <android.database.sqlite.SQLiteOpenHelper: android.database.sqlite.SQLiteDatabase getWritableDatabase()> &  35 & 3.15 \\
+   09 <android.database.sqlite.SQLiteDatabase: android.database.Cursor query(java.lang.String, ...,java.lang.String)> &  35 & 3.15 \\
+   10 <android.telephony.TelephonyManager: android.telephony.CellLocation getCellLocation()> &  34 & 3.06 \\
+   11 <android.database.sqlite.SQLiteOpenHelper: android.database.sqlite.SQLiteDatabase getReadableDatabase()> &  34 & 3.06 \\
+   12 <android.telephony.gsm.GsmCellLocation: int getLac()> &  33 & 2.97 \\
+   13 <android.telephony.gsm.GsmCellLocation: int getCid()> &  33 & 2.97 \\
+   14 <android.telephony.TelephonyManager: java.lang.String getNetworkOperator()> &  27 & 2.43 \\
+   15 <android.telephony.TelephonyManager: java.lang.String getLine1Number()> &  26 & 2,34 \\
+   
  \bottomrule
 
  \end{tabular}
  \end{small}
- \label{tab:fpositive}
-\end{table}
+ \label{tab:APIused}
+\end{table*}
 
 \begin{obs}{1}{}
    %\kn{Here we need to add some final take aways of the reproduction study}
-   Our results present that in terms of false positive rate, mine sandbox approach can result in a low false positive rate, if we consider the union of less than 10 executions. Our experiment with 95 benign apps presents a rate of  20\% of false positive alerts (Table~\ref{tab:fpositive}). Results also suggest that mine sandbox approach could have a high false negative rate when applied on repackaged versions of benign apps. This encourages the emergence of new proposals that can support mine sandbox revealing eventual \textit{blindspot}.
+   Our results present that we do not have a high diversity of sensitive APIs explored by malicious app. We find that among xxx call to sensitive APIs, more than half were carried out to 15 sensitive APIs (Table~\ref{tab:APIused}). Results also suggest that mine sandbox approach could have a high false negative rate when applied on repackaged versions of benign apps. This encourages the emergence of new proposals that can support mine sandbox revealing eventual \textit{blindspot}.
  \end{obs}
 
 
+%\kn{In this subsection, are we simply reproducing the results of existing papers. Because as far as I understand, tools like DroidBOT etc. were evaluated by simply comparing the sensitive APIs call. I am guessing here our contribution is to evaluate it on the larger dataset. I have given it a shot, please keep me posted if this is correct.}
 
 \subsection{Trace Analysis Results}\label{sec:traceResults}
 
-In this section, we describe the results of our investigation on how the trace from the entry point to the sensitive API could impact the accuracy of sandbox approaches detecting android malware. To this end, we collect the call graphs of each test generation tool using \emph{Logcat}. First, we make a filter to collect just the traces between the app's entry point and the call to any sensitive methods from our list of 162 methods.
+In this section, we describe the results of our investigation on how the trace from the entry point to sensitive API could impact the accuracy of sandbox approaches in terms of Android malware detection. Initially we collect the call graphs of Droidbot using \emph{Logcat}. We make a filter to collect just the traces between the app's entry point and calls to any sensitive method present at our previously list of $162$ sensitive methods.
 
-Finally, with callgraph from both the benign and malicious app versions, we spot differences between any traces. For this section, we choose to investigate only app pairs that were not detected by the sandbox approaches as it sheds light on the blind-spots. Our results show that among 31 pair apps do not detected by the sandbox build by Droidbot, 4 of them have different trace from the entry point to the sensitive methods. which gives us evidence that it is possible to improve malware detection if we also consider the trace between app's entry point and calls to sensitive call.
+Finally, with callgraph from both app versions (benign/malicious), we spot differences between their traces. We choose to investigate only app pairs that were the same sensitive APIs detected at both version at first experiment, i.e, from the point of view of sandbox approaches, it sheds light on the blind-spots. Our results show that among xx pair apps which had no difference between their sensitive APIs explored, xx of them (xx.xx\%) had different trace from the entry point to sensitive methods. This result which gives us evidence that it is possible to improve malware detection if we also consider the trace between app's entry point and calls to sensitive APIs.
 
-Table~\ref{tab:pa} summarizes the results of this investigation. The column \textbf{Execution (NID)} shows the number of undetected malwares. The column  \textbf{Trace Different (TD)} shows the number of app pairs (among the undetected ones) that have different traces from the entry point to the sensitive method call. The column \textbf{Improv. \%} shows how much the malware detection of each tool could have been potentially improved if we considered the trace (calculated using ~\eqref{improve})
+Table~\ref{tab:pa} summarizes the results of this investigation. The column \textbf{Same API set (SAPI)} shows the number of app pair which had the same sensitive APIs explored at the first experiment, i.e, considered an undetected malware. The column  \textbf{Trace Different (TD)} shows the number of app pairs (among the undetected ones) that have different traces from the entry point to the sensitive method call. The column \textbf{Improv. \%} shows how much the malware detection of each tool could have been potentially improved if we considered the trace (calculated using ~\eqref{improve})
 
-
-\begin{eqnarray}
-Improvement & = & \frac{trace Different (TD) \times 100}{Execution (NID)} 
-\label{improve}
-\end{eqnarray}
-
-
-\begin{table}[h]
+\begin{table}[ht!]
   \caption{Summary of the results of trace analysis. }
   \centering
   \begin{small}
  \begin{tabular}{lccc}
    \toprule
-   Tool & Execution (NID) & Trace Different (TD) & Improv. (\%) \\   \midrule
+   Tool & Same API set (SAPI) & Trace Different (TD) & Improv. (\%) \\   \midrule
    Droidbot &  31 & 4 & 12.90 \\
  \bottomrule
  \end{tabular}
@@ -91,8 +81,23 @@ Improvement & = & \frac{trace Different (TD) \times 100}{Execution (NID)}
 
 
 
+\begin{eqnarray}
+Improvement & = & \frac{trace Different (TD) \times 100}{Execution (NID)} 
+\label{improve}
+\end{eqnarray}
+
+
+Figure~\ref{fig:maliciousTrace} shows a example of trace injected at malicious version of the app \textbf{[com.android.remotecontrolppt]}. On that case, benign and malicious app version access the same sensitive method, \textit{getSubscriberid()}. This sensitive method returns the mobile unique subscriber ID, and require manifest file permission "READ\underline{\space}PHONE\underline{\space}STATE", present in both app version. The original app accesses this methods through $2$ traces (1 and 2), which suggest an aware action from app user. However, instead of the 2 original traces, the malicious version injected a third trace using as entry point a method which performs a stealth computation on a background thread, \textit{doInBackground}, suggesting a action without user aware.\fh{explain more about this example, and find another one }
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.30]{images/maliciousTrace_example01.pdf}
+\caption{Example of Malicious Trace.}
+ \label{fig:maliciousTrace}
+\end{figure}
+
 \begin{obs}{2}{}
- Test generation tools like Droidbot have a blind-spot when it comes to being aware of the trace taken from the entry point to a sensitive API call. Although Droidbot achieved better performance results when mining sensitives resources, it could have detected $4\%$ of its undetectable app pairs had it considered trace as a factor.
+ Test generation tools like Droidbot have a blind-spot when it comes to being aware of the trace taken from the entry point to a sensitive API call. Although Droidbot achieved better performance results when mining sensitives resources, it could have detected $xx\%$ of its undetectable app pairs had it considered trace as a factor.
  \end{obs}
 
 \subsection{Manifest File Analysis Results}\label{sec:manifestResults}
@@ -115,11 +120,11 @@ To this end, we check some particulars from Manifest file, that point to a likel
  \label{tab:mfa}
 \end{table}
 
-The column (NID) indicates the number of malware that went undetected during our first study ( same as Table~\ref{tab:pa}'s Execution NID column). The second column (DP) indicates how many Manifest files had duplicated permission. Column (DA) denotes the number of malware with the duplicated actions in their manifest file.
+The column (SAPI) indicates the number of malware that went undetected during our first study (same as Table~\ref{tab:pa}'s Same API set (SAPI)). The second column (DP) indicates how many Manifest files had duplicated permission. Column (DA) denotes the number of malware with the duplicated actions in their manifest file.
 
-A duplicate request to permission in a malicious version's manifest file should have been performed by a script.  Droidbot could have detected $14$ of their undetectable malwares ($31$) had it considered duplicate permissions or actions in their detection strategy.
+A duplicate request to permission in a malicious version's manifest file should have been performed by a script.  Droidbot could have detected $xx$ of their undetectable malware ($xx$) had it considered duplicate permissions or actions in their detection strategy.
 
-Finally, we investigate how many app pairs request a suspicious amount of permissions. Past works indicate that a benign Android app normally requests on average $4$ permission, while a malicious apps version requests a median number of $7$ permission\cite{DBLP:conf/soups/FeltHEHCW12}\cite{DBLP:journals/tifs/0029LBKTLC17}. To this end, we observe how many app pairs have more than a delta of $2$ permission requests in comparison with the benign version. Table~\ref{tab:mp} presents the results.
+Finally, we investigate how many app pairs request a suspicious amount of permissions. Past works indicate that a benign Android app normally requests on average $4$ permission, while a malicious apps version requests a median number of $7$ permission\cite{DBLP:conf/soups/FeltHEHCW12}\cite{DBLP:journals/tifs/0029LBKTLC17}. To this end, we observe how many app pairs have more than a delta of $3$ permission requests in comparison with the benign version. Table~\ref{tab:mp} presents the results.
 
 \begin{table}[ht]
   \caption{Manifest File with suspicious amounts of permission requests.}
@@ -137,17 +142,17 @@ Finally, we investigate how many app pairs request a suspicious amount of permis
  \label{tab:mp}
 \end{table}
 
-The second column (MP) present how many app pairs not detected by each test generation tool, have other suspicious number of permission requests ($2$ or more) in their Manifest file. Third and fourth columns (DP)(NDP) presents how many app pairs out of these contain duplicated permission or not respectively. As we can see, just 2 apps investigated had request a suspicious amount of permissions, 1 with duplicated permission in your code, and other without.
+The second column (MP) present how many app pairs not detected by first experiment, have other suspicious number of permission requests ($3$ or more) in their manifest file. Third and fourth columns (DP)(NDP) presents how many app pairs out of these contain duplicated permission or not respectively. As we can see, just xx apps investigated had request a suspicious amount of permissions, xx with duplicated permission in your code, and other without.
 
 
 \begin{obs}{3}{}
- We can conclude that sandbox build by Droidbot test generation tools also could had better accuracy if they considered the suspicious modifications at manifest file in their analysis.
+ We can conclude that sandbox approach also could had better accuracy if they considered the suspicious modifications at manifest file in their analysis.
 \end{obs}
 
 \subsection{Implications}\label{sec:implications}
 
 The results presented so far have implications for both practitioners and researchers. We bring evidence that there are blindspots in Android sandbox approaches that if considered as a factor in malware identification, could improve mine sandbox technique. 
-
+\fh{From here I have to modify all}
 In a first step, we present that the sandboxes built by all test generation tools have better accuracy when the app pair (benign/malicious) are very similar. Our study points out that xxxx is the best test generator tool to build efficient sandboxes, being able to identify $xx$ malicious apps ($xx.xx$\%) in our dataset.
 
 Next, we present a trace analysis at our data set which aims to investigate if there were some different traces between an entry point and call to any sensitive resource, at no detected app pairs from the first study. Our findings indicate that the trace analysis is also effective for malware identification, and could support mine sandbox approach. Even xxxxxx, the best test generator tool from our first study, has significant support of trace analysis when investigating the app pair do not detect at first study. Among $xxx$ app pair do not detect, we present that $xx$ have different traces (\%xx), featuring therefore as a suspicious app. The message from these findings is that is useful for researchers and practitioners to explore trace analysis in conjunction with mine sandbox.

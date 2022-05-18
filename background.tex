@@ -58,14 +58,12 @@ Boxmate records the occurrences of calls to sensitive APIs and the event that tr
 like a button click. It is possible to configure Boxmate to record events associated with each sensitive call as
 tuples (event, API). Jamrozik et al. argue that, in this way, Boxmate generates finer granularity results which
 might reduce false alarms, even with the presence of reflection which is quite commonly used in
-malicious apps~\cite{DBLP:conf/issta/0029BOK16}. 
-
-Figure~\ref{fig:mineSandbox} extracted from paper~\cite{DBLP:conf/wcre/BaoLL18}, summarises the approach. 
+malicious apps~\cite{DBLP:conf/issta/0029BOK16}. Figure~\ref{fig:mineSandbox}  summarises the process of mining sandbox. 
 
 \begin{figure}[ht]
 \centering
-\includegraphics[scale=0.30]{images/mineSandbox.pdf}
-\caption{Mine Sandbox. Extracted from~\cite{DBLP:conf/wcre/BaoLL18}}
+\includegraphics[scale=0.35]{images/mineSandbox_.pdf}
+\caption{Mine Sandbox.}
  \label{fig:mineSandbox}
 \end{figure}
 
@@ -87,8 +85,9 @@ Bao et al.~\cite{DBLP:conf/wcre/BaoLL18} conducted an empirical study to investi
 approaches
 for detecting malware, exploring test generation tools, including Droidmate. The authors found that, in general, the sandboxes constructed by test generator tools can detect more than $70$\% malicious apps in a dataset comprising $102$ pairs (benign/malicious). The study also presented that among 5 test generation tools used, DroidBot~\cite{DBLP:conf/icse/LiYGC17} leads to the most effective sandbox.
 Le et al.~\cite{le2018towards} extend the work of Bao et al. by combining more categories of sensitive APIs, and also considering the impact of
-actual arguments on the sandboxes definition.
-\todo[inline]{I could not understand why we did not cite our JSS work here}
+actual arguments on the sandboxes definition. Costa et al.\cite{DBLP:journals/jss/CostaMMSSBNR22} investigated the impact of static analysis to complement the accuracy of dynamic analysis tools for mining sandboxes, in terms of malware detection. The study found that the static analysis alone could detect almost half of repackage apps in a dataset of $96$ pairs.
+
+%\todo[inline]{I could not understand why we did not cite our JSS work here}
 %However, none of the aforementioned studies
 % ~\cite{DBLP:conf/icse/JamrozikSZ16,DBLP:conf/wcre/BaoLL18,le2018towards}
 %neither characterize the APIs included on the repackage versions nor investigate the
