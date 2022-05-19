@@ -16,23 +16,25 @@ To answer the first question, we present the results of a study where we observe
     \item The {\color{blue}change patterns} within the Android Manifest' section that requests permissions, when considering the two variants of apps (i.e., benign and malicious variants).
 \end{enumerate}
 
-To explore the item (1), we used an auxiliary tool from DroidXP project called DroidXPTrace, which compares all traces from an entry point to sensitive APIs call and check for possible trace divergences. To {\color{blue}mine change patterns} in the Android Manifest files, we harness the standard APK analysis tool from Android~\cite{au2011short}. Altogether, we investigate the following specific questions in our study: (answered in Section~\ref{sec:results}):
+To explore the item (1), we used an auxiliary tool from DroidXP project called DroidXPTrace, which compares all traces from an entry point to sensitive APIs call and check for possible trace divergences. To {\color{blue}mine change patterns} in the Android Manifest files, we harness the standard APK analysis tool from Android~\cite{au2011short}. Altogether, we investigate the following specific questions in our study, for which we provide answers in Section~\ref{sec:results}.
+
+\todo[inline]{\rb{I still have to review the RQs}}
 
 \begin{enumerate}[(RQ1)]
  \item How well does the state of the art in mining sandbox approaches, DroidBot, perform with a large dataset of app pairs with a diverse similarity index?
- \item Numerically, how relevant is a dynamic call trace analysis to improving malware detection in support of the mine sandbox approach?
- \item Numerically, how relevant is a manifest files analysis to improving malware detection in support of the mine sandbox approach?
+ \item How relevant is a dynamic call trace analysis to improving malware detection in support of the mine sandbox approach?
+ \item How relevant is a manifest files analysis to improving malware detection in support of the mine sandbox approach?
 \end{enumerate}
  
 
 Our findings indicate that the accuracy of DroidBot significantly drops (to $Z\%$) when reproduced on a larger dataset of $800$ app pairs with a similarity index of $53.3\%$. Our experiments also reveal that the accuracy of sandbox approaches improve when they are made aware of the differences in the dynamic call trace and difference in permissions requested using the manifest file. Specifically, ... \kn{Please add here the results of path analysis and manifest files individually and their intersection}
-During our analysis we also observed another interesting insight that out of the 162 sensitive APIs explored, just xx (xx\%) was injected at most repackaged apps \rb{(All subjects in AndroZoo are based on repackaging)}. It indicates that we have a small set of sensitive APIs used generally by malicious developers, pointing out that researchers can concentrate their effort on this specific set of sensitive APIs to improve the security of Android apps. 
+During our analysis we also observed another interesting insight that out of the 162 sensitive APIs explored, just xx (xx\%) were injected at most repackaged apps \rb{(All subjects in AndroZoo are based on repackaging)}. It indicates that we have a small set of sensitive APIs used generally by malicious developers, pointing out that researchers can concentrate their efforts on this specific set of sensitive APIs to improve the security of Android apps. 
 In summary, this paper makes the following contributions:
 
 \begin{enumerate}[1.]
 \item A reproduction of the state of the art in mining sandbox approaches, DroidBot scaled in terms of number of app pairs and similarity index.
-\item A broad comprehension about the role of trace analysis and static analysis on Android manifest file in improving the accuracy Android sandbox approach.
-\item A in depth look into the kind of sensitive APIs that plague most repackaged apps.
+\item A broad comprehension about the role of trace analysis and static analysis on Android manifest files in improving the accuracy Android sandbox approach.
+\item An in depth look into the kind of sensitive APIs that plague most repackaged apps.
 \item A reproduction package of the studies online. Scripts for statistic analysis are also available.\footnote{https://github.com/droidxp/paper-droidxp-replication.git}
 \end{enumerate}
 
