@@ -219,16 +219,16 @@ Listing~\ref{lst:androidManifestDupli} suggests that the four first requested pe
 %%  \kn{What I have commented below is talking about the study itself and not the setup. Please ensure other such instances are removed if I have missed them.}
 %%  %This investigation shows that in several situations, although both app versions (benign-malicious) access the same set of sensitive resources, they access them using different traces, which could mean malicious sensitive resource access.
 
-\subsection{Hardware and procedure setup}\label{sec:hardware}
+\subsection{Execution Settings}\label{sec:hardware}
 
 We deployed our experiment on a 32-Core, AMD EPYC 7542 CPU, 512 GB RAM, storage Samsung SSD 970 EVO 1TB machine running a 64-bit Debian  GNU/Linux 11. We also configured our emulator to run all selected apps on Google Android version 9.0, API 28, 512M SD Card, 7GB internal storage, with X86 ABI image.
 
 For our study, we configured DroidXP to run each of the $95$ \kn{This number needs to be changed here too. I suggest introducing a macro for this and using it everywhere to make sure everytime our experiment evolves, we don't need to change this everywhere} app pairs using Droidbot testing tool for three minutes. To mitigate noise, we repeated the full process three times which took in total ($95 \times 2$ apps (benign/malicious) $\times 3$ runs $\times 3$ min) + ($95 \times 2$ apps $\times 1.5$ min for emulator reboot) $\apeq 34$ machine hours.
 %\kn{Initial? Was there a follow up study, if not please use only study. This is feedback for all instances with the word initial}
 
-Although it was possible to run more than 10 emulators in parallel on one physical machine, to avoid any interference resulting from context switching within the operating system, we chose to run one emulator at a time. Hence, all evaluation processes took around $3$ days and additional $5$ days for environment deployment.
+Although it was possible to run more than 10 emulators in parallel on one physical machine, to avoid any interference resulting from context switching within the operating system, we chose to run one emulator at a time. Hence, all evaluation processes took around $3$ days and additional $5$ days for environment configuration.
 
-In the following subsections, we describe the setup required to perform custom analysis that were central to our study.
+% In the following subsections, we describe the setup required to perform custom analysis that were central to our study.
 
 %% \subsection{Sensitive API setup} \label{sec:sensitivapi}
 %% \fh{Here the text talk about false positive. We have to change to talk about how we extract the most sensitive APIs used by malicous apps }
