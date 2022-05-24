@@ -89,13 +89,13 @@ this phase executes only once for each version of the apps in our dataset.
 
 \todo[inline]{I am not really happy with the previous structure of this section. Trying to refactor it in two sections: Data Collection Procedures and Data Analysis Procedures.}
 
-\section{Data Analysis Procedures}
+\subsection{Data Analysis Procedures}
 
-\subsection{Malware Identification} 
+\subsubsection{Malware Identification} 
 
 \todo[inline]{Handrick, could you please write about the malware identification procedure?}
 
-\subsection{Trace Analysis} \label{sec:pathsetup}
+\subsubsection{Trace Analysis} \label{sec:pathsetup}
 
 \todo[inline]{Handrick, is it possible to run the Trace Analysis for all apps?}
 
@@ -125,11 +125,11 @@ malicious version follows a different execution trace.
 \end{figure}
 
 
-\subsection{Manifest file analysis}\label{sec:manifestAnalysis}
+\subsubsection{Manifest file analysis}\label{sec:manifestAnalysis}
 
 Our work also observed the Manifest file of all app pairs. These files present essential security information which the Android system must make available before executing an app. Among other things, an Android app must specify in the Manifest file the list of necessary permissions and components . Unfortunately, Manifest files are not considered in the basic mining sandbox approach for malware detection, in spite of the fact that one can easily modify such a file and then repackage it in a malicious version of an app~\cite{DBLP:journals/corr/abs-1208-4536}. For instance, by inserting new permission requests or component capabilities (actions). Such injections can happen either manually or through automated scripts.
 
-\todo[inline]{Looks like a naive approach. Note that, malware developers often use advanced techniques for hinder security experts to detect the presence of a malicious change in a app---using both static or dynamic analysis. The approach detailed here might be efficient only for poor designed malware. I am discussing this because we are seriously considering submiting this paper to a security venue. The people involved in Usenix Security are dealing with more advanced situations, like malare that changes its behavior when it detects that it is running in um emulator, for instance.}
+\todo[inline]{Looks like a naive approach. Note that, malware developers often use advanced techniques in order to hinder security experts detecting the presence of a malicious change in an app---using both static or dynamic analysis. The approach detailed here might be efficient only for poor designed malware. I am discussing this because we are seriously considering submiting this paper to a security venue. The people involved in Usenix Security are dealing with more advanced situations, like malware that changes its behavior when it detects that it is running in um emulator, for instance.}
 
 Automated process sometimes generate Manifest file with duplicate permission requests, as the original app might already contain the permission request. Such duplication also happens when repackaged apps add a component with a capability which was requested by another component. On top of this, our manifest analysis also allows us to monitor suspicious new permissions or excessive amounts of permissions. 
 
