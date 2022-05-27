@@ -1,39 +1,44 @@
 \section{Experimental Setup}\label{sec:experimentalSetup}
 
-\todo[inline]{Review the following paragraph later.}
+%\todo[inline]{Review the following paragraph later.}
 
-In this section, we describe our study settings. First we present how we mined the data-set of Android app pairs that will serve as a benchmark for our study (Section~\ref{sec:dataset}).  Then, we describe the setup of our infrastructure used to perform the study (Section~\ref{sec:infra}) followed by a discussion on the hardware setup and configurations used (Section~\ref{sec:hardware}). We finally describe the adaptations we performed on the base setup in order to facilitate the individual analyses (Section~\ref{sec:sensitivapi}, \ref{sec:pathsetup}, \ref{sec:manifestAnalysis})
+In this section, we describe our study settings. First we present how we mined the data-set of Android app pairs that will serve as a benchmark for our study (Section~\ref{sec:dataset}).  Then, we describe the data collection procedures used to perform the study (Section~\ref{sec:dataCollectionProc}). Section~\ref{sec:dataAnalysisProc} present our data analysis procedure describing the adaptations we performed on the base setup in order to facilitate the individual analyses (Section~\ref{sec:malwaresetup}, \ref{sec:pathsetup}, \ref{sec:manifestAnalysis}). We finally discuss about similarity index (Section~\ref{sec:similarity}), and hardware setup and configurations used at our experiment at (Section~\ref{sec:hardware}).
+
 
 \subsection{Malware Dataset}\label{sec:dataset}
 
-The majority of existing Android malware correspond to repackaged versions of benign apps from official stores \rb{(we should include a citation here)}, though with code that performs malicious tasks. Zhou et al.~\cite{DBLP:conf/sp/ZhouJ12} curated a wide-ranging collection of malware (named Androzoo)~\cite{DBLP:conf/msr/AllixBKT16}, where 80\% of the samples are repackaged versions of benign apps. Our research benefit from Androzoo, since it contains both versions of the apps: the benign and the repackaged version of the apps. Following the mining sandbox approach for malware detection, we need these pairs of apps (benign and malign versions) because, during the exploratory phase, we collect relevant information (such as the set of calls to sensitive APIs) while executing a test case generation tool targeting the benign version of the app. Later, during an analysis phase, we execute the test case generation tool again, though targeting the malicious version of the app.
+The majority of existing Android malware correspond to repackaged versions of benign apps from official stores\cite{DBLP:conf/codaspy/ZhouZJN12} 
+%\rb{(we should include a citation here)}
+, though with code that performs malicious tasks. Zhou et al.~\cite{DBLP:conf/sp/ZhouJ12} curated a wide-ranging collection of malware (named Androzoo)~\cite{DBLP:conf/msr/AllixBKT16}, where 80\% of the samples are repackaged versions of benign apps. Our research benefit from Androzoo, since it contains both versions of the apps: the benign and the repackaged version of the apps. Following the mining sandbox approach for malware detection, we need these pairs of apps (benign and malign versions) because, during the exploratory phase, we collect relevant information (such as the set of calls to sensitive APIs) while executing a test case generation tool targeting the benign version of the app. Later, during an analysis phase, we execute the test case generation tool again, though targeting the malicious version of the app.
 
 \todo[inline]{We should address these numbers in the threats to validity section. We dropped from a original dataset with 1831 pairs to 824 pairs only, due to problems that happened during the instrumentation / execution phases of the apps. Is it possible to fix this problem in the future?}
 
-Besides having this necessary pairs of apps, Androzoo is a large collection of Android apps mined from multiple markets, including the official Google Play Store~\footnote{\url{https://play.google.com/store}}. We limited our download of app pairs to 20 hours, resulting in \raw{1831} unique pairs. However, we could only instrument \raw{1395} apps from the original set using DroidFax, and execute only \raw{824} of them in the Android emulator we use in our experiments (Pixel 4, API 28). That is, due to errors that occurred either during DroidFax instrumentation or during the execution of the apps in the exploratory or analysis phases, we removed from the original dataset \raw{1007} apps, leading to a final dataset that contains \raw{824} pairs of Android apps. Figure~\ref{fig:stores} presents the markets where the most of malicious version apps were collected according to Androzoo including several from the Google play store.
+Besides having this necessary pairs of apps, Androzoo is a large collection of Android apps mined from multiple markets, including the official Google Play Store~\footnote{\url{https://play.google.com/store}}. We limited our download of app pairs to $20$ hours, resulting in $1831$ unique pairs. However, we could only instrument $1395$ apps from the original set using DroidFax, and execute only $800$ of them in the Android emulator we use in our experiments (Pixel 4, API 28). That is, due to errors that occurred either during DroidFax instrumentation or during the execution of the apps in the exploratory or analysis phases, we removed from the original dataset $1031$ apps, leading to a final dataset that contains $800$ pairs of Android apps. Figure~\ref{fig:stores} presents the markets where most of malicious version apps were collected (top 10) according to Androzoo, including several from the official app store of Android, Google play store ($169$).
 
-\todo[inline]{We must update Figure~\ref{fig:stores}. I would also consider removing it from the paper,
-  and just present some numbers directly in the text. Something like. ABC\% of the apps
-  come from Google Play Store, \ldots}
+%\todo[inline]{We must update Figure~\ref{fig:stores}. I would also consider removing it from the paper,
+%  and just present some numbers directly in the text. Something like. ABC\% of the apps
+%  come from Google Play Store, \ldots}
 
 \begin{figure}[ht]
 \centering
-\includegraphics[scale=0.3]{images/stores.pdf}
-\caption{Markets where malware was downloaded.}
+\includegraphics[scale=0.4]{images/stores.pdf}
+\caption{Markets where malware was discovered.}
  \label{fig:stores}
 \end{figure}
 
-\todo[inline]{Since the choice for DroidBot is not related to the goal of this section (Constructing the Dataset),
-  I would rather move this whole paragraph for a different place in the paper.}
+%\todo[inline]{Since the choice for DroidBot is not related to the goal of this section (Constructing the Dataset),
+%  I would rather move this whole paragraph for a different place in the paper.}
 
-\kn{I have removed the following as it is inconsistent with our current story. We no longer perform just a study, we offer an approach. And we no longer study all four, only the top one DroidBot and built on top of it. }
-In order to understand the limitations in accuracy of mining sandbox approaches, we perform our study and build upon DroidBot~\cite{DBLP:conf/icse/LiYGC17} which is considered as the state of the art in mining sandbox approaches in terms of accuracy. 
+%\kn{I have removed the following as it is inconsistent with our current story. We no longer perform just a study, we offer an approach. And we no longer study all four, only the top one DroidBot and built on top of it. }
+
 %To perform an in-depth analysis of how various factors influence the quality of android sandboxes, we could have used several state of the art test generation tools like: Monkey~\cite{Monkey}, Droidmate2~\cite{DBLP:conf/kbse/BorgesHZ18}, Droidbot~\cite{DBLP:conf/icse/LiYGC17} and Humanoid~\cite{DBLP:conf/kbse/LiY0C19}. However, we considered to use just Droidbot, since several study show that it achieved better performance results when mining sensitives resources in comparison with the state of the art~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22}. Its applies a depth-first strategy (DFS)~\cite{DBLP:conf/oopsla/AzimN13} to dynamically build GUI models, collecting GUI information and running process information.
 
 
-\todo[inline]{Should we call the following section Data Collection? Yes, I will change it.}
+%\todo[inline]{Should we call the following section Data Collection? Yes, I will change it.}
 
-\subsection{Data Collection Procedures}
+\subsection{Data Collection Procedures} \label{sec:dataCollectionProc}
+
+
 \begin{comment}
 
 \subsection{Infrastructure}\label{sec:infra}
@@ -77,7 +82,7 @@ information about them. To improve the performance across multiple executions,
 this phase executes only once for each version of the apps in our dataset.
 
 \item[(Step 2) Execution:] In this step, DroidXP first installs the (instrumented) version of the APK files in the
-  Android emulator we use in our experiment and then starts a test case generation tools for executing the app. To ensure
+  Android emulator we use in our experiment and then starts a test case generation tools for executing the app. To perform the apps executions, our study build upon DroidBot~\cite{DBLP:conf/icse/LiYGC17} which is considered the state of the art in mining sandbox approaches in terms of accuracy. To also ensure
   that each execution gets the benefit of running on a fresh Android instance without biases that could stem out of history,
   DroidXP wipes out all data stored on the emulator that has been collected from previous executions.
 
@@ -85,29 +90,38 @@ this phase executes only once for each version of the apps in our dataset.
 \item[(Step 3) Data Collection:] During the execution, DroidXP collects all relevant information (such as calls to sensitive APIs,
   test coverage metrics, and so on). We use this information to understand the performance of the mining sandbox approach for
   malware detection. We extended DroidXP with a new component (DroidXPTrace), which allows us to build a dynamic call graph from the outcomes of a DroidXP execution. This was not possible using vanilla version of DroidXP \rb{(I am note sure about this sentence)}.
+  \fh{I think that we have to separate this data collection section. One for sensitive APIs extract and other for trace extract. The 3 steps presented here must talk about just the first extract, and we must create another one for the second.  }
 \end{description}
 
-\todo[inline]{I am not really happy with the previous structure of this section. Trying to refactor it in two sections: Data Collection Procedures and Data Analysis Procedures.}
+%\todo[inline]{I am not really happy with the previous structure of this section. Trying to refactor it in two sections: Data Collection Procedures and Data Analysis Procedures.}
 
-\subsection{Data Analysis Procedures}
+\subsection{Data Analysis Procedures} \label{sec:dataAnalysisProc}
 
-\subsubsection{Malware Identification} 
+\subsubsection{Malware Identification} \label{sec:malwaresetup}
+As described in the previous section, for malware identification we leverage DroidXP to extract information about sensitive APIs called by app at both versions (benign/malicious). As a first step, given one benign app version, our approach first collects all sensitive APIs from app code through the instrumentation step (static analysis). Then, at the execution step, we use Droidbot to collect all sensitive APIs called in the range of $3$ minutes (dynamic analysis). This second analysis is also important since it can disclose some sensitive APIs calls ignored by static analysis. Malware may use dynamic features (such as reflection) to introduce malicious behavior, which can change the behavior of classes, interfaces, methods, and fields at runtime~\cite{DBLP:journals/spe/ZhangLTX18,DBLP:journals/tosem/LiTX19}. The instrumentation step is made once, while the execution step is performed $3$ times. The result of instrumentation and all execution is finally joined forming a final set of all sensitive APIs called by app benign version. The same procedure is made at the malicious app version, and finally, we just compare the $2$ final sensitive APIs sets. The following rule is applied to decide if the analyzed APP is described as a malware:
 
-\todo[inline]{Handrick, could you please write about the malware identification procedure?}
+\begin{enumerate}
+    \item If the difference between the $2$ final set is an empty set, the app represents a benign app (false negative).
+    \item If the difference between the $2$ final set contains at least 1 element (injected by malicious version), the app represents a malicious app (true positive).
+\end{enumerate}
+
+In additional, we also leverage from this procedure to list the sensitive APIs most injected by malicious app version at our dataset. Figure xxx illustrates this procedure.
+\fh{here I have to insert the figure}
+
+%\todo[inline]{Handrick, could you please write about the malware identification procedure?}
 
 \subsubsection{Trace Analysis} \label{sec:pathsetup}
 
-\todo[inline]{Handrick, is it possible to run the Trace Analysis for all apps?}
+%\todo[inline]{Handrick, is it possible to run the Trace Analysis for all apps?}
 
-As we discussed in the previous section, we take advantage of DroidXPTrace to build the dynamic call graphs
-that characterize the execution of each version of the apps in our dataset. Our goal
+As we discussed in the previous section, we take advantage of DroidXPTrace to build the dynamic call graphs that characterize the execution of each version of the apps in our dataset. Our goal
 here is to explore how many pairs of apps call the same set of sensitive APIs, though using different
 traces. We conjecture that differences in the traces might be used to complement the mining sandbox
-approach for malware identification. As such, here we only execute the trace
-analysis for those pairs of apps for which the mining sandbox approach reports a false negative---that is,
-the situations in which the basic version of the mining sandbox approach was not able to correctly classify
-the malign version of an app as a malware \rb{(Not sure if this is the right decision. I do not see any problem in running
-  this study for all pairs.)}. 
+approach for malware identification. As such, here we execute the trace
+analysis for all app pairs of our dataset, and check if there is the situations in which the basic version of the mining sandbox approach was not able to correctly classify the malign version of an app as a malware, however it has a different execution trace. For detecting different trace, we performed an evaluation of the dynamic call graph of each pair. Our procedure check if there is some new node, representing a new sensitive API at malicious version, or a new edge($x$, $y$), where $x$ and $y$ indicates a method $x$ calling a sensitive method $y$.
+
+%\rb{(Not sure if this is the right decision. I do not see any problem in running
+%  this study for all pairs.)}. 
 %% we  investigate those app pairs that were not described as a malware during the exploratory step, i.e,
 %% the test generation tool DroidBot collected the same set of sensitive APIs for both version. If a dynamic call graph
 %% of these app pairs presented different traces from entry point to sensitive APIs call at both versions, we suspect this to indicate presence of malware.
@@ -133,7 +147,7 @@ Our work also observed the Manifest file of all app pairs. These files present e
 
 Automated process sometimes generate Manifest file with duplicate permission requests, as the original app might already contain the permission request. Such duplication also happens when repackaged apps add a component with a capability which was requested by another component. On top of this, our manifest analysis also allows us to monitor suspicious new permissions or excessive amounts of permissions. 
 
-To extract and analyze the Manifest file, we used an in-house Android SDK analyzer called \textit{apkanalyzer} \rb{(include at least a footnote here)}. We implemented a python script that uses \textit{apkanalyzer} and computes which malicious apps had duplicated request permission or duplicated actions. The script also extracts how many permissions were requested by all apps, to help us monitor potential suspicious features. Listing~\ref{lst:androidManifestDupli} and Listing~\ref{lst:androidManifestAction} present an example of duplicated permission extracted from malicious version of the app \textbf{[com.ifeel.frogjump]}, and an example of duplicated component capabilities from malicious version of the app \textbf{[com.koushikdutta.superuser]} respectively:
+To extract and analyze the Manifest file, we used an in-house Android SDK analyzer called \textit{apkanalyzer}\footnote{apkanalyzer is included in the Android SDK Tools package and provides insight into the Android app components.}. We implemented a python script that uses \textit{apkanalyzer} and computes which malicious apps had duplicated request permission or duplicated actions. The script also extracts how many permissions were requested by all apps, to help us monitor potential suspicious features. Listing~\ref{lst:androidManifestDupli} and Listing~\ref{lst:androidManifestAction} present an example of duplicated permission extracted from malicious version of the app \textbf{[com.ifeel.frogjump]}, and an example of duplicated component capabilities from malicious version of the app \textbf{[com.koushikdutta.superuser]} respectively:
 
 %\kn{app-8 according to what table? reference please}. 
 
@@ -219,14 +233,43 @@ Listing~\ref{lst:androidManifestDupli} suggests that the four first requested pe
 %%  \kn{What I have commented below is talking about the study itself and not the setup. Please ensure other such instances are removed if I have missed them.}
 %%  %This investigation shows that in several situations, although both app versions (benign-malicious) access the same set of sensitive resources, they access them using different traces, which could mean malicious sensitive resource access.
 
+
+\subsection{Similarity index} \label{sec:similarity}
+
+
+To validate the similarity index of repackaged apps, we perform a \textit{similarity analysis} of the app pairs using SimiDroid~\cite{DBLP:conf/trustcom/0029BK17}. It quantifies and qualifies the similarity between pair following four metrics that is considered most relevant~\cite{DBLP:conf/wcre/0029BKT16}. The four metrics are primarily based on method level differences:
+
+\begin{itemize}
+    \item \textit{identical}: a given method is considered identical if both versions have the same signature and the same implementation
+    \item \textit{similar}: a given method is similar if both versions have the same signature but not the same implementation.
+    \item \textit{new}: a given method is new if it is present only in the malicious version of the app.
+    \item \textit{deleted}: a given method is deleted if it is present only in the benign version of the app.
+\end{itemize}
+
+Based on these metrics, SimiDroid computes the similarity score of the given app pairs using Formula\eqref{eq:1}.
+
+\begin{equation}
+ similarity = max \lbrace\frac{identical}{total-new},\frac{identical}{total-deleted}\rbrace  \label{eq:1}
+\end{equation}
+
+where
+
+\begin{equation}
+ total = identical + similar + deleted + new\label{eq:2}
+\end{equation}
+\newline
+
+
 \subsection{Execution Settings}\label{sec:hardware}
 
 We deployed our experiment on a 32-Core, AMD EPYC 7542 CPU, 512 GB RAM, storage Samsung SSD 970 EVO 1TB machine running a 64-bit Debian  GNU/Linux 11. We also configured our emulator to run all selected apps on Google Android version 9.0, API 28, 512M SD Card, 7GB internal storage, with X86 ABI image.
 
-For our study, we configured DroidXP to run each of the $95$ \kn{This number needs to be changed here too. I suggest introducing a macro for this and using it everywhere to make sure everytime our experiment evolves, we don't need to change this everywhere} app pairs using Droidbot testing tool for three minutes. To mitigate noise, we repeated the full process three times which took in total ($95 \times 2$ apps (benign/malicious) $\times 3$ runs $\times 3$ min) + ($95 \times 2$ apps $\times 1.5$ min for emulator reboot) $\apeq 34$ machine hours.
+For our study, we configured DroidXP to run each of the $800$ app pairs using Droidbot for three minutes. To mitigate noise, we repeated the full process three times which took in total ($800 \times 2$ apps (benign/malicious) $\times 3$ runs $\times 3$ min) + ($800 \times 2$ apps $\times 1.5$ min for emulator reboot) $\apeq 240$ machine hours.
+%\kn{This number needs to be changed here too. I suggest introducing a macro for this and using it everywhere to make sure everytime our experiment evolves, we don't need to change this everywhere} 
+
 %\kn{Initial? Was there a follow up study, if not please use only study. This is feedback for all instances with the word initial}
 
-Although it was possible to run more than 10 emulators in parallel on one physical machine, to avoid any interference resulting from context switching within the operating system, we chose to run one emulator at a time. Hence, all evaluation processes took around $3$ days and additional $5$ days for environment configuration.
+Although it was possible to run more than 10 emulators in parallel on one physical machine, to avoid any interference resulting from context switching within the operating system, we chose to run one emulator at a time. Hence, all evaluation processes took around $12$ days and additional $5$ days for environment configuration.
 
 % In the following subsections, we describe the setup required to perform custom analysis that were central to our study.
 

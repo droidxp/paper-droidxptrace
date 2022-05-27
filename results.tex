@@ -44,8 +44,14 @@ With these results, we believe that mine sandbox approach could have a relevant 
    
    15 <android.net.ConnectivityManager: android.net.NetworkInfo getNetworkInfo(int)> &  39 & 2,44 \\
    16 <android.telephony.TelephonyManager: java.lang.String getNetworkOperatorName()> &  36 & 2,26 \\
- 
+   .&  . & . \\
+   .&  . & . \\
+   .&  . & . \\
+   74 <android.app.ActivityManager: java.util.List getRecentTasks(int,int)> & 1 & 0,06 \\
+   75 <android.net.NetworkInfo: java.lang.String toString()> & 1 & 0,06 \\
+
  \bottomrule
+                            Total & 1592 & 100 \\
 
  \end{tabular}
  \end{small}
@@ -72,10 +78,10 @@ Table~\ref{tab:pa} summarizes the results of this investigation. The column \tex
   \caption{Summary of the results of trace analysis. }
   \centering
   \begin{small}
- \begin{tabular}{cccc}
+ \begin{tabular}{ccc}
    \toprule
-   App pairs & Same API set (SAPI) & Trace Different (TD) & Improv. (\%) \\   \midrule
-   800 &  607 & 176 & 22 \\
+   Same API set (SAPI) & Trace Different (TD) & Improv. (\%) \\   \midrule
+   607 & 176 & 22 \\
  \bottomrule
  \end{tabular}
  \end{small}
@@ -112,10 +118,10 @@ To this end, we check some particulars from manifest file, that point to a likel
   \caption{Manifest File with duplicate code.}
   \centering
   \begin{small}
- \begin{tabular}{cccccc}
+ \begin{tabular}{ccccc}
    \toprule
-   App pairs & (SAPI) & (DP) & (DA) & (DP or DA) \\   \midrule
-   800 &  607 & 62 & 81 & 120 \\ 
+   (SAPI) & (DP) & (DA) & (DP or DA) \\   \midrule
+   607 & 62 & 81 & 120 \\ 
    
  \bottomrule
  \end{tabular}
@@ -127,17 +133,19 @@ The column (SAPI) indicates the number of malware that went undetected during ou
 
 A duplicate request for permission or action in a malicious version's manifest file should have been performed by a script. A simple static analysis of manifest file could detect $120$ of undetectable malware from the first experiment ($607$), if it considers explorer duplicate permissions or actions at manifest file code as a detection strategy.
 
+\fh{this final I do not think that is so relevant}
+\begin{comment}
 Finally, we investigate how many app pairs request a suspicious amount of permissions. Past works indicate that a benign Android app normally requests on average $4$ permission, while a malicious apps version requests a median number of $7$ permission\cite{DBLP:conf/soups/FeltHEHCW12}\cite{DBLP:journals/tifs/0029LBKTLC17}. To this end, we observe how many app pairs have more than a delta of $3$ permission requests in comparison with the benign version. Table~\ref{tab:mp} presents the results.
 
 \begin{table}[ht]
   \caption{Manifest File with suspicious amounts of permission requests.}
   \centering
   \begin{small}
- \begin{tabular}{cccc}
+ \begin{tabular}{ccc}
    \toprule
-   App pairs & (SP) & (DP) & (NDP) \\   \midrule
+   (SP) & (DP) & (NDP) \\   \midrule
    
-   800 &  7 & 6 & 1 \\ 
+   7 & 6 & 1 \\ 
    
  \bottomrule
  \end{tabular}
@@ -150,6 +158,7 @@ The second column (SP) presents how many app pairs not detected by the first exp
 
 Third and fourth columns (DP)(NDP) present how many app pairs out of these contain duplicated permission or not respectively. As we can see, just $7$ apps investigated had requested a suspicious amount of permissions, $6$ with duplicated permission in your code, and $1$ without. With these numbers we concluded that this analysis is not efficient in terms of detection of malicious activities, since, among $7$ manifest files with excessive request permission, $6$ have duplicate request permission, a suspicious behavior already detected at the first approach.
 
+\end{comment}
 
 \begin{obs}{3}{}
  We can conclude that sandbox approach also could have better accuracy if they considered the suspicious modifications in manifest file in their analysis.
@@ -165,5 +174,14 @@ Finally, the last study used static analysis at Android manifest files, to inves
 
 For industry and academia, these results have implications. They reinforce that there are benefits of integrating auxiliary techniques to mine sandbox approach for malware identification. We also present evidence that its possible benefit from static analysis on suspicious Android manifest files for malware identification, even at malware with a low similarity coefficient regarding its benign version. If we consider both integrated approaches, our accurate rate in terms of malware detection grows from ($24.12\%$) to ($55.75\%$) in our real-world dataset (800 app pair), ($22\%$) for the first approach, and ($9.63\%$) for the second.
 
-The Venn-diagram of Figure XXX summarizes how Droidbot explorer, the trace analysis, and two kinds of suspicious manifest files can complement each other.
-\fh{Here we have to insert a venn-diagram based at our file summaryAll.csv}
+The Venn-diagram of Figure~\ref{fig:vennDiagram} present the number of malicious app detected by Sensitive APIs Diff approach, by trace analysis, and by two kinds of suspicious manifest files, as well as how they complement each other.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=0.35]{images/vennDiagram.pdf}
+\caption{Venn Diagram from results.}
+ \label{fig:vennDiagram}
+\end{figure}
+
+
+%\fh{Here we have to insert a venn-diagram based at our file summaryAll.csv}
