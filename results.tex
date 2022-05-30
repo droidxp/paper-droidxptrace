@@ -73,7 +73,7 @@ With these results, we observe that mining sandbox approaches suffer from a sign
 
 \subsection{Trace Analysis Results}\label{sec:traceResults}
 
-In this section, we describe the results of our investigation on how the trace from the entry point to sensitive API could impact the accuracy of sandbox approaches in terms of Android malware detection. Initially, we collect the call graphs of Droidbot using \emph{Logcat}. We make a filter to collect just the traces between the app's entry point and calls to any sensitive method present on our previous list of $162$ sensitive methods.
+In this section, we describe the results of our investigation on how the trace from the entry point to sensitive API could impact the accuracy of sandbox approaches. Initially, we collect the call graphs of Droidbot's execution using \emph{Logcat} and filter in the traces between the app's entry point and calls to any sensitive methods.
 
 Finally, with callgraph from both app versions (benign/malicious), we spot differences between their traces. We choose to investigate only app pairs that were the same sensitive APIs detected in both versions at the first experiment, i.e, from the point of view of sandbox approaches, it sheds light on the blind-spots. Our results show that among $607$ pair apps that had no difference between their sensitive APIs explored, 176 of them ($29$\%) had different traces from the entry point to sensitive methods. This result gives us evidence that it is possible to improve malware detection if we also consider the trace between app's entry point and calls to sensitive APIs.
 
