@@ -87,10 +87,8 @@ this phase executes only once for each version of the apps in our dataset.
   DroidXP wipes out all data stored on the emulator that has been collected from previous executions.
 
 %\kn{Is the result analysis into logcat done by DroidXP or an extension by us? In general, it is unclear what is existing in DroidXP already and what we do. Isnt logcat a separate tool. If this is done by DroidXP, please make it clear that DroidXP invokes logcat on its own}%
-\item[(Step 3) Data Collection:] During the execution, DroidXP collects all relevant information (such as calls to sensitive APIs,
-  test coverage metrics, and so on). We use this information to understand the performance of the mining sandbox approach for
-  malware detection. We extended DroidXP with a new component (DroidXPTrace), which allows us to build a dynamic call graph from the outcomes of a DroidXP execution. This was not possible using vanilla version of DroidXP \rb{(I am note sure about this sentence)}.
-  \fh{I think that we have to separate this data collection section. One for sensitive APIs extract and other for trace extract. The 3 steps presented here must talk about just the first extract, and we must create another one for the second.  }
+\item[(Step 3) Data Collection:] During the execution, DroidXP collects all relevant information (such as calls to sensitive APIs,test coverage metrics, and so on). We use this information to understand the performance of the mining sandbox approach for malware detection. We extended DroidXP with a new component (DroidXPTrace), which allows us to investigate dynamic call graphs from the outcomes of a DroidXP execution. This was not possible using vanilla version of DroidXP %\rb{(I am note sure about this sentence)}.
+%  \fh{I think that we have to separate this data collection section. One for sensitive APIs extract and other for trace extract. The 3 steps presented here must talk about just the first extract, and we must create another one for the second.  }
 \end{description}
 
 %\todo[inline]{I am not really happy with the previous structure of this section. Trying to refactor it in two sections: Data Collection Procedures and Data Analysis Procedures.}
@@ -105,8 +103,17 @@ As described in the previous section, for malware identification we leverage Dro
     \item If the difference between the $2$ final set contains at least 1 element (injected by malicious version), the app represents a malicious app (true positive).
 \end{enumerate}
 
-In additional, we also leverage from this procedure to list the sensitive APIs most injected by malicious app version at our dataset. Figure xxx illustrates this procedure.
-\fh{here I have to insert the figure}
+In additional, we also leverage from this procedure to list the sensitive APIs most injected by malicious app version at our dataset. Figure~\ref{fig:sensitiveAPI} illustrates this procedure.
+%\fh{here I have to insert the figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=0.4]{images/sensitiveAPIdiff.pdf}
+\caption{All procedure for malware identification using sensitive API set diff.}
+ \label{fig:sensitiveAPI}
+\end{figure}
+
+
 
 %\todo[inline]{Handrick, could you please write about the malware identification procedure?}
 
