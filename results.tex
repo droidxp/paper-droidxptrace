@@ -114,7 +114,7 @@ Figure~\ref{fig:maliciousTrace} shows an example of trace injected in the malici
  Test generation tools like Droidbot have a blind-spot when it comes to being aware of the trace taken from the entry point to a sensitive API call. Droidbot could have detected $29\%$ of its undetectable malware had it considered trace as a factor.
  \end{obs}
 
-\subsection{Manifest File Analysis Results}\label{sec:manifestResults}
+\subsection{Manifest File Analysis}\label{sec:manifestResults}
 
 In this section, we describe the results of our investigation on the impact of modified manifest files on the accuracy of sandbox approaches. 
 To this end, we check some particulars from manifest file, that point to a likely suspicious behavior. In section \ref{sec:manifestAnalysis}, we illustrated that an automatic hacking script could inject duplicated permission and actions into the Manifest file. We looked out for such modifications in the malware that went undetected by the test generation tools. We also check if, among these apps, there were excessive requests for permissions in the malicious version's manifest files. Table~\ref{tab:mfa} and Table~\ref{tab:mp} summarizes our results. 
@@ -136,7 +136,7 @@ To this end, we check some particulars from manifest file, that point to a likel
 
 The column (SAPI) indicates the number of malware that went undetected during our first study (same as Table~\ref{tab:pa}'s Same API set (SAPI)). The second column (DP) indicates how many Manifest files had duplicated permission. Column (DA) denotes the number of malware with the duplicated actions in their manifest file.
 
-A duplicate request for permission or action in a malicious version's manifest file should have been performed by a script. A simple static analysis of manifest file could detect $120$ of undetectable malware from the first experiment ($607$), if it considers explorer duplicate permissions or actions at manifest file code as a detection strategy.
+A duplicate request for permission or action in a malicious version's manifest file should have been performed by a script. A simple analysis of manifest file could detect $120$ of undetectable malware from the first experiment ($607$), if it considers explorer duplicate permissions or actions at manifest file code as a detection strategy.
 
 \fh{this final I do not think that is so relevant}
 \begin{comment}
@@ -166,7 +166,7 @@ Third and fourth columns (DP)(NDP) present how many app pairs out of these conta
 \end{comment}
 
 \begin{obs}{3}{}
- We can conclude that sandbox approach also could have better accuracy if they considered the suspicious modifications in manifest file in their analysis.
+ We can conclude that sandbox approach also could have better accuracy if they considered the suspicious modifications in manifest file in their analysis. Although the analysis required of the manifest file is quite naive, we believe the results present an interesting and relevant insight for developers of malware detection tools to improve accuracy.
 \end{obs}
 
 \subsection{Implications}\label{sec:implications}
