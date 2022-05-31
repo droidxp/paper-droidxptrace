@@ -75,9 +75,9 @@ With these results, we observe that mining sandbox approaches suffer from a sign
 
 In this section, we describe the results of our investigation on how the trace from the entry point to sensitive API could impact the accuracy of sandbox approaches. Initially, we collect the call graphs of Droidbot's execution using \emph{Logcat} and filter in the traces between the app's entry point and calls to any sensitive methods.
 
-Finally, with callgraph from both app versions (benign/malicious), we spot differences between their traces. We choose to investigate only app pairs that were the same sensitive APIs detected in both versions at the first experiment, i.e, from the point of view of sandbox approaches, it sheds light on the blind-spots. Our results show that among $607$ pair apps that had no difference between their sensitive APIs explored, 176 of them ($29$\%) had different traces from the entry point to sensitive methods. This result gives us evidence that it is possible to improve malware detection if we also consider the trace between app's entry point and calls to sensitive APIs.
+Then, using the callgraph from executions of both app versions (benign/malicious), we track the differences between their traces. We choose to investigate only app pairs that covered the same set of sensitive APIs detected in both versions during our first experiment (Section~\ref{sec:Sensitive APIs}). Our results show that among $607$ pair apps that had no difference between their sensitive APIs set, 176 of them ($29$\%) had different traces. This result provides evidence that thet accuracy of sandbox approaches will be improved if the traces from entry point to sensitive APIs are considered.
 
-Table~\ref{tab:pa} summarizes the results of this investigation. The column \textbf{Same API set (SAPI)} shows the number of app pairs that had the same sensitive APIs explored at the first experiment, i.e, considered undetected malware. The column \textbf{Trace Different (TD)} shows the number of app pairs (among the undetected ones) that have different traces from the entry point to the sensitive method. The column \textbf{Improv. \%} shows how much the malware detection of each tool could have been potentially improved if we considered the trace (calculated using ~\eqref{improve})
+Table~\ref{tab:pa} summarizes the results of this investigation. The column \textbf{Same API set (SAPI)} shows the number of app pairs that had the same sensitive APIs explored at the first experiment, i.e, considered as undetected malware. The column \textbf{Trace Different (TD)} shows the number of app pairs (among the undetected ones) that have different traces from the entry point to the sensitive method. The column \textbf{Improv. \%} shows how much the malware detection of each tool could have been potentially improved if we considered the trace (calculated using ~\eqref{improve})
 
 \begin{table}[ht!]
   \caption{Summary of the results of trace analysis. }
@@ -101,7 +101,7 @@ Improvement & = & \frac{trace Different (TD) \times 100}{Total App Pairs Explore
 \end{eqnarray}
 
 
-Figure~\ref{fig:maliciousTrace} shows a example of trace injected at malicious version of the app \textbf{[com.android.remotecontrolppt]}. In that case, benign and malicious app versions access the same sensitive method, \textit{getSubscriberid()}. This sensitive method returns the mobile unique subscriber ID, and require manifest file permission "READ\underline{\space}PHONE\underline{\space}STATE", present in both app version. The original app accesses this method through $2$ traces (1 and 2), which suggest an aware action from app user. However, instead of the 2 original traces, the malicious version injected a third trace using as entry point a method that performs a stealth computation on a background thread, \textit{doInBackground}, suggesting an action without user aware.\fh{explain more about this example, and find another one }
+Figure~\ref{fig:maliciousTrace} shows an example of trace injected in the malicious version of the app \textbf{[com.android.remotecontrolppt]}. Here, benign and malicious app versions access the same sensitive method, \textit{getSubscriberid()}. This sensitive method returns the device's unique subscriber ID, and requires the manifest file permission "READ\underline{\space}PHONE\underline{\space}STATE", present in both app version. The original app accesses this method through $2$ traces (1 and 2), which suggests an expected action from app user. However, instead of the 2 original traces, the malicious version injected a third trace containing as an entry point a method that performs a stealth computation on a background thread, \textit{doInBackground}, suggesting an action without user's awareness.\fh{explain more about this example, and find another one }
 
 \begin{figure}
 \centering
@@ -111,7 +111,7 @@ Figure~\ref{fig:maliciousTrace} shows a example of trace injected at malicious v
 \end{figure}
 
 \begin{obs}{2}{}
- Test generation tools like Droidbot have a blind-spot when it comes to being aware of the trace taken from the entry point to a sensitive API call. Although Droidbot achieved better performance results when mining sensitive resources, it could have detected $29\%$ of its undetectable app pairs had it considered trace as a factor.
+ Test generation tools like Droidbot have a blind-spot when it comes to being aware of the trace taken from the entry point to a sensitive API call. Droidbot could have detected $29\%$ of its undetectable malware had it considered trace as a factor.
  \end{obs}
 
 \subsection{Manifest File Analysis Results}\label{sec:manifestResults}
