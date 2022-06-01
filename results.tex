@@ -16,7 +16,7 @@ After the three executions, DroidXP produces a dataset with the sensitive method
 
 To this end, we use DroidXP to generate reports for each execution that includes a set of observations like the set of sensitive methods accessed by each app version (benign/malicious), the sensitive methods accessed just by the malicious version (diff). If the set of sensitive methods accessed just by a malicious app is empty, this implies that the app is not marked malicious, and therefore features a false negative.
 
-With Droidbot, our results present that it could detect a total of $193$ ($24.12$\%) where sensitive APIs set differs. The sccuracy of Droidbot here are much lower accuracy compared to those reported by previous works like Bao et al. (66.66\%)~\cite{DBLP:conf/wcre/BaoLL18}, and Costa et al. (76.04\%)~\cite{DBLP:journals/jss/CostaMMSSBNR22}. To ensure our experiments are not biased in anyway, we reproduced the results using the same smaller datasets of $102$ app pairs used by previous studies, and confirm accuracy percentages close to these previous works, ($65.3$\%). This indicates that when presented with a more representative dataset, the accuracy of DroidBot drops significantly. It is to be noted that the previous works used app pairs with a very high similarity score ($X\%$) indicating most of their apps were similar to each other. Meanwhile, our dataset has an average similarity score of ($Y\%$) with a much better distribution ($Z1\%$ of app pairs have a similarity score of less than $0.25$, $Z2\%$ of app pairs between $0.25$ and $0.50$,$Z3\%$ of app pairs between $0.5$ and $0.75$  and $Z4\%$ of app pairs more than $0.75$). 
+With Droidbot, our results present that it could detect a total of $193$ ($24.12$\%) where sensitive APIs set differs. The sccuracy of Droidbot here are much lower accuracy compared to those reported by previous works like Bao et al. (66.66\%)~\cite{DBLP:conf/wcre/BaoLL18}, and Costa et al. (76.04\%)~\cite{DBLP:journals/jss/CostaMMSSBNR22}. To ensure our experiments are not biased in anyway, we reproduced the results using the same smaller datasets of $102$ app pairs used by previous studies, and confirm accuracy percentages close to these previous works, ($65.3$\%). This indicates that when presented with a more representative dataset, the accuracy of DroidBot drops significantly. It is to be noted that the previous works used app pairs with a very high similarity score ($77\%$) indicating most of their apps were similar to each other. Meanwhile, our dataset has an average similarity score of ($62\%$) with a much better distribution ($157\%$ of app pairs have a similarity score of less than $0.25$, $104\%$ of app pairs between $0.25$ and $0.50$, $160\%$ of app pairs between $0.5$ and $0.75$  and $379\%$ of app pairs more than $0.75$). 
 
 Our exploration of all sensitive APIs called by all app pairs brought to light the most frequently abused sensitive APIs when repackaging apps. We observed that our experiments called a sensitive API for a total of $1592$ times (from our list of 162 sensitive APIs), calling at least $75$ sensitive APIs one time. $16$ APIs account for more than half of all calls ($51.06$\%). The sensitive API abused most by repackaged apps turned out to be \textbf{android.telephony.TelephonyManager: java.lang.String getDeviceId()}, which gets the device IMEI\footnote{From wikipedia: International Mobile Equipment Identity (IMEI) is a number, usually unique, to identify 3GPP and iDEN mobile phones.}. We summarize our results at Table~\ref{tab:APIused}. 
 
@@ -24,38 +24,38 @@ With these results, we observe that mining sandbox approaches suffer from a sign
 
 %\begin{landscape}
 \begin{table*}[t]
-  \caption{Sessitive APIs more used by repackage apps}
+  \caption{Sensitive APIs more used by repackage apps}
   \centering
   \begin{small}
- \begin{tabular}{lcc}
+ \begin{tabular}{lc}
    \toprule
-   Sensitive API & Occurrences & (\%) \\
+   Sensitive API & Occurrences \\
    \midrule
-   01 <android.telephony.TelephonyManager: java.lang.String getDeviceId()> &  78 & 4.89 \\
-   02 <android.net.wifi.WifiManager: android.net.wifi.WifiInfo getConnectionInfo()> &  64 & 4.02 \\
-   03 <android.net.wifi.WifiInfo: java.lang.String getMacAddress()> &  63 & 3.95 \\
-   04 <android.net.NetworkInfo: java.lang.String getTypeName()> &  58 & 3.64 \\
-   05 <android.net.NetworkInfo: java.lang.String getExtraInfo()> &  56 & 3.51 \\
-   06 <android.telephony.TelephonyManager: java.lang.String getSubscriberId()> &  54 & 3.39 \\
-   07 <android.net.NetworkInfo: android.net.NetworkInfo State getState()> &  52 & 3.26 \\
-   08 <android.database.sqlite.SQLiteOpenHelper: android.database.sqlite.SQLiteDatabase getWritableDatabase()> &  49 & 3.07 \\
-   09 <android.database.sqlite.SQLiteDatabase: android.database.Cursor query(java.lang.String, ...,java.lang.String)> &  47 & 2.95 \\
-   10 <android.telephony.TelephonyManager: java.lang.String getNetworkOperator()> &  45 & 2.82 \\
-   11 <android.telephony.TelephonyManager: android.telephony.CellLocation getCellLocation()> &  44 & 2.76 \\
-   12 <android.database.sqlite.SQLiteOpenHelper: android.database.sqlite.SQLiteDatabase getReadableDatabase()> &  44 & 2.76 \\
-   13 <android.telephony.gsm.GsmCellLocation: int getLac()> &  42 & 2.63 \\
-   14 <android.telephony.gsm.GsmCellLocation: int getCid()> &  42 & 2.63 \\
+   01 android.telephony.TelephonyManager: java.lang.String getDeviceId() &  78 \\
+   02 android.net.wifi.WifiManager: android.net.wifi.WifiInfo getConnectionInfo() &  64\\
+   03 android.net.wifi.WifiInfo: java.lang.String getMacAddress() &  63 \\
+   04 android.net.NetworkInfo: java.lang.String getTypeName() &  58 \\
+   05 android.net.NetworkInfo: java.lang.String getExtraInfo() &  56 \\
+   06 android.telephony.TelephonyManager: java.lang.String getSubscriberId() &  54 \\
+   07 android.net.NetworkInfo: android.net.NetworkInfo State getState() &  52 \\
+   08 android.database.sqlite.SQLiteOpenHelper: android.database.sqlite.SQLiteDatabase getWritableDatabase() &  49 \\
+   09 android.database.sqlite.SQLiteDatabase: android.database.Cursor query(java.lang.String, ...,java.lang.String) &  47 \\
+   10 android.telephony.TelephonyManager: java.lang.String getNetworkOperator() &  45\\
+   11 android.telephony.TelephonyManager: android.telephony.CellLocation getCellLocation() &  44\\
+   12 android.database.sqlite.SQLiteOpenHelper: android.database.sqlite.SQLiteDatabase getReadableDatabase() &  44\\
+   13 android.telephony.gsm.GsmCellLocation: int getLac() &  42 \\
+   14 android.telephony.gsm.GsmCellLocation: int getCid() &  42 \\
    
-   15 <android.net.ConnectivityManager: android.net.NetworkInfo getNetworkInfo(int)> &  39 & 2,44 \\
-   16 <android.telephony.TelephonyManager: java.lang.String getNetworkOperatorName()> &  36 & 2,26 \\
-   .&  . & . \\
-   .&  . & . \\
-   .&  . & . \\
-   74 <android.app.ActivityManager: java.util.List getRecentTasks(int,int)> & 1 & 0,06 \\
-   75 <android.net.NetworkInfo: java.lang.String toString()> & 1 & 0,06 \\
+   15 android.net.ConnectivityManager: android.net.NetworkInfo getNetworkInfo(int) &  39 \\
+   16 android.telephony.TelephonyManager: java.lang.String getNetworkOperatorName() &  36 \\
+   .&  .\\
+   .&  .\\
+   .&  .\\
+   74 android.app.ActivityManager: java.util.List getRecentTasks(int,int) & 1 \\
+   75 android.net.NetworkInfo: java.lang.String toString() & 1 \\
 
  \bottomrule
-                            Total & 1592 & 100 \\
+                            Total & 1592 \\
 
  \end{tabular}
  \end{small}
@@ -77,7 +77,7 @@ In this section, we describe the results of our investigation on how the trace f
 
 Then, using the callgraph from executions of both app versions (benign/malicious), we track the differences between their traces. We choose to investigate only app pairs that covered the same set of sensitive APIs detected in both versions during our first experiment (Section~\ref{sec:Sensitive APIs}). Our results show that among $607$ pair apps that had no difference between their sensitive APIs set, 176 of them ($29$\%) had different traces. This result provides evidence that thet accuracy of sandbox approaches will be improved if the traces from entry point to sensitive APIs are considered.
 
-Table~\ref{tab:pa} summarizes the results of this investigation. The column \textbf{Same API set (SAPI)} shows the number of app pairs that had the same sensitive APIs explored at the first experiment, i.e, considered as undetected malware. The column \textbf{Trace Different (TD)} shows the number of app pairs (among the undetected ones) that have different traces from the entry point to the sensitive method. The column \textbf{Improv. \%} shows how much the malware detection of each tool could have been potentially improved if we considered the trace (calculated using ~\eqref{improve})
+Table~\ref{tab:pa} summarizes the results of this investigation. The column \textbf{Same API set (SAPI)} shows the number of app pairs that had the same sensitive APIs explored at the first experiment, i.e, considered as undetected malware. The column \textbf{Trace Diff. (TD)} shows the number of app pairs (among the undetected ones) that have different traces from the entry point to the sensitive method. The column \textbf{Improv. \%} shows how much the malware detection of each tool could have been potentially improved if we considered the trace (calculated using ~\eqref{improve})
 
 \begin{table}[ht!]
   \caption{Summary of the results of trace analysis. }
@@ -85,7 +85,7 @@ Table~\ref{tab:pa} summarizes the results of this investigation. The column \tex
   \begin{small}
  \begin{tabular}{ccc}
    \toprule
-   Same API set (SAPI) & Trace Different (TD) & Improv. (\%) \\   \midrule
+   (Same APIs (SAPI) & Trace Diff.(TD) & Improv.(\%) \\   \midrule
    607 & 176 & 22 \\
  \bottomrule
  \end{tabular}
@@ -96,16 +96,17 @@ Table~\ref{tab:pa} summarizes the results of this investigation. The column \tex
 
 
 \begin{eqnarray}
-Improvement & = & \frac{trace Different (TD) \times 100}{Total App Pairs Explored} 
+Improvement & = & \frac{trace Diff. (TD) \times 100}{Total App Pairs Explored} 
 \label{improve}
 \end{eqnarray}
 
 
-Figure~\ref{fig:maliciousTrace} shows an example of trace injected in the malicious version of the app \textbf{[com.android.remotecontrolppt]}. Here, benign and malicious app versions access the same sensitive method, \textit{getSubscriberid()}. This sensitive method returns the device's unique subscriber ID, and requires the manifest file permission "READ\underline{\space}PHONE\underline{\space}STATE", present in both app version. The original app accesses this method through $2$ traces (1 and 2), which suggests an expected action from app user. However, instead of the 2 original traces, the malicious version injected a third trace containing as an entry point a method that performs a stealth computation on a background thread, \textit{doInBackground}, suggesting an action without user's awareness.\fh{explain more about this example, and find another one }
+Figure~\ref{fig:maliciousTrace} shows an example of trace injected in the malicious version of the app \textbf{[com.android.remotecontrolppt]}. Here, benign and malicious app versions access the same sensitive method, \textit{getSubscriberid()}. This sensitive method returns the device's unique subscriber ID, and requires the manifest file permission "READ\underline{\space}PHONE\underline{\space}STATE", present in both app version. The original app accesses this method through $2$ traces (1 and 2), which suggests an expected action from app user. However, instead of the 2 original traces, the malicious version injected a third trace containing as an entry point a method that performs a stealth computation on a background thread, \textit{doInBackground}, suggesting an action without user's awareness.
+%\fh{explain more about this example, and find another one }
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.30]{images/maliciousTrace_example01.pdf}
+\includegraphics[scale=0.28]{images/maliciousTrace_example01.pdf}
 \caption{Example of Malicious Trace.}
  \label{fig:maliciousTrace}
 \end{figure}
@@ -138,7 +139,7 @@ The column (SAPI) indicates the number of malware that went undetected during ou
 
 A duplicate request for permission or action in a malicious version's manifest file should have been performed by a script. A simple analysis of manifest file could detect $120$ of undetectable malware from the first experiment ($607$), if it considers explorer duplicate permissions or actions at manifest file code as a detection strategy.
 
-\fh{this final I do not think that is so relevant}
+%\fh{this final I do not think that is so relevant}
 \begin{comment}
 Finally, we investigate how many app pairs request a suspicious amount of permissions. Past works indicate that a benign Android app normally requests on average $4$ permission, while a malicious apps version requests a median number of $7$ permission\cite{DBLP:conf/soups/FeltHEHCW12}\cite{DBLP:journals/tifs/0029LBKTLC17}. To this end, we observe how many app pairs have more than a delta of $3$ permission requests in comparison with the benign version. Table~\ref{tab:mp} presents the results.
 
@@ -175,7 +176,7 @@ The results presented so far have implications for both practitioners and resear
 
 Next, we present a trace analysis which aimed to investigate whether there were different traces between an entry point and an access to any sensitive resource. Our findings indicate that the trace analysis is also effective for malicious apps identification, and could complement mining sandbox approaches. Among $607$ app pairs that were investigated, we observed that $176$ had different traces ($29\%$). The message from these findings is that exploring trace analysis in conjunction with mining sandbox approach is useful for researchers and practitioners to improve malicious app detection tasks. 
 
-Finally, the last study used static analysis at Android manifest files, to investigate if even naive techniques to construct malicious apps can go unnoticed for mine sandbox approach. In the previous section, Table~\ref{tab:mp} and~\ref{tab:mfa} summarizes this investigation. Although manifest file analysis seems to be a simple technique, our results indicate that such an analysis on manifest files could have detected $120$ (more than one-third) of the undetected malware.
+Finally, the last study used static analysis at Android manifest files, to investigate if even naive techniques to construct malicious apps can go unnoticed for mine sandbox approach. In the previous section, Table~\ref{tab:mfa} summarizes this investigation. Although manifest file analysis seems to be a simple technique, our results indicate that such an analysis on manifest files could have detected $120$ (more than one-third) of the undetected malware.
 
 \textbf{Implications: }For industry and academia, these results have implications. They reinforce that there are benefits of integrating auxiliary techniques to mining sandbox approach for malware identification. 
 %We also present evidence that its possible benefit from static analysis on suspicious Android manifest files for malware identification, even at malware with a low similarity coefficient regarding its benign version.
