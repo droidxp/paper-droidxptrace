@@ -110,14 +110,25 @@ this phase executes only once for each version of the apps in our dataset.
 \subsection{Data Analysis Procedures} \label{sec:dataAnalysisProc}
 
 \subsubsection{Malware Identification} \label{sec:malwaresetup}
-As described in the previous section, for malware identification we leverage DroidXP to extract information about sensitive APIs called by app at both versions (benign/malicious). As a first step, given one benign app version, our approach first collects all sensitive APIs from app code through the instrumentation step (static analysis). Then, at the execution step, we use Droidbot to collect all sensitive APIs called in the range of $3$ minutes (dynamic analysis). This second analysis is also important since it can disclose some sensitive APIs calls ignored by static analysis. Malware may use dynamic features (such as reflection) to introduce malicious behavior, which can change the behavior of classes, interfaces, methods, and fields at runtime~\cite{DBLP:journals/spe/ZhangLTX18,DBLP:journals/tosem/LiTX19}. The instrumentation step is made once, while the execution step is performed $3$ times. The result of instrumentation and all execution is finally joined forming a final set of all sensitive APIs called by app benign version. The same procedure is made at the malicious app version, and finally, we just compare the $2$ final sensitive APIs sets. The following rule is applied to decide if the analyzed APP is described as a malware:
+Figure~\ref{fig:sensitiveAPI} illustrates the mining sandbox approach for
+malware identification. We leverage DroidXP to collect the set of sensitive APIs the versions (benign/malign) of the apps call. As a first step, given one benign app version,
+our approach first collects all calls to sensitive APIs from the app code through static analysis. Then, at the execution step,
+we use dynamic analysis to collect all calls to sensitive APIs during the DroidBot test case execution. We configure DroidXP to execute DroidBot for a
+period of $3$ minutes. This second analysis is also important since it can disclose some sensitive APIs calls ignored by static analysis.
+Malware may use dynamic features (such as reflection) to introduce malicious behavior, which can change the behavior of of the apps at runtime~\cite{DBLP:journals/spe/ZhangLTX18,DBLP:journals/tosem/LiTX19}.
+The instrumentation step is made once, while we execute the dynamic analysis $3$ times. The result of instrumentation and all executions is finally joined,
+forming a final set of that contains all identified calls to sensitive APIs coming from the benign version of the app. We carry out the same procedure for the malicious version of the apps,
+creating a distinct set of calls to sensitive APIs (now coming from the malicious version of the apps). In
+a final step, we compare the two sets of calls to sensitive APIs. We use the following rules to
+check for a malicious behavior. 
 
 \begin{enumerate}
-    \item If the difference between the $2$ final set is an empty set, the app represents a benign app (false negative).
-    \item If the difference between the $2$ final set contains at least 1 element (injected by malicious version), the app represents a malicious app (true positive).
+    \item If the difference between the two final sets is an empty set, we cannot distinguish the benign and malicious version of the app (false negative).
+    \item If the difference between the two final sets contains at least 1 element (injected in the malicious version), we successfully distinguish the benign and the malicious version of the app (true positive).
 \end{enumerate}
 
-In additional, we also leverage from this procedure to list the sensitive APIs most injected by malicious app version at our dataset. Figure~\ref{fig:sensitiveAPI} illustrates this procedure.
+In addition, we also benefit from this procedure to identify the calls to sensitive APIs that are more frequently injected by the malicious version of the apps
+in our dataset. 
 
 %\fh{here I have to insert the figure}
 
@@ -165,7 +176,7 @@ malicious version follows a different execution trace.
 
 Our work also observed the Manifest file of all app pairs. These files present essential security information which the Android system must make available before executing an app. Among other things, an Android app must specify in the Manifest file the list of necessary permissions and components . Unfortunately, Manifest files are not considered in the basic mining sandbox approach for malware detection, in spite of the fact that one can easily modify such a file and then repackage it in a malicious version of an app~\cite{DBLP:journals/corr/abs-1208-4536}. For instance, by inserting new permission requests or component capabilities (actions). Such injections can happen either manually or through automated scripts.
 
-\todo[inline]{Looks like a naive approach. Note that, malware developers often use advanced techniques in order to hinder security experts detecting the presence of a malicious change in an app---using both static or dynamic analysis. The approach detailed here might be efficient only for poor designed malware. I am discussing this because we are seriously considering submiting this paper to a security venue. The people involved in Usenix Security are dealing with more advanced situations, like malware that changes its behavior when it detects that it is running in um emulator, for instance.}
+\todo[inline]{Looks like a naive approach. Note that, malware developers often use advanced techniques in order to hinder security experts detecting the presence of a malicious change in an app---using both static or dynamic analysis. The approach detailed here might be efficient only for poor designed malware. I am discussing this because we are seriously considering submitting this paper to a security venue. The people involved in Usenix Security are dealing with more advanced situations, like malware that changes its behavior when it detects that it is running in um emulator, for instance.}
 
 Automated process sometimes generate Manifest file with duplicate permission requests, as the original app might already contain the permission request. Such duplication also happens when repackaged apps add a component with a capability which was requested by another component. On top of this, our manifest analysis also allows us to monitor suspicious new permissions or excessive amounts of permissions. 
 
