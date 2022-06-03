@@ -1,6 +1,9 @@
 \section{Results and discussion}\label{sec:results}
 
-In this section, we detail the findings of our study.  We remind the reader that our main goal with this study is the detection od blindspot that impact the false negative rate in current mining sandbox approaches and mitigating them. We hypothesize the presence of two major blindspots - dynamic call trace from the entry point to a sensitive API, and the differences in the manifest file of repackaged apps. In Section~\ref{sec:Sensitive APIs}, we summarize the results of our study that estimates the performance of Droidbot, the state of the art in mining sandbox approaches. To this end, we reproduce the approach used by DroidBot in their original paper by presenting the divergent sensitive app sets for each app pair in our dataset. We also present details regarding which sensitive APIs are accessed more commonly with malwares. 
+
+\todo[inline]{I think we can summarize the following paragraphs for a few sentences}
+
+In this section, we detail the findings of our study.  We remind the reader that our main goal with this study is the detection of blindspot that impact the false negative rate in current mining sandbox approaches and mitigating them. We hypothesize the presence of two major blindspots - dynamic call trace from the entry point to a sensitive API, and the differences in the manifest file of repackaged apps. In Section~\ref{sec:Sensitive APIs}, we summarize the results of our study that estimates the performance of DroidBot, the state of the art in mining sandbox approaches. To this end, we reproduce the approach used by DroidBot in their original paper by presenting the divergent sensitive app sets for each app pair in our dataset. We also present details regarding which sensitive APIs are accessed more commonly with malwares. 
 %We also present the 
 %sensitive APIs set more injected by repackaged apps, among 162 explored. 
 We perform this initial study since it help solve our R1 and served as a reference to solve R2 and R3. \kn{How does this help solve R2 and R3.}
@@ -9,18 +12,42 @@ The remainder of this section is structured as follows. Section~\ref{sec:traceRe
 
 \subsection{False negative rate and Sensitive APIs more used}\label{sec:Sensitive APIs}
 
-In this section, we describe the results of reproducing the state-of-the-art Android sandbox approach on our new dataset of $800$ app pairs. We perform this experiment to ensure our analysis of the blind spots is done on the same playing field. Firstly, given a pair of apps, we first execute each app version using Droibot at DroidXP infrastructure for three minutes repeated three times.
+In this section, we describe the results of reproducing the state-of-the-art Android sandbox approach on our new dataset of $800$ app pairs.
+We perform this experiment to ensure our analysis of the blind spots is done on the same playing field \rb{I could not understand ``the same playing field''}.
+Firstly, given a pair of apps, we analyse each app version using the DroidBot test case generation tool with the DroidXP infrastructure. We repeat
+every analysis three times for a period of three minutes.
 
-After the three executions, DroidXP produces a dataset with the sensitive methods that both app versions call for each execution. We consider that a test generation tool could construct a sandbox able to detect a specific malware if there exists a sensitive method is called only by the malicious version of the app. 
+After the three executions, DroidXP produces a dataset with the sensitive methods that both app versions call during each execution. We consider that a test
+generation tool (DroidBot) could construct a sandbox able to detect a specific malware if there exists at least a call to a sensitive method that happens
+only in the malicious version of the app. 
 %This check is done using a Python script that compares the set of sensitive methods, called at both app versions (benign/malicious).
 
-To this end, we use DroidXP to generate reports for each execution that includes a set of observations like the set of sensitive methods accessed by each app version (benign/malicious), the sensitive methods accessed just by the malicious version (diff). If the set of sensitive methods accessed just by a malicious app is empty, this implies that the app is not marked malicious, and therefore features a false negative.
+To this end, we use DroidXP to generate reports for each execution that includes a set of observations like the set of sensitive methods accessed by each app version (benign/malicious),
+the sensitive methods accessed just by the malicious version (diff). If the set of sensitive methods accessed just by a malicious app is empty,
+this implies that the sandbox approach for malware detection was not able to classify the malicious version as malign, leading to a false negative.
 
-With Droidbot, our results present that it could detect a total of $193$ ($24.12$\%) where sensitive APIs set differs. The sccuracy of Droidbot here are much lower accuracy compared to those reported by previous works like Bao et al. (66.66\%)~\cite{DBLP:conf/wcre/BaoLL18}, and Costa et al. (76.04\%)~\cite{DBLP:journals/jss/CostaMMSSBNR22}. To ensure our experiments are not biased in anyway, we reproduced the results using the same smaller datasets of $102$ app pairs used by previous studies, and confirm accuracy percentages close to these previous works, ($65.3$\%). This indicates that when presented with a more representative dataset, the accuracy of DroidBot drops significantly. It is to be noted that the previous works used app pairs with a very high similarity score ($77\%$) indicating most of their apps were similar to each other. Meanwhile, our dataset has an average similarity score of ($62\%$) with a much better distribution ($157\%$ of app pairs have a similarity score of less than $0.25$, $104\%$ of app pairs between $0.25$ and $0.50$, $160\%$ of app pairs between $0.5$ and $0.75$  and $379\%$ of app pairs more than $0.75$). 
+Considering the DroidBot test generator tool, the mining sandbox approach for malware detection correctly classify a total of $193$ ($24.12$\%) malwares, presenting
+at least one difference in the set of calls to sensitive APIs. The accuracy of the approach here is much lower in comparison to those reported by previous works---e.g.,
+Bao et al. (66.66\%)~\cite{DBLP:conf/wcre/BaoLL18} and Costa et al. (76.04\%)~\cite{DBLP:journals/jss/CostaMMSSBNR22}. To ensure our experiments are not biased in anyway,
+we reproduced the results using the same smaller datasets of $102$ app pairs used in previous studies, and confirm accuracy percentages close to these previous works, ($65.3$\%).
+This indicates that when presented with a more representative dataset, the accuracy of mining sandbox approach using DroidBot drops significantly. It is to be noted that
+the previous works used app pairs with a very high similarity score ($77\%$) \rb{I would not suggest that the similarity between the benign / malign versions of the apps might explain this difference,
+  since we already know the contrary} indicating most of their apps were similar to each other. Meanwhile, our dataset has an average similarity score of ($62\%$) with a much better distribution ($157\%$ of
+app pairs have a similarity score of less than $0.25$, $104\%$ of app pairs between $0.25$ and $0.50$, $160\%$ of app pairs between $0.5$
+and $0.75$  and $379\%$ of app pairs more than $0.75$). 
 
-Our exploration of all sensitive APIs called by all app pairs brought to light the most frequently abused sensitive APIs when repackaging apps. We observed that our experiments called a sensitive API for a total of $1592$ times (from our list of 162 sensitive APIs), calling at least $75$ sensitive APIs one time. $16$ APIs account for more than half of all calls ($51.06$\%). The sensitive API abused most by repackaged apps turned out to be \textbf{android.telephony.TelephonyManager: java.lang.String getDeviceId()}, which gets the device IMEI\footnote{From wikipedia: International Mobile Equipment Identity (IMEI) is a number, usually unique, to identify 3GPP and iDEN mobile phones.}. We summarize our results at Table~\ref{tab:APIused}. 
+Our exploration of all sensitive APIs called by all app pairs brought to the light the most frequently abused sensitive APIs that
+appear in the repackaged, malicious version of the apps.
+We observed that our experiments called a sensitive API for a total of $1592$ times (from our list of 162 sensitive APIs), calling at least $75$
+sensitive APIs one time. $16$ APIs account for more than half of all calls ($51.06$\%) \rb{I could not understand the previous sentence}.
+The sensitive API abused most by repackaged apps turned out to be \textbf{android.telephony.TelephonyManager: java.lang.String getDeviceId()}, which gets the device
+IMEI\footnote{From Wikipedia: International Mobile Equipment Identity (IMEI) is a number, usually unique, to identify 3GPP and iDEN mobile phones.}.
+Table~\ref{tab:APIused} presents the list of the most frequent sensitive APIs that only the malicious
+version of the apps in our dataset call.
 
-With these results, we observe that mining sandbox approaches suffer from a significantly low accuracy rate when presented with a representative dataset (higher number of app pairs and diverse similarity index), which encouraged us to endorse efforts aimed at identifying potential blindspots with such approaches and eventually answering R2 and R3.
+With these results, we observe that the mining sandbox approach suffers from a significantly low accuracy rate when presented with a representative dataset
+(higher number of app pairs and diverse similarity index) \rb{again, we should not put too much emphasis on similarity}, which encouraged us to endorse
+efforts aimed at identifying potential blindspots with such approaches and eventually answering R2 and R3.
 
 %\begin{landscape}
 \begin{table*}[t]
@@ -73,9 +100,9 @@ With these results, we observe that mining sandbox approaches suffer from a sign
 
 \subsection{Trace Analysis Results}\label{sec:traceResults}
 
-In this section, we describe the results of our investigation on how the trace from the entry point to sensitive API could impact the accuracy of sandbox approaches. Initially, we collect the call graphs of Droidbot's execution using \emph{Logcat} and filter in the traces between the app's entry point and calls to any sensitive methods.
+In this section, we describe the results of our investigation on how the trace from the entry point to sensitive API could impact the accuracy of sandbox approaches. Initially, we collect the call graphs of DroidBot execution using \emph{Logcat} and filter in the traces between the app's entry point and calls to any sensitive methods.
 
-Then, using the callgraph from executions of both app versions (benign/malicious), we track the differences between their traces. We choose to investigate only app pairs that covered the same set of sensitive APIs detected in both versions during our first experiment (Section~\ref{sec:Sensitive APIs}). Our results show that among $607$ pair apps that had no difference between their sensitive APIs set, 176 of them ($29$\%) had different traces. This result provides evidence that thet accuracy of sandbox approaches will be improved if the traces from entry point to sensitive APIs are considered.
+Then, using the callgraph from executions of both app versions (benign/malicious), we track the differences between their traces. We choose to investigate only app pairs that covered the same set of sensitive APIs detected in both versions during our first experiment (Section~\ref{sec:Sensitive APIs}). Our results show that among $607$ pair apps that had no difference between their sensitive APIs set, 176 of them ($29$\%) had different traces. This result provides evidence that the accuracy of sandbox approaches will be improved if the traces from entry point to sensitive APIs are considered.
 
 Table~\ref{tab:pa} summarizes the results of this investigation. The column \textbf{Same API set (SAPI)} shows the number of app pairs that had the same sensitive APIs explored at the first experiment, i.e, considered as undetected malware. The column \textbf{Trace Diff. (TD)} shows the number of app pairs (among the undetected ones) that have different traces from the entry point to the sensitive method. The column \textbf{Improv. \%} shows how much the malware detection of each tool could have been potentially improved if we considered the trace (calculated using ~\eqref{improve})
 
@@ -112,7 +139,7 @@ Figure~\ref{fig:maliciousTrace} shows an example of trace injected in the malici
 \end{figure}
 
 \begin{obs}{2}{}
- Test generation tools like Droidbot have a blind-spot when it comes to being aware of the trace taken from the entry point to a sensitive API call. Droidbot could have detected $29\%$ of its undetectable malware had it considered trace as a factor.
+ Test generation tools like DroidBot have a blind-spot when it comes to being aware of the trace taken from the entry point to a sensitive API call. DroidBot could have detected $29\%$ of its undetectable malware had it considered trace as a factor.
  \end{obs}
 
 \subsection{Manifest File Analysis}\label{sec:manifestResults}
@@ -172,7 +199,7 @@ Third and fourth columns (DP)(NDP) present how many app pairs out of these conta
 
 \subsection{Insights}\label{sec:implications} \kn{This sounds more like summary of insights than potential implications}
 
-The results presented so far have implications for both practitioners and researchers. We bring evidence that there are blindspots in Android sandbox approaches that if considered as a factor in malware identification, could improve sandbox techniques. In a first step, we present that in our study, the accuracy of sandboxes approach was significantly lower than presented in previous work. That is because our data set is almost $8$ times larger, encompasses a wider range of malware, and covers a diverse range of similarity index within the app pairs, all of which are not considered in previous works. Firstly, our study points out that when using Droidbot to explore sensitive APIs of both versions, it was able to identify $193$ pairs where the set of sensitive APIs differ ($24.12$\%). We also show that among all sensitive APIs explored, \textbf{android.telephony.TelephonyManager: java.lang.String getDeviceId()} were the sensitive APIs most injected in repackaged malicious apps, responsible for $78$ calls among $1592$ observed in our experiment ($4.89\%$)
+The results presented so far have implications for both practitioners and researchers. We bring evidence that there are blindspots in Android sandbox approaches that if considered as a factor in malware identification, could improve sandbox techniques. In a first step, we present that in our study, the accuracy of sandboxes approach was significantly lower than presented in previous work. That is because our data set is almost $8$ times larger, encompasses a wider range of malware, and covers a diverse range of similarity index within the app pairs, all of which are not considered in previous works. Firstly, our study points out that when using DroidBot to explore sensitive APIs of both versions, it was able to identify $193$ pairs where the set of sensitive APIs differ ($24.12$\%). We also show that among all sensitive APIs explored, \textbf{android.telephony.TelephonyManager: java.lang.String getDeviceId()} were the sensitive APIs most injected in repackaged malicious apps, responsible for $78$ calls among $1592$ observed in our experiment ($4.89\%$)
 
 Next, we present a trace analysis which aimed to investigate whether there were different traces between an entry point and an access to any sensitive resource. Our findings indicate that the trace analysis is also effective for malicious apps identification, and could complement mining sandbox approaches. Among $607$ app pairs that were investigated, we observed that $176$ had different traces ($29\%$). The message from these findings is that exploring trace analysis in conjunction with mining sandbox approach is useful for researchers and practitioners to improve malicious app detection tasks. 
 
