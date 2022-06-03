@@ -2,14 +2,14 @@
 
 %\todo[inline]{Review the following paragraph later.}
 
-In this section, we describe our study settings. First we present how we mined the data-set of Android app pairs that will serve as a benchmark for our study (Section~\ref{sec:dataset}).  Then, we describe the data collection procedures used to perform the study (Section~\ref{sec:dataCollectionProc}). Section~\ref{sec:dataAnalysisProc} present our data analysis procedure describing the adaptations we performed on the base setup in order to facilitate the individual analyses (Section~\ref{sec:malwaresetup}, \ref{sec:pathsetup}, \ref{sec:manifestAnalysis}). We finally discuss about similarity index (Section~\ref{sec:similarity}), and hardware setup and configurations used at our experiment at (Section~\ref{sec:hardware}).
+In this section, we describe our study settings. First we present how we mined the data-set of Android app pairs that will serve as a benchmark for our study (Section~\ref{sec:dataset}).  Then, we describe the data collection procedures used to perform the study (Section~\ref{sec:dataCollectionProc}). Section~\ref{sec:dataAnalysisProc} presents our data analysis procedure describing the adaptations we performed on the base setup in order to facilitate the individual analyses (Section~\ref{sec:malwaresetup}, \ref{sec:pathsetup}, \ref{sec:manifestAnalysis}). We finally discuss the hardware setup and configurations used at our experiment at (Section~\ref{sec:hardware}).
 
 
 \subsection{Malware Dataset}\label{sec:dataset}
 
 The majority of existing Android malware correspond to repackaged versions of benign apps from official stores\cite{DBLP:conf/codaspy/ZhouZJN12} 
 %\rb{(we should include a citation here)}
-, though with code that performs malicious tasks. Zhou et al.~\cite{DBLP:conf/sp/ZhouJ12} curated a wide-ranging collection of malware (named Androzoo)~\cite{DBLP:conf/msr/AllixBKT16}, where 80\% of the samples are repackaged versions of benign apps. Our research benefit from Androzoo, since it contains both versions of the apps: the benign and the repackaged version of the apps. Following the mining sandbox approach for malware detection, we need these pairs of apps (benign and malign versions) because, during the exploratory phase, we collect relevant information (such as the set of calls to sensitive APIs) while executing a test case generation tool targeting the benign version of the app. Later, during an analysis phase, we execute the test case generation tool again, though targeting the malicious version of the app.
+, though with code that performs malicious tasks. Zhou et al.~\cite{DBLP:conf/sp/ZhouJ12} curated a wide-ranging collection of malware (named Androzoo)~\cite{DBLP:conf/msr/AllixBKT16}, where 80\% of the samples are repackaged versions of benign apps. Our research benefit from Androzoo, since it contains both versions of the apps: the benign and the repackaged version of the apps. To evaluate mining sandbox approaches for malware detection, we need these pairs of apps (benign and malign versions). During the exploratory phase, we collect relevant information (such as the set of calls to sensitive APIs) while executing a test case generation tool targeting the benign version of the app. Later, during an analysis phase, we execute the test case generation tool again, though targeting the malicious version of the app.
 
 \todo[inline]{We should address these numbers in the threats to validity section. We dropped from a original dataset with 1831 pairs to 824 pairs only, due to problems that happened during the instrumentation / execution phases of the apps. Is it possible to fix this problem in the future?}
 
@@ -20,7 +20,7 @@ Besides having this necessary pairs of apps, Androzoo is a large collection of A
 %  come from Google Play Store, \ldots}
 
 
-\textbf{Differences from previous work: } The previous state of the art work in mining sandbox approaches~\cite{DBLP:conf/wcre/BaoLL18} has a dataset with 102 samples, an average similarity index of $77\%$, and $5$ different malware categories. In contract our dataset is larger and more representative. It has 800 samples, with more than $10$ malware types, and an average similarity index of $62.47\%$. To calculate similarity index~\cite{DBLP:conf/wcre/0029BKT16} we used SimiDroid~\cite{DBLP:conf/trustcom/0029BK17}. It quantifies and qualifies the similarity based on (a) the methods that are either identical or similar in both versions of the apps, (b) methods that only appear in the malicious version of the apps (new methods), and (c) methods that only appear in the benign version of the apps (deleted methods).
+\textbf{Differences from previous work: } The previous state of the art work in mining sandbox approaches~\cite{DBLP:conf/wcre/BaoLL18} has a dataset with 102 samples, an average similarity index of $77\%$, and $5$ different malware categories. In contrast, our dataset is larger and more representative. It has 800 samples, with more than $10$ malware types, and an average similarity index of $62.47\%$. To calculate similarity index~\cite{DBLP:conf/wcre/0029BKT16} we used SimiDroid~\cite{DBLP:conf/trustcom/0029BK17}. It quantifies and qualifies the similarity based on (a) the methods that are either identical or similar in both versions of the apps, (b) methods that only appear in the malicious version of the apps (new methods), and (c) methods that only appear in the benign version of the apps (deleted methods).
 
 %% \begin{itemize}
 %%     \item \textit{identical}: a given method is considered identical if both versions have the same signature and the same implementation
@@ -96,7 +96,7 @@ information about them. To improve the performance across multiple executions,
 this phase executes only once for each version of the apps in our dataset.
 
 \item[(Step 2) Execution:] In this step, DroidXP first installs the (instrumented) version of the APK files in the
-  Android emulator we use in our experiment and then starts a test case generation tools for executing the app. To perform the apps executions, our study build upon DroidBot~\cite{DBLP:conf/icse/LiYGC17} which is considered the state of the art in mining sandbox approaches in terms of accuracy. To also ensure
+  Android emulator we use in our experiment and then starts a test case generation tools for executing the app. To perform the apps executions, our study builds upon DroidBot~\cite{DBLP:conf/icse/LiYGC17} which is considered the state of the art in mining sandbox approaches in terms of accuracy. To also ensure
   that each execution gets the benefit of running on a fresh Android instance without biases that could stem out of history,
   DroidXP wipes out all data stored on the emulator that has been collected from previous executions.
 
@@ -112,7 +112,7 @@ this phase executes only once for each version of the apps in our dataset.
 \subsubsection{Malware Identification} \label{sec:malwaresetup}
 Figure~\ref{fig:sensitiveAPI} illustrates the mining sandbox approach for
 malware identification. We leverage DroidXP to collect the set of sensitive APIs the versions (benign/malign) of the apps call. As a first step, given one benign app version,
-our approach first collects all calls to sensitive APIs from the app code through static analysis. Then, at the execution step,
+our approach first collects all calls to sensitive APIs from the app code through static analysis. Then, during the execution step,
 we use dynamic analysis to collect all calls to sensitive APIs during the DroidBot test case execution. We configure DroidXP to execute DroidBot for a
 period of $3$ minutes. This second analysis is also important since it can disclose some sensitive APIs calls ignored by static analysis.
 Malware may use dynamic features (such as reflection) to introduce malicious behavior, which can change the behavior of of the apps at runtime~\cite{DBLP:journals/spe/ZhangLTX18,DBLP:journals/tosem/LiTX19}.
@@ -148,10 +148,10 @@ in our dataset.
 %\todo[inline]{Handrick, is it possible to run the Trace Analysis for all apps?}
 
 As we discussed in the previous section, we take advantage of DroidXPTrace to build the dynamic call graphs that characterize the execution of each version of the apps in our dataset. Our goal
-here is to explore how many pairs of apps call the same set of sensitive APIs, though using different
+here is to explore how many pairs of apps call the same set of sensitive APIs, though using different call
 traces. We conjecture that differences in the traces might be used to complement the mining sandbox
 approach for malware identification. As such, here we execute the trace
-analysis for all app pairs of our dataset, and check if there is the situations in which the basic version of the mining sandbox approach was not able to correctly classify the malign version of an app as a malware, however it has a different execution trace. For detecting different trace, we performed an evaluation of the dynamic call graph of each pair. Our procedure check if there is some new node, representing a new sensitive API at malicious version, or a new edge($x$, $y$), where $x$ and $y$ indicates a method $x$ calling a sensitive method $y$.
+analysis for all app pairs of our dataset, and check if there is the situations in which the basic version of the mining sandbox approach was not able to correctly classify the malign version of an app as a malware, however it has a different execution trace. For detecting different trace, we performed an evaluation of the dynamic call graph of each pair. Our procedure checks if there is some new node, representing a new sensitive API at malicious version, or a new edge($x$, $y$), where $x$ and $y$ indicates a method $x$ calling a sensitive method $y$.
 
 %\rb{(Not sure if this is the right decision. I do not see any problem in running
 %  this study for all pairs.)}. 
@@ -176,7 +176,7 @@ malicious version follows a different execution trace.
 
 Our work also observed the Manifest file of all app pairs. These files present essential security information which the Android system must make available before executing an app. Among other things, an Android app must specify in the Manifest file the list of necessary permissions and components . Unfortunately, Manifest files are not considered in the basic mining sandbox approach for malware detection, in spite of the fact that one can easily modify such a file and then repackage it in a malicious version of an app~\cite{DBLP:journals/corr/abs-1208-4536}. For instance, by inserting new permission requests or component capabilities (actions). Such injections can happen either manually or through automated scripts.
 
-\todo[inline]{Looks like a naive approach. Note that, malware developers often use advanced techniques in order to hinder security experts detecting the presence of a malicious change in an app---using both static or dynamic analysis. The approach detailed here might be efficient only for poor designed malware. I am discussing this because we are seriously considering submitting this paper to a security venue. The people involved in Usenix Security are dealing with more advanced situations, like malware that changes its behavior when it detects that it is running in um emulator, for instance.}
+%\todo[inline]{Looks like a naive approach. Note that, malware developers often use advanced techniques in order to hinder security experts detecting the presence of a malicious change in an app---using both static or dynamic analysis. The approach detailed here might be efficient only for poor designed malware. I am discussing this because we are seriously considering submitting this paper to a security venue. The people involved in Usenix Security are dealing with more advanced situations, like malware that changes its behavior when it detects that it is running in um emulator, for instance.}
 
 Automated process sometimes generate Manifest file with duplicate permission requests, as the original app might already contain the permission request. Such duplication also happens when repackaged apps add a component with a capability which was requested by another component. On top of this, our manifest analysis also allows us to monitor suspicious new permissions or excessive amounts of permissions. 
 
