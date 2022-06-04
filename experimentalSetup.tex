@@ -55,32 +55,6 @@ and $0.75$  and $379\%$ of app pairs more than $0.75$).. To calculate similarity
 \subsection{Data Collection Procedures} \label{sec:dataCollectionProc}
 
 
-\begin{comment}
-
-\subsection{Infrastructure}\label{sec:infra}
-
-%\kn{We currently only use one test generation tool. The following paragraph needs to be adjusted to reflect that} 
-%For our study, we require an extensive infrastructure that will allow us to integrate different test case generation tools. To this end, we used and extended% DroidXP\cite{DBLP:conf/scam/CostaMCMVBC20}, a benchmark tool that allows researchers and developers, to integrate and compare test case generation tools for% mining sandboxes.
-
-Using DroidXP, test case generation tools can be integrated and deployed easily~\footnote{The DroidXP benchmark is available at https://github.com/droidxp/benchmark}. Another reason to use DroidXP is that it relies on DROIDFAX~\cite{cai2016understanding}, which allowed us to instruments Android apps and collect important information about their execution. For example, this can be used to query for the calls to the sensitive APIs from an app during executions which is important to monitor malicious behavior. 
-
-%\kn{I have commented out the following and shortened it as this is too verbose information about DroidXP's tooling}
-The DroidXP relies on a Simple Command Line (CLI) that  provides commands for execution of different experiments with several setup, following parameters:
-\newline
-\newline
-\textbf{DroidXP:} python main.py [-h] [--list-tools] [-tools] toolName [-t] timeSeconds [-r] repetition [--list-outputs] [--output] output [--debug] [--version]\newline
-\newline
-One can show help message [-h], list available test generation tools [--list-tools], test tools used in the experiment (toolName), threshold of the execution time in the experiment (timeSeconds), number of repetitions used in the experiment (repetition), list available output formats [--list-outputs], output formtat that will be used to show results (default: basic) (output),
-run in DEBUG mode (default: false) [--debug] and print DroidXP version [--version].
-
-Follow an example of a command line that executes DroidXP for three minutes (180 seconds), at test generation tools Monkey, repeating all the performance three times, and outputting the final result at a CSV file format:
-\newline
-\newline
-\textbf{python main.py -tools monkey -t 180 -r 3 --output csv}
-\newline
-\end{comment}
-
-
 We take advantage of the DroidXP infrastructure~\cite{DBLP:conf/scam/CostaMCMVBC20}
 for data collection. DroidXP allows researchers to compare 
 test case generation tools for malware identification using the
@@ -118,10 +92,10 @@ our approach first collects all calls to sensitive APIs from the app code throug
 we use dynamic analysis to collect all calls to sensitive APIs during the DroidBot test case execution. We configure DroidXP to execute DroidBot for a
 period of $3$ minutes. This second analysis is also important since it can disclose some sensitive APIs calls ignored by static analysis.
 Malware may use dynamic features (such as reflection) to introduce malicious behavior, which can change the behavior of of the apps at runtime~\cite{DBLP:journals/spe/ZhangLTX18,DBLP:journals/tosem/LiTX19}.
-The instrumentation step is made once, while we execute the dynamic analysis $3$ times. The result of instrumentation and all executions is finally joined,
-forming a final set of that contains all identified calls to sensitive APIs coming from the benign version of the app. We carry out the same procedure for the malicious version of the apps,
+The static analysis step is made once, while we execute the dynamic analysis $3$ times. The result of static analysis and all executions is finally joined,
+forming a final set of that contains all identified calls to sensitive APIs coming from the benign version of the app, as described at Figure~\ref{fig:sensitiveAPI}: ($I_{ns}, E_1$, $E_2$, $E_3$). We carry out the same procedure for the malicious version of the apps,
 creating a distinct set of calls to sensitive APIs (now coming from the malicious version of the apps). In
-a final step, we compare the two sets of calls to sensitive APIs. We use the following rules to
+a final step, we compare the two sets of calls to sensitive APIs ($Set_B, Set_M$). We use the following rules to
 check for a malicious behavior. 
 
 \begin{enumerate}
@@ -187,7 +161,7 @@ To extract and analyze the Manifest file, we used an in-house Android SDK analyz
 %\kn{app-8 according to what table? reference please}. 
 
 \begin{lstlisting}[caption={Example of duplicated permission from malicious version of app (com.ifeel.frogjump)}, language=Java,
-    basicstyle=\fontsize{6}{5}\selectfont\ttfamily,
+    basicstyle=\fontsize{5}{4}\selectfont\ttfamily,
     label={lst:androidManifestDupli}]
 
 13:M >  <uses-permission
@@ -224,7 +198,7 @@ To extract and analyze the Manifest file, we used an in-house Android SDK analyz
 \end{lstlisting}
 
 \begin{lstlisting}[caption={An example of duplicated component capability from malicious version of app (com.koushikdutta.superuser)}, language=Java,
-    basicstyle=\fontsize{6}{5}\selectfont\ttfamily,
+    basicstyle=\fontsize{5}{4}\selectfont\ttfamily,
     label={lst:androidManifestAction}]
 
 101:M > <receiver

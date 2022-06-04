@@ -35,9 +35,8 @@ This indicates that when presented with a more representative dataset, the accur
 %  since we already know the contrary} indicating most of their apps were similar to each other.  
 
 Our exploration of all sensitive APIs called by all app pairs brought to the light the most frequently abused sensitive APIs that
-appear in the repackaged, malicious version of the apps.
-We observed that our experiments called a sensitive API for a total of $1592$ times (from our list of 162 sensitive APIs), calling at least $75$
-sensitive APIs one time. $16$ APIs account for more than half of all calls ($51.06$\%) \rb{I could not understand the previous sentence}.
+appear in the repackaged, malicious version of the apps. We observed that when executed all 800 app pair, DroidBot called $75$ sensitive APIs at least one time (from our list of 162 sensitive APIs). Among them, $16$ APIs account for more than half of all calls ($51.06$\%).
+%\rb{I could not understand the previous sentence}.
 The sensitive API abused most by repackaged apps turned out to be \textbf{android.telephony.TelephonyManager: java.lang.String getDeviceId()}, which gets the device
 IMEI\footnote{From Wikipedia: International Mobile Equipment Identity (IMEI) is a number, usually unique, to identify 3GPP and iDEN mobile phones.}.
 Table~\ref{tab:APIused} presents the list of the most frequent sensitive APIs that only the malicious
@@ -49,12 +48,16 @@ With these results, we observe that DroidBot suffers from a significantly low ac
 which encouraged us to endorse
 efforts aimed at identifying potential blindspots with such approaches and eventually answering R2 and R3.
 
+
+
 %\begin{landscape}
 \begin{table*}[t]
+ \scriptsize
   \caption{Sensitive APIs more used by repackage apps}
   \centering
-  \begin{small}
+  %\begin{small}
  \begin{tabular}{lc}
+
    \toprule
    Sensitive API & Occurrences \\
    \midrule
@@ -85,14 +88,14 @@ efforts aimed at identifying potential blindspots with such approaches and event
                             Total & 1592 \\
 
  \end{tabular}
- \end{small}
+ %\end{small}
  \label{tab:APIused}
 \end{table*}
 %\end{landscape}
 
 \begin{obs}{1}{}
    %\kn{Here we need to add some final take aways of the reproduction study}
-   Our results indicate that in the presence of a representative dataset ($800$ app pairs as opposed to $102$ and a diverse similarity index), the accuracy of state of the art in mining sandbox approaches, DroidBot drops significantly (from $X\%$ to $Y\%$). Our results also indicate that only few sensitive APIs are responsible for majority of injected malware in repackaged apps. This encourages the emergence of new proposals that can support mine sandbox mitigating \textit{blindspot}s that lead to low accuracy.
+   Our results indicate that in the presence of a representative dataset ($800$ app pairs as opposed to $102$ and a diverse similarity index), the accuracy of state of the art in mining sandbox approaches, using DroidBot drops significantly (from $63.36\%$ to $24.12\%$). Our results also indicate that only few sensitive APIs are responsible for majority of injected malware in repackaged apps. This encourages the emergence of new proposals that can support mine sandbox mitigating \textit{blindspot}s that lead to low accuracy.
  \end{obs}
 
 
