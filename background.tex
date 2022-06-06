@@ -3,8 +3,8 @@
 %% In this section, we introduce the concepts and terminology that are necessary to understand the reminder of this paper. First, Section~\ref{sec:sand} introduces some background information about \emph{sandboxes} within the security context. Section~\ref{sec:repackage} presents background information about repackaged application and how they introduce malicious behavior.
 %% Finally, in Section~\ref{sec:android-sandbox} we review the \emph{mining sandbox approach} for detecting repackaged Android apps.
 
-The Android bytecode language~\cite{DBLP:conf/issta/WangGMC15} favors reverse engineer tasks. That is, software developers can easily reverse-engineer real apps (benign), modify their contents by inserting malicious code (malware), repackage them with the malicious payloads, and re-advertise them in the official market, Google Play Store, or other markets. Repackage Android apps can leverage the popularity of real apps, to increase its propagation and spread malware.  
-Repackaging has been raised as a great security problem in Android ecosystem by stakeholders in the app development industry and researchers. There are works~\cite{DBLP:conf/sigmetrics/ViennotGN14} claiming that about 25\% of Google Play Store app content is repackaging apps. Nevertheless, all the workload to detect and remove malware from markets by the stores (official and no official), have not been accurate enough to address the problem as fast as possible. As a result, repackaged Android apps follow threatening security and privacy of unsuspicious Android app users, beyond compromising the copyright of the original developer~\cite{DBLP:journals/access/KimLCP19}. Aiming at
+The Android bytecode language~\cite{DBLP:conf/issta/WangGMC15} favors reverse engineer tasks. That is, software developers can easily reverse-engineer real apps (benign), modify their contents by inserting malicious code (malware), repackage them with the malicious payloads, and re-advertise them in the official market, Google Play Store, or other markets. Repackaged Android apps can leverage the popularity of real apps, to increase its propagation and spread malware.  
+Repackaging has been raised as a great security problem in Android ecosystem by stakeholders in the app development industry and researchers. There are works~\cite{DBLP:conf/sigmetrics/ViennotGN14} claiming that about 25\% of Google Play Store app content is repackaged apps. Nevertheless, all the workload to detect and remove malware from markets by the stores (official and no official), have not been accurate enough to address the problem as fast as possible. As a result, repackaged Android apps threaten security and privacy of unsuspicious Android app users, beyond compromising the copyright of the original developer~\cite{DBLP:journals/access/KimLCP19}. Aiming at
 mitigating this threat, static and dynamic analysis approaches have been proposed.
 
 \subsection{Dynamic and Static Analysis on Android apps}\label{sec:analysis}
@@ -13,29 +13,26 @@ There is a large body of work that explores the use of program analysis techniqu
 
 Several works have been proposed to detect malware based on sensitive method calls and permission control~\cite{DBLP:conf/mobicom/WeiGNF12,DBLP:conf/asiajcis/WuMWLW12,DBLP:conf/sp/LiDLDG21}. Cai et al.~\cite{DBLP:journals/tse/CaiR21} presented a longitudinal study on Android apps focusing on run-time behaviors. However, this work does not focus specifically on malware detection but on general security gaps in apps by considering only benign apps. Fangfang et al.~\cite{DBLP:conf/wisec/ZhangHZW014} proposed ViewDroid, which models the UIs of Android apps as a directed graph. Although ViewDroid also works by comparing app pairs to identify repackaged apps, their focus is UI centric.
 
-On static analysis approaches exploring Android Manifest files, Kim et al. proposed RomaDroid~\cite{DBLP:journals/access/KimLCP19}.  Their approach does not consider the structural context in Manifest files, but rather treat the files as sequence of strings and perform a lowest common subsequence (LCS) based approach to detect repackaged apps. Au el al.~\cite{DBLP:conf/ccs/AuZHL12} also apply static analysis on Android Manifest files to detect vulnerabilities in Android apps. They do this by mapping requested permissions to sensitive API calls in the code.
+On static analysis approaches exploring Android Manifest files, Kim et al. proposed RomaDroid~\cite{DBLP:journals/access/KimLCP19}.  Their approach does not consider the content and security relevant semantic information (such as permissions) in Manifest files, but rather treat the files as sequence of strings and perform a lowest common subsequence (LCS) based approach to detect repackaged apps. Au el al.~\cite{DBLP:conf/ccs/AuZHL12} also apply static analysis on Android Manifest files to detect vulnerabilities in Android apps. They do this by mapping requested permissions to sensitive API calls in the code. \kn{How is this approach different from ours? }
 
-Li et al.~\cite{DBLP:journals/tifs/0029LBKTLC17} provided a systematic knowledge on Android malware by conducting an empirical study comparing malicious repackage app with their benign counterparts (1,497 app pairs). They found that the majority of Android malware are repackaged versions of benign apps that do not do anything complex modifications, many times simply reusing library code.
-
-In the domain of detecting repackaged apps by comparing app pairs, Crussell et al.~\cite{DBLP:conf/esorics/CrussellGC12} proposed  DNADroid, which compares program dependence graphs, and Zhou et al.~\cite{DBLP:conf/codaspy/ZhouZJN12} DroidMoss which detects and analyzes repackaged apps using a fuzzy hashing technique. 
+Li et al.~\cite{DBLP:journals/tifs/0029LBKTLC17} provided a systematic knowledge of Android malware by conducting an empirical study comparing malicious repackaged apps with their benign counterparts (1,497 app pairs). They found that the majority of Android malware are repackaged versions of benign apps that do not perform any complex modifications, many times simply reusing library code.  In the domain of detecting repackaged apps by comparing app pairs, Crussell et al.~\cite{DBLP:conf/esorics/CrussellGC12} proposed  DNADroid, which compares program dependence graphs, and Zhou et al.~\cite{DBLP:conf/codaspy/ZhouZJN12} proposed DroidMoss, which detects and analyzes repackaged apps using a fuzzy hashing technique. The insights from the above mentioned works re-emphasize the need to ensure approaches that work on detecting repackaged apps have a good accuracy. 
 
 \subsection{Mining Android Sandboxes}\label{sec:android-sandbox}
 
 A \emph{sandbox}
-is a well-known mechanism to secure a system and forbid a software component to access
-resources that it is not allowed to. Sandboxes have also been used to build an isolated
-environment on an electronic device within which applications cannot affect other programs, the network, or other device data~\cite{DBLP:journals/peerj-cs/MaassSCS16}. In this scenario, the idea of using sandboxes emerged from the
-need to testing unsafe software, possible malware, without worrying about the integrity of the
-device under test~\cite{DBLP:conf/esorics/BordoniCS17}, shielding the operation system from any security issue.
-To ensure safety, a sandbox environment should have the minimum requirements to run the
-program (make sure the program will not escape the sandbox), and make sure it will never
-assign the program greater privileges than it should have, working with the principle of
+is a well-known mechanism to secure a system and forbid a software component from accessing
+resources without appropriate permissions. Sandboxes have also been used to build an isolated
+environment within which applications cannot affect other programs, the network, or other device data~\cite{DBLP:journals/peerj-cs/MaassSCS16}. The idea of using sandboxes emerged from the
+need to test unsafe software, possible malware, without worrying about the integrity of the
+device under test~\cite{DBLP:conf/esorics/BordoniCS17}, shielding the operating system from security issues.
+To this end, a sandbox environment should have the minimum requirements to run the
+program (make sure the program will not spill out of the sandbox), and make sure it will never
+assign the program greater privileges than it should have, respecting the principle of
 \emph{least privilege}. This principle ensures unauthorized access to resources,
-improving the system's overall health. Regarding Android ecosystem, the principle
-of the \emph{least privilege} is ensured by sandboxing too,
-where apps never access direct resources or data of other apps. Access to sensitives resources
+improving the system's overall health. Within the Android ecosystem, sandbox approaches ensure the principle
+of the \emph{least privilege} is ensured by preventing apps from having direct access to resources or data from other apps. Access to sensitives resources
 like contacts list is granted through specific APIs (Application Programming Interface),
-which are managed by permissions~\cite{DBLP:journals/corr/abs-2109-06613}. 
+which are managed by permissions system~\cite{DBLP:journals/corr/abs-2109-06613}. 
 
 %% The main market source for Android apps is Google Play Store. Unfortunately, it has
 %% a flexible policy regarding the process of publishing apps, and therefore, many Android apps are removed from the
@@ -67,25 +64,24 @@ malicious apps~\cite{DBLP:conf/issta/0029BOK16}. Figure~\ref{fig:mineSandbox}  s
  \label{fig:mineSandbox}
 \end{figure}
 
-The Mining Android Sandbox approach accuracy suggests a close relationship with the
-efficiency of the exploratory phase. The more efficient the test generator
+From the summarization of the mining sandbox process, one can infer that the more efficient the test generator
 tools (for instance, in terms of code coverage), the more accurate would be the resulting
 sandbox. Besides being used to generate Android sandboxes, the Mining Android Sandbox approach is also effective 
 to classify malwares~\cite{DBLP:conf/wcre/BaoLL18}.  In this scenario, the \emph{effectiveness} of the approach
-is estimated in terms of repackage/malware identification.
-Previous studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:conf/scam/CostaMCMVBC20} that explored the effectiveness of mine sandboxes,
-investigating and comparing the performance of different test generator tools,
-with diverse exploratory strategies.
+is estimated in terms of accuracy in which repackaged apps are identified.
 
-\subsection{The Mining Android Sandbox Approach for Malware Identification}
 
-The focus of our paper is in approaches that mine android sandboxes to classify Android Malware.
-There is a vast body of research in this direction. 
-Bao et al.~\cite{DBLP:conf/wcre/BaoLL18} conducted an empirical study to investigate the effectiveness of mining android sandbox
-approaches
-for detecting malware, exploring test generation tools, including Droidmate. The authors found that, in general, the sandboxes constructed by test generator tools can detect more than $70$\% malicious apps in a dataset comprising $102$ pairs (benign/malicious). The study also presented that among 5 test generation tools used, DroidBot~\cite{DBLP:conf/icse/LiYGC17} leads to the most effective sandbox.
+\kn{I have commented out the subsection here as it seems redundant with the previous subsection}
+%\subsection{The Mining Android Sandbox Approach for Malware Identification}
+
+%The focus of our paper is in approaches that mine android sandboxes to classify Android Malware.
+%There is a vast body of research in this direction. 
+
+
+Costa et al.~\cite{DBLP:conf/wcre/BaoLL18,DBLP:conf/scam/CostaMCMVBC20} and Bao et al.~\cite{DBLP:conf/wcre/BaoLL18} conducted an empirical study to investigate the effectiveness of mining android sandbox
+approaches, exploring test generation tools, including Droidmate. The authors found that, in general, the sandboxes constructed using test generators can detect more than $70$\% malicious apps in a dataset comprising $102$ pairs (benign/malicious). The study also presented that among $5$ test generation tools used, DroidBot~\cite{DBLP:conf/icse/LiYGC17} is the most effective sandbox.
 Le et al.~\cite{le2018towards} extend the work of Bao et al. by combining more categories of sensitive APIs, and also considering the impact of
-actual arguments on the sandboxes definition. Costa et al.\cite{DBLP:journals/jss/CostaMMSSBNR22} investigated the impact of static analysis to complement the accuracy of dynamic analysis tools for mining sandboxes, in terms of malware detection. The study found that the static analysis alone could detect almost half of repackage apps in a dataset of $96$ pairs.
+actual arguments \kn{What arguments? function parameters?} on the sandboxes definition. Costa et al.\cite{DBLP:journals/jss/CostaMMSSBNR22} investigated the impact of static analysis to complement the accuracy of dynamic analysis tools for mining sandboxes. The study found that the static analysis alone could detect almost half of repackaged apps in a dataset of $96$ pairs.
 
 %\todo[inline]{I could not understand why we did not cite our JSS work here}
 %However, none of the aforementioned studies
@@ -94,4 +90,4 @@ actual arguments on the sandboxes definition. Costa et al.\cite{DBLP:journals/js
 %possibility that trace analysis using call graph or analysis of
 % the manifest file could complement the mining sandbox approach for malware identification.
 
-Our work, although closely related to previous studies, differs from them in several aspects. We present a broader assessment of the effectiveness of the mining sandbox approach for malware identification, resulting in the first in depth characterization of the calls to sensitive APIs that frequently appear in the repackage version of the apps. Our assessment is also more comprehensive: instead of considering $102$ pairs of benign/malign apps, we execute our study consider {\color{red}800} pairs of apps. We also explore two possible strategies to complement the mining sandbox approach for malware identification. The first explores the impact of dynamic call graphs through the comparisons of traces from entry point to the calls to sensitive APIs that result from the executions of the benign and malign versions of an app. The second explores suspicious change patterns in the Android Manifest file of the apps, using a simple, yet effective, static analysis approach.
+Our work, although closely related to previous studies, differs from them in several aspects.  Firstly, our assessment is more comprehensive: instead of considering $102$ pairs of benign/malign apps, we execute our study consider {\color{red}800} pairs of apps. Secondly, we also explore two possible strategies to complement the mining sandbox approach for malware identification. The first explores the impact of dynamic call graphs by comparing traces from entry point to the calls to sensitive APIs that result from the executions of the benign and malign versions of an app. The second explores suspicious change patterns in the manifest files of repackaged apps. Finally, our work is the first to present an in-depth characterization of the calls to sensitive APIs that frequently appear in the repackaged version of the apps.
