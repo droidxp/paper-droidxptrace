@@ -20,9 +20,8 @@ Besides having this necessary pairs of apps, Androzoo is a large collection of A
 %  come from Google Play Store, \ldots}
 
 
-\textbf{Differences from previous work: } The previous state of the art work in mining sandbox approaches~\cite{DBLP:conf/wcre/BaoLL18} has a dataset with 102 samples, an average similarity index of $77\%$, and $5$ different malware categories. In contrast, our dataset is larger and more representative. It has 800 samples, with more than $10$ malware types, and an average similarity index of $62.47\%$ with a much better distribution ($157\%$ of
-app pairs have a similarity score of less than $0.25$, $104\%$ of app pairs between $0.25$ and $0.50$, $160\%$ of app pairs between $0.5$
-and $0.75$  and $379\%$ of app pairs more than $0.75$).. To calculate similarity index~\cite{DBLP:conf/wcre/0029BKT16} we used SimiDroid~\cite{DBLP:conf/trustcom/0029BK17}. It quantifies and qualifies the similarity based on (a) the methods that are either identical or similar in both versions of the apps, (b) methods that only appear in the malicious version of the apps (new methods), and (c) methods that only appear in the benign version of the apps (deleted methods). 
+\textbf{Differences from previous work: } The previous state of the art work in mining sandbox approaches~\cite{DBLP:conf/wcre/BaoLL18} has a dataset with 102 samples, an average similarity index of $77\%$, and $5$ different malware categories. In contrast, our dataset is larger and more representative. It has 800 samples, and according to the Euphony\cite{hurier2017euphony} tool, more than $10$ malware types. It also has an average similarity index of $62.47\%$ with a much better distribution ($157\%$ of
+app pairs have a similarity score of less than $0.25$, $104\%$ of app pairs between $0.25$ and $0.50$, $160\%$ of app pairs between $0.5$ and $0.75$  and $379\%$ of app pairs more than $0.75$). To calculate similarity index~\cite{DBLP:conf/wcre/0029BKT16} we used SimiDroid~\cite{DBLP:conf/trustcom/0029BK17}. It quantifies and qualifies the similarity based on (a) the methods that are either identical or similar in both versions of the apps, (b) methods that only appear in the malicious version of the apps (new methods), and (c) methods that only appear in the benign version of the apps (deleted methods). 
 
 %% \begin{itemize}
 %%     \item \textit{identical}: a given method is considered identical if both versions have the same signature and the same implementation
@@ -93,7 +92,7 @@ we use dynamic analysis to collect all calls to sensitive APIs during the DroidB
 period of $3$ minutes. This second analysis is also important since it can disclose some sensitive APIs calls ignored by static analysis.
 Malware may use dynamic features (such as reflection) to introduce malicious behavior, which can change the behavior of of the apps at runtime~\cite{DBLP:journals/spe/ZhangLTX18,DBLP:journals/tosem/LiTX19}.
 The static analysis step is made once, while we execute the dynamic analysis $3$ times. The result of static analysis and all executions is finally joined,
-forming a final set of that contains all identified calls to sensitive APIs coming from the benign version of the app, as described at Figure~\ref{fig:sensitiveAPI}: ($I_{ns}, E_1$, $E_2$, $E_3$). We carry out the same procedure for the malicious version of the apps,
+forming a final set of that contains all identified calls to sensitive APIs coming from the benign version of the app, as described at Figure~\ref{fig:sensitiveAPI}: ($S_{A}$, $D_{A1}$, $D_{A2}$, $D_{A3}$). We carry out the same procedure for the malicious version of the apps,
 creating a distinct set of calls to sensitive APIs (now coming from the malicious version of the apps). In
 a final step, we compare the two sets of calls to sensitive APIs ($Set_B, Set_M$). We use the following rules to
 check for a malicious behavior. 
