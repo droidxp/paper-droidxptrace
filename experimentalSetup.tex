@@ -11,16 +11,16 @@ We use two datasets in our research:
 
 \begin{description}
 \item[Small dataset] The small dataset comes from the work of Bao et al.~\cite{DBLP:conf/wcre/BaoLL18} and contains a set of 112 pairs of benign and malicious piggybacked apps. This is a curated
-  set of pairs the authors were able to integrate in their research, from an initial list of \num{2750} piggybacked apps available in the AndroiZoo repository~\cite{DBLP:conf/msr/AllixBKT16} at that time. Due to compatibility
-  issues, either with DroidFax or with the Android emulation tool, they selected only 112 pairs of apps in their study. Here we faced similar compatibiliy issues, and our small dataset
-  builds uppon 101 pairs of benign and malicious apps starting from the original 112 pairs of apps in the Bao et al. work~\cite{DBLP:conf/wcre/BaoLL18}. 
+  set of pairs the authors were able to integrate in their research, from an initial list of \num{2750} piggybacked apps available in the AndroZoo repository~\cite{DBLP:conf/msr/AllixBKT16} at that time. Due to compatibility
+  issues, either with DroidFax or with the Android emulation tool, they selected only 112 pairs of apps in their study. Here we faced similar compatibility issues, and our small dataset
+  builds upon 101 pairs of benign and malicious apps starting from the original 112 pairs of apps in the Bao et al. work~\cite{DBLP:conf/wcre/BaoLL18}. 
 \item[Complete dataset] Our complete dataset extends the smaller one with additional 699 apps we selected using the same procedures from the Bao et al. work~\cite{DBLP:conf/wcre/BaoLL18}, though
   using a larger initial set from AndroZoo, which we automatically collected in a time frame of 20 hours, and fixing compatibility issues with the Android emulator. In the end,
   our procedures enabled us run the mining sandbox approach for malware detection in a total of 800 pairs of apps.   
 \end{description}  
   
 \textbf{Differences from previous work: } In summary, the previous state of the art work in mining sandbox approaches~\cite{DBLP:conf/wcre/BaoLL18} has a dataset with 112 samples, an average similarity index of $77\%$, and $5$ different malware categories. In contrast, our complete dataset is larger and more representative. It has 800 samples, and according to the Euphony\cite{hurier2017euphony} tool, more than $10$ malware categories. It also has an average similarity index of $62.47\%$ with a much better distribution ($157\%$ of
-app pairs have a similarity score of less than $0.25$, $104\%$ of app pairs between $0.25$ and $0.50$, $160\%$ of app pairs between $0.5$ and $0.75$  and $379\%$ of app pairs more than $0.75$). To calculate similarity index~\cite{DBLP:conf/wcre/0029BKT16} we used SimiDroid~\cite{DBLP:conf/trustcom/0029BK17} tool. It quantifies and qualifies the similarity based on (a) the methods that are either identical or similar in both versions of the apps, (b) methods that only appear in the malicious version of the apps (new methods), and (c) methods that only appear in the benign version of the apps (deleted methods). It is important to highlight that the examples of apps in AndroZoo come from diffeent Android app stores. In particular,
+app pairs have a similarity score of less than $0.25$, $104\%$ of app pairs between $0.25$ and $0.50$, $160\%$ of app pairs between $0.5$ and $0.75$  and $379\%$ of app pairs more than $0.75$). To calculate similarity index~\cite{DBLP:conf/wcre/0029BKT16} we used SimiDroid~\cite{DBLP:conf/trustcom/0029BK17} tool. It quantifies and qualifies the similarity based on (a) the methods that are either identical or similar in both versions of the apps, (b) methods that only appear in the malicious version of the apps (new methods), and (c) methods that only appear in the benign version of the apps (deleted methods). It is important to highlight that the examples of apps in AndroZoo come from different Android app stores. In particular,
 Figure~\ref{fig:stores} summarizes the stores were the apps in our complete dataset come from.  
 
 %% \begin{itemize}
@@ -249,7 +249,7 @@ Listing~\ref{lst:androidManifestDupli} suggests that the four first requested pe
 
 We deployed our experiment on a 32-Core, AMD EPYC 7542 CPU, 512 GB RAM, storage Samsung SSD 970 EVO 1TB machine running a 64-bit Debian  GNU/Linux 11. We also configured our emulator to run all selected apps on Google Android version 9.0, API 28, 512M SD Card, 7GB internal storage, with X86 ABI image.
 
-For our study, we configured DroidXP to run each of the $800$ app pairs using Droidbot for three minutes. To mitigate noise, we repeated the full process three times which took in total ($800 \times 2$ apps (benign/malicious) $\times 3$ runs $\times 3$ min) + ($800 \times 2$ apps $\times 1.5$ min for emulator reboot) $\apeq 240$ machine hours.
+For our study, we configured DroidXP to run each of the $800$ app pairs using DroidBot for three minutes. To mitigate noise, we repeated the full process three times which took in total ($800 \times 2$ apps (benign/malicious) $\times 3$ runs $\times 3$ min) + ($800 \times 2$ apps $\times 1.5$ min for emulator reboot) $\apeq 240$ machine hours.
 %\kn{This number needs to be changed here too. I suggest introducing a macro for this and using it everywhere to make sure everytime our experiment evolves, we don't need to change this everywhere} 
 
 %\kn{Initial? Was there a follow up study, if not please use only study. This is feedback for all instances with the word initial}
