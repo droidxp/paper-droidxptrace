@@ -2,24 +2,24 @@
 
 %\todo[inline]{Review the following paragraph later.}
 
-In this section, we describe our study settings. First we present how we mined the data-set of Android app pairs that will serve as a benchmark for our study (Section~\ref{sec:dataset}).  Then, we describe the data collection procedures used to perform the study (Section~\ref{sec:dataCollectionProc}). Section~\ref{sec:dataAnalysisProc} presents our data analysis procedure describing the adaptations we performed on the base setup in order to facilitate the individual analyses (Section~\ref{sec:malwaresetup}, \ref{sec:pathsetup}, \ref{sec:manifestAnalysis}). We finally discuss the hardware setup and configurations used at our experiment at (Section~\ref{sec:hardware}).
+In this section, we describe our study settings. First, we present how we mined the data-set of Android app pairs that will serve as a benchmark for our study (Section~\ref{sec:dataset}).  Then, we describe the data collection procedures used to perform the study (Section~\ref{sec:dataCollectionProc}). Section~\ref{sec:dataAnalysisProc} presents our data analysis procedure describing the adaptations we performed on the base setup in order to facilitate the individual analyses (Section~\ref{sec:malwaresetup}, \ref{sec:pathsetup}, \ref{sec:manifestAnalysis}). We finally discuss the hardware setup and configurations used at our experiment at (Section~\ref{sec:hardware}).
 
 
 \subsection{Malware Dataset}\label{sec:dataset}
 
-We use two datasets in our research:
+We use two datasets for answering research questions in our work:
 
 \begin{description}
-\item[Small dataset] The small dataset comes from the work of Bao et al.~\cite{DBLP:conf/wcre/BaoLL18} and contains a set of 102 pairs of benign and malicious piggybacked apps. This is a curated
+\item[Small dataset] The small dataset is based on the work of Bao et al.~\cite{DBLP:conf/wcre/BaoLL18} and contains a set of $102$ pairs of benign and malicious piggybacked (repackaged) apps. This is a curated
   set of pairs the authors were able to integrate in their research, from an initial list of \num{2750} piggybacked apps available in the AndroZoo repository~\cite{DBLP:conf/msr/AllixBKT16} at that time. Due to compatibility
-  issues, either with DroidFax or with the Android emulation tool, they selected only 102 pairs of apps in their study. Here we faced similar compatibility issues, and our small dataset
-  builds upon 101 pairs of benign and malicious apps starting from the original 102 pairs of apps in the Bao et al. work~\cite{DBLP:conf/wcre/BaoLL18}. 
-\item[Complete dataset] Our complete dataset extends the smaller one with additional 699 apps we selected using the same procedures from the Bao et al. work~\cite{DBLP:conf/wcre/BaoLL18}, though
+  issues, either with DroidFax or with the Android emulation tool, they selected only 102 pairs of apps in their study. Here, we faced similar compatibility issues, and our small dataset
+  builds upon $101$ pairs of benign and malicious apps starting from the original 102 pairs of apps in the Bao et al. work~\cite{DBLP:conf/wcre/BaoLL18}.  \kn{Here we need to add a line detailing the one app that was missing from Bao and what the issue was here.}
+\item[Complete dataset] Our complete dataset extends the smaller one with additional $699$ apps we selected using the same procedures from the Bao et al. work~\cite{DBLP:conf/wcre/BaoLL18}, though
   using a larger initial set from AndroZoo, which we automatically collected in a time frame of 20 hours, and fixing compatibility issues with the Android emulator. In the end,
-  our procedures enabled us to run the mining sandbox approach for malware detection in a total of 800 pairs of apps.   
+  our procedures enabled us to run the mining sandbox approach in a total of $800$ pairs of apps.   
 \end{description}  
   
-\textbf{Differences from previous work: } In summary, the previous state of the art work in mining sandbox approaches~\cite{DBLP:conf/wcre/BaoLL18} has a dataset with 102 samples, an average similarity index of $77\%$, and $5$ different malware categories. In contrast, our complete dataset is larger and more representative. It has 800 samples, and according to the Euphony\cite{hurier2017euphony} tool, more than $10$ malware categories. It also has an average similarity index of $62.47\%$ with a much better distribution ($157\%$ of
+\textbf{Differences from previous work: } In summary, the previous state of the art work in mining sandbox approaches~\cite{DBLP:conf/wcre/BaoLL18} had a dataset with $102$ samples, an average similarity index of $77\%$, and $5$ different malware categories. In contrast, our complete dataset is larger and more representative. It has $800$ samples, and according to the Euphony\cite{hurier2017euphony} tool, more than $10$ malware categories. \kn{How was the malware categories measured for the small dataset. If euophny was used for both of them, we should consider adding this as an implementation detail on how we measured similarity instead of making it look like we dont claim responsibility for this categorization} It also has an average similarity index of $62.47\%$ with a much better distribution ($157\%$ of
 app pairs have a similarity score of less than $0.25$, $104\%$ of app pairs between $0.25$ and $0.50$, $160\%$ of app pairs between $0.5$ and $0.75$  and $379\%$ of app pairs more than $0.75$). To calculate similarity index~\cite{DBLP:conf/wcre/0029BKT16} we used SimiDroid~\cite{DBLP:conf/trustcom/0029BK17} tool. It quantifies and qualifies the similarity based on (a) the methods that are either identical or similar in both versions of the apps, (b) methods that only appear in the malicious version of the apps (new methods), and (c) methods that only appear in the benign version of the apps (deleted methods). It is important to highlight that the examples of apps in AndroZoo come from different Android app stores. In particular,
 Figure~\ref{fig:stores} summarizes the stores were the apps in our complete dataset come from.  
 
@@ -64,14 +64,13 @@ is also useful for supporting the following steps of our study.
 \begin{description}
  \item[(Step 1) Instrumentation:] In the first step,
 we configure DroidXP to instrument all pairs of apps in our dataset.
-Here, we instrument both versions of the apps (APK files) so that
-we can collect relevant information during their execution. Under the hood, DroidXP leverages
+Here, we instrument both versions of the apps (as APK files) to collect relevant information during their execution. Under the hood, DroidXP leverages
 DroidFax~\cite{DBLP:conf/icsm/CaiR17a} to instrument the apps and collect static
 information about them. To improve the performance across multiple executions,
 this phase executes only once for each version of the apps in our dataset.
 
 \item[(Step 2) Execution:] In this step, DroidXP first installs the (instrumented) version of the APK files in the
-  Android emulator we use in our experiment and then starts a test case generation tools for executing the app. To perform the apps executions, our study builds upon DroidBot~\cite{DBLP:conf/icse/LiYGC17} which is considered the state of the art in mining sandbox approaches in terms of accuracy. To also ensure
+  Android emulator we use in our experiment and then starts a test case generation tool for executing the app. To execute the app, our study builds upon DroidBot~\cite{DBLP:conf/icse/LiYGC17} which is considered the state of the art in mining sandbox approaches in terms of accuracy. To also ensure
   that each execution gets the benefit of running on a fresh Android instance without biases that could stem out of history,
   DroidXP wipes out all data stored on the emulator that has been collected from previous executions.
 
@@ -89,20 +88,19 @@ Figure~\ref{fig:sensitiveAPI} illustrates the mining sandbox approach for
 malware identification. We leverage DroidXP to collect the set of sensitive APIs the versions (benign/malign) of the apps call. As a first step, given one benign app version,
 our approach first collects all calls to sensitive APIs from the app code through static analysis. Then, during the execution step,
 we use dynamic analysis to collect all calls to sensitive APIs during the DroidBot test case execution. We configure DroidXP to execute DroidBot for a
-period of $3$ minutes. This second analysis is also important since it can disclose some sensitive APIs calls ignored by static analysis.
-Malware may use dynamic features (such as reflection) to introduce malicious behavior, which can change the behavior of of the apps at runtime~\cite{DBLP:journals/spe/ZhangLTX18,DBLP:journals/tosem/LiTX19}.
+period of $3$ minutes. Since malware may use dynamic features (such as reflection) to introduce malicious behavior, which can change the behavior of of the apps at runtime~\cite{DBLP:journals/spe/ZhangLTX18,DBLP:journals/tosem/LiTX19}, this second analysis is also important to disclose some sensitive APIs calls ignored by static analysis.
 The static analysis step is made once, while we execute the dynamic analysis $3$ times. The result of static analysis and all executions is finally joined,
-forming a final set of that contains all identified calls to sensitive APIs coming from the benign version of the app, as described at Figure~\ref{fig:sensitiveAPI}: ($S_{A}$, $D_{A1}$, $D_{A2}$, $D_{A3}$). We carry out the same procedure for the malicious version of the apps,
+forming a final set that contains all identified calls to sensitive APIs coming from the benign version of the app, as described at Figure~\ref{fig:sensitiveAPI}: ($S_{A}$, $D_{A1}$, $D_{A2}$, $D_{A3}$). We carry out the same procedure for the malicious version of the apps,
 creating a distinct set of calls to sensitive APIs (now coming from the malicious version of the apps). In
 a final step, we compare the two sets of calls to sensitive APIs ($Set_B, Set_M$). We use the following rules to
 check for a malicious behavior. 
 
 \begin{enumerate}
     \item If the difference between the two final sets is an empty set, we cannot distinguish the benign and malicious version of the app (false negative).
-    \item If the difference between the two final sets contains at least 1 element (injected in the malicious version), we successfully distinguish the benign and the malicious version of the app (true positive).
+    \item If the difference between the two final sets contains at least 1 element (injected in the malicious version), we successfully distinguish the benign and the malicious version of the app (true positive). \kn{Cant we replace the first part of the second point simply as "Otherwise" or is there some specific corner cases that I am missing}
 \end{enumerate}
 
-In addition, we also benefit from this procedure to identify the calls to sensitive APIs that are more frequently injected by the malicious version of the apps
+In addition, this procedure also enables us to identify the calls to sensitive APIs that are more frequently injected by the malicious version of the apps
 in our dataset. 
 
 %\fh{here I have to insert the figure}
@@ -124,9 +122,9 @@ in our dataset.
 
 As we discussed in the previous section, we take advantage of DroidXPTrace to build the dynamic call graphs that characterize the execution of each version of the apps in our dataset. Our goal
 here is to explore how many pairs of apps call the same set of sensitive APIs, though using different call
-traces. We conjecture that differences in the traces might be used to complement the mining sandbox
+traces. We hypothesize that differences in the traces might be used to complement the mining sandbox
 approach for malware identification. As such, here we execute the trace
-analysis for all app pairs of our dataset, and check if there is the situations in which the basic version of the mining sandbox approach was not able to correctly classify the malign version of an app as a malware, however it has a different execution trace. For detecting different trace, we performed an evaluation of the dynamic call graph of each pair. Our procedure checks if there is some new node, representing a new sensitive API at malicious version, or a new edge($x$, $y$), where $x$ and $y$ indicates a method $x$ calling a sensitive method $y$.
+analysis for all app pairs of our dataset, and check if there are situations in which the basic version of the mining sandbox approach was not able to correctly classify the malign version of an app as a malware, however it has a different execution trace. For detecting different trace, we performed an evaluation of the dynamic call graph of each pair. Our procedure checks if there is some new node, representing a new sensitive API at malicious version, or a new edge($x$, $y$), where $x$ and $y$ indicates a method $x$ calling a sensitive method $y$.
 
 %\rb{(Not sure if this is the right decision. I do not see any problem in running
 %  this study for all pairs.)}. 
@@ -245,7 +243,7 @@ Listing~\ref{lst:androidManifestDupli} suggests that the four first requested pe
 
 
 
-\subsection{Execution Settings}\label{sec:hardware}
+\subsection{Implementation details}\label{sec:hardware}
 
 We deployed our experiment on a 32-Core, AMD EPYC 7542 CPU, 512 GB RAM, storage Samsung SSD 970 EVO 1TB machine running a 64-bit Debian  GNU/Linux 11. We also configured our emulator to run all selected apps on Google Android version 9.0, API 28, 512M SD Card, 7GB internal storage, with X86 ABI image.
 
