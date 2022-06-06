@@ -10,16 +10,16 @@ In this section, we describe our study settings. First we present how we mined t
 We use two datasets in our research:
 
 \begin{description}
-\item[Small dataset] The small dataset comes from the work of Bao et al.~\cite{DBLP:conf/wcre/BaoLL18} and contains a set of 112 pairs of benign and malicious piggybacked apps. This is a curated
+\item[Small dataset] The small dataset comes from the work of Bao et al.~\cite{DBLP:conf/wcre/BaoLL18} and contains a set of 102 pairs of benign and malicious piggybacked apps. This is a curated
   set of pairs the authors were able to integrate in their research, from an initial list of \num{2750} piggybacked apps available in the AndroZoo repository~\cite{DBLP:conf/msr/AllixBKT16} at that time. Due to compatibility
-  issues, either with DroidFax or with the Android emulation tool, they selected only 112 pairs of apps in their study. Here we faced similar compatibility issues, and our small dataset
-  builds upon 101 pairs of benign and malicious apps starting from the original 112 pairs of apps in the Bao et al. work~\cite{DBLP:conf/wcre/BaoLL18}. 
+  issues, either with DroidFax or with the Android emulation tool, they selected only 102 pairs of apps in their study. Here we faced similar compatibility issues, and our small dataset
+  builds upon 101 pairs of benign and malicious apps starting from the original 102 pairs of apps in the Bao et al. work~\cite{DBLP:conf/wcre/BaoLL18}. 
 \item[Complete dataset] Our complete dataset extends the smaller one with additional 699 apps we selected using the same procedures from the Bao et al. work~\cite{DBLP:conf/wcre/BaoLL18}, though
   using a larger initial set from AndroZoo, which we automatically collected in a time frame of 20 hours, and fixing compatibility issues with the Android emulator. In the end,
   our procedures enabled us to run the mining sandbox approach for malware detection in a total of 800 pairs of apps.   
 \end{description}  
   
-\textbf{Differences from previous work: } In summary, the previous state of the art work in mining sandbox approaches~\cite{DBLP:conf/wcre/BaoLL18} has a dataset with 112 samples, an average similarity index of $77\%$, and $5$ different malware categories. In contrast, our complete dataset is larger and more representative. It has 800 samples, and according to the Euphony\cite{hurier2017euphony} tool, more than $10$ malware categories. It also has an average similarity index of $62.47\%$ with a much better distribution ($157\%$ of
+\textbf{Differences from previous work: } In summary, the previous state of the art work in mining sandbox approaches~\cite{DBLP:conf/wcre/BaoLL18} has a dataset with 102 samples, an average similarity index of $77\%$, and $5$ different malware categories. In contrast, our complete dataset is larger and more representative. It has 800 samples, and according to the Euphony\cite{hurier2017euphony} tool, more than $10$ malware categories. It also has an average similarity index of $62.47\%$ with a much better distribution ($157\%$ of
 app pairs have a similarity score of less than $0.25$, $104\%$ of app pairs between $0.25$ and $0.50$, $160\%$ of app pairs between $0.5$ and $0.75$  and $379\%$ of app pairs more than $0.75$). To calculate similarity index~\cite{DBLP:conf/wcre/0029BKT16} we used SimiDroid~\cite{DBLP:conf/trustcom/0029BK17} tool. It quantifies and qualifies the similarity based on (a) the methods that are either identical or similar in both versions of the apps, (b) methods that only appear in the malicious version of the apps (new methods), and (c) methods that only appear in the benign version of the apps (deleted methods). It is important to highlight that the examples of apps in AndroZoo come from different Android app stores. In particular,
 Figure~\ref{fig:stores} summarizes the stores were the apps in our complete dataset come from.  
 
@@ -211,7 +211,7 @@ To extract and analyze the Manifest file, we used an in-house Android SDK analyz
 109:M >  android:name=".PackageChangeReceiver">
 110:M >  <intent-filter>
 111:M >    <action
-112:M >      android:name="android.intent.action.BOOT_COMPLETED" />
+102:M >      android:name="android.intent.action.BOOT_COMPLETED" />
 113:M >    <data
 114:M >      android:scheme="package" />
 115:M > </intent-filter>
