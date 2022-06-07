@@ -1,7 +1,64 @@
-\section{Threats to Validity}\label{sec:threats}
+\subsection{Threats to Validity}\label{sec:threats}
 
-\todo[inline]{MM: Needs major revision.}
+% \todo[inline]{MM: Needs major revision.}
 
-There are some threads to the validity of our results. One of them is the representativeness of our malware dataset and how generic was our findings. To care out of this threat, our data set is based on a generic and large set of Android apps. We incorporate more $699$ app pair than previous studies from different categories, and with an average similarity coefficient smaller than these studies. Thus, our findings based on malware could be more generalized to real-world malware. In a future work, we can further mitigate this threat incorporating more app pairs.
+There are some threats to the validity of our results.
+For instance, regarding {\bf external validity}, one concern relates to the 
+representativeness of our malware datasets and how generic our findings are.
+Indeed, mitigating this threat was one of the motivations for our research,
+since, in the existing literature, researchers had explored just
+one dataset of 102 pairs of benign/malign apps. Curiously,
+for this small dataset, the performance of the
+mining sandbox approach is more than twice superior
+than its performance on our complete dataset (800 pairs of
+apps). We contacted the authors of the Bao et al. research paper, asking them
+if they have used any additional criteria for selecting the
+dataset. Their answers suggest the contrary: they have not used
+any particular app selection process that
+could explain the superior performance of the mining
+sandbox approach for the small dataset. We believe that
+our results in the complete dataset (800 apps) generalize better than previous research works,
+since we have a more comprehensive collection of malwares with different
+categories and degrees of similarity. Nonetheless, our
+research focus only on Android repackaged malwares and thus we
+cannot generalize our findings to malwares targeting
+other platforms or that use different approaches to
+generate a malicious asset.
 
-A second threat is related to correctness and result analysis. To minimize the threat and validate our findings, we carefully setup our infrastructure following close configuration of previous works. Before the deployment, we selected the test generator tool more adequate, the execution time and execution numbers enough. In the end, we conduct a manual observation of results on a significant sample, where we can confirm our observations. Finally, the final results also were cross-checked by others co-authors. Future researches are encouraged to replicate our experiment, since we also made our scripts and results publicly available~\footnote{ https://github.com/droidxp/paper-droidxptrace-results}.
+During the exploratory phase of the mining sandbox approach,
+we collect the set of calls to sensitive APIs the benign version of
+an app executes, while running a test case generation tool (such as
+DroidBot). That is, the mining sandbox approach assumes the existence of a true benign
+version of a given app in the exploratory phase. Regarding {\bf conclusion validity}, a
+possible threat to our research is the use of \emph{pseudo-benign} versions
+of some apps, which might compromise the results of our research.
+To mitigate this threat, we query VirusTotal to search for the
+status of the benign and malicious versions of 100 apps,
+randomly selected in our complete dataset. Among the benign
+version of these 100 apps, 19 apps were classified as a malware 
+by at least two antivirus. Differently, when considering
+the malicious version of these 100 apps, 74 apps were
+classified as a malware by at least two antivirus. This might indicate
+a possible misclassification in the AndroZoo repository.
+
+
+Regarding {\bf construct validity}, we address the main threats
+to our study by using simple and well-defined metrics that are
+in use for this type of research: number of correctly classified
+malwares in a dataset (true positives) and the number of assets that the
+classification approaches we explored here fail to
+correctly classify (false negatives). Based on these metrics we computed
+the recall of the approaches. We did not consider the
+metric precision here, because the ``malicious'' assets in our
+dataset are all true positives---hence precision would
+always be of 100\%. In a preliminary study, we
+investigated whether or not the mining sandbox approach
+would classify a benign version of an app as a malware,
+after executing the test case generation tools in multiple
+runs. After combining three executions in a benign version to
+build a sandbox, we did not find any other execution that
+could wrongly label a benign app as a malware. So we are
+confident that the mining sandbox approach leads to a
+high precision, even though it has shown a poor recall
+in our complete dataset. 
+
