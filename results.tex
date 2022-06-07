@@ -130,14 +130,14 @@ analysis might also be used to complement the mining sandbox approach for malwar
 
 \subsection{Complete Dataset} 
 
-Surprisingly, in the presence of our complete dataset (\num{800} apps), the mining
-sandbox approach accurately classifies a total of \num{193} (\num{24.12}\%) malware---the
-repackaged version presents calls at least one additional sensitive API.
-The accuracy of the approach here is much lower in comparison not only to what we reported for the
-small dataset (previous section), but also what had been reported by previous works---e.g.,
+Surprisingly, when applied to our complete dataset (\num{800} apps), the mining
+sandbox approach correctly classifies only a total of \num{193} (\num{24.12}\%) malware---the
+repackaged version calls at least one additional sensitive API.
+The accuracy of the approach here is much lower compared to what we reported for the
+small dataset (previous section) as well as to what has been reported by previous works---e.g.,
 Bao et al. (\num{66.66}\%)~\cite{DBLP:conf/wcre/BaoLL18} and Costa et al.
 (\num{76.04}\%)~\cite{DBLP:journals/jss/CostaMMSSBNR22}. 
-This indicates that, when considering a more representative dataset, the accuracy of the mining sandbox
+This indicates that when considering a more representative dataset, the accuracy of the mining sandbox
 approach using DroidBot drops significantly. 
 
 \begin{obs}{4}{}
@@ -167,7 +167,7 @@ which encouraged us to endorse efforts aimed at identifying potential blindspots
 Considering trace analysis, as we explained in Section~\ref{sec:pathsetup},
 our results show that, among $607$ pairs of apps for which the vanilla mining
 sandbox approach failed to classify the malicious version as malware, \num{176} of them ($29$\%) present different traces.
-This result supports the evidence that the accuracy of the mining sandbox approach might be improved if the traces
+This result supports the hypothesis that the accuracy of the mining sandbox approach may be improved if the traces
 from entry points to the calls to sensitive APIs are considered in the analysis.
 
 Considering
@@ -182,7 +182,7 @@ manifest analysis (MA) leads to the correct classification
 of \num{446} malware (\num{55.75}\%), which suggests that
 the mining sandbox approach requires further improvements when
 we take into account a more representative dataset
-of malwares. 
+of malware. 
 
 
 \begin{table}[ht]
@@ -210,7 +210,7 @@ of malwares.
 Our exploration of all sensitive APIs called by all app pairs brought to the light the most frequently abused sensitive APIs that
 appear in the repackaged, malicious version of the apps. We observed that when executed all 800 app pair, DroidBot called $75$ sensitive APIs at least one time (from our list of 162 sensitive APIs). Among them, $16$ APIs account for more than half of all calls ($51.06$\%).
 %\rb{I could not understand the previous sentence}.
-The sensitive API abused most by repackaged apps turned out to be \textbf{android.telephony.TelephonyManager: java.lang.String getDeviceId()}, which gets the device
+The sensitive API that is abused the most by repackaged apps is \textbf{android.telephony.TelephonyManager: java.lang.String getDeviceId()}, which gets the device
 IMEI\footnote{From Wikipedia: International Mobile Equipment Identity (IMEI) is a number, usually unique, to identify 3GPP and iDEN mobile phones.}.
 Table~\ref{tab:APIused} presents the list of the most frequent sensitive APIs that only the malicious
 version of the apps in our dataset call.
@@ -297,6 +297,9 @@ version of the apps in our dataset call.
 
 \todo[inline]{rb: I reviewed the paper until this point. I think that next we should
 provide more explicit answers to the research questions.}
+
+\todo[inline]{mm: any finding we want to formulate related to the discussion in the last paragraph?}
+
 
 \subsection{Insights}\label{sec:implications} \kn{This sounds more like summary of insights than potential implications}
 
