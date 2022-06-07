@@ -12,15 +12,19 @@ We use two datasets for answering research questions in our work:
 \begin{description}
 \item[Small dataset] The small dataset is based on the work of Bao et al.~\cite{DBLP:conf/wcre/BaoLL18} and contains a set of $102$ pairs of benign and malicious piggybacked (repackaged) apps. This is a curated
   set of pairs the authors were able to integrate in their research, from an initial list of \num{2750} piggybacked apps available in the AndroZoo repository~\cite{DBLP:conf/msr/AllixBKT16} at that time. Due to compatibility
-  issues, either with DroidFax or with the Android emulation tool, they selected only 102 pairs of apps in their study. Here, we faced similar compatibility issues, and our small dataset
-  builds upon $101$ pairs of benign and malicious apps starting from the original 102 pairs of apps in the Bao et al. work~\cite{DBLP:conf/wcre/BaoLL18}.  \kn{Here we need to add a line detailing the one app that was missing from Bao and what the issue was here.}
+  issues, either with DroidFax or with the Android emulation tool, they selected only 102 pairs of apps in their study. Here, we faced similar compatibility issues~\footnote{The original study used Android Simulator with API 19 while we used a more recent. (API 28)}, and our small dataset
+  builds upon $101$ pairs of benign and malicious apps starting from the original 102 pairs of apps in the Bao et al. work~\cite{DBLP:conf/wcre/BaoLL18}.
+  
+  %\kn{Here we need to add a line detailing the one app that was missing from Bao and what the issue was here.}
 \item[Complete dataset] Our complete dataset extends the smaller one with additional $699$ apps we selected using the same procedures from the Bao et al. work~\cite{DBLP:conf/wcre/BaoLL18}, though
   using a larger initial set from AndroZoo, which we automatically collected in a time frame of 20 hours, and fixing compatibility issues with the Android emulator. In the end,
   our procedures enabled us to run the mining sandbox approach in a total of $800$ pairs of apps.   
 \end{description}  
   
-\textbf{Differences from previous work: } In summary, the previous state of the art work in mining sandbox approaches~\cite{DBLP:conf/wcre/BaoLL18} had a dataset with $102$ samples, an average similarity index of $77\%$, and $5$ different malware categories. In contrast, our complete dataset is larger and more representative. It has $800$ samples, and according to the Euphony\cite{hurier2017euphony} tool, more than $10$ malware categories. \kn{How was the malware categories measured for the small dataset. If euophny was used for both of them, we should consider adding this as an implementation detail on how we measured similarity instead of making it look like we dont claim responsibility for this categorization} It also has an average similarity index of $62.47\%$ with a much better distribution ($157\%$ of
-app pairs have a similarity score of less than $0.25$, $104\%$ of app pairs between $0.25$ and $0.50$, $160\%$ of app pairs between $0.5$ and $0.75$  and $379\%$ of app pairs more than $0.75$). To calculate similarity index~\cite{DBLP:conf/wcre/0029BKT16} we used SimiDroid~\cite{DBLP:conf/trustcom/0029BK17} tool. It quantifies and qualifies the similarity based on (a) the methods that are either identical or similar in both versions of the apps, (b) methods that only appear in the malicious version of the apps (new methods), and (c) methods that only appear in the benign version of the apps (deleted methods). It is important to highlight that the examples of apps in AndroZoo come from different Android app stores. In particular,
+\textbf{Differences from previous work: } In summary, the previous state of the art work in mining sandbox approaches~\cite{DBLP:conf/wcre/BaoLL18} had a dataset with $102$ samples, an average similarity index of $77\%$ and according to the Euphony\cite{hurier2017euphony} tool, $5$ different malware categories. In contrast, our complete dataset is larger and more representative. It has $800$ samples, and also according to the Euphony, more than $10$ malware categories. 
+%\kn{How was the malware categories measured for the small dataset. If euophny was used for both of them, we should consider adding this as an implementation detail on how we measured similarity instead of making it look like we dont claim responsibility for this categorization} 
+It also has an average similarity index of $62.47\%$ with a much better distribution ($157$ of
+app pairs have a similarity score of less than $0.25\%$, $104$ of app pairs between $0.25\%$ and $0.50\%$, $160$ of app pairs between $0.5\%$ and $0.75\%$  and $379$ of app pairs more than $0.75\%$). To calculate similarity index~\cite{DBLP:conf/wcre/0029BKT16} we used SimiDroid~\cite{DBLP:conf/trustcom/0029BK17} tool. It quantifies and qualifies the similarity based on (a) the methods that are either identical or similar in both versions of the apps, (b) methods that only appear in the malicious version of the apps (new methods), and (c) methods that only appear in the benign version of the apps (deleted methods). It is important to highlight that the examples of apps in AndroZoo come from different Android app stores. In particular,
 Figure~\ref{fig:stores} summarizes the stores were the apps in our complete dataset come from.  
 
 %% \begin{itemize}
@@ -97,7 +101,8 @@ check for a malicious behavior.
 
 \begin{enumerate}
     \item If the difference between the two final sets is an empty set, we cannot distinguish the benign and malicious version of the app (false negative).
-    \item If the difference between the two final sets contains at least 1 element (injected in the malicious version), we successfully distinguish the benign and the malicious version of the app (true positive). \kn{Cant we replace the first part of the second point simply as "Otherwise" or is there some specific corner cases that I am missing}
+    \item Otherwise, we successfully distinguish the benign and the malicious version of the app (true positive). 
+    %\kn{Cant we replace the first part of the second point simply as "Otherwise" or is there some specific corner cases that I am missing}
 \end{enumerate}
 
 In addition, this procedure also enables us to identify the calls to sensitive APIs that are more frequently injected by the malicious version of the apps
