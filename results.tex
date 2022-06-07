@@ -92,25 +92,19 @@ Hits correspond to the total number of correctly identified malware using a give
 combination of the proposed technique.
 
 \begin{table}[ht]
-  \caption{Summary of the results in the Small Dataset.}
   \centering
   \begin{small}
   \begin{tabular}{lcc}\toprule
   Technique      & Hits & Recall \\ \midrule 
-  VMS            &      & \num{66.66}\% \\ 
+  VMS            & 64   & \num{63.36}\% \\ 
   VMS + TA       & 83   & \num{82.17}\%  \\
   VMS + MA       & 81   & \num{80.19}\% \\
   VMS + TA + MA  & 91   & \num{90.09}\% \\  \bottomrule
   \end{tabular}
   \end{small}
+    \caption{Summary of the results in the Small Dataset.}
  \label{tab:mfa}
 \end{table}
-
-It is to be noted that, when considering the small dataset, combining the manifest file analysis with the trace analysis
-improves the accuracy rate to $90.09\%$, confirming that such an analysis, even though naive and simple,
-does have an impact on the overall accuracy. Therefore, the Android manifest
-analysis might also be used to complement the mining sandbox approach for malware detection.  
-
 
 \begin{obs}{2}{}
   The use of Manifest Analysis alone improves the performance
@@ -119,6 +113,11 @@ analysis might also be used to complement the mining sandbox approach for malwar
   Small Dataset. 
 \end{obs}
 
+
+It is to be noted that, when considering the small dataset, combining the manifest file analysis with the trace analysis
+improves the accuracy rate to $90.09\%$, confirming that such an analysis, even though naive and simple,
+does have an impact on the overall accuracy. Therefore, the Android manifest
+analysis might also be used to complement the mining sandbox approach for malware detection.  
 
 
 \begin{obs}{3}{}
@@ -131,7 +130,8 @@ analysis might also be used to complement the mining sandbox approach for malwar
 \subsection{Complete Dataset} 
 
 Surprisingly, when applied to our complete dataset (\num{800} apps), the mining
-sandbox approach correctly classifies only a total of \num{193} (\num{24.12}\%) malware---the
+sandbox approach correctly classifies only a total of \num{193} (\num{24.12}\%) malware---
+for which the
 repackaged version calls at least one additional sensitive API.
 The accuracy of the approach here is much lower compared to what we reported for the
 small dataset (previous section) as well as to what has been reported by previous works---e.g.,
@@ -143,8 +143,8 @@ approach using DroidBot drops significantly.
 \begin{obs}{4}{}
   The mining sandbox approach for malware detection
   leads to a poor performance on the Complete Dataset (\num{800} pairs of apps),
-  correctly classifying as malware only \num{24.12}\% of the repackaged
-  apps in the dataset.
+  correctly classifying only \num{24.12}\% of the repackaged
+  apps as malware in the complete dataset.
 \end{obs}
 
 We investigate whether or not the similarity between
@@ -167,7 +167,7 @@ which encouraged us to endorse efforts aimed at identifying potential blindspots
 Considering trace analysis, as we explained in Section~\ref{sec:pathsetup},
 our results show that, among $607$ pairs of apps for which the vanilla mining
 sandbox approach failed to classify the malicious version as malware, \num{176} of them ($29$\%) present different traces.
-This result supports the hypothesis that the accuracy of the mining sandbox approach may be improved if the traces
+This result supports the hypothesis that the accuracy of the mining sandbox approach might be improved if the traces
 from entry points to the calls to sensitive APIs are considered in the analysis.
 
 Considering
@@ -186,7 +186,6 @@ of malware.
 
 
 \begin{table}[ht]
-  \caption{Summary of the results in the Complete Dataset.}
   \centering
   \begin{small}
   \begin{tabular}{lcc}\toprule
@@ -197,6 +196,8 @@ of malware.
   VMS + TA + MA  & 446  & \num{55.75}\% \\  \bottomrule
   \end{tabular}
   \end{small}
+    \caption{Summary of the results in the Complete Dataset.}
+
  \label{tab:mfa-complete}
 \end{table}
 
@@ -208,7 +209,7 @@ of malware.
 \end{obs}
 
 Our exploration of all sensitive APIs called by all app pairs brought to the light the most frequently abused sensitive APIs that
-appear in the repackaged, malicious version of the apps. We observed that when executed all 800 app pair, DroidBot called $75$ sensitive APIs at least one time (from our list of 162 sensitive APIs). Among them, $16$ APIs account for more than half of all calls ($51.06$\%).
+appear in the repackaged, malicious version of the apps. We observed that when executed all 800 app pairs, DroidBot called $75$ sensitive APIs at least one time (from our list of 162 sensitive APIs). Among them, $16$ APIs account for more than half of all calls ($51.06$\%).
 %\rb{I could not understand the previous sentence}.
 The sensitive API that is abused the most by repackaged apps is \textbf{android.telephony.TelephonyManager: java.lang.String getDeviceId()}, which gets the device
 IMEI\footnote{From Wikipedia: International Mobile Equipment Identity (IMEI) is a number, usually unique, to identify 3GPP and iDEN mobile phones.}.
