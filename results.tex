@@ -305,19 +305,21 @@ version of the apps in our dataset call.
 %% \todo[inline]{mm: any finding we want to formulate related to the discussion in the last paragraph? kn: Given it a shot}
 
 
-\subsection{Research Questions}
-In this Section, we will consolidate the findings from our study along the following two research questions:
+\subsection{Answers to the Research Questions}
+In this Section, we will consolidate the findings from our study along our research questions:
 
-\begin{enumerate}
-  \item \textbf{Does the accuracy of mining sandbox approaches scale? } Although the accuracy rate of the state of the art in mining sandbox approaches was reported to be $66\%$ and later validated to be $63.26\%$ in our reproduction study in the presence of approximately $100$ app pairs, the accuracy rate drop to $24.12\%$ in the presence of more representative dataset of $800$ app pairs indicates that the \textcolor{blue}{accuracy of mining sandbox approaches does not scale}.
+\begin{enumerate}[(RQ1)]
+  \item \textbf{\rqa} Although the accuracy rate of the state of the art in mining sandbox approaches was reported to be $66\%$ and later validated to be $63.26\%$ in our reproduction study in the presence of approximately $100$ app pairs, the accuracy rate drop to $24.12\%$ in the presence of more representative dataset of $800$ app pairs indicates that the \textcolor{blue}{accuracy of mining sandbox approaches does not scale}.
 
-  \item \textbf{Do the analysis of the proposed blindspots (dynamic call-trace and manifest file permissions) impact the accuracy of mining sandbox approaches?} Since the presence of a combination of trace and manifest analysis improved the accuracy by a factor of $23.34\%$ and $31.63\%$ to the accuracy of DroidBot in the presence of the small and complete dataset respectively, it is fair to say that \textcolor{blue}{the analysis of these two hypothesized blindspots do have a significant impact on the accuracy of mining sandbox approaches}. 
+  \item \textbf{\rqb} Since the presence of a combination of trace and manifest analysis improved the accuracy by a factor of $23.34\%$ and $31.63\%$ to the accuracy of DroidBot in the presence of the small and complete dataset respectively, it is fair to say that \textcolor{blue}{the analysis of these two hypothesized blindspots do have a significant impact on the accuracy of mining sandbox approaches}. 
 \end{enumerate}
 
 
 \subsection{Cross-cutting implications}\label{sec:implications} 
 
 \todo[inline]{mm: The text up to the paragraph named "implications" can be deleted, because it just/mostly repeats what has already been said in the other subsections of section 4. The paragraph "implications" needs revision and more clarity. It also needs to be adjusted to the new structure of 4 introduced by Rodrigo.}
+
+\todo[inline]{rb: I'd rather remove this section \ldots}
 
 \begin{comment}
 The results presented so far have implications for both practitioners and researchers. We bring evidence that there are blindspots in Android sandbox approaches that if considered as a factor in malware identification, could improve sandbox techniques. In a first step, we present that in our study, the accuracy of sandboxes approach was significantly lower than presented in previous work. That is because our data set is almost $8$ times larger, encompasses a wider range of malware, and covers a diverse range of similarity index within the app pairs, all of which are not considered in previous works. Firstly, our study points out that when using DroidBot to explore sensitive APIs of both app versions, it was able to identify $193$ pairs where the set of sensitive APIs differ ($24.12$\%). We also show that among all sensitive APIs explored, \textbf{android.telephony.TelephonyManager: java.lang.String getDeviceId()} were the sensitive APIs most injected in repackaged malicious apps, responsible for $78$ calls among $1592$ observed in our experiment ($4.89\%$)
