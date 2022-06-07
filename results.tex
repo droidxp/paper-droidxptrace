@@ -22,7 +22,7 @@ the results of our research in our two datasets: the Small Dataset (101 pairs of
 
 In this section, we describe the results of reproducing the state-of-the-art Android sandbox approach, DroidBot on our small dataset of \num{101} pairs of apps.
 Firstly, given a pair of apps, we analyse each app version using the DroidBot test case generation tool with the DroidXP infrastructure. We repeat
-the dynamic analysis three times for a period of three minutes.
+the dynamic analysis three times for three minutes.
 
 After the three executions, DroidXP produces a dataset with the sensitive methods that both app versions call during each execution. We consider that a test
 generation tool, in our case, DroidBot, builds a sandbox able to detect a specific malware if there exists at least one call to a sensitive method that happens
@@ -78,7 +78,7 @@ in the small dataset).
 Here we present the results of our investigation on the impact of modified Android Manifest files on the accuracy of sandbox approaches. This is
 our second attempt for dealing with possible blindspots in the mining sandbox approach. 
 To this end, we check some particular \emph{change patterns} in the manifest files, which might point out to automatic patches
-that are necessary to include malicious behavior in repackaged apps. In section \ref{sec:manifestAnalysis}, we
+that are necessary to include malicious behavior in repackaged apps. In Section \ref{sec:manifestAnalysis}, we
 illustrated that an automatic hacking script might inject permission requests within Android Manifest files regardless of whether this request is already present on it,
 which can result in duplicated permissions and actions in these particular files.
 
@@ -201,7 +201,7 @@ of malware.
  \label{tab:mfa-complete}
 \end{table}
 
-\begin{obs}{5}{}
+\begin{obs}{6}{}
   The results so far bring evidence that
   further research is necessary to understand
   the limitations of the mining sandbox approach
@@ -317,9 +317,9 @@ give answers for our two research questions, as
 we summarize in what follow.
 
 \begin{enumerate}[(RQ1)]
-  \item \textbf{\rqa} Although the accuracy rate of the state of the art in mining sandbox approaches was reported to be $66\%$ and later validated to be $63.26\%$ in our reproduction study in the presence of approximately $100$ app pairs, the accuracy rate drop to $24.12\%$ in the presence of more representative dataset of $800$ app pairs indicates that the \textcolor{blue}{accuracy of mining sandbox approaches does not scale}.
+  \item \textbf{\rqa} Although the accuracy rate of the state of the art in mining sandbox approaches was reported to be $66\%$ and later validated to be $63.26\%$ in our reproduction study in the presence of approximately $100$ app pairs, the accuracy rate drop to $24.12\%$ in the presence of more representative dataset of $800$ app pairs indicates that the accuracy of mining sandbox approaches does not scale.
 
-  \item \textbf{\rqb} Since the presence of a combination of trace and manifest analysis improved the accuracy by a factor of $23.34\%$ and $31.63\%$ to the accuracy of DroidBot in the presence of the small and complete dataset respectively, it is fair to say that \textcolor{blue}{the analysis of these two hypothesized blindspots do have a significant impact on the accuracy of mining sandbox approaches}. 
+  \item \textbf{\rqb} Since the presence of a combination of trace and manifest analysis improved the accuracy by a factor of $23.34\%$ and $31.63\%$ to the accuracy of DroidBot in the presence of the small and complete dataset respectively, it is fair to say that the analysis of these two hypothesized blindspots do have a significant impact on the accuracy of mining sandbox approaches. 
 \end{enumerate}
 
 
@@ -353,7 +353,7 @@ between 19\% (small dataset) to 22\% (complete dataset). We
 also explored a more ``complementary'' approach, somewhat independent
 of the mining sandbox approach, which statically search for two
 specific patterns of changes in the Android manifest files: permission
-duplication and {\color{red}action duplication}. Using the manifest analysis,
+duplication and component duplication. Using the manifest analysis,
 we complement the performance of the mining sandbox approach, improving its performance by
 a factor between 15\% (complete dataset) and 17\% (small dataset).
 Altogether, the implications of this research are twofold:
