@@ -41,7 +41,7 @@ reported to achieve an accuracy rate between 65\% and 75\%~\cite{DBLP:conf/wcre/
 may not generalize to large datasets with a more diverse malware kinds, and a potentially low similarity index.
 There are two reasons for our hypothesis. First, DroidBot was evaluated on a rather small set of $102$ app pairs~\footnote{The pairs consist benign and malicious repackaged versions of the same app.} respectively. 
 %\textbf{MM: Why two sets? For what respectively?} 
-Second, an analysis that we performed revealed that the similarity index between the app pairs used in DroidBot's evaluation was $77\%$, while Bao et al.~\cite{DBLP:conf/iceccs/LeB0GL18} %(\rb{we need to confirm that this is the correct reference. Not sure if (\cite{DBLP:conf/wcre/BaoLL18}) presents a discussion about similarity.}) 
+Second, an analysis that we performed revealed that the similarity index between the app pairs used in DroidBot's evaluation was $77\%$, while Li L et al. ~\cite{DBLP:journals/tifs/0029LBKTLC17} %(\rb{we need to confirm that this is the correct reference. Not sure if (\cite{DBLP:conf/wcre/BaoLL18}) presents a discussion about similarity.}) 
 have shown that malware tend to be harder to detect, if the similarity index is lower 
 (i.e., in the presence of very dissimilar apps). 
 
@@ -51,14 +51,17 @@ To validate our hypothesis, we study the performance of DroidBot on a more repre
 %both a more diverse distribution of the similarity index and, on average, with a lower similarity index.
 %more diverse distribution of apps in terms of similarity index \textcolor{red}{\textbf{"more diverse similarity index" or "lower similarity index"? kn: it is both more diverse in distribution and on average has a lower similarity index}}. 
 Our dataset, which consists of $800$ real app pairs (benign/malicious), is 
-roughly 8x larger than the dataset used in the previous study. 
-For this reproduction study, we take advantage of DroidXP~\cite{DBLP:conf/scam/CostaMCMVBC20}, a tool suite that supported us not only to integrate DroidBot but also in our study setup and data collection. \textcolor{red}{\textbf{The role of DroidXP needs elaboration.}} The new dataset also has a combined average similarity index of $62.47\%$, which is lower than the original $77\%$, 
-as well as a much more diverse distribution of apps in terms of similarity index. 
+roughly 8x larger than the dataset used in the previous study. It also has a combined average similarity index of $62.47\%$, which is lower than the original $77\%$, 
+as well as a much more diverse distribution of apps in terms of similarity index.
+
+For this reproduction study, we take advantage of DroidXP~\cite{DBLP:conf/scam/CostaMCMVBC20}, a tool suite that supported us not only to integrate DroidBot but also in our study setup and data collection. It relies on DroidFax~\cite{DBLP:conf/icsm/CaiR17a}, which instruments Android apps and collects relevant information about their execution, including the set of sensitive APIs a given app calls during a test execution. DroidFax also helps collect inter-component communication (ICC) using  static program analysis.
+
+%\textcolor{red}{\textbf{The role of DroidXP needs elaboration.}}  
 %\textcolor{red}{\textbf{how did you systematically produce the higher dissimilarity? kn: 
 %Our dataset was randomly chosen and the larger dataset automatically introduced many dissimilar app pairs. 
 
 While we were able to reproduce previous results 
-on the small dataset of $102$ apps (we achieved a comparable accuracy rate of $63\%$), 
+on the small dataset of $101$ apps (we achieved a comparable accuracy rate of $63.36\%$), 
 we observed a significant drop of the accuracy of DroidBot on our new dataset of $800$ 
 app pairs with a similarity index of $62.47\%$ as much as down to $24.12\%$.
 %
@@ -82,7 +85,7 @@ distinguishing benign from malign app versions:
 
 \begin{enumerate}
     \item Two apps may call the same set of sensitive APIs, but do so by taking different dynamic call traces between the app's entry point and the sensitive APIs. To investigate possible trace divergences, we used an auxiliary tool from DroidXP project called DroidXPTrace, which compares all traces from an entry point to sensitive APIs call.
-    \item The {\color{blue}change patterns} within the Android Manifest' section that requests permissions, when considering the two variants of apps (i.e., benign and malicious variants), may also reveal malware versions. To {\color{blue}mine change patterns} in the Android Manifest files, we harness the standard APK analysis tool from Android~\cite{au2011short}. 
+    \item The change patterns within the Android Manifest' section that requests permissions, when considering the two variants of apps (i.e., benign and malicious variants), may also reveal malware versions. To mine change patterns in the Android Manifest files, we harness the standard APK analysis tool from Android~\cite{au2011short}. 
 \end{enumerate}
 
 
