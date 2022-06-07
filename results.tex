@@ -306,6 +306,10 @@ version of the apps in our dataset call.
 
 \section{Discussion}
 
+In this section we elaborate on the answers to our research questions,
+summarize the implications of our results, and discuss some possible
+threats to the results we presented so far.
+
 \subsection{Answers to the Research Questions}
 
 The results we presented in the previous sections
@@ -319,31 +323,44 @@ we summarize in what follow.
 \end{enumerate}
 
 
-\subsection{Cross-cutting implications}\label{sec:implications} 
+\subsection{Implications}\label{sec:implications} 
 
-\todo[inline]{mm: The text up to the paragraph named "implications" can be deleted, because it just/mostly repeats what has already been said in the other subsections of section 4. The paragraph "implications" needs revision and more clarity. It also needs to be adjusted to the new structure of 4 introduced by Rodrigo.}
+Contrasting to previous research works~\cite{DBLP:conf/wcre/BaoLL18,DBLP:conf/iceccs/LeB0GL18,DBLP:journals/jss/CostaMMSSBNR22},
+the results discussed in the previous sections lead to a more general understanding
+about the limitations of using the Android mining sandbox approach
+for malware detection. In particular, here we show that,
+in the presence of a large dataset, the performance of the
+approach drops significantly. Nonetheless, after running statistical tests (logistic regression),
+we could not find evidence that the \emph{diversity} of the
+complete dataset---in terms of similarity score and types of malware-could
+justify the higher number of false negatives of the mining
+sandbox approach. Therefore, further research is necessary to investigate
+other possible reasons for that. Perhaps, the complete dataset
+might contain a large percentage of malwares that use more
+advanced techniques to evade from both static and dynamic analysis---
+both methods are used in the mining sandbox approach
+we discussed in this paper.
 
-\todo[inline]{rb: I'd rather remove this section \ldots}
+We also highlight that considering only the differences in the
+sets of calls to sensitive APIs also leads to false negatives. We
+argue in favor of using a more elaborate \emph{diff} approach, which
+extends the mining sandbox approach to include the comparisons of
+the dynamic call traces from the ``entry points'' of an Android app to its
+set of calls to the sensitive APIs. We collect these call traces while
+building the sandbox in the usual way~\cite{DBLP:conf/icse/JamrozikSZ16}. Using this extension, we could improve
+the performance of the vanilla mining sandbox approach by a factor
+between 19\% (small dataset) to 22\% (complete dataset). We
+also explored a more ``complementary'' approach, somewhat independent
+of the mining sandbox approach, which statically search for two
+specific patterns of changes in the Android manifest files: permission
+duplication and {\color{red}action duplication}. Using the manifest analysis,
+we complement the performance of the mining sandbox approach, improving its performance by
+a factor between 15\% (complete dataset) and 17\% (small dataset).
+Altogether, the implications of this research are twofold:
 
-\todo[inline]{still under revision}
-\begin{comment}
-The results presented so far have implications for both practitioners and researchers. We bring evidence that there are blindspots in Android sandbox approaches that if considered as a factor in malware identification, could improve sandbox techniques. In a first step, we present that in our study, the accuracy of sandboxes approach was significantly lower than presented in previous work. That is because our data set is almost $8$ times larger, encompasses a wider range of malware, and covers a diverse range of similarity index within the app pairs, all of which are not considered in previous works. Firstly, our study points out that when using DroidBot to explore sensitive APIs of both app versions, it was able to identify $193$ pairs where the set of sensitive APIs differ ($24.12$\%). We also show that among all sensitive APIs explored, \textbf{android.telephony.TelephonyManager: java.lang.String getDeviceId()} were the sensitive APIs most injected in repackaged malicious apps, responsible for $78$ calls among $1592$ observed in our experiment ($4.89\%$)
-
-Next, we present a trace analysis which aimed to investigate whether there were different traces between an entry point and an access to any sensitive resource. Our findings indicate that the trace analysis is also effective for malicious apps identification, and could complement mining sandbox approaches. Among $607$ app pairs that were investigated, we observed that $176$ had different traces ($29\%$). The message from these findings is that exploring trace analysis in conjunction with mining sandbox approach is useful for researchers and practitioners to improve malicious app detection tasks. 
-
-Finally, the last study used static analysis at Android manifest files, to investigate if even naive techniques to construct malicious apps can go unnoticed for mine sandbox approach. In the previous section, Table~\ref{tab:mfa} summarizes this investigation. Although manifest file analysis seems to be a simple technique, our results indicate that such an analysis on manifest files could have detected $120$ (more than one-third) of the undetected malware.
-\end{comment}
-
-%\textbf{Implications: }For industry and academia, these results have implications. They reinforce that there is a need for integrating auxiliary techniques to mining sandbox approach for malware identification as accuracy rate in terms of malware detection drops from  $66\%$ to $24.12\%$ in the presence of our representative dataset ($800$ app pair). %\kn{I donot understand the 22 and 9.63 here}
-
-In this subsection, we discuss cross-cutting implications from a broader analysis of all the three methodologies we have seen till now to improve the accuracy of mining sandbox approaches (set differences between the sensitive APIs in both versions of an app, the differences in dynamic call traces between the executions of two versions of the app, and the differences in the permissions requested from the manifest file of both versions of the app). To this end, we use the Venn-diagram in Figure~\ref{fig:vennDiagram}.  As we can see, there are $114$ ($71+43$) (Set A) samples detected using the vanilla approach that relies on the set difference between sensitive APIs present in the benign and malicious version of an app. When a new API is introduced in the repackaged version of an app (leading to a set difference), one would expect a new trace to be introduced to accomodate the new API call. But, the set of app pairs that have a difference in the dynamic call trace ($176$ = $133+43$ - Set B) is not contained within the \textbf{Set A}. This is because the set difference between sensitive APIs is computed statically and the call trace is computed dynamically. This implies that, a test generation tool with a better coverage could have resulted in covering more divergent call traces and therefore a higher accuracy rate.
-
-%In that case, these malware samples were identified just by static analysis, which explored all sensitive APIs at app code. The samples do not have the opportunity of traces investigation of all sensitive APIs, since it just analysis traces from sensitive APIs explored by dynamic analysis. As described in Section~\ref{sec:pathsetup}, we use dynamic call graphs to investigate different access to sensitive APIs at both versions, and in that case, we do not have all dynamic call graphs of these samples. The interpretation of this result leads us to suppose that if the explorer tool used for dynamic analysis has a good code coverage, it can also explore more sensitive APIs and get more dynamic call graphs to investigate, which could result on accuracy improvement. In our experiment, $79$ ($41+38$) samples that injected new sensitive APIs at your malicious version, were also detected by Trace diff approach, since it naturally also inserted new traces at the code app. However, it's relevant to see that $176$ ($133+43$) samples were detected just by Trace diff approach, that is, it had the same sensitive APIs set explored at both versions, however had a different way to access them, which could mean a malicious call to sensitive API.
+\begin{description}
+  \item[A warning to the community:] the mining sandbox approach for malware detection leads to a false negative rate higher than previous research reported. 
+  \item[Future directions:] researchers should explore more advanced techniques for differentiating benign and malicious versions of the apps, while using the mining sandbox approach for malware detection. 
+\end{description}  
 
 
-\begin{figure}[ht]
-\centering
-\includegraphics[scale=0.35]{images/vennDiagram.pdf}
-\caption{Venn Diagram from results.}
- \label{fig:vennDiagram}
-\end{figure}
