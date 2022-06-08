@@ -306,7 +306,7 @@ version of the apps in our dataset call.
 
 \section{Discussion}
 
-In this section, we answer our research questions,
+In this section, we explicitly answer our research questions,
 summarize the implications of our results, and discuss possible
 threats to the validity of the results presented so far.
 
@@ -317,9 +317,13 @@ The results we presented in the previous sections
 we summarize in the following.
 
 \begin{enumerate}[(RQ1)]
-  \item \textbf{\rqa} Although the accuracy rate of the state of the art in mining sandbox approaches was reported to be $66\%$ and later validated to be $63.26\%$ in our reproduction study in the presence of approximately $100$ app pairs, the accuracy rate drop to $24.12\%$ in the presence of more representative dataset of $800$ app pairs indicates that the accuracy of mining sandbox approaches does not scale.
+\item \textbf{\rqa} 
+Our study indicates that the accuracy of the state of the art mining sandbox approaches does not scale.
+While the accuracy when applied to a set of approximately $100$ app pairs
+was reported to be $66\%$ and confirmed to be $63.26\%$ in our reproduction study, 
+it drops to $24.12\%$ in the presence of more representative dataset of $800$ app pairs. 
 
-  \item \textbf{\rqb} Since the presence of a combination of trace and manifest analysis improved the accuracy by a factor of $23.34\%$ and $31.63\%$ to the accuracy of DroidBot in the presence of the small and complete dataset respectively, it is fair to say that the analysis of these two hypothesized blindspots do have a significant impact on the accuracy of mining sandbox approaches. 
+ \item \textbf{\rqb} Given that considering a combination of trace and manifest analysis improved the accuracy of DroidBot by a factor of $23.34\%$ respectively $31.63\%$ when applied to the small, respectively the complete dataset, it is fair to say that these two hypothesized blindspots do have a significant impact on the accuracy of mining sandbox approaches. 
 \end{enumerate}
 
 
