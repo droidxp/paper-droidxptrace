@@ -80,12 +80,12 @@ our second attempt for dealing with possible blindspots in the mining sandbox ap
 To this end, we check some particular \emph{change patterns} in the manifest files, which might point out to automatic patches
 that are necessary to include malicious behavior in repackaged apps. In Section \ref{sec:manifestAnalysis}, we
 illustrated that an automatic hacking script might inject permission requests within Android Manifest files regardless of whether this request is already present on it,
-which can result in duplicated permissions and actions in these particular files.
+which can result in duplicated permissions and components in these particular files.
 
 We looked out for such modifications in the malware that went undetected by the
 vanilla mining sandbox approach. In our small dataset set, out of the 37 repackaged apps the mining sandbox approach was not
-able to correctly classify as malware, seven apps present duplicated permissions (DP), 12 apps present duplicated actions (DA), and
-17 apps present either DP or DA. Table~\ref{tab:mfa} summarizes our results so far, where
+able to correctly classify as malware, 7 apps present duplicated permissions (DP), 12 apps present duplicated components (DP), and
+17 apps present either DP or DP. Table~\ref{tab:mfa} summarizes our results so far, where
 VMS indicates the vanilla mining
 sandbox approach, TA indicates the trace analysis, and MA indicates the manifest analysis.
 Hits correspond to the total number of correctly identified malware using a given
@@ -114,7 +114,7 @@ combination of the proposed technique.
 \end{obs}
 
 
-It is to be noted that, when considering the small dataset, combining the manifest file analysis with the trace analysis
+Notice that, when considering the small dataset, combining the manifest file analysis with the trace analysis
 improves the accuracy rate to $90.09\%$, confirming that such an analysis, even though naive and simple,
 does have an impact on the overall accuracy. Therefore, the Android manifest
 analysis might also be used to complement the mining sandbox approach for malware detection.  
@@ -173,7 +173,7 @@ from entry points to the calls to sensitive APIs are considered in the analysis.
 Considering
 manifest analysis, as we explained in Section~\ref{sec:manifestAnalysis},
 looking at the occurrence of duplicated permissions and duplicated 
-actions allows us to correctly classify \num{120} out of the \num{607} missed cases
+components allows us to correctly classify \num{120} out of the \num{607} missed cases
 from the mining sandbox approach (\num{19.76}\%).                                   
 Table~\ref{tab:mfa-complete} summarizes the results of this investigation. When considering the 
 complete dataset (\num{800} apps), combining the vanilla
@@ -201,7 +201,7 @@ of malware.
  \label{tab:mfa-complete}
 \end{table}
 
-\begin{obs}{6}{}
+\begin{obs}{5}{}
   The results so far bring evidence that
   further research is necessary to understand
   the limitations of the mining sandbox approach
@@ -216,7 +216,7 @@ IMEI\footnote{From Wikipedia: International Mobile Equipment Identity (IMEI) is 
 Table~\ref{tab:APIused} presents the list of the most frequent sensitive APIs that only the malicious
 version of the apps in our dataset call.
 
-\begin{obs}{5}{}
+\begin{obs}{6}{}
   The results so far bring evidence that only a handful of resources accesses like the \textbf{device id} are most attractive to malware designers, providing a potentially high-impact point of focus for future researchers and practitioners.
 \end{obs}
 
