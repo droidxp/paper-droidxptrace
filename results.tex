@@ -330,17 +330,19 @@ it drops to $24.12\%$ in the presence of more representative dataset of $800$ ap
 \subsection{Implications}\label{sec:implications} 
 
 Contrasting to previous research works~\cite{DBLP:conf/wcre/BaoLL18,DBLP:conf/iceccs/LeB0GL18,DBLP:journals/jss/CostaMMSSBNR22},
-the results discussed in the previous sections lead to a more general understanding
-about the limitations of using the Android mining sandbox approach
-for malware detection. In particular, here we show that,
+our results 
+%discussed in the previous sections 
+lead to a more systematic understanding
+of the limitations of using the Android mining sandbox approach
+for malware detection. In particular, we show that,
 in the presence of a large dataset, the performance of the
 approach drops significantly. Nonetheless, after running statistical tests (logistic regression),
 we could not find evidence that the \emph{diversity} of the
-complete dataset---in terms of similarity score and types of malware-could
-justify the higher number of false negatives of the mining
+complete dataset---in terms of similarity score and types of malware-
+is responsible for the higher number of false negatives of the mining
 sandbox approach. Therefore, further research is necessary to investigate
 other possible reasons for that. Perhaps, the complete dataset
-might contain a large percentage of malwares that use more
+contains a large percentage of malware that use more
 advanced techniques to evade from both static and dynamic analysis---
 both methods are used in the mining sandbox approach
 we discussed in this paper.
@@ -363,8 +365,8 @@ a factor between 15\% (complete dataset) and 17\% (small dataset).
 Altogether, the implications of this research are twofold:
 
 \begin{description}
-  \item[A warning to the community:] the mining sandbox approach for malware detection leads to a false negative rate higher than previous research reported. 
-  \item[Future directions:] researchers should explore more advanced techniques for differentiating benign and malicious versions of the apps, while using the mining sandbox approach for malware detection. 
+  \item[A warning to the community:] the mining sandbox approach for malware detection exhibits a much higher false negative rate  than previous research reported. 
+  \item[Future directions:] researchers should advance the mining sandbox approach for malware detection by exploring more advanced techniques for differentiating benign and malicious versions of the apps. 
 \end{description}  
 
 
