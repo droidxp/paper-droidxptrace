@@ -42,6 +42,23 @@ classified as a malware by at least two antivirus tools. This might indicate
 a possible misclassification in the AndroZoo repository---or a need
 for an update. 
 
+\begin{comment}
+    
+Regarding the \textbf{correlation between dataset properties and accuracy drop}, after running statistical tests (logistic regression),
+we could not find evidence that the \emph{diversity} of the
+complete dataset---in terms of similarity score and types of malware-
+is responsible for the higher number of false negatives of the mining
+sandbox approach. This implies that there was no 1-1 correlation between the brackets of similarity index, malware types to the drops in accuracy. Therefore, further research is necessary to investigate
+other possible reasons for that. Perhaps, the complete dataset
+contains a large percentage of malware that use more
+advanced techniques to evade from both static and dynamic analysis---
+both methods are used in the mining sandbox approach
+we discussed in this paper.
+
+
+\end{comment}
+
+
 
 Regarding {\bf construct validity}, we address the main threats
 to our study by using simple and well-defined metrics that are
