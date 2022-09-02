@@ -8,7 +8,7 @@ malware, which in turn, has lead to the development of many techniques
 %This in turn has made security issues in Android apps a relevant research topic. As such, 
 to identify malicious behavior or vulnerable code in Android apps.
 
-The focus of this paper is on
+The focus of this paper is present a negative result from a
 %
 %One family of approaches
 %employ static analysis algorithms to uncover private information 
@@ -19,24 +19,19 @@ The focus of this paper is on
 %An alternative
 %%other alternative for 
 %protection from Android malicious behavior consists in the 
-approaches that use dynamic analysis to mine Android sandboxes~\cite{DBLP:conf/icse/JamrozikSZ16}. 
+previous work (SANER2018) that use dynamic analysis to mine Android sandbox~\cite{DBLP:conf/icse/JamrozikSZ16}. 
 Specifically, such approaches use automated testing tools 
 %(i.e., dynamic analysis) 
 to explore apps behavior in terms of access to sensitive resources. Researchers have shown that the mining sandbox approach is also effective in detecting a popular class of Android malware based on repackaging~\cite{DBLP:conf/wcre/BaoLL18,le2018towards}---that is, starting with a benign version of an app from an official app store, such as Google Play~\footnote{\url{https://play.google.com/store/games}}, one might inject it with code performing malicious activities such as broadcasting credit card information to a private server.~\cite{DBLP:journals/tse/LiBK21} %(\kn{Here add a citation that shows prevalence of repackaged malware}).
 
 %The focus of this paper is on malware identification based on the mining sandbox approach: 
 In this paper, we (a) assess the state-of-the-art on a larger and more diverse dataset (compared to previous studies),
-thereby revealing significant accuracy reduction relative to the what has been reported previously and 
-(b) systematically analyse reasons for the observed reduction to provide important insights for 
-advancing the state of the art.
+thereby revealing significant accuracy reduction relative to the what has been reported previously and
+(c) investigation of the effect of trace analysis on improving the accuracy of the sandbox approach.
+
 %
 %Previous work show that 
-More specifically, we re-assess DroidBot~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22}, 
-which is the state-of-the-art 
-%test-case generation 
-tool for malware identification based on the mining sandbox approach,
-reported to achieve an accuracy rate between 65\% and 75\%~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22}. 
- We hypothesize that the relatively high accuracy reported for DroidBot 
+More specifically, we re-assess DroidBot, which performed best in generating test cases for mining sandbox~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22}, achieving an accuracy rate between 65\% and 75\%. We hypothesize that the relatively high accuracy reported for DroidBot 
  %in earlier evaluations of state of the art mining sandbox approaches for malware detection 
 may not generalize to large datasets with a more diverse malware kinds, and a potentially low similarity index.
 There are two reasons for our hypothesis. First, DroidBot was evaluated on a rather small set of $102$ app pairs~\footnote{The pairs consist benign and malicious repackaged versions of the same app.} respectively. 
@@ -50,20 +45,19 @@ To validate our hypothesis, we study the performance of DroidBot on a more repre
 %dataset with 
 %both a more diverse distribution of the similarity index and, on average, with a lower similarity index.
 %more diverse distribution of apps in terms of similarity index \textcolor{red}{\textbf{"more diverse similarity index" or "lower similarity index"? kn: it is both more diverse in distribution and on average has a lower similarity index}}. 
-Our dataset, which consists of $800$ real app pairs (benign/malicious), is 
-roughly 8x larger than the dataset used in the previous study. It also has a combined average similarity index of $62.47\%$, which is lower than the original $77\%$, 
+Our dataset, which consists of $1204$ real app pairs (benign/malicious), is 
+roughly 12x larger than the dataset used in the previous study. It also has a combined average similarity index of $62.59\%$, which is lower than the original $77\%$, 
 as well as a much more diverse distribution of apps in terms of similarity index.
 
-For this reproduction study, we take advantage of DroidXP~\cite{DBLP:conf/scam/CostaMCMVBC20}, a tool suite that supported us not only to integrate DroidBot but also in our study setup and data collection. It relies on DroidFax~\cite{DBLP:conf/icsm/CaiR17a}, which instruments Android apps and collects relevant information about their execution, including the set of sensitive APIs a given app calls during a test execution. DroidFax also helps collect inter-component communication (ICC) using  static program analysis.
+For this study, we take advantage of DroidXP~\cite{DBLP:conf/scam/CostaMCMVBC20}, a tool suite that supported us not only to integrate DroidBot but also in our study setup and data collection. It relies on DroidFax~\cite{DBLP:conf/icsm/CaiR17a}, which instruments Android apps and collects relevant information about their execution, including the set of sensitive APIs a given app calls during a test execution. DroidFax also helps collect inter-component communication (ICC) using  static program analysis.
 
 %\textcolor{red}{\textbf{The role of DroidXP needs elaboration.}}  
 %\textcolor{red}{\textbf{how did you systematically produce the higher dissimilarity? kn: 
 %Our dataset was randomly chosen and the larger dataset automatically introduced many dissimilar app pairs. 
 
-While we were able to reproduce previous results 
-on the small dataset of $101$ apps (we achieved a comparable accuracy rate of $63.36\%$), 
-we observed a significant drop of the accuracy of DroidBot on our new dataset of $800$ 
-app pairs with a similarity index of $62.47\%$ as much as down to $24.12\%$.
+While the original work reported a rate of $70.00\%$ on the small dataset of $102$ apps, 
+we observed a significant drop of the accuracy of DroidBot on our new dataset of $1204$ 
+app pairs with a similarity index of $62.59\%$.
 %
 %In this paper, we (a) perform a study that confirms this hypothesis and (b) present novel insights to advance the state of the art. 
 %Firstly, we assess the accuracy of the state of the art in malware detection using the mining sandbox approaches, DroidBot, on a larger dataset with a more diverse distribution of apps in terms of similarity index \textbf{"more diverse similarity index" or "lower similarity index"?} and observe a significant drop of the accuracy compared to the one reported previously~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22}. To this end, we present the results of a study where we observed the accuracy results of DroidBot on a set from $800$ real app pairs (benign/malicious). For this reproduction study, we take advantage of DroidXP~\cite{DBLP:conf/scam/CostaMCMVBC20}, a tool suite that supported us not only to integrate DroidBot but also in our study setup and data collection. 
@@ -75,18 +69,15 @@ We hypothesize the source of the problem to be the current technique
 for distinguishing benign from malign app versions employed 
 by state of the art as represented by
 %the mining sandbox approach for malware detection using 
-DroidBot. Existing approaches calculate the
+DroidBot. 
+
+Existing approaches calculate the
 difference between app pairs as
 the difference between the sets of sensitive APIs 
 that they call. Our work indicates that this characterization may be too simplistic.
-More specifically, we identify two 
-sources of valuable information for more accurately
-distinguishing benign from malign app versions:
-
-\begin{enumerate}
-    \item Two apps may call the same set of sensitive APIs, but do so by taking different dynamic call traces between the app's entry point and the sensitive APIs. To investigate possible trace divergences, we used an auxiliary tool from DroidXP project called DroidXPTrace, which compares all traces from an entry point to sensitive APIs call.
-    \item The change patterns within the Android Manifest' section that requests permissions, when considering the two variants of apps (i.e., benign and malicious variants), may also reveal malware versions. To mine change patterns in the Android Manifest files, we harness the standard APK analysis tool from Android~\cite{au2011short}. 
-\end{enumerate}
+More specifically, we identify one 
+source of valuable information for more accurately
+distinguishing benign from malign app versions, the trace analysis. The analysis considers that two apps may call the same set of sensitive APIs, but do so by taking different dynamic call traces between the app's entry point and the sensitive APIs. To investigate possible trace divergences, we used an auxiliary tool from DroidXP project called DroidXPTrace, which compares all traces from an entry point to sensitive APIs call.
 
 
 %To answer the first question, we present the results of a study where we observed the accuracy results of DroidBot on a set from $800$ real app pairs (benign/malicious). For this reproduction study, we take advantage of DroidXP~\cite{DBLP:conf/scam/CostaMCMVBC20}, a tool suite that supported us not only to integrate DroidBot but also in our study setup and data collection. To answer the second question, we hypothesize that the mining sandbox approach for malware detection using tools like DroidBot performs a superficial analysis of differences between app pairs, i.e., only the difference in the set of sensitive APIs called. We assert that there are two major blindspots in the state of the art:
@@ -109,14 +100,14 @@ distinguishing benign from malign app versions:
 
 %First, we reproduced the experiments with the dataset of $102$ apps and achieved a comparable accuracy rate of $63\%$. Our hypothesized blindspots (dynamic call traces and manifest file permission analysis) improve the accuracy rates to $82\%$ and $89\%$ respectively. Secondly, we curated a larger dataset and our findings indicate that the accuracy of DroidBot significantly drops (to $24.12\%$) when reproduced on a larger dataset of $800$ app pairs with a similarity index of $62.47\%$. 
 
-Our experiments show that the accuracy of sandbox approaches does indeed improve, when they are made aware of the differences in the dynamic call trace and difference in permissions requested using the manifest file. Specifically, when considering the dynamic call trace, the accuracy improved by $22\%$ (from $24.12\%$ to $46.12\%$); another $9.63\%$ improvement (from $46.12\%$ to $55.75\%$) could be achieved by taking into account also difference in permissions request. 
+Our experiments show that the accuracy of sandbox approaches does indeed improve, when they are made aware of the differences in the dynamic call trace and difference in permissions requested using the manifest file. Specifically, when considering the dynamic call trace, the accuracy improved by $xx\%$ (from $xx.xx\%$ to $xx.xx\%$). 
 
-An accuracy of $55.75\%$, while being twice as high as the current state of the art, may still appear unsatisfactory for a truly trustworthy sandbox approach. Still, 
-our experiments open the discussion (a) on two important blindspots that must be considered when building 
+An accuracy of $xx.xx\%$, may still appear unsatisfactory for a truly trustworthy sandbox approach. Still, 
+our experiments open the discussion (a) on one important blindspots that must be considered when building 
 malware detection approaches that mine sandboxes, and (b) on the need to investigate further sources of information when trying to distinguish benign and malign app versions. 
 %\kn{Please add here the results of path analysis and manifest files individually and their intersection}
-In fact, during our analysis we observed another interesting insight that out of the total of 162 sensitive 
-APIs, just 16 ($10.49$\%) were injected at most repackaged apps. 
+In fact, during our analysis we observed another interesting insight that out of the total of $162$ sensitive 
+APIs, just half was injected ($64$) were injected at most repackaged apps. 
 %\rb{(are all subjects in AndroZoo based on repackaging?)}. 
 This indicates that a small set of sensitive APIs is used by malicious developers and hence 
 researchers may want to pay more attention to this specific set of sensitive APIs.\\
@@ -127,10 +118,8 @@ researchers may want to pay more attention to this specific set of sensitive API
 In summary, we make the following contributions:
 
 \begin{enumerate}[1.]
-\item A reproduction study of the state of the art in mining sandbox approaches, DroidBot, 
-with a larger-scale and more realistic dataset, in terms of number of app pairs and similarity index.
-\item A systematic investigation of the effect of trace analysis and static analysis on Android manifest files 
-on improving the accuracy of the sandbox approach.
+\item We presented a negative result of the state of the art in mining sandbox approaches, using DroidBot as test cases generator at a larger-scale and more realistic dataset, when compared with an original study that used a small and less representative dataset.
+\item A systematic investigation of the effect of trace analysis on improving the accuracy of the sandbox approach.
 \item An in-depth look into the kind of sensitive APIs that plague most repackaged apps.
 \item A reproduction package of our studies is made available online; scripts for statistic analysis are also available.%\footnote{https://github.com/droidxp/paper-droidxp-replication.git}
 \end{enumerate}
@@ -141,7 +130,3 @@ readers familiar with dynamic and static analysis on Android apps and mining And
 Section \ref{sec:experimentalSetup} describes our infrastructure and methodology. Section \ref{sec:results} presents our results and qualitative analysis. Section \ref{sec:threats} discusses thread to validity, and Section \ref{sec:conclusions} 
 presents some potential areas for future work and concludes the paper.
 %\kn{Here, please describe each section in one sentence}
-
-
-
-
