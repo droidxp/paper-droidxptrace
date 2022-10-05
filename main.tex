@@ -1,4 +1,7 @@
-\documentclass[letterpaper,twocolumn,10pt]{article}
+\documentclass[10pt,conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+
+%\documentclass[letterpaper,twocolumn,10pt]{article}
 %\acmConference[ESEC/FSE 2022]{The 30th ACM Joint European Software Engineering Conference and Symposium on the Foundations of Software Engineering}{14 - 18 November, 2022}{Singapore}
 
 
@@ -6,7 +9,7 @@
 \usepackage[american]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{enumerate}
-\usepackage{setspace}
+%\usepackage{setspace}
 \usepackage{pgfgantt}
 \usepackage{booktabs}
 \usepackage{listings}
@@ -22,10 +25,10 @@
 \usepackage{lscape}
 \usepackage{siunitx}
 
-\usepackage{scalerel,stackengine}
-\def\apeqA{\SavedStyle\sim}
-\def\apeq{\setstackgap{L}{\dimexpr.5pt+1.5\LMpt}\ensurestackMath{%
-  \ThisStyle{\mathrel{\Centerstack{{\apeqA} {\apeqA} {\apeqA}}}}}}
+%\usepackage{scalerel,stackengine}
+%\def\apeqA{\SavedStyle\sim}
+%\def\apeq{\setstackgap{L}{\dimexpr.5pt+1.5\LMpt}\ensurestackMath{%
+%  \ThisStyle{\mathrel{\Centerstack{{\apeqA} {\apeqA} {\apeqA}}}}}}
 
 \begin{filecontents*}{grade.csv}
 market,qt
@@ -80,8 +83,8 @@ unknown/angeeks,1
 
 
 % Default fixed font does not support bold face
-\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
-\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{12}  % for normal
+%\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
+%\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{12}  % for normal
 
 % Custom colors
 \definecolor{keywords}{rgb}{0.5,0,0.35}
@@ -99,34 +102,14 @@ unknown/angeeks,1
        }
        
 % Identação e Margens
-\usepackage{fullpage}      % Margens
-\usepackage{indentfirst}   % Autoidentar
+%\usepackage{fullpage}      % Margens
+%\usepackage{indentfirst}   % Autoidentar
 
 % Figuras
 \usepackage{graphicx}       % Pictures
 
-\title{Unvealing and Mitigating Blindspots in the Android Mining Sandbox Approach for Malware Detection}
-
-%% \author{
-%% \IEEEauthorblockN{
-%%     Francisco Handrick da Costa\IEEEauthorrefmark{1},
-%%     Ismael Medeiros\IEEEauthorrefmark{1},
-%%     Rodrigo Bonif\'{a}cio\IEEEauthorrefmark{1},
-%%     Marcio Ribeiro\IEEEauthorrefmark{3}, \\ 
-%%     Gabriel Martins\IEEEauthorrefmark{1},
-%%     Mira Mezini\IEEEauthorrefmark{2}, and
-%%     Krishna Narasimhan\IEEEauthorrefmark{2}
-%% }
-
-%% \IEEEauthorblockA{
-%%   \IEEEauthorrefmark{1}Computer Science Department, University of Bras\'{i}lia, Brazil,
-%%   \IEEEauthorrefmark{2}Software Technology Group, TU Darmstadt, Germany, \\ 
-%%   \IEEEauthorrefmark{3}Institute of Computing, Federal University of Alagoas, Brazil
-%%   }
-%% }
-
-
-
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 
 \newtcbtheorem{obs}{Finding}{%
         theorem name,%
@@ -145,12 +128,31 @@ unknown/angeeks,1
 \newcommand{\rqa}{Does the accuracy of mining sandbox approaches scale for large datasets?}
 \newcommand{\rqb}{Do the proposed extensions (dynamic call graph analysis and manifest file analysis)
   improve the accuracy of the mining sandbox approach for malware detection?}
+
 \begin{document}
-%\keywords{Malware Detection,
-%Mining Sandboxes,
-%Software Security,
-%Android Platform,
-%Empirical Studies}
+
+\title{Unvealing and Mitigating Blindspots in the Android Mining Sandbox Approach for Malware Detection}
+
+\author{
+  \IEEEauthorblockN{
+    Anonymous
+  }
+%%     Francisco Handrick da Costa\IEEEauthorrefmark{1},
+%%     Ismael Medeiros\IEEEauthorrefmark{1},
+%%     Rodrigo Bonif\'{a}cio\IEEEauthorrefmark{1},
+%%     Marcio Ribeiro\IEEEauthorrefmark{3}, \\ 
+%%     Gabriel Martins\IEEEauthorrefmark{1},
+%%     Mira Mezini\IEEEauthorrefmark{2}, and
+%%     Krishna Narasimhan\IEEEauthorrefmark{2}
+%% }
+
+  \IEEEauthorblockA{
+    \IEEEauthorrefmark{1}Institution}}
+%%   \IEEEauthorrefmark{1}Computer Science Department, University of Bras\'{i}lia, Brazil,
+%%   \IEEEauthorrefmark{2}Software Technology Group, TU Darmstadt, Germany, \\ 
+%%   \IEEEauthorrefmark{3}Institute of Computing, Federal University of Alagoas, Brazil
+%%   }
+}
 
 \maketitle
 \input{abstract}
@@ -163,6 +165,7 @@ unknown/angeeks,1
 \input{threats}
 \input{conclusions}
 \balance 
+
 \bibliographystyle{IEEEtran}
 \bibliography{ref}
 

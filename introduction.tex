@@ -1,87 +1,64 @@
 \section{Introduction}\label{sec:introduction}
 
-Almost two-thirds of the world use mobile technologies, such as smartphones and tablets, in everyday life in the last decade~\cite{Comscore,DBLP:journals/tse/MartinSJZH17}. 
-The Android Operation System dominates this market, with around 3.29 
-million Android application~\footnote{In this paper, we will use the terms Android Applications, Android Apps and Apps interchangeably, to refer to Android software applications} (apps) available on the Google Play Store on first quarter of 2022~\cite{Statista}. 
-However, as the number of Android apps increases, so does the number of malicious activities and 
-malware, which in turn, has lead to the development of many techniques
-%This in turn has made security issues in Android apps a relevant research topic. As such, 
+Existing reports discuss that almost two-thirds of the world population
+uses mobile technologies~\cite{Comscore,DBLP:journals/tse/MartinSJZH17}, such as smartphones and tablets, with the
+Android Platform dominating this market. Indeed, Android controls more than 70\% of the \emph{mobile
+market share} and there are almost 3.5 million Android applications~\footnote{In this paper, we will use the terms Android Applications, Android Apps and Apps interchangeably, to refer to Android software applications} (apps)
+available on the Google Play Store~\cite{Statista}. 
+Nonetheless, perhaps due to its increasing popularity, the number of atacks and  
+malicious software (malware) targeting the Android platform have also
+increased---motivating a plenty of research efforts to design and develop new techniques
 to identify malicious behavior or vulnerable code in Android apps.
 
-%
-%One family of approaches
-%employ static analysis algorithms to uncover private information 
-%leaks, e.g.,~\cite{DBLP:conf/pldi/ArztRFBBKTOM14}, including 
-%deobfuscating strings to expose hidden malware~\cite{GlanzMBRAAM20}, 
-%\textcolor{red}{\textbf{MM: there is a lot more. I would mention other work, too. ..}}, 
-%or misuse of cryptographic primitives.~\cite{DBLP:journals/tse/KrugerSABM21}. 
-%An alternative
-%%other alternative for 
-%protection from Android malicious behavior consists in the 
-One technique employs dynamic analysis to mine Android sandbox~\cite{DBLP:conf/icse/JamrozikSZ16}. Specifically, such approach uses automated testing tools 
-%(i.e., dynamic analysis) 
-to explore apps behavior in terms of access to sensitive resources. Researchers have shown that the mining sandbox approach is also effective in detecting a popular class of Android malware based on repackaging~\cite{DBLP:conf/wcre/BaoLL18,le2018towards}---that is, starting with a benign version of an app from an official app store, such as Google Play~\footnote{\url{https://play.google.com/store/games}}, one might inject it with code performing malicious activities such as broadcasting sensitive information to a private server.~\cite{DBLP:journals/tse/LiBK21} %(\kn{Here add a citation that shows prevalence of repackaged malware}).
+For instance, the so called
+mining sandbox approach takes advantage of automated test case generation tools 
+to explore the behavior of an app---in terms of calls to Android sensitive APIs---and then
+generates an Android sandbox~\cite{DBLP:conf/icse/JamrozikSZ16}. During a normal
+execution of the app, the sandbox might block any call to a sensitive API
+that had not been observed during the exploratory phase. 
+Researchers have shown that the mining sandbox approach is also effective
+in detecting a popular class of Android malware that ``repackages'' benign apps~\cite{DBLP:conf/wcre/BaoLL18,le2018towards}---i.e., starting with a benign version of an app from an official app store, such as Google Play, one might infect it with
+malicious code, such as broadcasting
+sensitive information to a private server~\cite{DBLP:journals/tse/LiBK21}. The infected app is then
+shared with users using different app stores. 
+Previous research works~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22} compare the accuracy of Android sandboxes for malware detection 
+produced from the execution of different test case generation tools, including Monkey~\cite{Monkey}, Droidbot~\cite{DBLP:conf/icse/LiYGC17}, and Droidmate~\cite{DBLP:conf/kbse/BorgesHZ18} tools.
+These reports bring evidence that the test generation tool Droidbot outperforms the other tools, leading to sandboxes with an accuracy
+rate close to 70\%. 
+
+Although revealing promising results, the aforementioned research works use a small dataset of malwere
+(102 pairs involving a benign and a malicious version of an app)
+and do not investigate whether or not quantitative and qualitative malware attributes, e.g., the similarity index between the benign and the repackaged malicious version of an app,
+the malware family (Trojan, Spyware etc.), or the app stores that publish the malware, influence the performance of the mining sandbox approach for malware identification.
+So, in this paper we present the results of an research that aims to replicate previous studies~\cite{}
+in a larger dataset of malware and
+then investigate if a more diverse sample of app pairs has a positive or negative influence on the accuracy of the mining sandbox approach for
+malware identification. To this end, we explore the performance of the mining sandbox approach using the Droidbot
+test case generation tool and a new dataset
+that contains $1204$ pairs of benign/malicious apps and that presents a much more diverse similarity index and covers a broader range of malware families, for instance.
 
 
-%The focus of this paper is on malware identification based on the mining sandbox approach:
-Some previous works~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22} investigate accuracy of several test case generation tools for mining sandbox like Monkey~\cite{Monkey}, Droidbot~\cite{DBLP:conf/icse/LiYGC17} and Droidmate~\cite{DBLP:conf/kbse/BorgesHZ18}. These works reported that the test generation tool Droidbot performs best in generating test cases, achieving an accuracy rate between 65\% and 75\%. 
-
-During an initial investigation, our objective was to understand which malware families could be uncovered by the mining sandbox approach or not, taking advantage of the best test generation tool reported by previous works, Droidbot. For this study, we used a large dataset with $1204$ real app pairs (benign/malicious), which has a much more diverse similarity index and covers a broader range of malware families.
-
-For the setup study, we take advantage of DroidXP~\cite{DBLP:conf/scam/CostaMCMVBC20}, a tool suite that supported us not only to integrate DroidBot but also in our study setup and data collection. It relies on DroidFax~\cite{DBLP:conf/icsm/CaiR17a}, which instruments Android apps and collects relevant information about their execution, including the set of sensitive APIs a given app calls during execution tests. DroidFax also helps collect inter-component communication (ICC) using static program analysis.
-
-To our surprise, the experiment results show that (1) on a larger and more diverse dataset (compared to previous studies),
-the accuracy rate drops significantly relative to what has been reported previously and; (2) different size samples in the dataset have an impact on the malware classification;
-
-We hypothesize the source of the problem to be the current technique for distinguishing benign from malign app versions employed by the state of the art. Existing approaches calculate the difference between app pairs as the difference between the sets of sensitive APIs 
-that they call. Our work indicates that this characterization may be too simplistic. More specifically, we identify one 
-source of valuable information for more accurately
-distinguishing benign from malign app versions, the trace analysis. 
-
-The analysis considers that two apps may call the same set of sensitive APIs, but do so by taking different dynamic call traces between the app's entry point and the sensitive APIs. To investigate possible trace divergences, we used an auxiliary tool from DroidXP project called DroidXPTrace, which compares all traces from an entry point to sensitive APIs calls.
-
-
-%To answer the first question, we present the results of a study where we observed the accuracy results of DroidBot on a set from $800$ real app pairs (benign/malicious). For this reproduction study, we take advantage of DroidXP~\cite{DBLP:conf/scam/CostaMCMVBC20}, a tool suite that supported us not only to integrate DroidBot but also in our study setup and data collection. To answer the second question, we hypothesize that the mining sandbox approach for malware detection using tools like DroidBot performs a superficial analysis of differences between app pairs, i.e., only the difference in the set of sensitive APIs called. We assert that there are two major blindspots in the state of the art:
-%
-%\begin{enumerate}
-%    \item The differences between two apps that call the same set of sensitive APIs, but differ in their dynamic call traces between the app's entry point and the sensitive APIs.
-%    \item The {\color{blue}change patterns} within the Android Manifest' section that requests permissions, when considering the two variants of apps (i.e., benign and malicious variants).
-%\end{enumerate}
-
-%To explore the item (1), we used an auxiliary tool from DroidXP project called DroidXPTrace, which compares all traces from an entry point to sensitive APIs call and check for possible trace divergences. To {\color{blue}mine change patterns} in the Android Manifest files, we harness the standard APK analysis tool from Android~\cite{au2011short}. Altogether, we investigate the following specific questions in our study, for which we provide answers in Section~\ref{sec:results}.
-%
-%\todo[inline]{\rb{I still have to review the RQs}}
-%
-%\begin{enumerate}[(RQ1)]
-% \item How well does the state of the art in mining sandbox approaches, DroidBot, perform with a large dataset of app pairs with a diverse similarity index?
-% \item How relevant is a dynamic call trace analysis to improving malware detection in support of the mine sandbox approach?
-% \item How relevant is a manifest files analysis to improving malware detection in support of the mine sandbox approach?
-%\end{enumerate}
-% 
-
-%First, we reproduced the experiments with the dataset of $102$ apps and achieved a comparable accuracy rate of $63\%$. Our hypothesized blindspots (dynamic call traces and manifest file permission analysis) improve the accuracy rates to $82\%$ and $89\%$ respectively. Secondly, we curated a larger dataset and our findings indicate that the accuracy of DroidBot significantly drops (to $24.12\%$) when reproduced on a larger dataset of $800$ app pairs with a similarity index of $62.47\%$. 
+{\bf Negative results.} To our surprise, the experiment results show that, on a larger and more diverse dataset (compared to previous studies), the accuracy rate of the mining sandbox approach drops significantly---in comparison to what has been reported previously. This result motivated us to conduct a serie of experiments to understand the reasons for the lower accuracy in the larger dataset and also explore an extension of the original mining sandbox approach for malware identification. The original approach classifies an app as a malwere whenever exists a difference between the sets of calls to sensitive APIs collected when running the test case generation tool over the original and repackage versions of the same app. In our extension, we also classify as a malwere a version of an app that calls the same set of sensitive APIs collected in the exploratory phase, though presenting at least one different trace from the entry points of the app to the collected sensitive method calls. 
 
 Our experiments show that the accuracy of sandbox approaches does indeed improve, when they are made aware of the differences in the dynamic call trace, improving accuracy by $xx\%$ (from $xx.xx\%$ to $xx.xx\%$). 
-
 An accuracy of $xx.xx\%$, may still appear unsatisfactory for a truly trustworthy sandbox approach. Still, 
 our experiments open the discussion (a) on one important blindspot that must be considered when building 
 malware detection approaches that mine sandboxes, and (b) on the need to investigate further sources of information when trying to distinguish benign and malign app versions. 
-%\kn{Please add here the results of path analysis and manifest files individually and their intersection}
 In fact, during our analysis we observed another interesting insight that out of the total of $162$ sensitive APIs, just less than half ($64$) were injected at most repackaged apps. 
-%\rb{(are all subjects in AndroZoo based on repackaging?)}. 
 This indicates that a small set of sensitive APIs is used by malicious developers and hence 
 researchers may want to pay more attention to this specific set of sensitive APIs.\\
+
 % to improve the security of Android apps. \\
 
-\noindent
-In summary, we make the following contributions:
+%% \noindent
+%% In summary, we make the following contributions:
 
-\begin{enumerate}[1.]
-\item We presented a negative result of the state of the art in mining sandbox approaches, using DroidBot as a test cases generator at a larger-scale and more realistic dataset, compared with previous works that used a small and less representative dataset.
-\item A systematic investigation of the effect of trace analysis on improving the accuracy of the sandbox approach.
-\item An in-depth look into the kind of sensitive APIs that plague most repackaged apps.
-\item A reproduction package of our studies is made available online; scripts for statistic analysis are also available.%\footnote{https://github.com/droidxp/paper-droidxp-replication.git}
-\end{enumerate}
+%% \begin{enumerate}[1.]
+%% \item We presented a negative result of the state of the art in mining sandbox approaches, using DroidBot as a test cases generator at a larger-scale and more realistic dataset, compared with previous works that used a small and less representative dataset.
+%% \item A systematic investigation of the effect of trace analysis on improving the accuracy of the sandbox approach.
+%% \item An in-depth look into the kind of sensitive APIs that plague most repackaged apps.
+%% \item A reproduction package of our studies is made available online; scripts for statistic analysis are also available.%\footnote{https://github.com/droidxp/paper-droidxp-replication.git}
+%% \end{enumerate}
 
 The rest of the paper is organized as follows. We begin with background and related work in Section \ref{sec:background};
 readers familiar with dynamic and static analysis on Android apps and mining Android sandbox may skip this section.
