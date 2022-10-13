@@ -95,6 +95,8 @@ represent the instrumentation phase.}
  \label{fig:mineSandbox}
 \end{figure}
 
+\subsection{Mining Android Sandbox for Malware Identification}
+
 Besides being used to generate Android sandboxes, the Mining Android Sandbox approach is also effective 
 to detect Android apps with suspicious behaviors~\cite{DBLP:conf/wcre/BaoLL18}.  In this scenario, the \emph{effectiveness} of the approach
 is estimated in terms of accuracy in which repackaged apps are identified.
@@ -103,14 +105,42 @@ that the more efficient the test generator tool (for instance, in terms of code 
 the more accurate would be the resulting sandbox.
 
 
-\todo[inline]{We should also explain how the mining sandbox approach can be used to identify malwares. Please,
-take a look at our JSS paper and rewrite this part of the text here.}
+Figure~\ref{fig:sensitiveAPI} illustrates the Mining Android Sandbox approach for
+repackaged apps identification. We leverage DroidXP to collect the set of sensitive APIs the versions of the apps call (benign/malign versions). As a first step, given one benign app version,
+our approach first collects all calls to sensitive APIs from the app code through static analysis. Then, during the execution step,
+we use dynamic analysis to collect all calls to sensitive APIs during the DroidBot test case execution. We configure DroidXP to execute DroidBot for a
+period of $3$ minutes. Since some malicious app may use dynamic features (such as reflection) to introduce malicious behavior, which can change the behavior of the apps at runtime~\cite{DBLP:journals/spe/ZhangLTX18,DBLP:journals/tosem/LiTX19}, this second analysis is also important to disclose some sensitive APIs calls ignored by static analysis.
+
+While our static analysis is made once, we execute dynamic analysis $3$ times. The result of static analysis and all executions is finally joined, forming a final set that contains all identified calls to sensitive APIs coming from the benign version of the app, as described at Figure~\ref{fig:sensitiveAPI}: ($S_{A}$, $D_{A1}$, $D_{A2}$, $D_{A3}$). We carry out the same procedure for the malicious version of the apps,
+creating a distinct set of calls to sensitive APIs (now coming from the malicious version of the apps). In
+a final step, we compare the two sets of calls to sensitive APIs ($Set_B, Set_M$). We use the following rules to
+check for a malicious behavior. 
+
+\begin{enumerate}
+    \item If the difference between the two final sets is an empty set, we cannot distinguish the benign from the malicious version of the app (false negative).
+    \item Otherwise, we successfully distinguish the benign from the malicious version of the app (true positive). 
+    %\kn{Cant we replace the first part of the second point simply as "Otherwise" or is there some specific corner cases that I am missing}
+\end{enumerate}
+
+In addition, this procedure also enables us to identify the calls to sensitive APIs that are more frequently injected by the malicious version of the apps
+in our dataset. 
+
+%\fh{here I have to insert the figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=0.45]{images/sensitiveAPIdiff.pdf}
+\caption{All procedure for suspicious app identification using sensitive API set diff.}
+ \label{fig:sensitiveAPI}
+\end{figure}
+
+
+
 %\kn{I have commented out the subsection here as it seems redundant with the previous subsection}
 %\subsection{The Mining Android Sandbox Approach for Malware Identification}
 
 %The focus of our paper is in approaches that mine android sandboxes to classify Android Malware.
 %There is a vast body of research in this direction. 
-
 
 Costa et al. and and Bao et al.~\cite{DBLP:conf/wcre/BaoLL18,DBLP:conf/scam/CostaMCMVBC20} conducted empirical studies to investigate the effectiveness of Mining Android Sandbox
 approaches, exploring test generation tools, including DroidBot. These works served as base for our investigation and\rb{our goal is not to: , consequently for negative result discovery}. Bao et al. found that, in general, the sandboxes constructed using test generators can detect more than $66$\% malicious apps in a dataset comprising $102$ pairs (benign/malicious). The study also presented that among $5$ test generation tools used, DroidBot~\cite{DBLP:conf/icse/LiYGC17} is the most effective sandbox.
@@ -126,4 +156,29 @@ dataset of $96$ pairs of benign/malicious apps.
 %possibility that trace analysis using call graph or analysis of
 % the manifest file could complement the mining sandbox approach for malware identification.
 
+\subsection{Extending the Mining Sandbox with Trace Analysis}
+
 Our work, although closely related to previous studies, differs from them in several aspects.  First, our assessment is more comprehensive: instead of considering $102$ pairs of benign/malign apps, we execute our study considering $1204$ pairs of apps. Curiously, the performance of the mining sandbox approach in our large dataset drops significantly. We then investigate which characteristics of the malware samples in the large dataset explain the lower performance we observed and also explore an extension to the malware sandbox approach that compare the traces from the app entry points to the calls to sensitive APIs, considering the benign and malign versions of the apps. 
+
+As we discussed in the previous section, we take advantage of DroidXPTrace to build the dynamic call graphs that characterize the execution of each version of the apps in our dataset. Our goal
+here is to explore how many pairs of apps call the same set of sensitive APIs, though using different call
+traces. We hypothesize that differences in the traces might be used to complement the Mining Android Sandbox approach for suspicious app identification. As such, here we execute the trace analysis for all app pairs of our dataset, and check if there are situations in which the basic version of the Mining Android Sandbox approach was not able to correctly classify the malign version of an app as a piggybacked, however it has a different execution trace. For detecting different trace, we performed an evaluation of the dynamic call graph of each pair. Our procedure checks if there is some new node, representing a new sensitive API at malicious version, or a new edge($x$, $y$), where $x$ and $y$ indicates a method $x$ calling a sensitive method $y$.
+
+%\rb{(Not sure if this is the right decision. I do not see any problem in running
+%  this study for all pairs.)}. 
+%% we  investigate those app pairs that were not described as a malware during the exploratory step, i.e,
+%% the test generation tool DroidBot collected the same set of sensitive APIs for both version. If a dynamic call graph
+%% of these app pairs presented different traces from entry point to sensitive APIs call at both versions, we suspect this to indicate presence of malware.
+Figure~\ref{fig:callGraph} illustrates an example of benign and malicious call graphs.
+At this example, although both app versions access the same set of sensitive resources, the
+malicious version follows a different execution trace. 
+
+
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=0.30]{images/maliciousCallGraph.pdf}
+\caption{Illustrative example of the trace analysis. In this case, both versions call the same set of sensitive APIs. Nonetheless,
+the traces between the entry point and the calls to sensitive APIs diverge.}
+ \label{fig:callGraph}
+\end{figure}
+
