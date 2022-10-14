@@ -182,3 +182,19 @@ the traces between the entry point and the calls to sensitive APIs diverge.}
  \label{fig:callGraph}
 \end{figure}
 
+
+Figure~\ref{fig:maliciousTrace} shows an example of a trace injected in the malicious version of the
+app \textbf{[com.android.remotecontrolppt]}. Here, the benign and malicious app versions access the same
+sensitive method, \textit{getSubscriberid()}. This sensitive method returns the device's unique
+subscriber ID, and requires the manifest file permission \texttt{READ\_PHONE\_STATE}, present in both app versions.
+The original app accesses this method through two distinct traces (Trace 01 and Trace 02), which suggests an expected action from app user. However,
+instead of the two original traces, the malicious version injected a third trace (Trace 03) containing as entry point a method that performs a stealth
+computation on a background thread, \textit{doInBackground}, suggesting an action without user's awareness.
+
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.28]{images/maliciousTrace_example01.pdf}
+\caption{Example of Malicious Trace.}
+ \label{fig:maliciousTrace}
+\end{figure}
