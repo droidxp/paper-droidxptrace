@@ -17,7 +17,7 @@ Complete Dataset (1204 pairs of apps).
 
 %% The remainder of this section is structured as follows. Section~\ref{sec:traceResults} presents the results of our study analyzing the impact of dynamic call trace on mining sandbox approaches, thereby answering R2. Section~\ref{sec:manifestResults} presents the results of our study analyzing the impact of modified manifest files on sandbox approaches, thereby answering R3. Section~\ref{sec:implications} presents some insights gained from the overall study and their potential implications.
 
-\subsection{Descriptive Assessment of the \mas Accuracy}
+\subsection{Exploratory Data Analysis of Accuracy}
 
 % \subsection{(Accuracy) False negative rate}\label{sec:Sensitive APIs}
 
@@ -98,7 +98,37 @@ sandbox approach failed to classify the malicious version as malware, 198 of the
 This result supports the hypothesis that the accuracy of the mining sandbox approach might be improved if the traces
 from entry points to the calls to sensitive APIs are considered in the analysis.
 
-\subsection{Association between accuracy and malware similarity}
+\subsection{Similarity Assessment}
+
+Figure~\ref{} shows the Similarity Score distribution
+over the two datasets we use in our research
+(the small and the complete datasets).
+Recall that the Similarity Score measures how similar the
+benign and malicious versions of an app are.
+Interesting, the average Similarity Score of the
+small dataset is 0.77 (median of 0.86 and sd of 0.22). Contrasting,
+the average Similarity Score of the complete dataset is
+0.61 (median of 0.70 and sd of 0.33).
+
+Here we hypothesize that Similarity Score could explain
+the differences of \mas we observed
+when comparing the accuracy results for both
+datasets. We first use Logistic Regression to test this hypothesis,
+and the results reveal
+a negative and real association ($p$-value < 0.0005). This find suggests
+that repackaged malwares with low similarity with the
+original apps are more likely to be identified using the
+\mas. This result is a surprise, because
+the small dataset presents a higher Similarity
+Score in comparison with the complete dataset, even though 
+we achieved a higher accuracy on the small dataset.
+
+We use the \emph{KMeans} algorithm to split the
+complete dataset into five clusters. We then
+estimate the accuracy for each cluster, as
+we show in Table~\ref{}.
+
+\todo[inline]{RB.: I will continue from here tomorrow}
 
 We investigate whether or not the similarity between
 the benign and malicious versions of every pair of apps
