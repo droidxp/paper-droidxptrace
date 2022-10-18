@@ -4,7 +4,7 @@
 % \todo[inline]{I think we can summarize the following paragraphs for a few sentences}
 
 In this section, we detail the findings of our study.  We remind the reader that our main goal with this study is to
-better understand the strenghts and limitations of the \mas for malware detection using the state-of-the-art
+better understand the strengths and limitations of the \mas for malware detection using the state-of-the-art
 test case generation tool (DroidBot). We explore
 the results of our research in two datasets: the Small Dataset (102 pairs of apps) and the
 Complete Dataset (1204 pairs of apps).
@@ -98,19 +98,25 @@ sandbox approach failed to classify the malicious version as malware, 198 of the
 This result supports the hypothesis that the accuracy of the mining sandbox approach might be improved if the traces
 from entry points to the calls to sensitive APIs are considered in the analysis.
 
-\subsection{Similarity Assessment}
+\subsection{Assessment Based on \ss}
 
-Figure~\ref{} shows the Similarity Score distribution
+Figure~\ref{fig:ss} shows the \sscore distribution
 over the two datasets we use in our research
 (the small and the complete datasets).
-Recall that the Similarity Score measures how similar the
+Recall that the \sscore measures how similar the
 benign and malicious versions of an app are.
-Interesting, the average Similarity Score of the
+Interesting, the average \sscore of the
 small dataset is 0.77 (median of 0.86 and sd of 0.22). Contrasting,
-the average Similarity Score of the complete dataset is
+the average \sscore of the complete dataset is
 0.61 (median of 0.70 and sd of 0.33).
 
-Here we hypothesize that Similarity Score could explain
+\begin{figure}
+  \includegraphics[width=\columnwidth]{images/similarity-1.pdf}
+  \caption{\sscore of the malware samples in the small and complete datasets.}
+  \label{fig:ss}
+\end{figure}
+
+Here we hypothesize that \sscore could explain
 the differences of \mas we observed
 when comparing the accuracy results for both
 datasets. We first use Logistic Regression to test this hypothesis,
@@ -118,23 +124,48 @@ and the results reveal
 a negative and real association ($p$-value < 0.0005). This find suggests
 that repackaged malwares with low similarity with the
 original apps are more likely to be identified using the
-\mas. This result is a surprise, because
-the small dataset presents a higher Similarity
-Score in comparison with the complete dataset, even though 
-we achieved a higher accuracy on the small dataset.
+\mas. This is a contradictory result, since
+we found a higher accuracy on the small dataset even though
+it presents a higher Similarity
+Score on average, in comparison with the complete dataset. 
 
-We use the \emph{KMeans} algorithm to split the
-complete dataset into five clusters. We then
+In a further analysis, we use the \emph{KMeans} algorithm to split the
+complete dataset into five clusters, according to the \sscore. We then
 estimate the accuracy for each cluster, as
-we show in Table~\ref{}.
+we show in Table~\ref{tab:ss-clusters}. Note that the \mas
+achieves the highest accuracy for the samples in the first cluster,
+which have an average \sscore of 0.07. Even for this particular
+cluster, the \mas achieves an 
+accuracy of 37.84\%---still distant from the accuracy
+the previous studies report.
 
+\tb{4}{There is a negative and real association between
+  the \sscore and the \mas performance. Nonetheless,
+  the \sscore does not explain the lower
+accuracy of the \mas in the complete dataset.}
+
+\begin{table}[ht]
+  \caption{Characteristics of the clusters. Note that the accuracy
+  decreases as the average \sscore of the samples in each cluster increases.}
+ \centering
+ \begin{tabular}{rrrrr}   \toprule
+Cluster Id & Sample Size & True Positives & Accuracy & \sscore \\ \midrule
+ 1 & 190 &  72 & 37.89 & 0.07 \\ 
+ 2 & 129 &  40 & 31.01 & 0.27 \\ 
+ 3 & 181 &  60 & 33.15 & 0.51 \\
+ 4 & 256 &  70 & 27.34 & 0.74 \\ 
+ 5 & 448 &  99 & 22.10 & 0.94 \\  \bottomrule
+ \end{tabular}
+ \label{tab:ss-clusters}
+ \end{table}
+ 
 \todo[inline]{RB.: I will continue from here tomorrow}
 
 We investigate whether or not the similarity between
 the benign and malicious versions of every pair of apps
 might explain the accuracy of the \mas for malware detection.
 
-\todo[inline]{I will waite for the new dataset}
+\todo[inline]{I will wait for the new dataset}
 
 ---using logistic regression.
 The results suggest that we cannot explain the
