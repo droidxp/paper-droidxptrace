@@ -2,7 +2,7 @@
 
 The goal of this research is to build an in-depth understanding about
 the performance of the \mas for detecting malware. To this
-end, we conduct our research using a dataset one order of magnitude
+end, we conduct our research using a dataset of repackaged apps one order of magnitude
 larger than previous studies. We also investigate to what
 extent variants of the \mas achieve a better performance
 for malware detection. Altogether, our
@@ -15,7 +15,7 @@ aim is to answer the following research questions:
 \end{enumerate}
 
 In this section, we describe our study settings. First, we present how we mined the data-set of Android app pairs that we
-use as a benchmark for our study (Section~\ref{sec:dataset}).  Then, we describe the data collection and
+use as a dataset for our study (Section~\ref{sec:dataset}).  Then, we describe the data collection and
 data analysis procedures in Sections~\ref{sec:dataCollectionProc} and~\ref{sec:dataAnalysisProc},
 respectively. Section~\ref{sec:hardware}) details the hardware configuration we use in our
 experiments.
@@ -23,35 +23,35 @@ experiments.
 
 \subsection{Malware Dataset}\label{sec:dataset}
 
-We use a curated dataset of \num{1204} repackaged apps available in the AndroZoo repository~\cite{DBLP:conf/msr/AllixBKT16}.
+We use a curated dataset of \apps repackaged apps available in the AndroZoo repository~\cite{DBLP:conf/msr/AllixBKT16}.
 It extends a previous dataset (hereafter \sds) used in the research works of Bao et al. and Costa et al.~\cite{DBLP:conf/wcre/BaoLL18,DBLP:conf/scam/CostaMCMVBC20},
-which contains a set of $102$ pairs of original and repackaged apps.
-We curate our dataset starting from an initial list of \num{3344} repackaged pairs of apps available in AndroZoo~\cite{DBLP:conf/msr/AllixBKT16}.
+which contains a set of 102 pairs of \emph{original} and \emph{repackaged} apps.
+We curate our dataset starting from an initial set of 3344 repackaged pairs of apps available in AndroZoo~\cite{DBLP:conf/msr/AllixBKT16}.
 Nonetheless, due to compatibility issues we found---either during the instrumentation phase (using DroidFax) or during the execution
-phase using the Android emulator---we endup with our final dataset (hereafter \cds) that contains $1204$ pairs of
+phase using the Android emulator---we endup with our final dataset (hereafter \cds) that contains \apps pairs of
 repackaged apps (36\% of the total AndroZoo repackaged apps). 
 
-We queried the Virus Total repository to findout which repackaged apps in our
-dataset have been identified as malware by at least two antivirus. According to Virus Total, in the \sds (102 pairs),
-53 of the repackaged apps (51.96\%) have been identified as malware by at least two
-antivirus. Conversely, considering the \cds, at least two antivirus identified 370 out of the 1024 repackaged apps as malware (30.73\%).
+We queried the Virus Total repository to find out which repackaged apps in our
+dataset have been labeled as a malware by at least two antivirus. According to Virus Total, in the \sds (102 pairs),
+57 of the repackaged apps (55.88\%) have been identified as a malware by at least two
+antivirus. Conversely, considering the \cds, at least two antivirus identified 370 out of the \apps repackaged apps as malware (30.75\%).
 Moreover, according to the
-\avt tool~\cite{avclass2-paper}, the malware samples in the \sds come from eleven different families---most of them from the Kuguo (54.71\%) and Dowgin (20.75\%) families.
+\avt tool~\cite{avclass2-paper}, the malware samples in the \sds come from eleven different families---most of them from the Kuguo (59.64\%) and Dowgin (21.05\%) families.
+Contrasting, our \cds is more representative. Besides a large sample of repackaged apps (\apps in total), it
+comprises 52 families of malware we collected using the \avt tool---most
+of them from the Gappusin (52.84\%), Kuguo (11.92\%), and Revmob (9.75\%) families.
 
-In general, our \cds is more representative. Besides a large sample of repackaged apps ($1204$ in total), it
-comprises 51 families of malware we collected using the \avt tool---most
-of them from the Gappusin (52.70\%), Kuguo (10.54\%), and Revmob (9.72\%) families.  
 In addition, we use the SimiDroid tool~\cite{DBLP:conf/trustcom/0029BK17} to
 estimate the similarity between the original and the repackaged versions of the
 apps in our \cds. SimDroid quantifies the similarity
-based on (a) the methods that are either identical or similar in both versions of the apps (benign and malicious versions),
-(b) methods that only appear in the malicious version of the apps (new methods), and (c) methods that only appear in the
-benign version of the apps (deleted methods).
-our \cds has an average similarity index of $61.25\%$---with a much better distribution ($239$ of
-app pairs have a similarity score of less than $0.25\%$, $155$ of app pairs
-between $0.25\%$ and $0.50\%$, $230$ of app pairs between $0.5\%$ and $0.75\%$,
-and $580$ of app pairs with more than $0.75\%$). The \sds presents a much higher
-similarity index average (77.79\%). 
+based on (a) the methods that are either identical or similar in both versions of the apps (original and repackaged versions),
+(b) methods that only appear in the repackaged version of the apps (new methods), and (c) methods that only appear in the
+original version of the apps (deleted methods).
+Our \cds has an average similarity index of 61.19\%---with a much better distribution (245 of
+app pairs have a similarity score of less than 0.25\%, 157 of app pairs
+between 0.25\% and 0.50\%, 223 of the apps between 0.5\% and 0.75\%,
+and 577 of the apps with more than 0.75\%). The \sds presents a much higher
+similarity index average (77.87\%). 
 
 It is important to highlight that the examples of apps in AndroZoo
 come from different Android app stores. In particular,
@@ -99,7 +99,7 @@ We use basic statistics (average) to identify the
 accuracy of the \mas to identify malware, in both
 datasets we use in our research---i.e., the \sds
 one with 102 pairs of apps and our \cds with
-1204 pairs. We use the Spearman Correlation~\cite{spearman-correlation} method and
+\apps pairs. We use the Spearman Correlation~\cite{spearman-correlation} method and
 Logistic Regression~\cite{statistical-learning} to understand the strengths of
 the associations between the similarity index and family of a
 malware with the mining sandbox approach accuracy---that is,
@@ -115,5 +115,5 @@ to answer our third research question.
 \todo[inline]{RB: later, if we need space, we can safely comment this section out.}
 
 We deployed our experiment on a 32-Core, AMD EPYC 7542 CPU, 512 GB RAM, storage Samsung SSD 970 EVO 1TB machine running a 64-bit Debian  GNU/Linux 11. We also configured our emulator to run all selected apps on Google Android version 9.0, API 28, 512M SD Card, 7GB internal storage, with X86 ABI image.
-For our study, we configured DroidXP to run each of the 1204 app pairs using DroidBot for 3 minutes. To mitigate noise, we repeated the full process 3 times,  which took around 421 machine hours in total. Although it was possible to run more than 10 emulators in parallel on one physical machine, to avoid any interference resulting from context switching within the operating system, we chose to run one emulator at a time. \rb{I don't know if the following is relevant\ldots} Hence, all processes took around 22 days, 17 days for experiment execution and additional 5 days for environment configuration.
+For our study, we configured DroidXP to run each of the \apps app pairs using DroidBot for 3 minutes. To mitigate noise, we repeated the full process 3 times,  which took around 421 machine hours in total. Although it was possible to run more than 10 emulators in parallel on one physical machine, to avoid any interference resulting from context switching within the operating system, we chose to run one emulator at a time. \rb{I don't know if the following is relevant\ldots} Hence, all processes took around 22 days, 17 days for experiment execution and additional 5 days for environment configuration.
 
