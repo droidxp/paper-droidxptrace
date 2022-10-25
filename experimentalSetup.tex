@@ -25,7 +25,7 @@ experiments.
 
 We use a curated dataset of \apps repackaged apps available in the AndroZoo repository~\cite{DBLP:conf/msr/AllixBKT16}.
 It extends a previous dataset (hereafter \sds) used in the research works of Bao et al. and Costa et al.~\cite{DBLP:conf/wcre/BaoLL18,DBLP:conf/scam/CostaMCMVBC20},
-which contains a set of 102 pairs of \emph{original} and \emph{repackaged} apps.
+which contains a set of 102 and 96 pairs respectively of \emph{original} and \emph{repackaged} apps.
 We curate our dataset starting from an initial set of 3344 repackaged pairs of apps available in AndroZoo~\cite{DBLP:conf/msr/AllixBKT16}.
 Nonetheless, due to compatibility issues we found---either during the instrumentation phase (using DroidFax) or during the execution
 phase using the Android emulator---we endup with our final dataset (hereafter \cds) that contains \apps pairs of
@@ -37,9 +37,9 @@ dataset have been labeled as a malware by at least two antivirus. According to \
 \ses. Here we only consider that a repackaged version of an app is a malware if \vt reports that at least
 two \ses identify a malicious behavior within the asset. This is in accordance with a previous work~\cite{vt-label}. Conversely, considering the \cds, at least two \se identified 370 out of the \apps repackaged apps as malware (30.75\%).
 Moreover, according to the
-\avt tool~\cite{avclass2-paper}, the malware samples in the \sds come from eleven different families---most of them from the Kuguo (59.64\%) and Dowgin (21.05\%) families.
+\avt~\cite{avclass2-paper}, the malware samples in the \sds come from eleven different families---most of them from the Kuguo (59.64\%) and Dowgin (21.05\%) families.
 Contrasting, our \cds is more representative. Besides a large sample of repackaged apps (\apps in total), it
-comprises 52 families of malware we collected using the \avt tool---most
+comprises 52 families of malware we collected using the \avt ---most
 of them from the Gappusin (52.84\%), Kuguo (11.92\%), and Revmob (9.75\%) families.
 
 In addition, we use the SimiDroid tool~\cite{DBLP:conf/trustcom/0029BK17} to
@@ -54,23 +54,18 @@ between 0.25\% and 0.50\%, 223 of the apps between 0.5\% and 0.75\%,
 and 577 of the apps with more than 0.75\%). The \sds presents a much higher
 similarity index average (77.87\%). 
 
-It is important to highlight that the examples of apps in AndroZoo
-come from different Android app stores. In particular,
-Figure~\ref{fig:stores} summarizes the stores where the apps in our dataset come
-from. As we can see, it is
-possible to find some repackaged apps
-even in the official Android app store.
+It is important to highlight that our examples of apps collected at in AndroZoo come from different Android app stores. Most of our repackage apps come from a non-official Android app store, Anzhi~\cite{anzhi}. However some repackaged apps also come from the official Android app store, Google Play.
 
 
-\begin{figure}[ht]
-\centering
-\includegraphics[scale=0.43]{images/stores.pdf}
-\caption{Markets where malware was discovered.}
- \label{fig:stores}
-\end{figure}
+%\begin{figure}[ht]
+%\centering
+%\includegraphics[scale=0.43]{images/stores.pdf}
+%\caption{Markets where malware was discovered.}
+% \label{fig:stores}
+%\end{figure}
 
 
-\subsection{Data Collection Procedures} \label{sec:dataCollectionProc}
+%\subsection{Data Collection Procedures} \label{sec:dataCollectionProc}
 
 
 We take advantage of the DroidXP infrastructure~\cite{DBLP:conf/scam/CostaMCMVBC20}
