@@ -76,8 +76,9 @@ of our \vt query report that at least two
 The first row of Table~\ref{tab:accuracy} shows the accuracy of the
 vanilla \mas in the \sds.
 
-\begin{table}[htb]
+\begin{table*}[htb]
   \caption{Accuracy of the \mas in both datasets.}
+\centering{
   \begin{tabular}{llrrrrrr} \toprule
     Approach       & Dataset & TP   & FP  & FN  & Precision & Recall & $F_1$ \\ \midrule
     \mas           & \sds    & 52   & 17  & 5   & 0.75      & 0.91   & 0.82  \\
@@ -85,8 +86,9 @@ vanilla \mas in the \sds.
     \mas           & \cds    & 155  & 191 & 271 & 0.44      & 0.36   & 0.40  \\
     \mas + Traces  & \cds    & 188  & 352 & 238 & 0.34      & 0.44   & 0.38  \\ \bottomrule
   \end{tabular}
+  }
   \label{tab:accuracy}
-\end{table}
+\end{table*}
 
 We also investigate if one could improve the performance of
 the \mas using a more elaborated comparison approach.
