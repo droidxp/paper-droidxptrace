@@ -6,8 +6,8 @@
 In this section, we detail the findings of our study.  We remind the reader that our main goal with this study is to
 better understand the strengths and limitations of the \mas for malware detection using the state-of-the-art
 test case generation tool (DroidBot). We explore
-the results of our research in two datasets: the Small Dataset (102 pairs of apps) and the
-Complete Dataset (1204 pairs of apps).
+the results of our research in two datasets: the \sds (102 pairs of apps) and the
+\cds (\apps pairs of apps).
 
 %%  and shed light on a few of
 %% blindspots that impact the false negative rate. We hypothesize the presence of two blindspots - dynamic call trace from the entry point to a sensitive API, and the differences in the manifest file of repackaged apps. In Section~\ref{sec:Sensitive APIs}, we summarize the results of our study that estimates the performance of the state of the art in mining sandbox approaches. To this end, we reproduce the approach used by DroidBot in their original paper by presenting the divergent sensitive app sets for each app pair in our dataset. We also present details regarding which sensitive APIs are accessed more commonly with malwares. 
@@ -21,82 +21,126 @@ Complete Dataset (1204 pairs of apps).
 
 % \subsection{(Accuracy) False negative rate}\label{sec:Sensitive APIs}
 
-{\bf Small Dataset.}
+{\bf \sds.}
 After running the dynamic analysis via DroidBot, our infrastructure produces
 a dataset with the sensitive methods that both app versions call during their execution. We consider that a test
-generation tool, in our case, DroidBot, builds a sandbox able to detect a specific malware if there exists at least one call to a sensitive method that happens
-only in the malicious version of the app. DroidXP also generates several reports, including the set of sensitive methods each app version (benign/malicious) calls.
-If the set of sensitive methods that only the malicious version of an app calls is empty,
-we conclude that the sandbox was not able to classify the malicious version as a malware, which leads to a false negative.
+generation tool, in our case, DroidBot, builds a sandbox that labels a an app repackaged version
+as a malware if there is at least one call to a sensitive method that (a) was observed
+while executing the repackaged version of the app and that (b) was not observed while
+executing the original version of the same app. 
+If the set of sensitive methods that only the repackaged version of an app calls is empty,
+we conclude that the sandbox does not label the repackaged version the app as a malware. We triangulate
+this information with the outputs of \vt, which might lead to one of the following
+situations:
 
-Considering the small dataset (102) apps, the mining sandbox approach for malware detection accurately
-classifies a total of \num{64} malware (\num{62.74}\%).
-This result is similar when comparing it with the work of Bao et al., which reports a performance
-of \num{66.66}\% for malware classification using
-DroidBot~\cite{DBLP:conf/wcre/BaoLL18}. This result confirms that we were able to almost reproduce
-the findings of that original study using our infrastructure. 
+\begin{itemize}
+\item {\bf True Positive}. The \mas labels a repackaged version as a malware and, according to
+  \vt, at least two \ses label the asset as a malware.
+  
+\item {\bf True Negative}. The \mas does not label a repackaged version as a malware and,
+  according to \vt, at most one \se labels the asset as a malware. 
+
+\item {\bf False Positive}. The \mas labels a repackaged version as a malware and, according to
+  \vt, at most one \se labels the asset as a malware.
+
+\item {\bf False Negative}. The \mas does not label a repackaged version as a malware, and
+  according to \vt, at least two \ses label the asset as a malware.
+\end{itemize}
+
+
+
+Considering the small dataset (102) apps, the \mas for malware detection 
+classifies a total of 69 repackaged versions as malware (67.64\%).
+This result is close to what Bao et al. report. That is, in the
+original paper,  the \mas approach using DroidBot classifies 66.66\% of the
+repackaged version of the apps as malware~\cite{DBLP:conf/wcre/BaoLL18}.
+This result confirms that we were able to reproduce
+the findings of the original study using our
+infrastructure. 
 
 \tb{1}{We were able to reproduce the results of
   existing research using our infrastructure,
-  achieving an accuracy in the
+  achieving a malware classification in the
   small dataset close to what has been reported in
   previous studies.}
+
+In the previous studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22},
+the authors assume that all repackaged versions contain a
+malicious behavior. For this reason, the authors do not
+explore accuracy metrics such as Precision, Recall, and
+F-measure ($F_1$). As we mentioned, in this paper we take advantage
+of \vt to label our dataset and build a ground truth: we only
+consider a repackaged version of an app a malware if the results
+of our \vt query report that at least two
+\se identify a malicious behavior in the asset.
+The first row of Table~\ref{tab:accuracy} shows the accuracy of the
+vanilla \mas in the \sds.
+
+\begin{table}[htb]
+  \caption{Accuracy of the \mas in both datasets.}
+  \begin{tabular}{llrrrrrr} \toprule
+    Approach       & Dataset & TP   & FP  & FN  & Precision & Recall & $F_1$ \\ \midrule
+    \mas           & \sds    & 52   & 17  & 5   & 0.75      & 0.91   & 0.82  \\
+    \mas + Traces  & \sds    & 55   & 30  & 2   & 0.64      & 0.96   & 0.77  \\
+    \mas           & \cds    & 155  & 191 & 271 & 0.44      & 0.36   & 0.40  \\
+    \mas + Traces  & \cds    & 188  & 352 & 238 & 0.34      & 0.44   & 0.38  \\ \bottomrule
+  \end{tabular}
+  \label{tab:accuracy}
+\end{table}
 
 We also investigate if one could improve the performance of
 the \mas using a more elaborated comparison approach.
 That is, instead of only comparing the sets of calls to sensitive APIs,
 here we also compare the traces from entry points to such a calls. If there is
 at least one trace that appears only during the execution of the
-test cases in the malicious version of the app, we consider that
-the sandbox approach was able to identify a malicious behavior. 
+test cases in the repackaged version of the app, we
+label that version a a malware.
 
 As we already discussed in this section, the vanilla \mas fails
-to detect 38 malware on the small dataset, using DroidBot
-as test case generator
-tool. When we introduce trace analysis, we improve the
-performance of the \mas in 17.65\%---
-that is, using trace analysis, our approach correctly
-classifies a total of 83 malware (80.39\% of the apps
-in the small dataset). 
+to detect five malware on the \sds (FN column, first row of Table~\ref{tab:accuracy}),
+using DroidBot as test case generator tool. When we introduce trace analysis, we reduce the
+number of false negatives to two, with the side effect of increasing the
+number of false positives from 17 to 30 (see the second row of Table~\ref{tab:accuracy}).
+In general, the accuracy ($F_1$) of the \mas using trace analysis drops from 0.82 to 0.77.
 
 %\begin{obs}{1}{}
- \tb{2}{The use of Trace Analysis improves the performance
-  of the mining sandbox approach to detect malware,
-  from 62.74\% to 80.39\% in the
-  Small Dataset.} 
+\tb{2}{Although the use of Trace Analysis reduces the number of
+  false negatives (in comparison with the vanilla \mas), it decreases the
+  overall accuracy ($F_1$) of the \mas to detect malware,
+  from 0.82\% to 0.77\% in the Small Dataset.} 
 %\end{obs}
 
 
-{\bf Complete Dataset.} 
-Surprisingly, when applied to our complete dataset (1204 apps), the \mas
-correctly classifies only a total of 341 (28.32\%) malware---
-for which the
-repackaged version calls at least one additional sensitive API.
-The accuracy of the approach here is much lower compared to what we reported for the
-small dataset in this section as well as to what has been reported by previous works---e.g.,
-Bao et al. (\num{66.66}\%)~\cite{DBLP:conf/wcre/BaoLL18} and Costa et al.
-(\num{76.04}\%)~\cite{DBLP:journals/jss/CostaMMSSBNR22}. 
+{\bf \cds.}
+
+Surprisingly, when applied to our complete dataset (\apps apps), the \mas
+labels a total of 346 repackaged apps as malware (28.76\% of the total number of repackaged
+apps)---for which the repackaged version calls at least one additional sensitive API.
+Our analysis also reveals a {\bf negative result} related to the accuracy of the approach: here
+the accuracy is much lower compared to what we reported for the
+\sds (see the third row of Table~\ref{tab:accuracy}), dropping from 0.82 to 0.40 (a reduction of 50\% in terms of $F_1$).
 This indicates that, when considering a more representative dataset, the accuracy of the mining sandbox
 approach using DroidBot drops significantly. 
 
 %\begin{obs}
 \tb{3}{
-  The mining sandbox approach for malware detection
+  The \mas for malware detection
   leads to a substantially lower performance on the
-  Complete Dataset (1204 pairs of apps),
-  correctly classifying only \num{28.32}\% of the repackaged
-  apps as malware in the complete dataset.}
+  \cds (1204 pairs of apps),
+  dropping the accuracy in 50\% smaller in comparison to
+  what we observed in the \sds.}
 %\end{obs}
 
 Therefore, the resulting sandbox we generate using
 DroidBot suffers from a significantly low accuracy rate when presented with a representative dataset, 
 which encouraged us to endorse efforts aimed at identifying potential blindspots with such approaches.
-Considering trace analysis, as we explained in Section~\ref{sec:pathsetup},
-our results show that, among 863 pairs of apps for which the vanilla mining
-sandbox approach failed to classify the malicious version as malware, 198 of them
-(22.94\%) present different traces.
-This result supports the hypothesis that the accuracy of the mining sandbox approach might be improved if the traces
-from entry points to the calls to sensitive APIs are considered in the analysis.
+Nonetheless, enriching the \mas with trace analysis also
+decreases the overall accuracy in the \cds (even though we reduce the
+number of false negatives with trace analysis, the increasing in the
+number of false positives negatively impacts the performance of the
+approach). This is shown in the fourth row of Table~\ref{tab:accuracy}).
+
+\todo[inline]{Handrick, I reviewed the text until this point.}
 
 \subsection{Assessment Based on \sscore}
 
