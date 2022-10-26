@@ -35,7 +35,7 @@ We queried the \vt repository to find out which repackaged apps in our
 dataset have been labeled as a malware by at least two antivirus. According to \vt, in the \sds (102 pairs),
 57 of the repackaged apps (55.88\%) have been identified as a malware by at least two
 \ses. Here we only consider that a repackaged version of an app is a malware if \vt reports that at least
-two \ses identify a malicious behavior within the asset. This is in accordance with a previous work~\cite{vt-label}. Conversely, considering the \cds, at least two \se identified 370 out of the \apps repackaged apps as malware (30.75\%).
+two \ses identify a malicious behavior within the asset. This is in accordance with a previous work~\cite{vt-label}. Conversely, considering the \cds, at least two \se identified 426 out of the \apps repackaged apps as malware (35.41\%).
 Moreover, according to the
 \avt~\cite{avclass2-paper}, the malware samples in the \sds come from eleven different families---most of them from the Kuguo (59.64\%) and Dowgin (21.05\%) families.
 Contrasting, our \cds is more representative. Besides a large sample of repackaged apps (\apps in total), it
@@ -48,10 +48,10 @@ apps in our \cds. SimDroid quantifies the similarity
 based on (a) the methods that are either identical or similar in both versions of the apps (original and repackaged versions),
 (b) methods that only appear in the repackaged version of the apps (new methods), and (c) methods that only appear in the
 original version of the apps (deleted methods).
-Our \cds has an average similarity index of 61.19\%---with a much better distribution (245 of
-app pairs have a similarity score of less than 0.25\%, 157 of app pairs
-between 0.25\% and 0.50\%, 223 of the apps between 0.5\% and 0.75\%,
-and 577 of the apps with more than 0.75\%). The \sds presents a much higher
+Our \cds has an average similarity index of 62.61\%---with a much better distribution (241 of
+app pairs have a similarity score of less than 0.25\%, 156 of app pairs
+between 0.25\% and 0.50\%, 227 of the apps between 0.5\% and 0.75\%,
+and 578 of the apps with more than 0.75\%). The \sds presents a much higher
 similarity index average (77.87\%). 
 
 It is important to highlight that our examples of apps collected at in AndroZoo come from different Android app stores. Most of our repackage apps come from a non-official Android app store, Anzhi~\cite{anzhi}. However some repackaged apps also come from the official Android app store, Google Play.
