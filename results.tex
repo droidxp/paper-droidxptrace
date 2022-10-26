@@ -167,7 +167,7 @@ when comparing the accuracy results for both
 datasets. We first use Logistic Regression to test this hypothesis,
 assessing the strength of the association between label correctness and
 the \sscore. The logistic regression results reveal
-a negative and real association ($p$-value < 0.0005). This find suggests
+a negative and real association ($p$-value $<$ 0.0005). This find suggests
 that the \mas is more likely to assign a correct label to
 a repackaged app in the cases where its \sscore with the original
 app is small. This is a an unexpected result, since
@@ -178,9 +178,8 @@ In a further analysis, we use the \emph{K-Means} algorithm to split the
 \cds into five clusters, according to the \sscore. We then
 estimate the accuracy for each cluster, as
 we show in Table~\ref{tab:ss-clusters}. Note that the \mas
-achieves a percentage of hits close to 70\% in the clusters
-1--4, that present an average \sscore of at most 0.76.
-which have an average \sscore of 0.07. 
+achieves a percentage of hits close to 70\% in the clusters 1~--~4, that present an average \sscore of at most 0.76.
+%which have an average \sscore of 0.07. 
 
 \tb{4}{There is a negative and real association between
   the \sscore and the \mas performance. Nonetheless,
