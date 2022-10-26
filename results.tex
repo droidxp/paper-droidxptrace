@@ -49,7 +49,7 @@ situations:
 
 
 
-Considering the small dataset (102) apps, the \mas for malware detection 
+Considering the \sds (102) apps, the \mas for malware detection 
 classifies a total of 69 repackaged versions as malware (67.64\%).
 This result is close to what Bao et al. report. That is, in the
 original paper,  the \mas approach using DroidBot classifies 66.66\% of the
@@ -61,7 +61,7 @@ infrastructure.
 \tb{1}{We were able to reproduce the results of
   existing research using our infrastructure,
   achieving a malware classification in the
-  small dataset close to what has been reported in
+  \sds close to what has been reported in
   previous studies.}
 
 In the previous studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22},
@@ -109,7 +109,7 @@ In general, the accuracy ($F_1$) of the \mas using trace analysis drops from 0.8
 \tb{2}{Although the use of Trace Analysis reduces the number of
   false negatives (in comparison with the vanilla \mas), it decreases the
   overall accuracy ($F_1$) of the \mas to detect malware,
-  from 0.82\% to 0.77\% in the Small Dataset.} 
+  from 0.82\% to 0.77\% in the \sds.} 
 %\end{obs}
 
 
@@ -151,10 +151,10 @@ over the two datasets we use in our research
 (the small and the complete datasets).
 Recall that the \sscore measures how similar the
 benign and malicious versions of an app are.
-Interesting, the average \sscore of the
-small dataset is 0.77 (median of 0.86 and sd of 0.22). Contrasting,
+The average \sscore of the
+\sds is 0.77 (median of 0.86 and sd of 0.22). Contrasting,
 the average \sscore of the complete dataset is
-0.61 (median of 0.70 and sd of 0.33).
+0.62 (median of 0.72 and sd of 0.32).
 
 \begin{figure}
   \includegraphics[width=\columnwidth]{images/similarity-1.pdf}
@@ -166,64 +166,43 @@ Here we hypothesize that \sscore could explain
 the differences of \mas we observed
 when comparing the accuracy results for both
 datasets. We first use Logistic Regression to test this hypothesis,
-and the results reveal
+assessing the strength of the association between label correctness and
+the \sscore. The logistic regression results reveal
 a negative and real association ($p$-value < 0.0005). This find suggests
-that repackaged malwares with low similarity with the
-original apps are more likely to be identified using the
-\mas. This is a contradictory result, since
-we found a higher accuracy on the small dataset even though
-it presents a higher Similarity
-Score on average, in comparison with the complete dataset. 
+that the \mas is more likely to assign a correct label to
+a repackaged app in the cases where its \sscore with the original
+app is small. This is a an unexpected result, since
+we found a higher accuracy on the \sds even though
+it presents a higher \sscore on average, in comparison with the \cds. 
 
-In a further analysis, we use the \emph{KMeans} algorithm to split the
-complete dataset into five clusters, according to the \sscore. We then
+In a further analysis, we use the \emph{K-Means} algorithm to split the
+\cds into five clusters, according to the \sscore. We then
 estimate the accuracy for each cluster, as
 we show in Table~\ref{tab:ss-clusters}. Note that the \mas
-achieves the highest accuracy for the samples in the first cluster,
-which have an average \sscore of 0.07. Even for this particular
-cluster, the \mas achieves an 
-accuracy of 37.84\%---still distant from the accuracy
-the previous studies report.
+achieves a percentage of hits close to 70\% in the clusters
+1--4, that present an average \sscore of at most 0.76.
+which have an average \sscore of 0.07. 
 
 \tb{4}{There is a negative and real association between
   the \sscore and the \mas performance. Nonetheless,
   the \sscore does not explain the lower
-accuracy of the \mas in the complete dataset.}
+accuracy of the \mas in the \cds.}
 
 \begin{table}[ht]
-  \caption{Characteristics of the clusters. Note that the accuracy
-  decreases as the average \sscore of the samples in each cluster increases.}
+  \caption{Characteristics of the clusters. Note that the percentage of
+    hits decreases in the cluster with the higher average \sscore.}
  \centering
  \begin{tabular}{rrrrr}   \toprule
-Cluster Id & Sample Size & True Positives & Accuracy & \sscore \\ \midrule
- 1 & 190 &  72 & 37.89 & 0.07 \\ 
- 2 & 129 &  40 & 31.01 & 0.27 \\ 
- 3 & 181 &  60 & 33.15 & 0.51 \\
- 4 & 256 &  70 & 27.34 & 0.74 \\ 
- 5 & 448 &  99 & 22.10 & 0.94 \\  \bottomrule
+   cId & Total of Samples & Total of Hits & (\%) of Hits & \sscore \\ \midrule
+   1          & 196              & 135           & 68.88        & 0.07 \\ 
+   2          & 146              & 102           & 69.86        & 0.29 \\ 
+   3          & 182              & 128           & 70.33        & 0.54 \\ 
+   4          & 247              & 175           & 70.85        & 0.76 \\
+   5          & 431              & 200           & 46.40        & 0.94 \\ \bottomrule
  \end{tabular}
  \label{tab:ss-clusters}
  \end{table}
  
-\todo[inline]{RB.: I will continue from here tomorrow}
-
-We investigate whether or not the similarity between
-the benign and malicious versions of every pair of apps
-might explain the accuracy of the \mas for malware detection.
-
-\todo[inline]{I will wait for the new dataset}
-
----using logistic regression.
-The results suggest that we cannot explain the
-poor performance of the mining sandbox approach
-in terms of the difference between the overall similarity score that occurs in the
-complete and small datasets. We also replicate this study using the
-malware category feature, though we did not find
-statistically significant evidence that the more representative
-number of malware categories can explain the lower
-performance of the mining sandbox approach in the
-complete dataset. 
-
 
 %% Considering
 %% manifest analysis, as we explained in Section~\ref{sec:manifestAnalysis},
