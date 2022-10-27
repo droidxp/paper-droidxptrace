@@ -15,9 +15,7 @@ aim is to answer the following research questions:
 \end{enumerate}
 
 In this section, we describe our study settings. First, we present how we mined the data-set of Android app pairs that we
-use as a dataset for our study (Section~\ref{sec:dataset}).  Then, we describe the data collection and
-data analysis procedures in Sections~\ref{sec:dataCollectionProc} and~\ref{sec:dataAnalysisProc},
-respectively. Section~\ref{sec:hardware}) details the hardware configuration we use in our
+use as a dataset for our study (Section~\ref{sec:dataset}).  Then, we describe the analysis procedures in Sections~\ref{sec:dataAnalysisProc}. Section~\ref{sec:hardware}) details the hardware configuration we use in our
 experiments.
 
 
@@ -33,14 +31,14 @@ repackaged apps (36\% of the total AndroZoo repackaged apps).
 
 We queried the \vt repository to find out which repackaged apps in our
 dataset have been labeled as a malware by at least two antivirus. According to \vt, in the \sds (102 pairs),
-57 of the repackaged apps (55.88\%) have been identified as a malware by at least two
+69 of the repackaged apps (67.64\%) have been identified as a malware by at least two
 \ses. Here we only consider that a repackaged version of an app is a malware if \vt reports that at least
-two \ses identify a malicious behavior within the asset. This is in accordance with a previous work~\cite{vt-label}. Conversely, considering the \cds, at least two \se identified 426 out of the \apps repackaged apps as malware (35.41\%).
+two \ses identify a malicious behavior within the asset. This is in accordance with a previous work~\cite{vt-label}. Conversely, considering the \cds, at least two \se identified 459 out of the \apps repackaged apps as malware (38.15\%).
 Moreover, according to the
-\avt~\cite{avclass2-paper}, the malware samples in the \sds come from eleven different families---most of them from the Kuguo (59.64\%) and Dowgin (21.05\%) families.
+\avt~\cite{avclass2-paper}, the malware samples in the \sds come from $17$ different families---most of them from the Kuguo (49.27\%) and Dowgin (17.39\%) families.
 Contrasting, our \cds is more representative. Besides a large sample of repackaged apps (\apps in total), it
-comprises 52 families of malware we collected using the \avt ---most
-of them from the Gappusin (52.84\%), Kuguo (11.92\%), and Revmob (9.75\%) families.
+comprises $57$ families of malware we collected using the \avt ---most
+of them from the Gappusin (43.13\%), Kuguo (9.58\%), and Revmob (7.84\%) families.
 
 In addition, we use the SimiDroid tool~\cite{DBLP:conf/trustcom/0029BK17} to
 estimate the similarity between the original and the repackaged versions of the

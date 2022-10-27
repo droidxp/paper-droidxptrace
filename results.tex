@@ -81,10 +81,10 @@ vanilla \mas in the \sds.
 \centering{
   \begin{tabular}{llrrrrrr} \toprule
     Approach       & Dataset & TP   & FP  & FN  & Precision & Recall & $F_1$ \\ \midrule
-    \mas           & \sds    & 52   & 17  & 5   & 0.75      & 0.91   & 0.82  \\
-    \mas + Traces  & \sds    & 55   & 30  & 2   & 0.64      & 0.96   & 0.77  \\
-    \mas           & \cds    & 155  & 191 & 271 & 0.44      & 0.36   & 0.40  \\
-    \mas + Traces  & \cds    & 188  & 352 & 238 & 0.34      & 0.44   & 0.38  \\ \bottomrule
+    \mas           & \sds    & 62   & 7  & 7   & 0.89      & 0.89   & 0.86  \\
+    \mas + Traces  & \sds    & 67   & 18  & 2   & 0.78      & 0.97   & 0.83  \\
+    \mas           & \cds    & 173  & 173 & 286 & 0.5      & 0.37   & 0.62  \\
+    \mas + Traces  & \cds    & 214  & 326 & 245 & 0.39      & 0.46   & 0.62  \\ \bottomrule
   \end{tabular}
   }
   \label{tab:accuracy}
@@ -96,20 +96,20 @@ That is, instead of only comparing the sets of calls to sensitive APIs,
 here we also compare the traces from entry points to such a calls. If there is
 at least one trace that appears only during the execution of the
 test cases in the repackaged version of the app, we
-label that version a a malware.
+label that version as a malware.
 
 As we already discussed in this section, the vanilla \mas fails
-to detect five malware on the \sds (FN column, first row of Table~\ref{tab:accuracy}),
+to detect $7$ malware on the \sds (FN column, first row of Table~\ref{tab:accuracy}),
 using DroidBot as test case generator tool. When we introduce trace analysis, we reduce the
 number of false negatives to two, with the side effect of increasing the
-number of false positives from 17 to 30 (see the second row of Table~\ref{tab:accuracy}).
-In general, the accuracy ($F_1$) of the \mas using trace analysis drops from 0.82 to 0.77.
+number of false positives from $7$ to $18$ (see the second row of Table~\ref{tab:accuracy}).
+In general, the accuracy ($F_1$) of the \mas using trace analysis drops from 0.86 to 0.66.
 
 %\begin{obs}{1}{}
 \tb{2}{Although the use of Trace Analysis reduces the number of
   false negatives (in comparison with the vanilla \mas), it decreases the
   overall accuracy ($F_1$) of the \mas to detect malware,
-  from 0.82\% to 0.77\% in the \sds.} 
+  from 0.86\% to 0.66\% in the \sds.} 
 %\end{obs}
 
 
@@ -118,16 +118,15 @@ labels a total of 346 repackaged apps as malware (28.76\% of the total number of
 apps)---for which the repackaged version calls at least one additional sensitive API.
 Our analysis also reveals a {\bf negative result} related to the accuracy of the approach: here
 the accuracy is much lower compared to what we reported for the
-\sds (see the third row of Table~\ref{tab:accuracy}), dropping from 0.82 to 0.40 (a reduction of 50\% in terms of $F_1$).
-This indicates that, when considering a more representative dataset, the accuracy of the mining sandbox
-approach using DroidBot drops significantly. 
+\sds (see the third row of Table~\ref{tab:accuracy}), dropping from 0.86 to 0.62 (a reduction of 27.9\% in terms of $F_1$).
+This indicates that, when considering a more representative dataset, the accuracy of the \mas using DroidBot drops significantly. 
 
 %\begin{obs}
 \tb{3}{
   The \mas for malware detection
   leads to a substantially lower performance on the
   \cds (1204 pairs of apps),
-  dropping the accuracy in 50\% smaller in comparison to
+  dropping the accuracy in 27.9\% smaller in comparison to
   what we observed in the \sds.}
 %\end{obs}
 
