@@ -1,3 +1,60 @@
+\section{Discussion}
+
+In this section, we explicitly answer our research questions,
+summarize the implications of our results, and discuss possible
+threats to the validity of the results presented so far.
+
+\subsection{Answers to the Research Questions}
+
+The results we presented in the previous sections
+ answer our two research questions, as
+we summarize in the following.
+
+\begin{enumerate}[(RQ1)]
+\item \textbf{\rqa} 
+Our study indicates that the accuracy of the state of the art mining sandbox approaches does not scale.
+While the accuracy when applied to a set of approximately $100$ app pairs
+was reported to be $66\%$ and confirmed to be $63.26\%$ in our reproduction study, 
+it drops to $24.12\%$ in the presence of more representative dataset of $800$ app pairs. 
+
+ \item \textbf{\rqb} Given that considering a combination of trace and manifest analysis improved the accuracy of DroidBot by a factor of $23.34\%$ respectively $31.63\%$ when applied to the small, respectively the complete dataset, it is fair to say that these two hypothesized blindspots do have a significant impact on the accuracy of mining sandbox approaches. 
+\end{enumerate}
+
+
+\subsection{Implications}\label{sec:implications} 
+
+Contrasting to previous research works~\cite{DBLP:conf/wcre/BaoLL18,DBLP:conf/iceccs/LeB0GL18,DBLP:journals/jss/CostaMMSSBNR22},
+our results 
+%discussed in the previous sections 
+lead to a more systematic understanding
+of the limitations of using the Android mining sandbox approach
+for malware detection. In particular, we show that,
+in the presence of a large dataset, the performance of the
+approach drops significantly. 
+
+We also highlight that considering only the differences in the
+sets of calls to sensitive APIs also leads to false negatives. We
+argue in favor of using a more elaborate \emph{diff} approach, which
+extends the mining sandbox approach to include the comparisons of
+the dynamic call traces from the ``entry points'' of an Android app to its
+set of calls to the sensitive APIs. We collect these call traces while
+building the sandbox in the usual way~\cite{DBLP:conf/icse/JamrozikSZ16}. Using this extension, we could improve
+the performance of the vanilla mining sandbox approach by a factor
+between 19\% (small dataset) to 22\% (complete dataset). We
+also explored a more ``complementary'' approach, somewhat independent
+of the mining sandbox approach, which statically search for two
+specific patterns of changes in the Android manifest files: permission
+duplication and component duplication. Using the manifest analysis,
+we complement the performance of the mining sandbox approach, improving its performance by
+a factor between 15\% (complete dataset) and 17\% (small dataset).
+Altogether, the implications of this research are twofold:
+
+\begin{description}
+  \item[A warning to the community:] the mining sandbox approach for malware detection exhibits a much higher false negative rate  than previous research reported. 
+  \item[Future directions:] researchers should advance the mining sandbox approach for malware detection by exploring more advanced techniques for differentiating benign and malicious versions of the apps. 
+\end{description}  
+
+
 \subsection{Threats to Validity}\label{sec:threats}
 
 % \todo[inline]{MM: Needs major revision.}

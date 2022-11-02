@@ -1,25 +1,15 @@
 \section{Results}\label{sec:results}
 
 
-% \todo[inline]{I think we can summarize the following paragraphs for a few sentences}
-
 In this section, we detail the findings of our study.  We remind the reader that our main goal with this study is to
 better understand the strengths and limitations of the \mas for malware detection using the state-of-the-art
 test case generation tool (DroidBot). We explore
 the results of our research in two datasets: the \sds (102 pairs of apps) and the
 \cds (\apps pairs of apps).
 
-%%  and shed light on a few of
-%% blindspots that impact the false negative rate. We hypothesize the presence of two blindspots - dynamic call trace from the entry point to a sensitive API, and the differences in the manifest file of repackaged apps. In Section~\ref{sec:Sensitive APIs}, we summarize the results of our study that estimates the performance of the state of the art in mining sandbox approaches. To this end, we reproduce the approach used by DroidBot in their original paper by presenting the divergent sensitive app sets for each app pair in our dataset. We also present details regarding which sensitive APIs are accessed more commonly with malwares. 
-%% %We also present the 
-%% %sensitive APIs set more injected by repackaged apps, among 162 explored. 
-%% %We perform this initial study since it help solve our R1 and served as a reference to solve R2 and R3. \kn{How does this help solve R2 and R3.}
-
-%% The remainder of this section is structured as follows. Section~\ref{sec:traceResults} presents the results of our study analyzing the impact of dynamic call trace on mining sandbox approaches, thereby answering R2. Section~\ref{sec:manifestResults} presents the results of our study analyzing the impact of modified manifest files on sandbox approaches, thereby answering R3. Section~\ref{sec:implications} presents some insights gained from the overall study and their potential implications.
 
 \subsection{Exploratory Data Analysis of Accuracy}
 
-% \subsection{(Accuracy) False negative rate}\label{sec:Sensitive APIs}
 
 {\bf \sds.}
 After running the dynamic analysis via DroidBot, our infrastructure produces
@@ -105,12 +95,12 @@ number of false negatives to two, with the side effect of increasing the
 number of false positives from 7 to 18 (see the second row of Table~\ref{tab:accuracy}).
 In general, the accuracy ($F_1$) of the \mas using trace analysis drops from 0.89 to 0.67.
 
-%\begin{obs}{1}{}
+
 \tb{2}{Although the use of Trace Analysis reduces the number of
   false negatives (in comparison with the vanilla \mas), it slightly decreases the
   overall accuracy ($F_1$) of the \mas to detect malware,
   from 0.89\% to 0.87\% in the \sds.} 
-%\end{obs}
+
 
 
 {\bf \cds.} Surprisingly, when applied to our complete dataset (\apps apps), the \mas
@@ -122,14 +112,14 @@ the accuracy is much lower in comparison to what we reported for the
 This result indicates that, when considering a more representative dataset, the accuracy of the \mas using
 DroidBot drops significantly. 
 
-%\begin{obs}
+
 \tb{3}{
   The \mas for malware detection
   leads to a substantially lower performance on the
   \cds (1204 pairs of apps),
-  dropping the accuracy in 27.9\% smaller in comparison to
+  dropping the accuracy in 47.19\% smaller in comparison to
   what we observed in the \sds.}
-%\end{obs}
+
 
 Therefore, the resulting sandbox we generate using
 DroidBot suffers from a significantly low accuracy rate when considering a large and more representative dataset, 
@@ -178,7 +168,7 @@ In a further analysis, we use the \emph{K-Means} algorithm to split the
 estimate the accuracy for each cluster, as
 we show in Table~\ref{tab:ss-clusters}. Note that the \mas
 achieves a percentage of hits close to 70\% in the clusters 1~--~4, that present an average \sscore of at most 0.76.
-%which have an average \sscore of 0.07. 
+
 
 \tb{4}{There is a negative and real association between
   the \sscore and the \mas performance. Nonetheless,
@@ -200,7 +190,75 @@ accuracy of the \mas in the \cds.}
  \label{tab:ss-clusters}
  \end{table}
 
-\todo[inline]{Handrick, I reviewed the text until this point.}
+
+\subsection{Assessment Based on Malware Family}
+
+The similarity assessment we discussed in the previous
+section does not explain the low performance of the
+\mas on the \cds. Recall that the \cds is more heterogeneous
+both in terms of similarity and malware families. So,
+we hypothesize that the families of the malwares in the \cds could
+better explain the poor performance of the \mas on the \cds.
+Indeed, in the \cds, we identified a total of
+57 families of malwares, though the most frequent
+ones are \emph{gappusin} (198 samples),
+\emph{kuguo} (44 samples), \emph{revmob} (36 samples),
+and \emph{dowgin} (33 samples). Together, they
+account for 67.75\% of the repackaged apps in our
+complete dataset labeled as malware according to \vt.
+
+This family distribution in the \cds is
+significantly different from the family
+distribution in the \sds---where the
+families \emph{kuguo} (34 samples), \emph{dowgin} (12 samples),
+and \emph{youmi} (5 samples) account for
+73.91\% of the families considering the 69
+repackaged apps \vt labels as malware in the \sds.
+Most important, in the \sds, there is just one
+\emph{gappusin} sample. This observation
+leads us to a question: \emph{how does the \mas
+perform when considering only the gappusin samples?}
+
+\begin{table}[ht]
+  \caption{Accuracy of the \mas when considering only the
+  samples from the \emph{gappusin} family in the \cds.}
+\centering
+\begin{tabular}{lllr}
+ \hline
+ Malware & Vanilla \mas & \mas + Traces & Total \\
+ \hline
+ True & False & False & 171 \\ 
+ True & False & True &  13 \\ 
+ True & True & False &  12 \\ 
+ True & True & True &   2 \\ 
+ \hline
+\end{tabular}
+\label{tab:gappusin}
+\end{table}
+
+Table~\ref{tab:gappusin} shows
+the results of an accuracy assessment considering
+only those particular samples in the \cds. Note that for 171 samples (86.36\%), neither the vanilla
+\mas nor the \mas with traces were able to correctly identify
+a repackaged version of an app as a malware. Merging the
+outcomes of both approaches (that is, the vanilla \mas and
+the \mas with traces), leads to a recall of
+$\frac{27}{198} = 0.13$. Further, if we remove the \emph{gappusin}
+samples (16.47\% of the \cds), the recall
+of the \mas (vanilla + traces) increases to 0.71 (similar
+to the performance of the original studies). 
+
+
+\tb{5}{The \mas fails to correctly
+  identify 86.36\% of the samples from the \emph{gappusin} family
+  as a malware. This is the main reason for the low
+  recall of the \mas in the \cds.}
+
+
+\todo[inline]{{\bf RB}. Removing the gappusin family improves
+  the recall, though did not improve precision. What is the reason
+  for the low precision of \mas in the \cds? We should investigate
+this issue.}
 
 
 %% Considering
@@ -241,59 +299,59 @@ accuracy of the \mas in the \cds.}
 %%   targeting more comprehensive datasets.
 %% \end{obs}
 
-Our exploration of all sensitive APIs called by all app pairs brought to the light the most frequently abused sensitive APIs that
-appear in the repackaged, malicious version of the apps. We observed that when executed all 800 app pairs, DroidBot called $75$ sensitive APIs at least one time (from our list of 162 sensitive APIs). Among them, $16$ APIs account for more than half of all calls ($51.06$\%).
-%\rb{I could not understand the previous sentence}.
-The sensitive API that is abused the most by repackaged apps is \textbf{android.telephony.TelephonyManager: java.lang.String getDeviceId()}, which gets the device
-IMEI\footnote{From Wikipedia: International Mobile Equipment Identity (IMEI) is a number, usually unique, to identify 3GPP and iDEN mobile phones.}.
-Table~\ref{tab:APIused} presents the list of the most frequent sensitive APIs that only the malicious
-version of the apps in our dataset call.
+%% Our exploration of all sensitive APIs called by all app pairs brought to the light the most frequently abused sensitive APIs that
+%% appear in the repackaged, malicious version of the apps. We observed that when executed all 800 app pairs, DroidBot called $75$ sensitive APIs at least one time (from our list of 162 sensitive APIs). Among them, $16$ APIs account for more than half of all calls ($51.06$\%).
+%% %\rb{I could not understand the previous sentence}.
+%% The sensitive API that is abused the most by repackaged apps is \textbf{android.telephony.TelephonyManager: java.lang.String getDeviceId()}, which gets the device
+%% IMEI\footnote{From Wikipedia: International Mobile Equipment Identity (IMEI) is a number, usually unique, to identify 3GPP and iDEN mobile phones.}.
+%% Table~\ref{tab:APIused} presents the list of the most frequent sensitive APIs that only the malicious
+%% version of the apps in our dataset call.
 
-\begin{obs}{6}{}
-  The results so far bring evidence that only a handful of resources accesses like the \textbf{device id} are most attractive to malware designers, providing a potentially high-impact point of focus for future researchers and practitioners.
-\end{obs}
+%% \begin{obs}{6}{}
+%%   The results so far bring evidence that only a handful of resources accesses like the \textbf{device id} are most attractive to malware designers, providing a potentially high-impact point of focus for future researchers and practitioners.
+%% \end{obs}
 
-%\begin{landscape}
-\begin{table*}[t]
- \scriptsize
-  \caption{Sensitive APIs more used by repackage apps}
-  \centering
-  %\begin{small}
- \begin{tabular}{lc}
+%% %\begin{landscape}
+%% \begin{table*}[t]
+%%  \scriptsize
+%%   \caption{Sensitive APIs more used by repackage apps}
+%%   \centering
+%%   %\begin{small}
+%%  \begin{tabular}{lc}
 
-   \toprule
-   Sensitive API & Occurrences \\
-   \midrule
-   01 android.telephony.TelephonyManager: java.lang.String getDeviceId() &  78 \\
-   02 android.net.wifi.WifiManager: android.net.wifi.WifiInfo getConnectionInfo() &  64\\
-   03 android.net.wifi.WifiInfo: java.lang.String getMacAddress() &  63 \\
-   04 android.net.NetworkInfo: java.lang.String getTypeName() &  58 \\
-   05 android.net.NetworkInfo: java.lang.String getExtraInfo() &  56 \\
-   06 android.telephony.TelephonyManager: java.lang.String getSubscriberId() &  54 \\
-   07 android.net.NetworkInfo: android.net.NetworkInfo State getState() &  52 \\
-   08 android.database.sqlite.SQLiteOpenHelper: android.database.sqlite.SQLiteDatabase getWritableDatabase() &  49 \\
-   09 android.database.sqlite.SQLiteDatabase: android.database.Cursor query(java.lang.String, ...,java.lang.String) &  47 \\
-   10 android.telephony.TelephonyManager: java.lang.String getNetworkOperator() &  45\\
-   11 android.telephony.TelephonyManager: android.telephony.CellLocation getCellLocation() &  44\\
-   12 android.database.sqlite.SQLiteOpenHelper: android.database.sqlite.SQLiteDatabase getReadableDatabase() &  44\\
-   13 android.telephony.gsm.GsmCellLocation: int getLac() &  42 \\
-   14 android.telephony.gsm.GsmCellLocation: int getCid() &  42 \\
+%%    \toprule
+%%    Sensitive API & Occurrences \\
+%%    \midrule
+%%    01 android.telephony.TelephonyManager: java.lang.String getDeviceId() &  78 \\
+%%    02 android.net.wifi.WifiManager: android.net.wifi.WifiInfo getConnectionInfo() &  64\\
+%%    03 android.net.wifi.WifiInfo: java.lang.String getMacAddress() &  63 \\
+%%    04 android.net.NetworkInfo: java.lang.String getTypeName() &  58 \\
+%%    05 android.net.NetworkInfo: java.lang.String getExtraInfo() &  56 \\
+%%    06 android.telephony.TelephonyManager: java.lang.String getSubscriberId() &  54 \\
+%%    07 android.net.NetworkInfo: android.net.NetworkInfo State getState() &  52 \\
+%%    08 android.database.sqlite.SQLiteOpenHelper: android.database.sqlite.SQLiteDatabase getWritableDatabase() &  49 \\
+%%    09 android.database.sqlite.SQLiteDatabase: android.database.Cursor query(java.lang.String, ...,java.lang.String) &  47 \\
+%%    10 android.telephony.TelephonyManager: java.lang.String getNetworkOperator() &  45\\
+%%    11 android.telephony.TelephonyManager: android.telephony.CellLocation getCellLocation() &  44\\
+%%    12 android.database.sqlite.SQLiteOpenHelper: android.database.sqlite.SQLiteDatabase getReadableDatabase() &  44\\
+%%    13 android.telephony.gsm.GsmCellLocation: int getLac() &  42 \\
+%%    14 android.telephony.gsm.GsmCellLocation: int getCid() &  42 \\
    
-   15 android.net.ConnectivityManager: android.net.NetworkInfo getNetworkInfo(int) &  39 \\
-   16 android.telephony.TelephonyManager: java.lang.String getNetworkOperatorName() &  36 \\
-   .&  .\\
-   .&  .\\
-   .&  .\\
-   74 android.app.ActivityManager: java.util.List getRecentTasks(int,int) & 1 \\
-   75 android.net.NetworkInfo: java.lang.String toString() & 1 \\
+%%    15 android.net.ConnectivityManager: android.net.NetworkInfo getNetworkInfo(int) &  39 \\
+%%    16 android.telephony.TelephonyManager: java.lang.String getNetworkOperatorName() &  36 \\
+%%    .&  .\\
+%%    .&  .\\
+%%    .&  .\\
+%%    74 android.app.ActivityManager: java.util.List getRecentTasks(int,int) & 1 \\
+%%    75 android.net.NetworkInfo: java.lang.String toString() & 1 \\
 
- \bottomrule
-                            Total & 1592 \\
+%%  \bottomrule
+%%                             Total & 1592 \\
 
- \end{tabular}
- %\end{small}
- \label{tab:APIused}
-\end{table*}
+%%  \end{tabular}
+%%  %\end{small}
+%%  \label{tab:APIused}
+%% \end{table*}
 %\end{landscape}
 
 %% \begin{obs}{1}{}
@@ -336,61 +394,4 @@ version of the apps in our dataset call.
 %% provide more explicit answers to the research questions. kn: Given this a shot}
 
 %% \todo[inline]{mm: any finding we want to formulate related to the discussion in the last paragraph? kn: Given it a shot}
-
-\section{Discussion}
-
-In this section, we explicitly answer our research questions,
-summarize the implications of our results, and discuss possible
-threats to the validity of the results presented so far.
-
-\subsection{Answers to the Research Questions}
-
-The results we presented in the previous sections
- answer our two research questions, as
-we summarize in the following.
-
-\begin{enumerate}[(RQ1)]
-\item \textbf{\rqa} 
-Our study indicates that the accuracy of the state of the art mining sandbox approaches does not scale.
-While the accuracy when applied to a set of approximately $100$ app pairs
-was reported to be $66\%$ and confirmed to be $63.26\%$ in our reproduction study, 
-it drops to $24.12\%$ in the presence of more representative dataset of $800$ app pairs. 
-
- \item \textbf{\rqb} Given that considering a combination of trace and manifest analysis improved the accuracy of DroidBot by a factor of $23.34\%$ respectively $31.63\%$ when applied to the small, respectively the complete dataset, it is fair to say that these two hypothesized blindspots do have a significant impact on the accuracy of mining sandbox approaches. 
-\end{enumerate}
-
-
-\subsection{Implications}\label{sec:implications} 
-
-Contrasting to previous research works~\cite{DBLP:conf/wcre/BaoLL18,DBLP:conf/iceccs/LeB0GL18,DBLP:journals/jss/CostaMMSSBNR22},
-our results 
-%discussed in the previous sections 
-lead to a more systematic understanding
-of the limitations of using the Android mining sandbox approach
-for malware detection. In particular, we show that,
-in the presence of a large dataset, the performance of the
-approach drops significantly. 
-
-We also highlight that considering only the differences in the
-sets of calls to sensitive APIs also leads to false negatives. We
-argue in favor of using a more elaborate \emph{diff} approach, which
-extends the mining sandbox approach to include the comparisons of
-the dynamic call traces from the ``entry points'' of an Android app to its
-set of calls to the sensitive APIs. We collect these call traces while
-building the sandbox in the usual way~\cite{DBLP:conf/icse/JamrozikSZ16}. Using this extension, we could improve
-the performance of the vanilla mining sandbox approach by a factor
-between 19\% (small dataset) to 22\% (complete dataset). We
-also explored a more ``complementary'' approach, somewhat independent
-of the mining sandbox approach, which statically search for two
-specific patterns of changes in the Android manifest files: permission
-duplication and component duplication. Using the manifest analysis,
-we complement the performance of the mining sandbox approach, improving its performance by
-a factor between 15\% (complete dataset) and 17\% (small dataset).
-Altogether, the implications of this research are twofold:
-
-\begin{description}
-  \item[A warning to the community:] the mining sandbox approach for malware detection exhibits a much higher false negative rate  than previous research reported. 
-  \item[Future directions:] researchers should advance the mining sandbox approach for malware detection by exploring more advanced techniques for differentiating benign and malicious versions of the apps. 
-\end{description}  
-
 
