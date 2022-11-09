@@ -201,7 +201,7 @@ we hypothesize that the families of the malwares in the \cds could
 better explain the poor performance of the \mas on the \cds.
 Indeed, in the \cds, we identified a total of
 57 families of malwares, though the most frequent
-ones are \emph{gappusin} (198 samples),
+ones are \gps (198 samples),
 \emph{kuguo} (44 samples), \emph{revmob} (36 samples),
 and \emph{dowgin} (33 samples). Together, they
 account for 67.75\% of the repackaged apps in our
@@ -215,13 +215,26 @@ and \emph{youmi} (5 samples) account for
 73.91\% of the families considering the 69
 repackaged apps \vt labels as malware in the \sds.
 Most important, in the \sds, there is just one
-\emph{gappusin} sample. This observation
+\gps sample. This observation
 leads us to a question: \emph{how does the \mas
 perform when considering only the gappusin samples?}
 
+
+Table~\ref{tab:gappusin} shows
+the results of an accuracy assessment considering
+only those particular samples in the \cds. Note that for 171 samples (86.36\%), neither the vanilla
+\mas nor the \mas with traces were able to correctly identify
+a repackaged version of an app as a malware. Merging the
+outcomes of both approaches (that is, the vanilla \mas and
+the \mas with traces), leads to a recall of
+$\frac{27}{198} = 0.13$. Further, if we remove the \gps
+samples from the \cds, the recall
+of the \mas (vanilla + traces) increases to 0.71 (similar
+to the performance of the original studies). 
+
 \begin{table}[ht]
   \caption{Accuracy of the \mas when considering only the
-  samples from the \emph{gappusin} family in the \cds.}
+  samples from the \gps family in the \cds.}
 \centering
 \begin{tabular}{lllr}
  \hline
@@ -236,26 +249,77 @@ perform when considering only the gappusin samples?}
 \label{tab:gappusin}
 \end{table}
 
-Table~\ref{tab:gappusin} shows
-the results of an accuracy assessment considering
-only those particular samples in the \cds. Note that for 171 samples (86.36\%), neither the vanilla
-\mas nor the \mas with traces were able to correctly identify
-a repackaged version of an app as a malware. Merging the
-outcomes of both approaches (that is, the vanilla \mas and
-the \mas with traces), leads to a recall of
-$\frac{27}{198} = 0.13$. Further, if we remove the \emph{gappusin}
-samples (16.47\% of the \cds), the recall
-of the \mas (vanilla + traces) increases to 0.71 (similar
-to the performance of the original studies). 
-
 
 \tb{5}{The \mas fails to correctly
-  identify 86.36\% of the samples from the \emph{gappusin} family
+  identify 86.36\% of the samples from the \gps family
   as a malware. This is the main reason for the low
   recall of the \mas in the \cds.}
 
+We further analyse the sample of \gps malware in our dataset, given its
+relevance to the negative result we present in our paper. First,
+Figure~\ref{fig:hist-gappusin} shows a histogram of the \sscore for the samples
+in the \gps family. Note that mostly of the repackaged versions from the
+\gps family are quite similar to the original versions (average \sscore
+of 0.90, median \sscore of 0.95, and sd of 0.14). We also reengineer
+a sample of 20 \gps malware (almost 10\% of the samples in this
+family), using the \texttt{SimiDroid}\footnote{https://github.com/lilicoding/SimiDroid},
+\texttt{apktool}~\footnote{https://ibotpeaches.github.io/Apktool/},
+and \texttt{smali2java}~\footnote{https://github.com/AlexeySoshin/smali2java} tools.
+Considering this sample of 20 \gps malware, the median \sscore is 0.98. In addition,
+the repackaged version of the apps changes 2.73 methods, includes one new method,
+and delete six methods from the original app (on median). Table~\ref{} summarizes
+the outputs of \texttt{SimiDroid} for this sample of \gps apps. 
 
-\todo[inline]{{\bf RB}. Removing the gappusin family improves
+%\begin{wrapfigure}{l}{0.4\textwidth}
+\begin{figure}
+\begin{center}
+    \includegraphics[width=0.38\textwidth]{images/gappusin-1.pdf}
+  \end{center}
+  \caption{Histogram of the \sscore for the samples in the \gps family.}
+  \label{fig:hist-gappusin}
+\end{figure}  
+%\end{wrapfigure}
+
+
+\begin{table}[ht]
+  \centering
+  \caption{Summary of the outputs of the \texttt{SimiDroid} tool for the sample of 20
+    \gps malware. (IM) Identical Methods, (SM) Similar Methods, (NM) New Methods, and
+    (DM) Deleted Methods.}
+  \begin{tabular}{lrrrrr}
+   \toprule
+    Hash & SimiScore & IM & SM & NM & DM \\ 
+   \midrule
+   \texttt{2D76DE7} & 0.99 & 461 &    1 &   1 &   6 \\ 
+   \texttt{46C41BE} & 0.99 & 1164 &   1 &   1 &   6 \\ 
+   \texttt{0218D0E} & 0.99 & 1082 &   1 &   1 &   6 \\ 
+   \texttt{07EA86C} & 0.99 & 2127 &   1 &   1 &   6 \\ 
+   \texttt{078E0AE} & 0.95 & 134 &   6 &   1 &  10 \\ 
+   \texttt{5374927} & 0.95 & 134 &   6 &   1 &  10 \\ 
+   \texttt{17722D9} & 0.97 & 265 &   6 &   1 &  10 \\ 
+   \texttt{5B0C652} & 0.99 & 2642 &   4 &  10 &   1 \\ 
+   \texttt{CCD29EC} & 0.99 & 436 &   2 &   0 &   0 \\ 
+   \texttt{010C070} & 0.99 & 2249 &   3 &   3 &   0 \\ 
+   \texttt{723C231} & 0.98 & 228 &   2 &   1 &  10 \\ 
+   \texttt{27D5D22} & 0.99 & 612 &   5 &   1 &  10 \\ 
+   \texttt{92209D0} & 0.99 & 698 &   2 &   3 &   0 \\ 
+   \texttt{2441293} & 0.98 & 123 &   2 &   0 &  11 \\ 
+   \texttt{D83F1CE} & 0.94 & 150 &   2 &   6 &   6 \\ 
+   \texttt{00405B6} & 0.99 & 864 &   2 &   1 &  10 \\ 
+   \texttt{33896EB} & 0.99 & 3205 &   2 &   0 &   0 \\ 
+   \texttt{1AE4E8B} & 0.99 & 3964 &   2 &   3 &   3 \\
+   \texttt{114C5C8} & 0.99 & 5631 &   2 &   9 & 151 \\ 
+   \bottomrule
+ \end{tabular}
+ \label{tab:simidroid-outputs}
+ \end{table}
+
+
+%% \begin{figure}
+%%   \includegraphics[scale=0.5]{images/gappusin-1.pdf}
+%% \end{figure}
+
+\todo[inline]{{\bf RB}. Removing the \gps family improves
   the recall, though did not improve precision. What is the reason
   for the low precision of \mas in the \cds? We should investigate
 this issue.}
