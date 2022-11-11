@@ -267,8 +267,18 @@ family), using the \texttt{SimiDroid}\footnote{https://github.com/lilicoding/Sim
 and \texttt{smali2java}~\footnote{https://github.com/AlexeySoshin/smali2java} tools.
 Considering this sample of 20 \gps malware, the median \sscore is 0.98. In addition,
 the repackaged version of the apps changes 2.73 methods, includes one new method,
-and delete six methods from the original app (on median). Table~\ref{} summarizes
-the outputs of \texttt{SimiDroid} for this sample of \gps apps. 
+and delete six methods from the original app (on median). Table~\ref{tab:simidroid-outputs} summarizes
+the outputs of \texttt{SimiDroid} for this sample of \gps apps. The similarity assessment
+of this sample of 20 \gps malware reveal a few modification patterns from the repackaged and
+original versions of the apps. First, all samples in this random selected \gps dataset
+do not modify the Android Manifest file---that is, they do not require new permissions, for instance.
+Moreover, 19 out of the 20 samples in this dataset  introduce a new
+method \texttt{void onReceive(android.content.Context,android.content.Intent)}
+into the class \texttt{com.games.AdReciver}. Although the results of the
+decompilation process are hard to understand (due to code obfuscation),
+the goal of this new method is to override the \texttt{onReceive} method
+of the super class \texttt{AdReciver} super class, and then update the content of a \texttt{data.apk}
+resource. 
 
 %\begin{wrapfigure}{l}{0.4\textwidth}
 \begin{figure}
@@ -279,7 +289,6 @@ the outputs of \texttt{SimiDroid} for this sample of \gps apps.
   \label{fig:hist-gappusin}
 \end{figure}  
 %\end{wrapfigure}
-
 
 \begin{table}[ht]
   \centering

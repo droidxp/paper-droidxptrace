@@ -1,5 +1,19 @@
 \begin{abstract}
-Android is by far the most popular operating system for the mobile platform and the ubiquitous nature of smartphones in our daily lives has only made its security a significant topic for researchers and practitioners alike. Previous research has shown that security experts can benefit from the Mining Sandbox approach based on sensitive APIs call to classify malware. This approach take advantage of test case generation tools to generate inputs to apps. In this paper, we present a negative result of previous works, which investigate accuracy of test case generation tools for mining sandbox. Even thought, these works find that test generation tool which performs best achieved an accuracy of $67\%$, our work revealed that this accuracy is only valid on a less representative dataset of app pairs (benign-malicious). We have reached this conclusion when we try to understand which malware families can be uncovered by Mining Sandbox approach or not based on these previous works. For that, we reproduced the results in a larger (complete) dataset of app pairs with a much more diverse similarity index and covering a broader range of malware family. To our surprise, our experiments revealed that the accuracy rate drops significantly. We also open the discussion on the possible blindspots that plague Mining Sandbox approaches and their accuracy issues when scaled. To this end, we hypothesize the presence of divergent dynamic call traces between app pairs. Our evaluation show that when Mining Sandbox approaches are made aware of this blindspot, the accuracy rate improves, among other valuable insights for the research community.
+  %Context
+  Android is the most popular mobile platform operating system, and smartphones' ubiquitous nature in our daily
+  lives has only made their security an important topic for researchers and practitioners alike.
+  %Problem
+  Previous research results have advocated using the Mining Android Sandbox Approach (\mas) to identify malicious behavior in Android repackaged apps.
+  Nonetheless, these previous studies draw their conclusions using a small dataset, threatening the findings concerning external validity and opening the question of whether
+  or not the \mas scales for larger datasets.
+  %Research Method
+  To investigate these issues, we conduct a new experiment using
+  (a) a methodology that is similar to that one used in previous research that empirically evaluates the \mas performance and
+  (b) a dataset one order of magnitude higher than the datasets used in previous research.
+  %Results
+  To our surprise, our experiments revealed that the accuracy rate of the \mas for malware identification drops significantly: F-Score drops from 0.89 in the previous dataset to 0.42 in our large dataset.
+  After an in-depth assessment, we find that the more significant number of malware from the gappusin family explains the higher number of samples for which the \mas fails to classify as malware correctly (false negative).
+  Our findings open the discussion on the possible blindspots that plague \mas and their accuracy issues when scaled. 
 \end{abstract}
 
 \begin{IEEEkeywords}
