@@ -279,7 +279,9 @@ decompilation process are hard to understand (due to code obfuscation),
 the goal of this modification is to update the content of a \texttt{data.apk}
 resource. There is no extra call to sensitive API (which hinders the
 \mas to classify an asset as a malware). Figure~\ref{code:onReceive} shows
-the code pattern of the \texttt{onReceive} method present in the samples.  
+the code pattern of the \texttt{onReceive} method present in the samples. This particular modification
+typically use a new method (\texttt{public void a(Context)}
+the repackaged versions often introduce into the same class (\texttt{AdReciver}).
 
 %\begin{wrapfigure}{l}{0.4\textwidth}
 \begin{figure}
@@ -352,9 +354,7 @@ public static void m7a(Activity activity, String str, String str2, String str3, 
 \label{code:deletedMethod}
 \end{figure*}
 
-
-
-
+ 
 \begin{table}[ht]
   \centering
   \caption{Summary of the outputs of the \texttt{SimiDroid} tool for the sample of 20
@@ -386,7 +386,19 @@ public static void m7a(Activity activity, String str, String str2, String str3, 
    \bottomrule
  \end{tabular}
  \label{tab:simidroid-outputs}
- \end{table}
+\end{table}
+
+In summary, our reverse engineering effort confirm that malware
+samples from the \gps family do not (a) modify the Android Manifest
+files and (b) call additional sensitive APIs---reducing the hability
+of the \mas to classify a sample as a malware correctly. We argue in favor
+of new research efforts to integrate the \mas approach
+with other techniques that could increase their performance
+on malware identification. Since the samples from the \gps
+family use specific patterns to introduce malicious behavior,
+static analysis approaches looking at these patterns could be
+an interesting alternative. 
+
 
 
 %% \begin{figure}
