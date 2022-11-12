@@ -7,18 +7,40 @@ threats to the validity of the results presented so far.
 \subsection{Answers to the Research Questions}
 
 The results we presented in the previous sections
- answer our two research questions, as
+ answer our four research questions, as
 we summarize in the following.
 
-\begin{enumerate}[(RQ1)]
-\item \textbf{\rqa} 
-Our study indicates that the accuracy of the state of the art mining sandbox approaches does not scale.
-While the accuracy when applied to a set of approximately $100$ app pairs
-was reported to be $66\%$ and confirmed to be $63.26\%$ in our reproduction study, 
-it drops to $24.12\%$ in the presence of more representative dataset of $800$ app pairs. 
+\begin{itemize}
+\item \textbf{Performance of the \mas on the \cds (RQ1).} 
+  Our study indicates that the accuracy of the \mas reported in previous studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22} does not
+  generalize to a larger and more diverse dataset. That is, while in our
+  reproduction study (using the \sds of previous research) the vanilla \mas
+  leads to an accuracy of 0.89, we observed a drop of precision and recall
+  that leads to an accuracy of 0.42 in the presence of our \cds (\apps pairs of
+  original and repackaged versions of Android apps). 
 
- \item \textbf{\rqb} Given that considering a combination of trace and manifest analysis improved the accuracy of DroidBot by a factor of $23.34\%$ respectively $31.63\%$ when applied to the small, respectively the complete dataset, it is fair to say that these two hypothesized blindspots do have a significant impact on the accuracy of mining sandbox approaches. 
-\end{enumerate}
+\item \textbf{Effect of trace analysis (RQ2).} We do not find any gain of enriching the vanilla \mas with
+  trace analysis in terms of accuracy (F-score). Although the use of traces
+  reduces the number of false negatives (improving recall), it also increases the number of false
+  positives with a similar proportion---which does not change the $F_1$ measure significantly.
+  Nonetheless, for the context of malware identification, we believe that the
+  gain in recall might justify the use of trace analysis.
+
+\item \textbf{Similarity Analysis (RQ3).} Our results bring evidence about the existence of a negative
+  association between similarity and the ability of the \mas to correctly
+  classify a repackaged version of an app as a malware. Nonetheless,
+  our similarity analysis alone was not sufficient to explain the low
+  performance of the \mas to identify malware in the \cds.
+
+\item \textbf{Malware Family Analysis (RQ4).} The results indicate that a specific family
+  (\gps)  is responsible for the largest number of false
+  negatives in the complete dataset. The \gps family corresponds to a particular type of
+  Adware, designed to automatically display advertisements while an app is executing. After reverse engineering
+  a sample of 20 \gps malware, we confirmed that the \mas cannot identify the
+  patterns of changes introduced in the repackaged versions of the apps. The \gps family
+  is the Achilles' hell of the \mas, since its accuracy increases substantially
+  when we remove the \gps samples from our \cds.  
+\end{itemize}
 
 
 \subsection{Implications}\label{sec:implications} 
