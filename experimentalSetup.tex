@@ -30,8 +30,9 @@ Nonetheless, due to compatibility issues we found---either during the instrument
 phase using the Android emulator---we endup with our final dataset (hereafter \cds) that contains \apps pairs of
 repackaged apps (36\% of the total AndroZoo repackaged apps). 
 
+\kn{This whole part about Virustotal needs a bit more elaboration. Ideally, including a citation explaining why we go for this additional method of classifying whether something as a malware or not. Since we already start with the app pairs, we sort of already know the malicious and benign version right? }
 We queried the \vt repository to find out which repackaged apps in our
-dataset have been labeled as a malware by at least two antivirus. According to \vt, in the \sds (102 pairs),
+dataset have been labeled as a malware by at least two antivirus (\kn{two out of how many antiviruses are included by Virustotal}). According to \vt, in the \sds (102 pairs),
 69 of the repackaged apps (67.64\%) have been identified as a malware by at least two
 \ses. Here we only consider that a repackaged version of an app is a malware if \vt reports that at least
 two \ses identify a malicious behavior within the asset. This is in accordance with a previous work~\cite{vt-label}. Conversely, considering the \cds, at least two \se identified 459 out of the \apps repackaged apps as malware (38.15\%).

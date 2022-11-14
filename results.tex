@@ -37,6 +37,7 @@ situations:
   according to \vt, at least two \ses label the asset as a malware.
 \end{itemize}
 
+\kn{These numbers of atleast two and atmost two kind of jump out of nowhere. We have to provide some systematic explanation as to why these numbers make sense.}
 
 
 Considering the \sds (102 apps), the \mas for malware detection 
@@ -62,10 +63,11 @@ F-measure ($F_1$). As we mentioned, in this paper we take advantage
 of \vt to label our dataset and build a ground truth: we only
 consider a repackaged version of an app a malware if the results
 of our \vt query report that at least two
-\ses identify a malicious behavior in the asset.
+\ses identify a malicious behavior in the asset. \kn{Now its a bit clearer, but I would expect a separate paragraph when we introduce VT explaing how VT serves as a better ground truth and also justify our choices on the numbers with VT a bit more -- why we have two as the magic number of antivirus scanners... }
 The first row of Table~\ref{tab:accuracy} shows that the
 vanilla \mas achieves an accuracy of 0.89. 
 
+\kn{Please re mention in this table the total number of apps in small and complete. Maybe inside the braces as part of the second column entries. }
 \begin{table*}[htb]
   \caption{Accuracy of the \mas in both datasets.}
 \centering{
@@ -117,7 +119,7 @@ DroidBot drops significantly.
   The \mas for malware detection
   leads to a substantially lower performance on the
   \cds (1204 pairs of apps),
-  dropping the accuracy in 47.19\% smaller in comparison to
+  dropping the accuracy by a factor of 47.19\%  in comparison to
   what we observed in the \sds.}
 
 
@@ -156,14 +158,15 @@ when comparing the accuracy results for both
 datasets. We first use Logistic Regression to test this hypothesis,
 assessing the strength of the association between label correctness and
 the \sscore. The logistic regression results reveal
-a negative and real association ($p$-value $<$ 0.0005). This find suggests
+a negative and real association ($p$-value $<$ 0.0005). This finding suggests
 that the \mas is more likely to assign a correct label to
 a repackaged app in the cases where its \sscore with the original
 app is small. This is a an unexpected result, since
 we found a higher accuracy on the \sds even though
 it presents a higher \sscore on average, in comparison with the \cds. 
+\kn{I am a bit confused here. Higher similariy score implies the app pairs are close to each other, making the detection easier? Or maybe I misundertood it here.}
 
-In a further analysis, we use the \emph{K-Means} algorithm to split the
+As a further analysis, we use the \emph{K-Means} algorithm to split the
 \cds into five clusters, according to the \sscore. We then
 estimate the accuracy for each cluster, as
 we show in Table~\ref{tab:ss-clusters}. Note that the \mas
@@ -174,6 +177,7 @@ achieves a percentage of hits close to 70\% in the clusters 1~--~4, that present
   the \sscore and the \mas performance. Nonetheless,
   the \sscore does not explain the lower
 accuracy of the \mas in the \cds.}
+\kn{This conclusion also is a bit confusing. There seems to be a direct relationship between the similariy score and the accurary right? More dissimilar the apps are, the difficult it seems for the approach to detect the malware. But I understand this correlation is not one to one. But I feel the last line could be a bit more positively framed. Currently, it reads as if the whole section did not yield any insights at all which is not true. }
 
 \begin{table}[ht]
   \caption{Characteristics of the clusters. Note that the percentage of
@@ -193,6 +197,7 @@ accuracy of the \mas in the \cds.}
 
 \subsection{Assessment Based on Malware Family}
 
+\kn{I feel we need some definition of what we mean by a family of malware. Words like gappusin etc donot have big meaning for people outside this domain}
 The similarity assessment we discussed in the previous
 section does not explain the low performance of the
 \mas on the \cds. Recall that the \cds is more heterogeneous
@@ -398,6 +403,8 @@ on malware identification. Since the samples from the \gps
 family use specific patterns to introduce malicious behavior,
 it might be promising to explore static analysis approaches that
 search for these specific patterns. 
+
+\kn{I really like this part of the gps family analysis. }
 
 
 
