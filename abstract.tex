@@ -1,15 +1,13 @@
 \begin{abstract}
   %Context
-  Android is the most popular mobile platform operating system, and smartphones' ubiquitous nature in our daily
+  Android is the most popular operating system for the mobile platform, and smartphones' ubiquitous nature in our daily
   lives has only made their security an important topic for researchers and practitioners alike.
   %Problem
-  Previous research results have advocated using the Mining Android Sandbox Approach (\mas) to identify malicious behavior in Android repackaged apps.
-  Nonetheless, these previous studies draw their conclusions using a small dataset, threatening the findings concerning external validity and opening the question of whether
-  or not the \mas scales for larger datasets.
+  Repackaging is one of the most popular methods to inject malicious behavior into android apps. Previous research results have advocated using the Mining Android Sandbox Approach (\mas) to identify malicious behavior in repackaged apps.
+  Nonetheless, these previous studies draw their conclusions using a small dataset, threatening the validity of the findings concerning external validity and opening the question of whether
+  or not the \mas scales.
   %Research Method
-  To investigate these issues, we conduct a new experiment using
-  (a) a methodology that is similar to that one used in previous research that empirically evaluates the \mas performance and
-  (b) a dataset one order of magnitude higher than the datasets used in previous research.
+  To investigate these issues, we curate a new experiment replicating the methodology that is similar to that one used in a state of the art research that empirically evaluated the \mas performance on a dataset with a higher order of magnitude than the datasets used in previous research.
   %Results
   To our surprise, our experiments revealed that the accuracy rate of the \mas for malware identification drops significantly: F-Score drops from 0.89 in the previous dataset to 0.42 in our large dataset.
   After an in-depth assessment, we find that the more significant number of malware from the gappusin family explains the higher number of samples for which the \mas fails to classify as malware correctly (false negative).
