@@ -37,8 +37,8 @@ situations:
   according to \vt, at least two \ses label the asset as a malware.
 \end{itemize}
 
-\kn{These numbers of atleast two and atmost two kind of jump out of nowhere. We have to provide some systematic explanation as to why these numbers make sense.}
-
+%\kn{These numbers of atleast two and atmost two kind of jump out of nowhere. We have to provide some systematic explanation as to why these numbers make sense.}
+\fh{Here Krishna asked where this number of at least two and at most two \se came from. But we have a explanation at section IIIA}
 
 Considering the \sds (102 apps), the \mas for malware detection 
 classifies a total of 69 repackaged versions as malware (67.64\%).
@@ -63,20 +63,20 @@ F-measure ($F_1$). As we mentioned, in this paper we take advantage
 of \vt to label our dataset and build a ground truth: we only
 consider a repackaged version of an app a malware if the results
 of our \vt query report that at least two
-\ses identify a malicious behavior in the asset. \kn{Now its a bit clearer, but I would expect a separate paragraph when we introduce VT explaing how VT serves as a better ground truth and also justify our choices on the numbers with VT a bit more -- why we have two as the magic number of antivirus scanners... }
+\ses identify a malicious behavior in the asset. %\kn{Now its a bit clearer, but I would expect a separate paragraph when we introduce VT explaing how VT serves as a better ground truth and also justify our choices on the numbers with VT a bit more -- why we have two as the magic number of antivirus scanners... }
 The first row of Table~\ref{tab:accuracy} shows that the
 vanilla \mas achieves an accuracy of 0.89. 
 
-\kn{Please re mention in this table the total number of apps in small and complete. Maybe inside the braces as part of the second column entries. }
+%\kn{Please re mention in this table the total number of apps in small and complete. Maybe inside the braces as part of the second column entries. }
 \begin{table*}[htb]
   \caption{Accuracy of the \mas in both datasets.}
 \centering{
   \begin{tabular}{llrrrrrr} \toprule
     Approach       & Dataset & TP   & FP  & FN  & Precision & Recall & $F_1$ \\ \midrule
-    Vanilla \mas   & \sds    & 62   & 7   & 7   & 0.89      & 0.89   & 0.89  \\
-    \mas + Traces  & \sds    & 67   & 18  & 2   & 0.78      & 0.97   & 0.87  \\
-    Vanilla \mas   & \cds    & 173  & 173 & 286 & 0.5       & 0.37   & 0.42  \\
-    \mas + Traces  & \cds    & 214  & 326 & 245 & 0.39      & 0.46   & 0.42  \\ \bottomrule
+    Vanilla \mas   & \sds (102)    & 62   & 7   & 7   & 0.89      & 0.89   & 0.89  \\
+    \mas + Traces  & \sds (102)   & 67   & 18  & 2   & 0.78      & 0.97   & 0.87  \\
+    Vanilla \mas   & \cds (1203)    & 173  & 173 & 286 & 0.5       & 0.37   & 0.42  \\
+    \mas + Traces  & \cds (1203)   & 214  & 326 & 245 & 0.39      & 0.46   & 0.42  \\ \bottomrule
   \end{tabular}
   }
   \label{tab:accuracy}
@@ -118,22 +118,22 @@ DroidBot drops significantly.
 \tb{3}{
   The \mas for malware detection
   leads to a substantially lower performance on the
-  \cds (1204 pairs of apps),
+  \cds (1203 pairs of apps),
   dropping the accuracy by a factor of 47.19\%  in comparison to
   what we observed in the \sds.}
 
 
-Therefore, the resulting sandbox we generate using
-DroidBot suffers from a significantly low accuracy rate when considering a large and more representative dataset, 
-which encouraged us to endorse efforts aimed at identifying potential blindspots with such approaches.
-Nonetheless, enriching the \mas with trace analysis also
-decreases the overall accuracy in the \cds (even though we reduce the
-number of false negatives with trace analysis, the increasing in the
-number of false positives negatively impacts the performance of the
-approach). This is shown in the fourth row of Table~\ref{tab:accuracy}.
+%Therefore, the resulting sandbox we generate using
+%DroidBot suffers from a significantly low accuracy rate when considering a large and more representative dataset, 
+%which encouraged us to endorse efforts aimed at identifying potential blindspots with such approaches.
+%Nonetheless, enriching the \mas with trace analysis also
+%decreases the overall accuracy in the \cds (even though we reduce the
+%number of false negatives with trace analysis, the increasing in the
+%number of false positives negatively impacts the performance of the
+%approach). This is shown in the fourth row of Table~\ref{tab:accuracy}.
 
-\todo[inline]{The previous paragraph now seems a bit unnecessary.}
-
+%\todo[inline]{The previous paragraph now seems a bit unnecessary.}
+\fh{I removed a paragraph here, since it was unncessary}
 \subsection{Assessment Based on \sscore}
 
 Figure~\ref{fig:ss} shows the \sscore distribution
@@ -151,7 +151,7 @@ the average \sscore of the complete dataset is
   \caption{\sscore of the malware samples in the small and complete datasets.}
   \label{fig:ss}
 \end{figure}
-
+\fh{at table 1 I inserted at second columns the sample amount}
 Here we hypothesize that \sscore could explain
 the differences of \mas we observed
 when comparing the accuracy results for both
@@ -164,7 +164,7 @@ a repackaged app in the cases where its \sscore with the original
 app is small. This is a an unexpected result, since
 we found a higher accuracy on the \sds even though
 it presents a higher \sscore on average, in comparison with the \cds. 
-\kn{I am a bit confused here. Higher similariy score implies the app pairs are close to each other, making the detection easier? Or maybe I misundertood it here.}
+%\kn{I am a bit confused here. Higher similariy score implies the app pairs are close to each other, making the detection easier? Or maybe I misundertood it here.}
 
 As a further analysis, we use the \emph{K-Means} algorithm to split the
 \cds into five clusters, according to the \sscore. We then
@@ -177,7 +177,7 @@ achieves a percentage of hits close to 70\% in the clusters 1~--~4, that present
   the \sscore and the \mas performance. Nonetheless,
   the \sscore does not explain the lower
 accuracy of the \mas in the \cds.}
-\kn{This conclusion also is a bit confusing. There seems to be a direct relationship between the similariy score and the accurary right? More dissimilar the apps are, the difficult it seems for the approach to detect the malware. But I understand this correlation is not one to one. But I feel the last line could be a bit more positively framed. Currently, it reads as if the whole section did not yield any insights at all which is not true. }
+%\kn{This conclusion also is a bit confusing. There seems to be a direct relationship between the similariy score and the accurary right? More dissimilar the apps are, the difficult it seems for the approach to detect the malware. But I understand this correlation is not one to one. But I feel the last line could be a bit more positively framed. Currently, it reads as if the whole section did not yield any insights at all which is not true. }
 
 \begin{table}[ht]
   \caption{Characteristics of the clusters. Note that the percentage of

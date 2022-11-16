@@ -16,8 +16,7 @@ aim is to answer the following research questions:
 \end{enumerate}
 
 In this section, we describe our study settings. First, we present how we mined the data-set of Android app pairs that we
-use as a dataset for our study (Section~\ref{sec:dataset}).  Then, we describe the analysis procedures in Sections~\ref{sec:dataAnalysisProc}. Section~\ref{sec:hardware}) details the hardware configuration we use in our
-experiments.
+use as a dataset for our study (Section~\ref{sec:dataset}).  Then, we describe the analysis procedures in Sections~\ref{sec:dataAnalysisProc}.
 
 
 \subsection{Malware Dataset}\label{sec:dataset}
@@ -25,17 +24,20 @@ experiments.
 We use a curated dataset of \apps repackaged apps available in the AndroZoo repository~\cite{DBLP:conf/msr/AllixBKT16}.
 It extends a previous dataset (hereafter \sds) used in the research works of Bao et al. and Costa et al.~\cite{DBLP:conf/wcre/BaoLL18,DBLP:conf/scam/CostaMCMVBC20},
 which contains a set of 102 and 96 pairs respectively of \emph{original} and \emph{repackaged} apps.
-We curate our dataset starting from an initial set of 3344 repackaged pairs of apps available in AndroZoo~\cite{DBLP:conf/msr/AllixBKT16}.
+We curate our dataset starting from an initial subset of 3344 repackaged pairs of apps available in AndroZoo~\cite{DBLP:conf/msr/AllixBKT16}.
 Nonetheless, due to compatibility issues we found---either during the instrumentation phase (using DroidFax) or during the execution
 phase using the Android emulator---we endup with our final dataset (hereafter \cds) that contains \apps pairs of
-repackaged apps (36\% of the total AndroZoo repackaged apps). 
+repackaged apps (36\% of the initial subset repackaged apps).\fh{At this paragraph I change the term set to Subset since 3344 is a subset of 15.000 repackage pair}
 
-\kn{This whole part about Virustotal needs a bit more elaboration. Ideally, including a citation explaining why we go for this additional method of classifying whether something as a malware or not. Since we already start with the app pairs, we sort of already know the malicious and benign version right? }
+%\kn{This whole part about Virustotal needs a bit more elaboration. Ideally, including a citation explaining why we go for this additional method of classifying whether something as a malware or not. Since we already start with the app pairs, we sort of already know the malicious and benign version right? }
 We queried the \vt repository to find out which repackaged apps in our
-dataset have been labeled as a malware by at least two antivirus (\kn{two out of how many antiviruses are included by Virustotal}). According to \vt, in the \sds (102 pairs),
+dataset have been indeed labeled as a malware. \vt is a know tool that can scan Android Apps using more than $30$ anti-virues~\cite{DBLP:journals/ese/KhanmohammadiEH19}, and we took this decision since the output of \vt can change over time~\cite{vt-label}.\fh{Here I inserted a litle discription of VT and inserted some reference}
+%(\kn{two out of how many antiviruses are included by Virustotal}). 
+
+According to \vt, in the \sds (102 pairs),
 69 of the repackaged apps (67.64\%) have been identified as a malware by at least two
 \ses. Here we only consider that a repackaged version of an app is a malware if \vt reports that at least
-two \ses identify a malicious behavior within the asset. This is in accordance with a previous work~\cite{vt-label}. Conversely, considering the \cds, at least two \se identified 459 out of the \apps repackaged apps as malware (38.15\%).
+two \ses identify a malicious behavior within the asset. This is in accordance with a previous works~\cite{vt-label}~\cite{ DBLP:journals/ese/KhanmohammadiEH19}. Conversely, considering the \cds, at least two \se identified 459 out of the \apps repackaged apps as malware (38.15\%).
 Moreover, according to the
 \avt~\cite{avclass2-paper}, the malware samples in the \sds come from $17$ different families---most of them from the Kuguo (49.27\%) and Dowgin (17.39\%) families.
 Contrasting, our \cds is more representative. Besides a large sample of repackaged apps (\apps in total), it
@@ -104,12 +106,12 @@ To this particular goal, we consider
 both the vanilla implementation and our extended implementation
 of the \mas that executes the trace assessment, which allow us
 to answer our third research question. 
+\fh{I removed the item C of this section that talk about hardware and execution time.}
 
+%\subsection{Environment Configuration}\label{sec:hardware}
 
-\subsection{Environment Configuration}\label{sec:hardware}
+%\todo[inline]{RB: later, if we need space, we can safely comment this section out.}
 
-\todo[inline]{RB: later, if we need space, we can safely comment this section out.}
-
-We deployed our experiment on a 32-Core, AMD EPYC 7542 CPU, 512 GB RAM, storage Samsung SSD 970 EVO 1TB machine running a 64-bit Debian  GNU/Linux 11. We also configured our emulator to run all selected apps on Google Android version 9.0, API 28, 512M SD Card, 7GB internal storage, with X86 ABI image.
-For our study, we configured DroidXP to run each of the \apps app pairs using DroidBot for 3 minutes. To mitigate noise, we repeated the full process 3 times,  which took around 421 machine hours in total. Although it was possible to run more than 10 emulators in parallel on one physical machine, to avoid any interference resulting from context switching within the operating system, we chose to run one emulator at a time. \rb{I don't know if the following is relevant\ldots} Hence, all processes took around 22 days, 17 days for experiment execution and additional 5 days for environment configuration.
+%We deployed our experiment on a 32-Core, AMD EPYC 7542 CPU, 512 GB RAM, storage Samsung SSD 970 EVO 1TB machine running a 64-bit Debian  GNU/Linux 11. We also configured our emulator to run all selected apps on Google Android version 9.0, API 28, 512M SD Card, 7GB internal storage, with X86 ABI image.
+%For our study, we configured DroidXP to run each of the \apps app pairs using DroidBot for 3 minutes. To mitigate noise, we repeated the full process 3 times,  which took around 421 machine hours in total. Although it was possible to run more than 10 emulators in parallel on one physical machine, to avoid any interference resulting from context switching within the operating system, we chose to run one emulator at a time. \rb{I don't know if the following is relevant\ldots} Hence, all processes took around 22 days, 17 days for experiment execution and additional 5 days for environment configuration.
 

@@ -5,8 +5,9 @@ uses mobile technologies~\cite{Comscore,DBLP:journals/tse/MartinSJZH17}, with th
 Android Platform dominating this market accounting for more than 70\% of the \emph{mobile
 market share} with almost 3.5 million Android applications~\footnote{In this paper, we will use the terms Android Applications, Android Apps and Apps interchangeably, to refer to Android software applications} (apps)
 available on the Google Play Store~\cite{Statista}. 
-With increased popularity also comes increased risk of attacks\kn{Please add citation here}---motivating plenty of research efforts to design and develop new techniques
-to identify malicious behavior or vulnerable code in Android apps.
+With increased popularity also comes increased risk of attacks ---motivating plenty of research efforts to design and develop new techniques
+to identify malicious behavior or vulnerable code in Android apps~\cite{DBLP:conf/msr/SamhiBK22} 
+\fh{inserted this reference}
 
 For instance, the
 mining sandbox approach takes advantage of automated test case generation tools 
@@ -35,10 +36,9 @@ Our experiments show that the accuracy of sandbox approaches does indeed improve
 An accuracy of $44.88\%$, may still appear unsatisfactory for a truly trustworthy sandbox approach. Still, 
 our experiments open the discussion (a) on one important blindspot that must be considered when building 
 malware detection approaches that mine sandboxes, and (b) on the need to investigate further sources of information when trying to distinguish benign and malign app versions. 
-\kn{Should we mention here the summary of our results from the indepth analysis of the gappusin family?}
-In fact, during our analysis we observed another interesting insight that out of the total of $162$ sensitive APIs, just less than half ($64$) were injected at most repackaged apps. 
-This indicates that a small set of sensitive APIs is used by malicious developers and hence 
-researchers may want to pay more attention to this specific set of sensitive APIs.\\
+
+In fact, during our analysis we observed another interesting insight about a specific malware family described as \textit{gappusin}. Out of the total of 198 \textit{gappusin} family samples, 171 samples ($86.36\%$), neither the original mining sandbox approach nor the dynamic call trace analysis were able to identify an app repackage version as a malware. This indicate that researchers may want to pay more attention to this malware family to improve the security of Android apps.
+\fh{I did a little update at this paragraph, to talk about gappusin family}
 
 % to improve the security of Android apps. \\
 
@@ -54,6 +54,6 @@ researchers may want to pay more attention to this specific set of sensitive API
 
 The rest of the paper is organized as follows. We begin with background and related work in Section \ref{sec:background};
 readers familiar with mining Android sandboxes may skip this section.
-Section \ref{sec:experimentalSetup} describes our infrastructure and methodology. Section \ref{sec:results} presents our results and qualitative analysis. Section \ref{sec:threats} answer our research questions, present some implications and discusses thread to validity. Section \ref{sec:conclusions} 
+Section \ref{sec:experimentalSetup} describes our infrastructure and methodology. Section \ref{sec:results} presents our results and qualitative analysis. Section \ref{sec:discussion} answer our research questions, present some implications and discusses thread to validity. Section \ref{sec:conclusions} 
 presents some potential areas for future work and concludes the paper.
 %\kn{Here, please describe each section in one sentence}
