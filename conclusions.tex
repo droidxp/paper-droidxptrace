@@ -1,18 +1,19 @@
 %\section{Conclusions and Future Work}\label{sec:conclusions}
 \section{Conclusions and future work}\label{sec:conclusions}
 
-The Mining Android Sandboxes (MAS) approach~\cite{DBLP:conf/icse/JamrozikZ16} has been tailored for Android malware detection~\cite{DBLP:conf/wcre/BaoLL18}
+The Mining Android Sandboxes (MAS) approach~\cite{DBLP:conf/icse/JamrozikZ16}
+has been tailored for Android malware detection~\cite{DBLP:conf/wcre/BaoLL18}
 and empirically validated in a couple of studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:conf/iceccs/LeB0GL18,DBLP:journals/jss/CostaMMSSBNR22}.
 To better understand the strengths and limitations of the \mas for malware detection,
-in this paper we reported the results of an empirical study that reproduces previous research
+this paper reported the results of an empirical study that reproduces previous research
 work~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22} using a larger and more
-diverse dataset---which comprises \apps pairs of \emph{original} and \emph{repackaged} apps.
-To our surprise, the performance of the \mas drops significantly in this new dataset, in particular
-because the \mas fails to detect a specific family of Android malware (named \gps). 
-
-We also explored a specific extension to the \mas that compares call graphs starting from
-the \emph{entry points} of the programs to the places where the calls to sensitive APIs occur. Although
-this extension reduces the number of false negatives of the \emph{vanilla \mas}, it was not
+diverse dataset---comprising \apps pairs of \emph{original} and \emph{repackaged} apps.
+To our surprise, compared to results already published,
+the performance of the \mas drops significantly in this new dataset, mainly
+because the \mas fails to detect a popular family of Android malware (named \gps). 
+We also evaluated an extension to the \mas that we designed to improve the overall
+accuracy of the approach for malware detection.
+Although this extension reduces the number of false negatives of the \emph{vanilla \mas}, it was not
 sufficient to increase the \mas accuracy in the large dataset. These negative results
-brought evidence of the need to complement \mas with other techniques, so that it could be
-truly effective in the task of Android malware detection.
+brought evidence of the need to complement the \mas with other techniques, so that it could be
+effective for Android malware detection.
