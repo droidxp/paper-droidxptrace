@@ -1,20 +1,18 @@
 %\section{Conclusions and Future Work}\label{sec:conclusions}
 \section{Conclusions and future work}\label{sec:conclusions}
 
-%\todo[inline]{MM: Needs major revision.}
-\fh{I did an updated at conclusion}
-\mas is a popular approach to detect malware, especially repackaged apps. While there are several such approaches, past research has indicated that the test generation tool Droidbot lead to Sandboxes more efficient in terms of malware detection. However, past studies of the accuracy of \mas used a small dataset. Hence, the goal of the work presented in this paper was to understand whether the previously reported accuracy generalizes to larger and more diverse datasets. To this end, we first reproduce the results of Sandbox constructed by Droidbot with the same dataset (vanilla dataset) as that was used in previous studies to validate our approach's authenticity. Then, we curate a larger dataset of app pairs (benign-malicious) that is almost 12x larger than the ones used in state-of-the-art studies. The dataset (complete dataset) is also incidentally diverse in its similarity index and malware family than the vanilla dataset. Our experiments with the complete dataset revealed that the accuracy of \mas using DroidBot drops significantly, confirming our hypothesis that the accuracy of current mining sandbox approaches does not scale.
-      
-To mitigate this accuracy gap, we hypothesized and validated one possible extensions. We makes \mas aware of not only the difference in set of sensitive APIs present in each version, but also the differences between the dynamic call trace of the two app versions. With this extensions in place, we were able to reduces false negatives (in comparison
-with the vanilla \mas), however as a side effect, we increase the number of false positives.
-%Although the final accuracy rate of the extended approach on the complete dataset is only $55.75\%$,
+The Mining Android Sandboxes (MAS) approach~\cite{DBLP:conf/icse/JamrozikZ16} has been tailored for Android malware detection~\cite{DBLP:conf/wcre/BaoLL18}
+and empirically validated in a couple of studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:conf/iceccs/LeB0GL18,DBLP:journals/jss/CostaMMSSBNR22}.
+To better understand the strengths and limitations of the \mas for malware detection,
+in this paper we reported the results of an empirical study that reproduces previous research
+work~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22} using a larger and more
+diverse dataset---which comprises \apps pairs of \emph{original} and \emph{repackaged} apps.
+To our surprise, the performance of the \mas drops significantly in this new dataset, in particular
+because the \mas fails to detect a specific family of Android malware (named \gps). 
 
-Our paper has provided valuable insights on the reliability of existing \mas, hoping to trigger discussions on further strategies to mitigate this accuracy drop. In the future we plan to investigate the hypothesis that the test tool coverage used at \mas, can further benefit the approach since it can provide more traces at dynamic call graph to inspect. We also plan to perform a further detailed analysis of a specific malware family (gappusin), which \mas fails to correctly identify $86.36\%$ of the samples at our work. 
-
-\begin{comment}
-In this paper, we conducted a study in which we observed the accuracy result, in terms of malware detection, of the state of the art mining sandbox approach. In our experiment, we used the test generator tool Droidbot to explore sensitive APIs called by malware at a real-word dataset of $800$, containing more representative samples than previous works. Our results demonstrated that the accuracy of Droidbot for malware detection drops to $24.12\%$ when we compare it with previous works, which explored a smaller sample. This first experiment also helps us to conclude that only a few sensitive APIs are responsible for most injected malware code at our repackaged sample.
-
-These results encourage us to investigate how we could improve the mine sandbox approach. Hence, we investigated how relevant a dynamic call graph analysis and a simple manifest files analysis are to improving malware detection in the mine sandbox approach. Our investigation present relevant findings. First, with dynamic call graph analysis, we find that its possible to improve malware detection, if we consider trace analysis as a factor. Moreover, we present that a simple static analysis of manifest files also improves malware detection, complementing even the dynamic call graph analysis in terms of malware detection.
-
-Our finds provide possible future research directions to further improve the mine sandbox approach. As future work, we plan to investigate if the distance at a dynamic call graph, between the Android app entry point and a call for a sensitive API has influence on the accuracy rate of malware detection at mine Android sandbox. We also plan to investigate the hypothesis that the test tool coverage used at mine Android Sandbox, can further benefit the approach since it provide more traces at dynamic call graph to inspect. Finally, we plan understand which are the malware features present at our dataset, that led accuracy of sandboxes approach drop significantly, when compared with previous work.
-\end{comment}
+We also explored a specific extension to the \mas that compares call graphs starting from
+the \emph{entry points} of the programs to the places where the calls to sensitive APIs occur. Although
+this extension reduces the number of false negatives of the \emph{vanilla \mas}, it was not
+sufficient to increase the \mas accuracy in the large dataset. These negative results
+brought evidence of the need to complement \mas with other techniques, so that it could be
+truly effective in the task of Android malware detection.
