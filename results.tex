@@ -4,7 +4,7 @@
 In this section, we detail the findings of our study.  We remind the reader that our main goal with this study is to
 better understand the strengths and limitations of the \mas for malware detection using the state-of-the-art
 test case generation tool (DroidBot). We explore
-the results of our research in two datasets: the \sds (102 pairs of apps) and the
+the results of our research using two datasets: the \sds (102 pairs of apps) and the
 \cds (\apps pairs of apps).
 
 
@@ -38,7 +38,7 @@ situations:
 \end{itemize}
 
 %\kn{These numbers of atleast two and atmost two kind of jump out of nowhere. We have to provide some systematic explanation as to why these numbers make sense.}
-\fh{Here Krishna asked where this number of at least two and at most two \se came from. But we have a explanation at section IIIA}
+%\fh{Here Krishna asked where this number of at least two and at most two \se came from. But we have a explanation at section IIIA}
 
 Considering the \sds (102 apps), the \mas for malware detection 
 classifies a total of 69 repackaged versions as malware (67.64\%).
@@ -58,8 +58,10 @@ infrastructure.
 In the previous studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22},
 the authors assume that all repackaged versions contain a
 malicious behavior. For this reason, the authors do not
-explore accuracy metrics such as Precision, Recall, and
-F-measure ($F_1$). As we mentioned, in this paper we take advantage
+explore accuracy metrics (such as Precision, Recall, and
+F-measure ($F_1$))---all repackaged apps labeled as
+malware are considered true positives in the previous studies.
+As we mentioned, in this paper we take advantage
 of \vt to label our dataset and build a ground truth: we only
 consider a repackaged version of an app a malware if the results
 of our \vt query report that at least two
@@ -83,7 +85,7 @@ vanilla \mas achieves an accuracy of 0.89.
 \end{table*}
 
 We also investigate if one could improve the performance of
-the \mas using a more elaborated comparison approach.
+the \mas using an enriched comparison approach.
 That is, instead of only comparing the sets of calls to sensitive APIs,
 here we also compare the traces from entry points to such a calls. If there is
 at least one trace that appears only during the execution of the
@@ -95,7 +97,7 @@ to detect seven malware on the \sds (FN column, first row of Table~\ref{tab:accu
 using DroidBot as a test case generator tool. Introducing trace analysis reduces the
 number of false negatives to two, with the side effect of increasing the
 number of false positives from 7 to 18 (see the second row of Table~\ref{tab:accuracy}).
-In general, the accuracy ($F_1$) of the \mas using trace analysis drops from 0.89 to 0.67.
+In general, the accuracy ($F_1$) of the \mas using trace analysis drops from 0.89 to 0.87.
 
 
 \tb{2}{Although the use of Trace Analysis reduces the number of
@@ -112,7 +114,10 @@ Our analysis also reveals a {\bf negative result} related to the accuracy of the
 the accuracy is much lower in comparison to what we reported for the
 \sds (see the third row of Table~\ref{tab:accuracy}), dropping from 0.89 to 0.42 (a reduction of 47.19\% in terms of $F_1$).
 This result indicates that, when considering a more representative dataset, the accuracy of the \mas using
-DroidBot drops significantly. 
+DroidBot drops significantly. The use of the trace analysis reduces the number of
+false negatives in the \cds (from 286 to 245), though increasing the number of false positives
+from 173 to 326. Altogether, the $F_1$ measure does not change when comparing performance of the vanilla \mas and
+its trace-based variant in the \cds. 
 
 
 \tb{3}{
@@ -123,17 +128,20 @@ DroidBot drops significantly.
   what we observed in the \sds.}
 
 
-%Therefore, the resulting sandbox we generate using
-%DroidBot suffers from a significantly low accuracy rate when considering a large and more representative dataset, 
-%which encouraged us to endorse efforts aimed at identifying potential blindspots with such approaches.
-%Nonetheless, enriching the \mas with trace analysis also
-%decreases the overall accuracy in the \cds (even though we reduce the
-%number of false negatives with trace analysis, the increasing in the
-%number of false positives negatively impacts the performance of the
-%approach). This is shown in the fourth row of Table~\ref{tab:accuracy}.
+Therefore, the resulting sandbox we generate using
+DroidBot suffers from a significantly low accuracy rate when considering a large and more representative dataset.
+Besides that, enriching the \mas with trace analysis does not 
+improve the overall accuracy in the \cds (even though we reduce the
+number of false negatives with trace analysis, the increasing in the
+number of false positives negatively impacts the performance of the
+approach). This is shown in the fourth row of Table~\ref{tab:accuracy}.
+The negative performance of the \mas in the \cds encouraged us to endorse efforts aimed at identifying potential reasons for
+this phenomenon and motivate the research questions RQ3 and RQ4. 
 
 %\todo[inline]{The previous paragraph now seems a bit unnecessary.}
-\fh{I removed a paragraph here, since it was unncessary}
+
+% \fh{I removed a paragraph here, since it was unncessary}
+
 \subsection{Assessment Based on \sscore}
 
 Figure~\ref{fig:ss} shows the \sscore distribution
@@ -151,12 +159,14 @@ the average \sscore of the complete dataset is
   \caption{\sscore of the malware samples in the small and complete datasets.}
   \label{fig:ss}
 \end{figure}
-\fh{at table 1 I inserted at second columns the sample amount}
-Here we hypothesize that \sscore could explain
-the differences of \mas we observed
-when comparing the accuracy results for both
-datasets. We first use Logistic Regression to test this hypothesis,
-assessing the strength of the association between label correctness and
+
+% \fh{at table 1 I inserted at second columns the sample amount}
+
+Here we hypothesize that \sscore might have an
+association with the accuracy of the \mas and could perhaps explain
+the differences in the accuracy results we report for both
+datasets. We first use Logistic Regression to assess the strength
+of the association between label correctness and
 the \sscore. The logistic regression results reveal
 a negative and real association ($p$-value $<$ 0.0005). This finding suggests
 that the \mas is more likely to assign a correct label to
@@ -164,19 +174,29 @@ a repackaged app in the cases where its \sscore with the original
 app is small. This is a an unexpected result, since
 we found a higher accuracy on the \sds even though
 it presents a higher \sscore on average, in comparison with the \cds. 
+
 %\kn{I am a bit confused here. Higher similariy score implies the app pairs are close to each other, making the detection easier? Or maybe I misundertood it here.}
 
 As a further analysis, we use the \emph{K-Means} algorithm to split the
 \cds into five clusters, according to the \sscore. We then
 estimate the accuracy for each cluster, as
 we show in Table~\ref{tab:ss-clusters}. Note that the \mas
-achieves a percentage of hits close to 70\% in the clusters 1~--~4, that present an average \sscore of at most 0.76.
+achieves a percentage of hits close to 70\% in the clusters 1~--~4, which
+present an average \sscore of at most 0.76.
 
 
-\tb{4}{There is a negative and real association between
-  the \sscore and the \mas performance. Nonetheless,
-  the \sscore does not explain the lower
-accuracy of the \mas in the \cds.}
+\tb{4}{We found a negative and real association between
+  the \sscore and the \mas performance. This means that the
+  less similar the original and repackaged versions of an app are,
+  the more likely is the accuracy of the \mas to correctly label
+  the repackaged version.}
+
+\tb{5}{Besides that, the \sscore assessment alone
+  does not explain the lower accuracy of the \mas in
+  the \cds. That is, although the \cds presents an average
+  \sscore smaller than the average \sscore of the \sds, we found a lower accuracy of 
+the \mas in the \cds.}
+
 %\kn{This conclusion also is a bit confusing. There seems to be a direct relationship between the similariy score and the accurary right? More dissimilar the apps are, the difficult it seems for the approach to detect the malware. But I understand this correlation is not one to one. But I feel the last line could be a bit more positively framed. Currently, it reads as if the whole section did not yield any insights at all which is not true. }
 
 \begin{table}[ht]
@@ -255,7 +275,7 @@ to the performance of the original studies).
 \end{table}
 
 
-\tb{5}{The \mas fails to correctly
+\tb{6}{The \mas fails to correctly
   identify 86.36\% of the samples from the \gps family
   as a malware. This is the main reason for the low
   recall of the \mas in the \cds.}
