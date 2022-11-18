@@ -3,27 +3,32 @@
 %% In this section, we introduce the concepts and terminology that are necessary to understand the reminder of this paper. First, Section~\ref{sec:sand} introduces some background information about \emph{sandboxes} within the security context. Section~\ref{sec:repackage} presents background information about repackaged application and how they introduce malicious behavior.
 %% Finally, in Section~\ref{sec:android-sandbox} we review the \emph{mining sandbox approach} for detecting repackaged Android apps.
 
-The Android bytecode language~\cite{DBLP:conf/issta/WangGMC15} favors reverse engineering tasks. That is, software developers can easily reverse-engineer real apps (benign), modify their contents by inserting malicious code (malware), repackage them with the malicious payloads, and re-publish them in app stores, including the Google Play Store. Repackaged Android apps can leverage the popularity of real apps, to increase its propagation and spread malware.  
-Repackaging has been raised as a noteworthy security concern in Android ecosystem by stakeholders in the app development industry and researchers. Indeed, there are reports claiming that about 25\% of Google Play Store app content correspond to repackaged apps~\cite{DBLP:conf/sigmetrics/ViennotGN14}. Nevertheless, all the workload to detect and remove malware from markets by the stores (official and non-official ones), have not been accurate enough to address the problem. As a result, repackaged Android apps threaten security and privacy of unsuspicious Android app users, beyond compromising the copyright of the original developer~\cite{DBLP:journals/access/KimLCP19}. Aiming at
-mitigating this threat, several techniques based on both static and dynamic analysis of Android apps have been proposed.
-
+There are many tools that favor developers to reverse engineering the Android bytecode language~\cite{DBLP:conf/issta/WangGMC15}.
+For this reason, software developers can easily decompile trustworthy apps, modify their contents by inserting malicious code,
+repackage them with malicious payloads, and re-publish them in app stores, including official ones like the Google Play Store.
+It is well-known that repackaged Android apps can leverage the popularity of real apps to increase its propagation and spread malware.  
+Repackaging has been raised as a noteworthy security concern in Android ecosystem by stakeholders in the app development industry and researchers. Indeed, there are reports claiming that about 25\% of Google Play Store app content correspond to repackaged apps~\cite{DBLP:conf/sigmetrics/ViennotGN14}. Nevertheless, all the workload to detect and remove malware from markets by the stores (official and non-official ones), have not been accurate enough to address the problem. As a result, repackaged Android apps threaten security and privacy of unsuspicious Android app users, beyond compromising the copyright of the original developers~\cite{DBLP:journals/access/KimLCP19}. Aiming at
+mitigating the threat of malicious code injection in repackaged apps,
+several techniques based on both static and dynamic analysis of Android apps have been proposed.
 
 \subsection{Mining Android Sandboxes}\label{sec:android-sandbox}
 
 A \emph{sandbox}
 is a well-known mechanism to secure a system and forbid a software component from accessing
 resources without appropriate permissions. Sandboxes have also been used to build an isolated
-environment within which applications cannot affect other programs, the network, or other device data~\cite{DBLP:journals/peerj-cs/MaassSCS16}. The idea of using sandboxes emerged from the
+environment within which applications cannot affect other programs, the network, or other device
+data~\cite{DBLP:journals/peerj-cs/MaassSCS16}. The idea of using sandboxes emerged from the
 need to test unsafe software, possible malware, without worrying about the integrity of the
 device under test~\cite{DBLP:conf/esorics/BordoniCS17}, shielding the operating system from security issues.
 To this end, a sandbox environment should have the minimum requirements to run the
-program (make sure the program will not spill out of the sandbox), and make sure it will never
-assign the program greater privileges than it should have, respecting the principle of
-\emph{least privilege}. This principle ensures unauthorized access to resources,
-improving the system's overall health. Within the Android ecosystem, sandbox approaches ensure the principle
-of the \emph{least privilege} is ensured by preventing apps from having direct access to resources or data from other apps. Access to sensitives resources
+program, and make sure it will never assign the program greater privileges than it should have,
+respecting the \emph{least privilege} principle.
+% This principle ensures unauthorized access to resources,
+% improving the system's overall health.
+Within the Android ecosystem, sandbox approaches ensure the principle
+of the \emph{least privilege} by preventing apps from having direct access to resources or data from other apps. Access to sensitives resources
 like contacts list is granted through specific APIs (Application Programming Interface),
-which are managed by permissions system~\cite{DBLP:journals/corr/abs-2109-06613}. 
+which are managed by the Android permissions system~\cite{DBLP:journals/corr/abs-2109-06613}. 
 
 %% The main market source for Android apps is Google Play Store. Unfortunately, it has
 %% a flexible policy regarding the process of publishing apps, and therefore, many Android apps are removed from the
@@ -32,25 +37,26 @@ which are managed by permissions system~\cite{DBLP:journals/corr/abs-2109-06613}
 %% listing each app with its requested permission. {\color{red}Those permissions are presented to Android
 %% users at app installation moment since version 6}. However, some works presented that most users are careless regarding these permissions since they are only interested to run the app~\cite{DBLP:conf/soups/FeltHEHCW12}. This represents a great security breach since malware usually asks for more permissions than their APIs normally would require~\cite{DBLP:conf/ccs/FeltCHSW11}.
 
-\begin{figure}[ht]
-\centering
-\includegraphics[scale=0.35]{images/mineSandbox.pdf}
-\caption{Mine Sandbox.}
- \label{fig:mineSandbox}
-\end{figure}
+%% \begin{figure}[ht]
+%% \centering
+%% \includegraphics[scale=0.35]{images/mineSandbox.pdf}
+%% \caption{Mine Sandbox.}
+%%  \label{fig:mineSandbox}
+%% \end{figure}
 
 The Mining Android Sandbox approach~\cite{DBLP:conf/icse/JamrozikSZ16} (hereafter \mas) aims at automatically
 building a sandbox through dynamic analysis (i.e., using automatic test generation tools).
-The main idea is to explore apps based on their calls to sensitive APIs.
+The main idea is to grant permissions to an app based on its calls to sensitive APIs.
 Thus, sandboxes build upon these calls to create safety rules and then block future
 calls to other sensitive resources, which diverge from those found in the first exploratory
-phase. Using a test generation tool named Droidmate~\cite{DBLP:conf/icse/JamrozikZ16},
-Jamrozik et al.~\cite{DBLP:conf/icse/JamrozikSZ16} proposed a full fledged
-implementation of the \mas, named Boxmate. 
+phase. Using the Droidmate test generation tool~\cite{DBLP:conf/icse/JamrozikZ16},
+Jamrozik et al. proposed a full fledged
+implementation of the \mas, named Boxmate~\cite{DBLP:conf/icse/JamrozikSZ16}. 
 Boxmate records the occurrences of calls to sensitive APIs and the UI events that triggers these calls,
-like a button click. It is possible to configure Boxmate to record events associated with each sensitive call as
-tuples (event, API), instead of recording just the set of calls to sensitive APIs. Jamrozik et al. argue that, in this way, Boxmate generates finer granularity results which
-might reduce false alarms, even with the presence of reflection which is quite commonly used in
+like button clicks. It is possible to configure Boxmate to record events associated with each sensitive call as
+tuples (event, API), instead of recording just the set of calls to sensitive APIs. Jamrozik et al. argue that, in this way, Boxmate generates finer
+grain results which
+might improve the accuracy of the \mas, even with the presence of reflection---which is quite commonly used in
 malicious apps~\cite{DBLP:conf/issta/0029BOK16}.
 
 In fact, the \mas can be implemented using
@@ -59,8 +65,12 @@ can instrument an Android app to log any call to the Android sensitive methods.
 After that, one can execute a test case generation tool (such as DroidBot
 or Monkey) to explore the app behavior at runtime,
 while the calls to sensitive APIs are recorded.
-Figure~\ref{fig:mineSandbox} presents this general approach for \mas. This set of calls to sensitive APIs is then used
-to configure the sandbox. 
+%Figure~\ref{fig:mineSandbox} presents this general approach for \mas.
+This set of calls to sensitive APIs is then used
+to configure the sandbox. The general mining sandbox approach % (see Figure~\ref{fig:mineSandbox})
+suggests that the more efficient the test generator tool (for instance, in terms of code coverage),
+the more accurate would be the resulting sandbox.
+
 
 %\todo[inline]{Since this figure is not discussed in the paper, we can remove it without any problem. I have enriched the previous paragraph, though, to make it
 %  more necessary. Nonetheless, I will change this figure a bit, in order to
@@ -70,42 +80,53 @@ to configure the sandbox.
 
 \subsection{Mining Android Sandbox for Malware Identification}
 
-Besides being used to generate Android Sandboxes, the \mas is also effective 
-to detect Android apps with suspicious behaviors~\cite{DBLP:conf/wcre/BaoLL18}. In this scenario, the \emph{effectiveness} of the approach
-is estimated in terms of accuracy in which repackaged apps are identified.
-The general mining sandbox approach (see Figure~\ref{fig:mineSandbox}) suggests
-that the more efficient the test generator tool (for instance, in terms of code coverage),
-the more accurate would be the resulting sandbox.
+Besides being used to generate Android sandboxes, the \mas is also effective 
+to detect if a repackaged version of an Android app contains malicious
+behavior~\cite{DBLP:conf/wcre/BaoLL18}. In this scenario, the \emph{effectiveness} of the approach
+is estimated in terms of the accuracy in which malicious behavior is correctly identified in the repackaged version of the
+apps.
 
 
-Figure~\ref{fig:sensitiveAPI} illustrates the \mas for
-repackaged apps identification. We leverage DroidXP~\cite{DBLP:conf/scam/CostaMCMVBC20} to collect the set of sensitive APIs the versions of the apps call (benign/malign versions). As a first step, given one benign app version,
-our approach first collects all calls to sensitive APIs from the app code through static analysis. Then, during the execution step,
-we use dynamic analysis to collect all calls to sensitive APIs during the DroidBot test case execution. We configure DroidXP to execute DroidBot for a
-period of $3$ minutes. Since some malicious app may use dynamic features (such as reflection) to introduce malicious behavior, which can change the behavior of the apps at runtime~\cite{DBLP:journals/spe/ZhangLTX18,DBLP:journals/tosem/LiTX19}, this second analysis is also important to disclose some sensitive APIs calls ignored by static analysis.
+%Figure~\ref{fig:sensitiveAPI} illustrates the \mas for
+%repackaged apps identification.
+%We leverage DroidXP~\cite{DBLP:conf/scam/CostaMCMVBC20} to collect the set of sensitive APIs
+%the versions of the apps call (benign/malign versions).
+The \mas for malware detection typically works as follows. In a first step ({\bf instrumentation phase}), 
+a tool instruments the code of the apps (both original and repackaged versions) to collect relevant information
+during the apps execution in later stages. Then, in a second step ({\bf exploration phase}),
+we collect a set $S_1$ with all calls to sensitive APIs the original version of an app executes while running a test case generator tool (like DroidBot).
+In the third step ({\bf exploitation phase}), we (a) collect a set $S_2$ with all calls to sensitive APIs the repackaged version of an app
+execute while running a test case generator tool and then (b) computes the set $S = S_2 \setminus S_1$ and check whether  $S$ is empty or not.
+The \mas classifies the repackaged version as a malware whenever $|S| > 0$.  
 
-While our static analysis is made once, we execute dynamic analysis $3$ times. The result of static analysis and all executions is finally joined, forming a final set that contains all identified calls to sensitive APIs coming from the benign version of the app, as described at Figure~\ref{fig:sensitiveAPI}: ($S_{A}$, $D_{A1}$, $D_{A2}$, $D_{A3}$). We carry out the same procedure for the malicious version of the apps,
-creating a distinct set of calls to sensitive APIs (now coming from the malicious version of the apps). In
-a final step, we compare the two sets of calls to sensitive APIs ($Set_B, Set_M$). We use the following rules to
-check for a malicious behavior. 
+%We configure DroidXP to execute DroidBot for a
+%period of $3$ minutes. Since some malicious app may use dynamic
+% features (such as reflection) to introduce malicious behavior,
+% which can change the behavior of the apps at runtime~\cite{DBLP:journals/spe/ZhangLTX18,DBLP:journals/tosem/LiTX19}, this second
+% analysis is also important to disclose some sensitive APIs calls ignored by static analysis.
 
-\begin{enumerate}
-    \item If the difference between the two final sets is an empty set, we cannot distinguish the benign from the malicious version of the app (false negative).
-    \item Otherwise, we successfully distinguish the benign from the malicious version of the app (true positive). 
-    %\kn{Cant we replace the first part of the second point simply as "Otherwise" or is there some specific corner cases that I am missing}
-\end{enumerate}
+%% While our static analysis is made once, we execute dynamic analysis $3$ times. The result of static analysis and all executions is finally joined, forming a final set that contains all identified calls to sensitive APIs coming from the benign version of the app, as described at Figure~\ref{fig:sensitiveAPI}: ($S_{A}$, $D_{A1}$, $D_{A2}$, $D_{A3}$). We carry out the same procedure for the malicious version of the apps,
+%% creating a distinct set of calls to sensitive APIs (now coming from the malicious version of the apps). In
+%% a final step, we compare the two sets of calls to sensitive APIs ($Set_B, Set_M$). We use the following rules to
+%% check for a malicious behavior. 
 
-In addition, this procedure also enables us to identify the calls to sensitive APIs that are more frequently injected by the malicious version of the apps
-in our dataset. 
+%% \begin{enumerate}
+%%     \item If the difference between the two final sets is an empty set, we cannot distinguish the benign from the malicious version of the app (false negative).
+%%     \item Otherwise, we successfully distinguish the benign from the malicious version of the app (true positive). 
+%%     %\kn{Cant we replace the first part of the second point simply as "Otherwise" or is there some specific corner cases that I am missing}
+%% \end{enumerate}
 
-%\fh{here I have to insert the figure}
+%% In addition, this procedure also enables us to identify the calls to sensitive APIs that are more frequently injected by the malicious version of the apps
+%% in our dataset. 
 
-\begin{figure}[ht]
-\centering
-\includegraphics[scale=0.45]{images/sensitiveAPIdiff.pdf}
-\caption{All procedure for suspicious app identification using sensitive API set diff.}
- \label{fig:sensitiveAPI}
-\end{figure}
+%% %\fh{here I have to insert the figure}
+
+%% \begin{figure}[ht]
+%% \centering
+%% \includegraphics[scale=0.45]{images/sensitiveAPIdiff.pdf}
+%% \caption{All procedure for suspicious app identification using sensitive API set diff.}
+%%  \label{fig:sensitiveAPI}
+%% \end{figure}
 
 
 
@@ -115,11 +136,17 @@ in our dataset.
 %The focus of our paper is in approaches that mine android sandboxes to classify Android Malware.
 %There is a vast body of research in this direction. 
 
-Costa et al. and and Bao et al.~\cite{DBLP:conf/wcre/BaoLL18,DBLP:conf/scam/CostaMCMVBC20} conducted empirical studies to investigate the effectiveness of \mas, exploring test generation tools, including DroidBot. Bao et al. found that, in general, the sandboxes constructed using test generators can detect more than $66$\% malicious apps in a dataset comprising $102$ pairs (benign/malicious). The study also presented that among $5$ test generation tools used, DroidBot~\cite{DBLP:conf/icse/LiYGC17} is the most effective sandbox.
-Le et al.~\cite{le2018towards} extend the work of Bao et al. by combining more categories of sensitive APIs, and also considering the impact of actual parameters, combining sensitive APIs calls and input parameters of these APIs.
-%\kn{What arguments? function parameters?}. 
-Costa et al.\cite{DBLP:journals/jss/CostaMMSSBNR22} investigated the impact of static analysis to complement the accuracy of dynamic analysis tools for \mas. The study found that DroidFax~\cite{DBLP:conf/icsm/CaiR17a}, the static analysis infrastructure used in~\cite{DBLP:conf/wcre/BaoLL18}, is able to detect almost half of repackaged apps in a
-dataset of $96$ pairs of benign/malicious apps.
+Previous research works reported the results of empirical studies that aim to investigate the effectiveness of
+the \mas for malware identification~\cite{DBLP:conf/wcre/BaoLL18,DBLP:conf/scam/CostaMCMVBC20}.
+For instance, Bao et al. found that, in general, the sandboxes constructed using test generators classify at least 66\% of repackaged apps as malware in a dataset comprising 102 pairs of apps (benign/repackaged) versions~\cite{DBLP:conf/wcre/BaoLL18}.
+The authors also presented that, among five test generation tools used, DroidBot~\cite{DBLP:conf/icse/LiYGC17} leads to the most effective sandbox.
+Le et al. extend the \mas for malware detection with additional verification,
+such as the values of the parameters used in the
+calls to sensitive APIs~\cite{le2018towards}, while
+Costa et al.\cite{DBLP:journals/jss/CostaMMSSBNR22} investigated the impact of static analysis to complement the accuracy of the \mas
+for malware detection. Their study reports that DroidFax~\cite{DBLP:conf/icsm/CaiR17a}, the static analysis infrastructure used in~\cite{DBLP:conf/wcre/BaoLL18}, is able to detect almost half of malicious code present in repackaged apps.
+%in a dataset of $96$ pairs of
+%benign/malicious apps.
 
 %\todo[inline]{I could not understand why we did not cite our JSS work here}
 %However, none of the aforementioned studies
