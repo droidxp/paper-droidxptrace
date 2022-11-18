@@ -155,22 +155,33 @@ for malware detection. Their study reports that DroidFax~\cite{DBLP:conf/icsm/Ca
 %possibility that trace analysis using call graph or analysis of
 % the manifest file could complement the mining sandbox approach for malware identification.
 
+
+Our work, although closely related to previous studies, differs from them in several aspects.  First, our assessment is more comprehensive: instead of considering 102 pairs of benign/malign apps, we execute our study considering \apps pairs of apps.
+%Curiously, the performance of the \mas in our large dataset drops significantly.
+We then investigate which characteristics of the malware samples in the large dataset contribute to the performance of the \mas for malware detection. Here we also explore an extension \mas that compares the call graph traces
+from the app entry points to the calls to sensitive APIs. We discuss this extension in the next section. 
+
 \subsection{Extending the Mining Sandbox with Trace Analysis}
 
-Our work, although closely related to previous studies, differs from them in several aspects.  First, our assessment is more comprehensive: instead of considering $102$ pairs of benign/malign apps, we execute our study considering \apps pairs of apps. Curiously, the performance of the \mas in our large dataset drops significantly. We then investigate which characteristics of the malware samples in the large dataset explain the lower performance. We observed and also explore an extension to the \mas that compare the traces from the app entry points to the calls to sensitive APIs, considering the benign and malign versions of the apps. 
 
-As we discussed in the previous section, we build the dynamic call graphs that characterize the execution of each version of the apps in our dataset. Our goal
+In order to conduct the trace analysis, we first compute a dynamic call graph (CG)
+that characterizes the execution of each version of the apps in our dataset. Our goal
 here is to explore how many pairs of apps call the same set of sensitive APIs, though using different call
-traces. We hypothesize that differences in the traces might be used to complement the \mas for suspicious app identification. As such, here we execute the trace analysis for all app pairs of our dataset, and check if there are situations in which the basic version of the \mas was not able to correctly classify the malign version of an app as a piggybacked, however it has a different execution trace. For detecting different trace, we performed an evaluation of the dynamic call graph of each pair. Our procedure checks if there is some new node, representing a new sensitive API at malicious version, or a new edge($x$, $y$), where $x$ and $y$ indicates a method $x$ calling a sensitive method $y$.
+graph traces. We hypothesize that differences in the traces might be used to complement the \mas to identify
+suspicious behavior. As such, here we execute the trace analysis for all app pairs of our dataset,
+in order to reduce the number of repackaged apps incorrectly labeled as benign (false negative).
+For detecting different traces, we performed a comparison of the dynamic call graph of each pair of app.
+Our procedure checks if there is some additional CG trace from the entry points to the calls to sensitive APIs that
+occurs in the repackaged version but not in the original version of an app.
 
 %\rb{(Not sure if this is the right decision. I do not see any problem in running
 %  this study for all pairs.)}. 
 %% we  investigate those app pairs that were not described as a malware during the exploratory step, i.e,
 %% the test generation tool DroidBot collected the same set of sensitive APIs for both version. If a dynamic call graph
 %% of these app pairs presented different traces from entry point to sensitive APIs call at both versions, we suspect this to indicate presence of malware.
-Figure~\ref{fig:callGraph} illustrates an example of benign and malicious call graphs.
-At this example, although both app versions access the same set of sensitive resources, the
-malicious version follows a different execution trace. 
+Figure~\ref{fig:callGraph} illustrates an example of benign and repackaged call graphs.
+In this example, although both app versions access the same set of sensitive APIs, the
+malicious version presents an additional execution trace. 
 
 
 \begin{figure}[ht]
@@ -182,13 +193,14 @@ the traces between the entry point and the calls to sensitive APIs diverge.}
 \end{figure}
 
 
-Figure~\ref{fig:maliciousTrace} shows an example of a trace injected in the malicious version of the
-app \textbf{[com.android.remotecontrolppt]}. Here, the benign and malicious app versions access the same
+For instance, Figure~\ref{fig:maliciousTrace} shows an example of a trace injected in a repackaged version of the
+app \textbf{[com.android.remotecontrolppt]}. Here, the original and repackaged versions access the same
 sensitive method, \textit{getSubscriberid()}. This sensitive method returns the device's unique
-subscriber ID, and requires the manifest file permission \texttt{READ\_PHONE\_STATE}, present in both app versions.
-The original app accesses this method through two distinct traces (Trace 01 and Trace 02), which suggests an expected action from app user. However,
-instead of the two original traces, the malicious version injected a third trace (Trace 03) containing as entry point a method that performs a stealth
-computation on a background thread, \textit{doInBackground}, suggesting an action without user's awareness.
+subscriber ID. The original app accesses this method through two distinct traces (Trace 01 and Trace 02),
+which suggests an expected use case. However,
+besides the two original traces, the repackaged version injects a third trace (Trace 03) containing as entry point
+a method that performs a stealth computation on a background thread, \textit{doInBackground},
+suggesting an action without user's awareness.
 
 
 \begin{figure}
