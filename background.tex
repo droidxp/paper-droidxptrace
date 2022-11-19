@@ -96,7 +96,7 @@ a tool instruments the code of the apps (both original and repackaged versions) 
 during the apps execution in later stages. Then, in a second step ({\bf exploration phase}),
 we collect a set $S_1$ with all calls to sensitive APIs the original version of an app executes while running a test case generator tool (like DroidBot).
 In the third step ({\bf exploitation phase}), we (a) collect a set $S_2$ with all calls to sensitive APIs the repackaged version of an app
-execute while running a test case generator tool and then (b) computes the set $S = S_2 \setminus S_1$ and check whether  $S$ is empty or not.
+executes while running a test case generator tool and then (b) computes the set $S = S_2 \setminus S_1$ and check whether  $S$ is empty or not.
 The \mas classifies the repackaged version as a malware whenever $|S| > 0$.  
 
 %We configure DroidXP to execute DroidBot for a

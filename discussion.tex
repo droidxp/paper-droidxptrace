@@ -1,13 +1,13 @@
 \section{Discussion}\label{sec:discussion}
 
-In this section, we explicitly answer our research questions,
+In this section, we answer our research questions,
 summarize the implications of our results, and discuss possible
 threats to the validity of the results presented so far.
 
 \subsection{Answers to the Research Questions}
 
 The results we presented in the previous sections
- answer our four research questions, as
+allow us to answer our four research questions, as
 we summarize in the following.
 
 \begin{itemize}
@@ -20,14 +20,15 @@ we summarize in the following.
   original and repackaged versions of Android apps). 
 
 \item \textbf{Effect of trace analysis (RQ2).} We do not find any gain of enriching the vanilla \mas with
-  trace analysis in terms of accuracy (F-score). Although the use of traces
+  trace analysis in terms of accuracy ($F_1$ score). Although the use of traces
   reduces the number of false negatives (improving recall), it also increases the number of false
-  positives with a similar proportion---which does not change the $F_1$ measure significantly.
+  positives with a similar proportion---which does not change the $F_1$ score significantly.
   Nonetheless, for the context of malware identification, we believe that the
-  gain in recall might justify the use of trace analysis.
+  gain in terms of recall might justify the use of trace analysis.
 
 \item \textbf{Similarity Analysis (RQ3).} Our results bring evidence about the existence of a negative
-  association between similarity and the ability of the \mas to correctly
+  association between the similarity of the original and repackaged versions of an app
+  and the ability of the \mas to correctly
   classify a repackaged version of an app as a malware. Nonetheless,
   our similarity analysis alone was not sufficient to explain the low
   performance of the \mas to identify malware in the \cds.
@@ -38,7 +39,7 @@ we summarize in the following.
   Adware, designed to automatically display advertisements while an app is executing. After reverse engineering
   a sample of 20 \gps malware, we confirmed that the vanilla \mas and its trace variant cannot identify the
   patterns of changes introduced in the repackaged versions of the apps. The \gps family
-  is the Achilles' hell of the \mas, since its accuracy increases substantially
+  is the Achilles' heel of the \mas, since its accuracy increases substantially
   when we remove the \gps samples from our \cds.  
 \end{itemize}
 
@@ -51,14 +52,13 @@ our results
 lead to a more systematic understanding
 of the strengths and limitations of using the \mas
 for malware detection. In particular, this is the
-first study that empirically evaluate the \mas
-considering a dataset of original and repackaged
-apps using as ground truth for the analysis the outcomes
+first study that empirically evaluates the \mas
+considering as ground truth the outcomes
 of \vt. This decision allowed us to explore the
 \mas performance using well-known accuracy metrics (i.e.,m precision, recall, and
-F-score). Previous studies assume that all repackaged versions of the
+$F_1$ score). Previous studies assume that all repackaged versions of the
 apps were malware. Our triangulation with \vt reveals this is not true. Although
-the \mas presents a good accuracy for the \cds ($F_1 = 0.89$), 
+the \mas presents a good accuracy for the \sds ($F_1 = 0.89$), 
 in the presence of a large dataset the \mas accuracy drops significantly ($F_1 = 0.42$). 
 
 We also highlight that considering only the differences in the
@@ -71,14 +71,14 @@ the number of false negatives by a factor
 between 14.33\% (\cds) to 71.42\% (\sds). We also reveal that
 a specific family in the \cds is responsible for a large number of
 false negatives. 
-Altogether, the implications of this research are twofold:
+Altogether, the takeaways of this research are twofold:
 
 \begin{itemize}
-  \item A warning to the community: the mining sandbox approach for malware detection exhibits a much higher false negative rate  than previous research reported. 
+  \item Negative result: the mining sandbox approach for malware detection exhibits a much higher false negative rate than previous research reported. 
 
-  \item Future directions: researchers should advance the mining sandbox approach for malware detection by exploring more advanced techniques for differentiating
-    benign and malicious versions of the apps. In particular, new approaches should benefit techniques that are able to identify particular patterns of changes
-    in the repackaged versions. 
+  \item Future directions: researchers should advance the mining sandbox approach for malware detection by exploring more advanced
+    techniques for differentiating benign and malicious versions of the apps. In particular, new approaches should benefit from techniques
+    that are able to identify particular patterns of changes in the repackaged versions. 
 \end{itemize}  
 
 
@@ -97,8 +97,8 @@ mining sandbox approach is more than twice superior
 than its performance on our complete dataset (\apps pairs of
 apps).
 
-We contacted the authors of the Bao et al. research paper, asking them
-if they have used any additional criteria for selecting the
+We contacted the authors of the Bao et al. research paper~\cite{DBLP:conf/wcre/BaoLL18}, asking them
+if they had used any additional criteria for selecting their
 dataset. Their answers suggest the contrary: they have not used
 any particular app selection process that
 could explain the superior performance of the mining
@@ -111,8 +111,6 @@ cannot generalize our findings to malwares targeting
 other platforms or that use different approaches to
 generate a malicious asset.
 
-
-
 Regarding {\bf conclusion validity}, during the exploratory phase of the mining sandbox approach,
 we collected the set of calls to sensitive APIs the original version of
 an app executes, while running a test case generation tool (such as
@@ -122,7 +120,7 @@ assumption, and found that the original version of seven (out 102) apps in the
 \sds contains malicious code. We believe the authors of previous studies carefully check that assumption,
 and this difference had occurred because the outputs of \vt change over time~\cite{vt-label}}.
 Therefore, while reproducing this research, it is necessary to query \vt to get the most
-up-to-date classification of the assets, which might lead to results that slightly
+up-to-date classification of the assets, which might lead to results that might slightly
 diverge from what we have reported here.
 
 \begin{comment}
