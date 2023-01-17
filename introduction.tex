@@ -10,7 +10,7 @@ to identify malicious behavior or vulnerable code in Android apps~\cite{10.1145/
 
 
 For instance, the
-mining sandbox approach takes advantage of automated test case generation tools 
+Mining Android Sandbox approach (hereafter \mas) takes advantage of automated test case generation tools 
 to explore the behavior of an app---in terms of calls to sensitive APIs---and then
 generates an Android sandbox~\cite{DBLP:conf/icse/JamrozikSZ16}. During a normal
 execution of the app, the sandbox might block any call to a sensitive API
@@ -29,15 +29,11 @@ Although revealing promising results, the previous research has two main limitat
 
 
 
-{\bf Negative results.} To our surprise, the experimental results show that, on a larger and more diverse dataset (compared to previous studies), the mining sandbox approach's accuracy ($F_1$ score) drops significantly (from 0.89 to 0.42). This result motivated us to conduct a series of experiments to understand the reasons for the lower accuracy in the larger dataset and also explore an extension of the original mining sandbox approach for malware identification. The original approach classifies an app as malware whenever there exists a difference between the sets of calls to sensitive APIs collected when running the test case generation tool over the original and repackaged versions of the same app. In our extension, we also classify as malware a version of an app that calls the same set of sensitive APIs collected in the exploratory phase but with at least one different trace from the app's entry points to the collected sensitive method calls.
+{\bf Negative results.} To our surprise, the experimental results show that, on a larger and more diverse dataset (compared to previous studies), the mining sandbox approach's accuracy ($F_1$ score) drops significantly (from 0.89 to 0.42). This result motivated us to conduct a series of experiments to understand the reasons for the lower accuracy in the larger dataset. The original approach classifies an app as malware whenever there exists a difference between the sets of calls to sensitive APIs collected when running the test case generation tool over the original and repackaged versions of the same app.
 
 
-Our experiments show that the number of {\bf false negatives} reduces when they are made aware of the
-differences in the dynamic call trace, improving the recall 9\% in our large dataset (from 37\% to 46\%). 
-Nonetheless, even using the trace analysis extension, the \mas fail to correct classify the samples
-from the \gps malware family (a particular class of adware that frequently appears in repackaged apps).
-Out of the total of 198 samples within this family, the vanilla \mas and its trace-based variant
-fail to correctly classify 171 samples as malware. Our results reveal that this particular family is
+Our experiments show that the \mas fail to correct classify the samples
+from the \gps malware family (a particular class of adware that frequently appears in repackaged apps). Out of the total of 198 samples within this family, the vanilla \mas fail to correctly classify 171 samples as malware. Our results reveal that this particular family is
 responsible for the low accuracy ($F_1 = 0.42$) of the \mas in the large dataset. 
 An accuracy of 42\% may still appear unsatisfactory for a truly trustworthy sandbox approach. Still, 
 our experiments open the discussion (a) on one important blindspot that must be considered when building 

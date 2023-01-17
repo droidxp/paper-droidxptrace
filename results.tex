@@ -76,34 +76,25 @@ vanilla \mas achieves an accuracy of 0.89.
   \begin{tabular}{llrrrrrr} \toprule
     Approach       & Dataset & TP   & FP  & FN  & Precision & Recall & $F_1$ \\ \midrule
     Vanilla \mas   & \sds (102)    & 62   & 7   & 7   & 0.89      & 0.89   & 0.89  \\
-    \mas + Traces  & \sds (102)   & 67   & 18  & 2   & 0.78      & 0.97   & 0.87  \\
+    %\mas + Traces  & \sds (102)   & 67   & 18  & 2   & 0.78      & 0.97   & 0.87  \\
     Vanilla \mas   & \cds (1203)    & 173  & 173 & 286 & 0.5       & 0.37   & 0.42  \\
-    \mas + Traces  & \cds (1203)   & 214  & 326 & 245 & 0.39      & 0.46   & 0.42  \\ \bottomrule
+    %\mas + Traces  & \cds (1203)   & 214  & 326 & 245 & 0.39      & 0.46   & 0.42  \\ 
+    \bottomrule
   \end{tabular}
   }
   \label{tab:accuracy}
 \end{table*}
 
-We also investigate if one could improve the performance of
-the \mas using an enriched comparison approach.
-That is, instead of only comparing the sets of calls to sensitive APIs,
-here we also compare the traces from entry points to such a calls. If there is
-at least one trace that appears only during the execution of the
-test cases in the repackaged version of the app, we
-label that version as a malware.
+%We also investigate if one could improve the performance of the \mas using an enriched comparison approach. That is, instead of only comparing the sets of calls to sensitive APIs, here we also compare the traces from entry points to such a calls. If there is at least one trace that appears only during the execution of the test cases in the repackaged version of the app, we label that version as a malware.
 
 As we already discussed in this section, the vanilla \mas fails
 to detect seven malware on the \sds (FN column, first row of Table~\ref{tab:accuracy}),
-using DroidBot as a test case generator tool. Introducing trace analysis reduces the
-number of false negatives to two, with the side effect of increasing the
-number of false positives from 7 to 18 (see the second row of Table~\ref{tab:accuracy}).
-In general, the accuracy ($F_1$) of the \mas using trace analysis drops from 0.89 to 0.87.
+using DroidBot as a test case generator tool. The vanilla \mas also present seven app as malware, which was not confirmed by \vt, revealing a False Positive (FP colums).
+
+%Introducing trace analysis reduces the number of false negatives to two, with the side effect of increasing the number of false positives from 7 to 18 (see the second row of Table~\ref{tab:accuracy}). In general, the accuracy ($F_1$) of the \mas using trace analysis drops from 0.89 to 0.87.
 
 
-\tb{2}{Although the use of Trace Analysis reduces the number of
-  false negatives (in comparison with the vanilla \mas), it slightly decreases the
-  overall accuracy ($F_1$) of the \mas to detect malware,
-  from 0.89\% to 0.87\% in the \sds.} 
+%\tb{2}{Although the use of Trace Analysis reduces the number of false negatives (in comparison with the vanilla \mas), it slightly decreases the overall accuracy ($F_1$) of the \mas to detect malware, from 0.89\% to 0.87\% in the \sds.} 
 
 
 
@@ -112,15 +103,14 @@ labels a total of 346 repackaged apps as malware (28.76\% of the total number of
 apps)---for which the repackaged version calls at least one additional sensitive API.
 Our analysis also reveals a {\bf negative result} related to the accuracy of the approach: here,
 the accuracy is much lower in comparison to what we reported for the
-\sds (see the third row of Table~\ref{tab:accuracy}), dropping from 0.89 to 0.42 (a reduction of 47.19\% in terms of $F_1$).
+\sds (see the second row of Table~\ref{tab:accuracy}), dropping from 0.89 to 0.42 (a reduction of 47.19\% in terms of $F_1$).
 This result indicates that, when considering a more representative dataset, the accuracy of the \mas using
-DroidBot drops significantly. The use of the trace analysis reduces the number of
-false negatives in the \cds (from 286 to 245), though increasing the number of false positives
-from 173 to 326. Altogether, the $F_1$ measure does not change when comparing performance of the vanilla \mas and
-its trace-based variant in the \cds. 
+DroidBot drops significantly. 
+
+%The use of the trace analysis reduces the number of false negatives in the \cds (from 286 to 245), though increasing the number of false positives from 173 to 326. Altogether, the $F_1$ measure does not change when comparing performance of the vanilla \mas and its trace-based variant in the \cds. 
 
 
-\tb{3}{
+\tb{2}{
   The \mas for malware detection
   leads to a substantially lower performance on the
   \cds (1203 pairs of apps),
@@ -130,13 +120,11 @@ its trace-based variant in the \cds.
 
 Therefore, the resulting sandbox we generate using
 DroidBot suffers from a significantly low accuracy rate when considering a large and more representative dataset.
-Besides that, enriching the \mas with trace analysis does not 
-improve the overall accuracy in the \cds (even though we reduce the
-number of false negatives with trace analysis, the increasing in the
-number of false positives negatively impacts the performance of the
-approach). This is shown in the fourth row of Table~\ref{tab:accuracy}.
+%Besides that, enriching the \mas with trace analysis does not  improve the overall accuracy in the \cds (even though we reduce the number of false negatives with trace analysis, the increasing in the number of false positives negatively impacts the performance of the approach). 
+
+This is shown in the second row of Table~\ref{tab:accuracy}.
 The negative performance of the \mas in the \cds encouraged us to endorse efforts aimed at identifying potential reasons for
-this phenomenon and motivate the research questions RQ3 and RQ4. 
+this phenomenon and motivate the research questions RQ2 and RQ3. 
 
 %\todo[inline]{The previous paragraph now seems a bit unnecessary.}
 
@@ -185,13 +173,13 @@ achieves a percentage of hits close to 70\% in the clusters 1~--~4, which
 present an average \sscore of at most 0.76.
 
 
-\tb{4}{We found a negative and real association between
+\tb{3}{We found a negative and real association between
   the \sscore and the \mas performance. This means that the
   less similar the original and repackaged versions of an app are,
   the more likely is the accuracy of the \mas to correctly label
   the repackaged version.}
 
-\tb{5}{Besides that, the \sscore assessment alone
+\tb{4}{Besides that, the \sscore assessment alone
   does not explain the lower accuracy of the \mas in
   the \cds. That is, although the \cds presents an average
   \sscore smaller than the average \sscore of the \sds, we found a lower accuracy of 
@@ -249,35 +237,36 @@ perform when considering only the gappusin samples?}
 
 Table~\ref{tab:gappusin} shows
 the results of an accuracy assessment considering
-only those particular samples in the \cds. Note that for 171 samples (86.36\%), neither the vanilla
-\mas nor the \mas with traces were able to correctly identify
-a repackaged version of an app as a malware. Merging the
-outcomes of both approaches (that is, the vanilla \mas and
-the \mas with traces), leads to a recall of
-$\frac{27}{198} = 0.13$. Further, if we remove the \gps
+only those particular samples in the \cds. Note that for 171 samples (86.36\%), the vanilla
+\mas was able to correctly identify
+a repackaged version of an app as a malware. 
+%Merging the outcomes of both approaches (that is, the vanilla \mas and
+%the \mas with traces), leads to a recall of
+%$\frac{27}{198} = 0.13$. 
+Further, if we remove the \gps
 samples from the \cds, the recall
-of the \mas (vanilla + traces) increases to 0.71 (similar
+of the \mas increases to 0.71 (similar
 to the performance of the original studies). 
 
 \begin{table}[ht]
   \caption{Accuracy of the \mas when considering only the
   samples from the \gps family in the \cds.}
 \centering
-\begin{tabular}{lllr}
+\begin{tabular}{llr}
  \hline
- Malware & Vanilla \mas & \mas + Traces & Total \\
+ Malware & Vanilla \mas & Total \\
  \hline
- True & False & False & 171 \\ 
- True & False & True &  13 \\ 
- True & True & False &  12 \\ 
- True & True & True &   2 \\ 
+ True & False & 171 \\ 
+ %True & False & True &  13 \\ 
+ True & True & 12 \\ 
+ %True & True & True &   2 \\ 
  \hline
 \end{tabular}
 \label{tab:gappusin}
 \end{table}
 
 
-\tb{6}{The \mas fails to correctly
+\tb{5}{The \mas fails to correctly
   identify 86.36\% of the samples from the \gps family
   as a malware. This is the main reason for the low
   recall of the \mas in the \cds.}

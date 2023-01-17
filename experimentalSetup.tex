@@ -3,15 +3,12 @@
 The goal of this research is to build an in-depth understanding about
 the performance of the \mas for detecting malware. To this
 end, we conduct our research using a dataset of repackaged apps one order of magnitude
-larger than previous studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22}.
-We also investigate to what
-extent a variant of the \mas with trace analysis achieves a better performance
-for malware detection. Altogether, our
+larger than previous studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22}. Altogether, our
 aim is to answer the following research questions:
 
 \begin{enumerate}[(RQ1)]
 \item \rqa
-\item \rqb
+%\item \rqb
 \item \rqc
 \item \rqd  
 \end{enumerate}
@@ -114,11 +111,7 @@ with 102 pairs of apps and our \cds with
 Logistic Regression~\cite{statistical-learning} to understand the strengths of
 the associations between the similarity index of a
 malware with the \mas accuracy---that is,
-if the approach was able or not to identify the malicious behavior.
-To this particular goal, we consider
-both the vanilla implementation and our extended implementation
-of the \mas that executes the trace analysis. We use
-existing tools to reverse engineer a sample of repackaged
+if the approach was able or not to identify the malicious behavior. We also use existing tools to reverse engineer a sample of repackaged
 apps in order to better understand (the lack of) accuracy
 of the \mas.
 
