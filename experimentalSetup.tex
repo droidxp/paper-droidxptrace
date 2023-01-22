@@ -98,7 +98,7 @@ this phase executes only once for each version of the apps in our dataset.
 \item \textbf{Execution}: In this step, DroidXP first installs the (instrumented) version of the APK files in the Android emulator we use in our experiment (API 28) and then starts a test case generation tool for executing both apps version (benign and malicious). To execute the app, our study builds upon DroidBot~\cite{DBLP:conf/icse/LiYGC17}, since previous works report the best accuracy of the sandboxes built using the \mas and the DroidBot as test case generation tool. To also ensure that each execution gets the benefit of running on a fresh Android instance without biases that could stem out of history, DroidXP wipes out all data stored on the emulator that has been collected from previous executions.
 
 
-\item \textbf{Data Collection}: During the execution of the instrumented app, we collect all relevant information (such as calls to sensitive APIs, test coverage metrics, and so on). We use this information to analyse the performance of the \mas for detecting malicious behavior. In this paper we extended DroidXP with a new component (DroidXPTrace), which allows us to investigate dynamic call graphs from the outcomes of a DroidXP execution. This was not possible using the vanilla version of DroidXP.
+\item \textbf{Data Collection}: During the execution of the instrumented app, we collect all relevant information (such as calls to sensitive APIs, test coverage metrics, and so on). We use this information to analyse the performance of the \mas for detecting malicious behavior.
 \end{enumerate}
 
 \subsection{Data Analysis Procedures} \label{sec:dataAnalysisProc}

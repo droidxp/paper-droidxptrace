@@ -66,8 +66,7 @@ of \vt to label our dataset and build a ground truth: we only
 consider a repackaged version of an app a malware if the results
 of our \vt query report that at least two
 \ses identify a malicious behavior in the asset. %\kn{Now its a bit clearer, but I would expect a separate paragraph when we introduce VT explaing how VT serves as a better ground truth and also justify our choices on the numbers with VT a bit more -- why we have two as the magic number of antivirus scanners... }
-The first row of Table~\ref{tab:accuracy} shows that the
-vanilla \mas achieves an accuracy of 0.89. 
+The first row of Table~\ref{tab:accuracy} shows that the \mas achieves an accuracy of 0.89. 
 
 %\kn{Please re mention in this table the total number of apps in small and complete. Maybe inside the braces as part of the second column entries. }
 \begin{table*}[htb]
@@ -75,9 +74,9 @@ vanilla \mas achieves an accuracy of 0.89.
 \centering{
   \begin{tabular}{llrrrrrr} \toprule
     Approach       & Dataset & TP   & FP  & FN  & Precision & Recall & $F_1$ \\ \midrule
-    Vanilla \mas   & \sds (102)    & 62   & 7   & 7   & 0.89      & 0.89   & 0.89  \\
+    \mas   & \sds (102)    & 62   & 7   & 7   & 0.89      & 0.89   & 0.89  \\
     %\mas + Traces  & \sds (102)   & 67   & 18  & 2   & 0.78      & 0.97   & 0.87  \\
-    Vanilla \mas   & \cds (1203)    & 173  & 173 & 286 & 0.5       & 0.37   & 0.42  \\
+    \mas   & \cds (1203)    & 173  & 173 & 286 & 0.5       & 0.37   & 0.42  \\
     %\mas + Traces  & \cds (1203)   & 214  & 326 & 245 & 0.39      & 0.46   & 0.42  \\ 
     \bottomrule
   \end{tabular}
@@ -87,9 +86,9 @@ vanilla \mas achieves an accuracy of 0.89.
 
 %We also investigate if one could improve the performance of the \mas using an enriched comparison approach. That is, instead of only comparing the sets of calls to sensitive APIs, here we also compare the traces from entry points to such a calls. If there is at least one trace that appears only during the execution of the test cases in the repackaged version of the app, we label that version as a malware.
 
-As we already discussed in this section, the vanilla \mas fails
+As we already discussed in this section, the \mas fails
 to detect seven malware on the \sds (FN column, first row of Table~\ref{tab:accuracy}),
-using DroidBot as a test case generator tool. The vanilla \mas also present seven app as malware, which was not confirmed by \vt, revealing a False Positive (FP colums).
+using DroidBot as a test case generator tool. The \mas also present seven app as malware, which was not confirmed by \vt, revealing a False Positive (FP colums).
 
 %Introducing trace analysis reduces the number of false negatives to two, with the side effect of increasing the number of false positives from 7 to 18 (see the second row of Table~\ref{tab:accuracy}). In general, the accuracy ($F_1$) of the \mas using trace analysis drops from 0.89 to 0.87.
 
@@ -237,8 +236,7 @@ perform when considering only the gappusin samples?}
 
 Table~\ref{tab:gappusin} shows
 the results of an accuracy assessment considering
-only those particular samples in the \cds. Note that for 171 samples (86.36\%), the vanilla
-\mas was able to correctly identify
+only those particular samples in the \cds. Note that for 171 samples (86.36\%), the \mas was able to correctly identify
 a repackaged version of an app as a malware. 
 %Merging the outcomes of both approaches (that is, the vanilla \mas and
 %the \mas with traces), leads to a recall of
@@ -254,7 +252,7 @@ to the performance of the original studies).
 \centering
 \begin{tabular}{llr}
  \hline
- Malware & Vanilla \mas & Total \\
+ Malware & \mas & Total \\
  \hline
  True & False & 171 \\ 
  %True & False & True &  13 \\ 
