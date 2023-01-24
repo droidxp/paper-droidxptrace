@@ -20,14 +20,15 @@ collection and data analysis procedures in Sections~\ref{sec:dataCollectionProc}
 
 \subsection{Malware Dataset}\label{sec:dataset}
 
-We use a curated dataset of \apps repackaged apps available in the AndroZoo repository~\cite{DBLP:conf/msr/AllixBKT16}.
-It extends a previous dataset (hereafter \sds) used in the research works of Bao et al. and Costa et al.~\cite{DBLP:conf/wcre/BaoLL18,DBLP:conf/scam/CostaMCMVBC20},
-which contains a set of 102 pairs of \emph{original} and \emph{repackaged} apps.
-We curate our dataset starting from an initial sample of 3344 repackaged pairs of apps available in AndroZoo~\cite{DBLP:conf/msr/AllixBKT16}.
-We do not use any particular criteria for selecting the initial sample.
-Nonetheless, due to compatibility issues we found---either during the instrumentation phase (using DroidFax) or during the execution
-phase using the Android emulator---we end-up with our final dataset (hereafter \cds) that contains \apps pairs of
-repackaged apps (36\% of the initial subset repackaged apps).
+We use a curated Android app dataset collected by~\cite{DBLP:journals/tse/LiBK21}, based on the Androzoo repository~\cite{DBLP:conf/msr/AllixBKT16}. It contains 15,297 repackaged apps, by over 100 different attackers, for
+2,776 original apps. It extends a previous dataset (hereafter \sds) used in the research works of Bao et al. and Costa et al.~\cite{DBLP:conf/wcre/BaoLL18,DBLP:conf/scam/CostaMCMVBC20}, which contains a set of 102 pairs of \emph{original} and \emph{repackaged} apps. We curate our dataset selecting a random sample from the initial 15,297 repackaged apps, built a final dataset (hereafter \cds) of \apps apps that we were able to instrument and execute our experiments.
+
+
+%starting from an initial sample of 3344 repackaged pairs of apps available in AndroZoo~\cite{DBLP:conf/msr/AllixBKT16}.
+%We do not use any particular criteria for selecting the initial sample.
+%Nonetheless, due to compatibility issues we found---either during the instrumentation phase (using DroidFax) or during the execution
+%phase using the Android emulator---we end-up with our final dataset (hereafter \cds) that contains \apps pairs of
+%repackaged apps (36\% of the initial subset repackaged apps).
 %\fh{At this paragraph I change the term set to Subset since 3344 is a subset of 15.000 repackage pair}
 
 %\kn{This whole part about Virustotal needs a bit more elaboration. Ideally, including a citation explaining why we go for this additional method of classifying whether something as a malware or not. Since we already start with the app pairs, we sort of already know the malicious and benign version right? }
@@ -58,13 +59,14 @@ SimiDroid tool~\cite{DBLP:conf/trustcom/0029BK17}. SimiDroid quantifies the simi
 based on (a) the methods that are either identical or similar in both versions of the apps (original and repackaged versions),
 (b) methods that only appear in the repackaged version of the apps (new methods), and (c) methods that only appear in the
 original version of the apps (deleted methods).
-Our \cds has an average similarity score of 63.59\%---with a much better distribution (241 of
-app pairs have a similarity score of less than 0.25\%, 156 of app pairs
-between 0.25\% and 0.50\%, 227 of the apps between 0.5\% and 0.75\%,
-and 578 of the apps with more than 0.75\%). The \sds presents a much higher
+
+Our \cds has an average similarity score of 63.59\%---with a much better distribution (252 of
+app pairs have a similarity score of less than 0.25\%, 160 of app pairs
+between 0.25\% and 0.50\%, 232 of the apps between 0.5\% and 0.75\%,
+and 575 of the apps with more than 0.75\%). The \sds presents a much higher
 similarity index average (77.87\%). 
 
-It is important to highlight that our examples of apps collected at in AndroZoo come
+It is important to highlight that our sample comes
 from different Android app stores. Most of our repackage apps come from a non-official
 Android app store, Anzhi~\cite{anzhi}. However some repackaged apps also come from the
 official Android app store, Google Play.
