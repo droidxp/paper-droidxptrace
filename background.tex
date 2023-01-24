@@ -62,7 +62,7 @@ malicious apps~\cite{DBLP:conf/issta/0029BOK16}.
 In fact, the \mas can be implemented using
 a mix of static and dynamic analysis. In the first phase, one
 can instrument an Android app to log any call to the Android sensitive methods.
-After that, one can execute a test case generation tool (such as Droidbot
+After that, one can execute a test case generation tool (such as DroidBot
 or Monkey) to explore the app behavior at runtime,
 while the calls to sensitive APIs are recorded.
 %Figure~\ref{fig:mineSandbox} presents this general approach for \mas.
@@ -92,7 +92,7 @@ apps.
 The \mas for malware detection typically works as follows. In a first step ({\bf instrumentation phase}), 
 a tool instruments the code of the apps (both original and repackaged versions) to collect relevant information
 during the apps execution in later stages. Then, in a second step ({\bf exploration phase}),
-we collect a set $S_1$ with all calls to sensitive APIs the original version of an app executes while running a test case generator tool (like Droidbot).
+we collect a set $S_1$ with all calls to sensitive APIs the original version of an app executes while running a test case generator tool (like DroidBot).
 In the third step ({\bf exploitation phase}), we (a) collect a set $S_2$ with all calls to sensitive APIs the repackaged version of an app
 executes while running a test case generator tool and then (b) computes the set $S = S_2 \setminus S_1$ and check whether  $S$ is empty or not.
 The \mas classifies the repackaged version as a malware whenever $|S| > 0$.  
@@ -142,7 +142,7 @@ of 10 pairs of apps (\texttt{SmallE}), in which the authors executed each test c
 (\texttt{LargeE}) involving 102 pairs of
 apps in which the authors executed the test case generation tools for one minute~\cite{DBLP:conf/wcre/BaoLL18}.}
 Here we replicate their larger experiment. 
-The authors also presented that, among five test generation tools used, Droidbot~\cite{DBLP:conf/icse/LiYGC17} leads to the most effective sandbox.
+The authors also presented that, among five test generation tools used, DroidBot~\cite{DBLP:conf/icse/LiYGC17} leads to the most effective sandbox.
 Le et al. extend the \mas for malware detection with additional verification,
 such as the values of the parameters used in the
 calls to sensitive APIs~\cite{le2018towards}, while

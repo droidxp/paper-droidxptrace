@@ -19,7 +19,7 @@ of an app as a malware if there is at least one call to a sensitive method that 
 while executing the repackaged version of the app and that (b) was not observed while
 executing the original version of the same app. 
 If the set of sensitive methods that only the repackaged version of an app calls is empty,
-we conclude that the sandbox does not label the repackaged version the app as a malware. We triangulate
+we conclude that the sandbox does not label the repackaged version of an app as a malware. We triangulate
 this information with the outputs of \vt, which might lead to one of the following
 situations:
 
@@ -65,8 +65,14 @@ As we mentioned, in this paper we take advantage
 of \vt to label our dataset and build a ground truth: we only
 consider a repackaged version of an app a malware if the results
 of our \vt query report that at least two
-\ses identify a malicious behavior in the asset. %\kn{Now its a bit clearer, but I would expect a separate paragraph when we introduce VT explaing how VT serves as a better ground truth and also justify our choices on the numbers with VT a bit more -- why we have two as the magic number of antivirus scanners... }
-The first row of Table~\ref{tab:accuracy} shows that the \mas achieves an accuracy of 0.89. 
+\ses identify a malicious behavior in the asset (again, this
+decision is in accordance to existing recommendations~\cite{vt-label,DBLP:journals/ese/KhanmohammadiEH19}).
+%\kn{Now its a bit clearer, but I would expect a separate paragraph when we introduce VT explaing how VT serves as a better ground truth and also justify our choices on the numbers with VT a bit more -- why we have two as the magic number of antivirus scanners... }
+The first row of Table~\ref{tab:accuracy} shows that the \mas achieves an accuracy of 0.89 when
+considering the \sds. The \mas fails
+to correctly classify seven assets as malware on the \sds (FN column, first row of Table~\ref{tab:accuracy}),
+and wrongly labeled the repackaged version of seven apps as malware (FP column).
+
 
 %\kn{Please re mention in this table the total number of apps in small and complete. Maybe inside the braces as part of the second column entries. }
 \begin{table*}[htb]
@@ -86,9 +92,6 @@ The first row of Table~\ref{tab:accuracy} shows that the \mas achieves an accura
 
 %We also investigate if one could improve the performance of the \mas using an enriched comparison approach. That is, instead of only comparing the sets of calls to sensitive APIs, here we also compare the traces from entry points to such a calls. If there is at least one trace that appears only during the execution of the test cases in the repackaged version of the app, we label that version as a malware.
 
-As we already discussed in this section, the \mas fails
-to detect seven malware on the \sds (FN column, first row of Table~\ref{tab:accuracy}),
-using DroidBot as a test case generator tool. The \mas also present seven app as malware, which was not confirmed by \vt, revealing a False Positive (FP colums).
 
 %Introducing trace analysis reduces the number of false negatives to two, with the side effect of increasing the number of false positives from 7 to 18 (see the second row of Table~\ref{tab:accuracy}). In general, the accuracy ($F_1$) of the \mas using trace analysis drops from 0.89 to 0.87.
 
