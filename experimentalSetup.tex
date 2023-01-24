@@ -40,25 +40,25 @@ scanning software assets (such as Android apps) using more than 30 anti-virus en
 According to \vt, in the \sds (102 pairs),
 69 of the repackaged apps (67.64\%) have been identified as a malware by at least two
 \ses. Here we only consider that a repackaged version of an app is a malware if \vt reports that at least
-two \ses identify a malicious behavior within the asset. This is in accordance with previous research~\cite{vt-label,DBLP:journals/ese/KhanmohammadiEH19}. Conversely, considering the \cds, at least two \se identified 459 out of the \apps repackaged apps as malware (38.15\%).
+two \ses identify a malicious behavior within the asset. This is in accordance with previous research~\cite{vt-label,DBLP:journals/ese/KhanmohammadiEH19}. Conversely, considering the \cds, at least two \se identified \malwares out of the \apps repackaged apps as malware (\malwaresP\%).
 
-It is a common practice classify malware into different categories. For instance, Android malware can be classified into categories
-like riskware, trojan, adware, etc. Each category might be specialized in several malware families, depending of its
+Classifying malware into different categories is a common practice. For instance, Android malware can be classified into categories
+like riskware, trojan, adware, etc. Each category might be further specialized in several malware families, depending of its
 characteristics and atack strategy---e.g, steal network info (IP, DNS, WiFi), collect phone info,
 collect user contacts, send/receive SMS, and so on~\cite{DBLP:conf/iccns/RahaliLKTGM20}.
 According to the
 \avt~\cite{avclass2-paper}, the malware samples in the \sds come from $17$ different families---most of them from the Kuguo (49.27\%) and Dowgin (17.39\%) families.
 Contrasting, our \cds is more representative. Besides a large sample of repackaged apps (\apps in total), it
-comprises $57$ families of malware we collected using the \avt ---most
-of them from the Gappusin (43.13\%), Kuguo (9.58\%), and Revmob (7.84\%) families.
+comprises 34 families of malware we collected using the \avt---most
+of them from the Gappusin (37.00\%), Revmob (20.69\%), and Dogwin (10.87) families.
 
 We also characterize our dataset according to the similarity
 between the original and repackaged versions of the apps, using the  
-SimiDroid tool~\cite{DBLP:conf/trustcom/0029BK17}. SimDroid quantifies the similarity
+SimiDroid tool~\cite{DBLP:conf/trustcom/0029BK17}. SimiDroid quantifies the similarity
 based on (a) the methods that are either identical or similar in both versions of the apps (original and repackaged versions),
 (b) methods that only appear in the repackaged version of the apps (new methods), and (c) methods that only appear in the
 original version of the apps (deleted methods).
-Our \cds has an average similarity score of 62.61\%---with a much better distribution (241 of
+Our \cds has an average similarity score of 63.59\%---with a much better distribution (241 of
 app pairs have a similarity score of less than 0.25\%, 156 of app pairs
 between 0.25\% and 0.50\%, 227 of the apps between 0.5\% and 0.75\%,
 and 578 of the apps with more than 0.75\%). The \sds presents a much higher
@@ -95,10 +95,10 @@ DroidFax~\cite{DBLP:conf/icsm/CaiR17a} to instrument the apps and collect static
 information about them. To improve the performance across multiple executions,
 this phase executes only once for each version of the apps in our dataset.
 
-\item \textbf{Execution}: In this step, DroidXP first installs the (instrumented) version of the APK files in the Android emulator we use in our experiment (API 28) and then starts a test case generation tool for executing both apps version (benign and malicious). To execute the app, our study builds upon DroidBot~\cite{DBLP:conf/icse/LiYGC17}, since previous works report the best accuracy of the sandboxes built using the \mas and the DroidBot as test case generation tool. To also ensure that each execution gets the benefit of running on a fresh Android instance without biases that could stem out of history, DroidXP wipes out all data stored on the emulator that has been collected from previous executions.
+\item \textbf{Execution}: In this step, DroidXP first installs the (instrumented) version of the APK files in the Android emulator we use in our experiment (API 28) and then starts a test case generation tool for executing both apps version (benign and malicious). We execute the apps via Droidbot~\cite{DBLP:conf/icse/LiYGC17}, mostly because previous works report the best accuracy of the sandboxes built using the \mas and the DroidBot as test case generation tool. To also ensure that each execution gets the benefit of running on a fresh Android instance without biases that could stem out of history, DroidXP wipes out all data stored on the emulator that has been collected from previous executions.
 
 
-\item \textbf{Data Collection}: During the execution of the instrumented app, we collect all relevant information (such as calls to sensitive APIs, test coverage metrics, and so on). We use this information to analyse the performance of the \mas for detecting malicious behavior.
+\item \textbf{Data Collection}: During the execution of the instrumented apps, we collect all relevant information (such as calls to sensitive APIs, test coverage metrics, and so on). We use this information to analyse the performance of the \mas for detecting malicious behavior.
 \end{enumerate}
 
 \subsection{Data Analysis Procedures} \label{sec:dataAnalysisProc}
@@ -111,7 +111,7 @@ with 102 pairs of apps and our \cds with
 Logistic Regression~\cite{statistical-learning} to understand the strengths of
 the associations between the similarity index of a
 malware with the \mas accuracy---that is,
-if the approach was able or not to identify the malicious behavior. We also use existing tools to reverse engineer a sample of repackaged
+if the approach was able to correctly classify an asset as malware. We also use existing tools to reverse engineer a sample of repackaged
 apps in order to better understand (the lack of) accuracy
 of the \mas.
 
