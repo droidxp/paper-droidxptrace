@@ -44,7 +44,7 @@ which are managed by the Android permissions system~\cite{DBLP:journals/corr/abs
 %%  \label{fig:mineSandbox}
 %% \end{figure}
 
-The \mas approach~\cite{DBLP:conf/icse/JamrozikSZ16} aims at automatically
+The \mas~\cite{DBLP:conf/icse/JamrozikSZ16} aims at automatically
 building a sandbox through dynamic analysis (i.e., using automatic test generation tools).
 The main idea is to grant permissions to an app based on its calls to sensitive APIs.
 Thus, sandboxes build upon these calls to create safety rules and then block future
@@ -62,7 +62,7 @@ malicious apps~\cite{DBLP:conf/issta/0029BOK16}.
 In fact, the \mas can be implemented using
 a mix of static and dynamic analysis. In the first phase, one
 can instrument an Android app to log any call to the Android sensitive methods.
-After that, one can execute a test case generation tool (such as DroidBot
+After that, one can execute a test case generation tool (such as Droidbot
 or Monkey) to explore the app behavior at runtime,
 while the calls to sensitive APIs are recorded.
 %Figure~\ref{fig:mineSandbox} presents this general approach for \mas.
@@ -75,8 +75,6 @@ the more accurate would be the resulting sandbox.
 %\todo[inline]{Since this figure is not discussed in the paper, we can remove it without any problem. I have enriched the previous paragraph, though, to make it
 %  more necessary. Nonetheless, I will change this figure a bit, in order to
 %represent the instrumentation phase.}
-
-
 
 \subsection{Mining Android Sandbox for Malware Identification}
 
@@ -94,7 +92,7 @@ apps.
 The \mas for malware detection typically works as follows. In a first step ({\bf instrumentation phase}), 
 a tool instruments the code of the apps (both original and repackaged versions) to collect relevant information
 during the apps execution in later stages. Then, in a second step ({\bf exploration phase}),
-we collect a set $S_1$ with all calls to sensitive APIs the original version of an app executes while running a test case generator tool (like DroidBot).
+we collect a set $S_1$ with all calls to sensitive APIs the original version of an app executes while running a test case generator tool (like Droidbot).
 In the third step ({\bf exploitation phase}), we (a) collect a set $S_2$ with all calls to sensitive APIs the repackaged version of an app
 executes while running a test case generator tool and then (b) computes the set $S = S_2 \setminus S_1$ and check whether  $S$ is empty or not.
 The \mas classifies the repackaged version as a malware whenever $|S| > 0$.  
@@ -138,13 +136,18 @@ The \mas classifies the repackaged version as a malware whenever $|S| > 0$.
 
 Previous research works reported the results of empirical studies that aim to investigate the effectiveness of
 the \mas for malware identification~\cite{DBLP:conf/wcre/BaoLL18,DBLP:conf/scam/CostaMCMVBC20}.
-For instance, Bao et al. found that, in general, the sandboxes constructed using test generators classify at least 66\% of repackaged apps as malware in a dataset comprising 102 pairs of apps (benign/repackaged) versions~\cite{DBLP:conf/wcre/BaoLL18}.
-The authors also presented that, among five test generation tools used, DroidBot~\cite{DBLP:conf/icse/LiYGC17} leads to the most effective sandbox.
+For instance, Bao et al. found that, in general, the sandboxes constructed using test generators classify at least 66\% of repackaged apps as malware in a dataset comprising 102 pairs of apps (original/repackaged) versions~\cite{DBLP:conf/wcre/BaoLL18}.
+{\color{blue}Actually, the mentioned work performed two studies: one pilot study involving a dataset
+of 10 pairs of apps (\texttt{SmallE}) in which the authors executed each test case generation tools for one hour and a larger experiment
+(\texttt{LargeE}) involving 102 pairs of
+apps in which the authors executed the test case generation tools for one minute~\cite{DBLP:conf/wcre/BaoLL18}.}
+Here we replicate their larger experiment. 
+The authors also presented that, among five test generation tools used, Droidbot~\cite{DBLP:conf/icse/LiYGC17} leads to the most effective sandbox.
 Le et al. extend the \mas for malware detection with additional verification,
 such as the values of the parameters used in the
 calls to sensitive APIs~\cite{le2018towards}, while
 Costa et al.\cite{DBLP:journals/jss/CostaMMSSBNR22} investigated the impact of static analysis to complement the accuracy of the \mas
-for malware detection. Their study reports that DroidFax~\cite{DBLP:conf/icsm/CaiR17a}, the static analysis infrastructure used in~\cite{DBLP:conf/wcre/BaoLL18}, is able to detect almost half of malicious code present in repackaged apps.
+for malware detection. Their study reports that DroidFax~\cite{DBLP:conf/icsm/CaiR17a}, the static analysis infrastructure used in~\cite{DBLP:conf/wcre/BaoLL18}, classifies as malware almost half of the repackaged apps.
 %in a dataset of $96$ pairs of
 %benign/malicious apps.
 
@@ -156,7 +159,7 @@ for malware detection. Their study reports that DroidFax~\cite{DBLP:conf/icsm/Ca
 % the manifest file could complement the mining sandbox approach for malware identification.
 
 
-Our work, although closely related to previous studies, differs from them in several aspects.  First, our assessment is more comprehensive: instead of considering 102 pairs of benign/malign apps, we execute our study considering \apps pairs of apps.
+Our work, although closely related to previous studies, differs from them in several aspects.  First, our assessment is more comprehensive: instead of considering 102 pairs of original/repackaged apps, we execute our study considering \apps pairs of apps.
 %Curiously, the performance of the \mas in our large dataset drops significantly.
 We then investigate which characteristics of the malware samples in the large dataset contribute to the performance of the \mas for malware detection.
 
