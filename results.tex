@@ -171,8 +171,9 @@ As a further analysis, we use the \emph{K-Means} algorithm to split the
 \cds into five clusters, according to the \sscore. We then
 estimate the accuracy for each cluster, as
 we show in Table~\ref{tab:ss-clusters}. Note that the \mas
-achieves a percentage of hits close to 70\% in the clusters 1~--~4, which
-present an average \sscore of at most 0.76.
+achieves the highest percentage of correct classification (63.27\%) for the third
+cluster (cId = 3), which
+presents an average \sscore of 0.67.
 
 
 \tb{3}{We found a negative and real association between
@@ -192,15 +193,17 @@ the \mas in the \cds.}
 \begin{table}[ht]
   \caption{Characteristics of the clusters. Note that the percentage of
     hits decreases in the cluster with the higher average \sscore.}
- \centering
+  \centering
+  \begin{scriptsize}
  \begin{tabular}{rrrrr}   \toprule
-   cId & Total of Samples & Total of Hits & (\%) of Hits & \sscore \\ \midrule
-   1 & 196 & 134 & 68.37 & 0.07 \\ 
-   2 & 146 & 101 & 69.18 & 0.29 \\ 
-   3 & 182 & 131 & 71.98 & 0.54 \\ 
-   4 & 247 & 175 & 70.85 & 0.76 \\ 
-   5 & 431 & 202 & 46.87 & 0.94 \\ \bottomrule
+ cId & \sscore & Samples & Correct Classification & Percentage \\ \midrule  
+   1 & 0.11    & 260     & 153                    & 58.85 \\ 
+   2 & 0.43    & 188     &  88                    & 46.81 \\ 
+   3 & 0.67    & 196     & 124                    & 63.27 \\ 
+   4 & 0.82    & 169     &  79                    & 46.75 \\ 
+   5 & 0.96    & 406     & 137                    & 33.74 \\  \bottomrule
  \end{tabular}
+ \end{scriptsize}
  \label{tab:ss-clusters}
  \end{table}
 
