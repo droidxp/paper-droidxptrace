@@ -1,4 +1,4 @@
 # paper-droidxptrace
 
 
-1. We must insert on threats section about repackage confiability, when app pair (original/repackage) have a similarity coeficient too slow (<0.75).
+1. We must insert on threats section about repackage confiability, when app pair (original/repackage) have a similarity coeficient too down (<0.75).
