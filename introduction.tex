@@ -30,12 +30,11 @@ Although revealing promising results, the previous research has two main limitat
 
 
 
-{\bf Negative results.} To our surprise, the experimental results show that, on a larger and more diverse dataset (compared to previous studies), the mining sandbox approach's accuracy ($F_1$ score) drops significantly (from \fscoreSmall to \fscore). This result motivated us to conduct a series of experiments to understand the reasons for the lower accuracy in the larger dataset. The original approach classifies an app as malware whenever there exists a difference between the sets of calls to sensitive APIs collected when running the test case generation tool over the original and repackaged versions of the same app.
-
-
+{\bf Negative results.} To our surprise, the experimental results show that, on a larger and more diverse dataset (compared to previous studies), the mining sandbox approach's accuracy ($F_1$ score) drops significantly (from \fscoreSmall to \fscore). This result motivated us to conduct a series of experiments to understand the reasons for the lower accuracy in the larger dataset.
+%The original approach classifies an app as malware whenever there exists a difference between the sets of calls to sensitive APIs collected when running the test case generation tool over the original and repackaged versions of the same app.
 Our experiments show that the \mas fail to correct classify the samples
 from the {\color{red}\gps malware family} (a particular class of adware that frequently appears in repackaged apps). Out of the total of \appsGps samples within this family,
-the \mas fail to correctly classify {\color{red}225} samples as malware (false positive). Our results reveal that this particular family is
+the \mas fail to correctly classify \appsGpsFN samples as malware (false positive). Our results reveal that this particular family is
 responsible for the low accuracy ($F_1 = \fscore$) of the \mas in the large dataset. 
 An accuracy of \fscore is unsatisfactory for a truly trustworthy sandbox approach. Still, 
 our experiments open the discussion (a) on one important blindspot that must be considered when building 

@@ -20,8 +20,11 @@ collection and data analysis procedures in Sections~\ref{sec:dataCollectionProc}
 
 \subsection{Malware Dataset}\label{sec:dataset}
 
-We use a curated Android app dataset collected by~\cite{DBLP:journals/tse/LiBK21}, based on the Androzoo repository~\cite{DBLP:conf/msr/AllixBKT16}. It contains 15,297 repackaged apps, by over 100 different attackers, for
-2,776 original apps. It extends a previous dataset (hereafter \sds) used in the research works of Bao et al. and Costa et al.~\cite{DBLP:conf/wcre/BaoLL18,DBLP:conf/scam/CostaMCMVBC20}, which contains a set of 102 pairs of \emph{original} and \emph{repackaged} apps. We curate our dataset selecting a random sample from the initial 15,297 repackaged apps, built a final dataset (hereafter \cds) of \apps apps that we were able to instrument and execute our experiments.
+We start with an original dataset that contains 15,297 pairs of original/repackaged Android apps~\cite{DBLP:journals/tse/LiBK21}. This original dataset
+has been curated using automatic procedures that mine repackaged apps from the Androzoo repository~\cite{DBLP:conf/msr/AllixBKT16}.
+From the original dataset, we curated a random sample to build our final dataset (hereafter \cds) of \apps apps that we could instrument
+and execute our experiments. In our research, we also consider a small dataset (hereafter \sds) used in previous studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22}.
+
 
 
 %starting from an initial sample of 3344 repackaged pairs of apps available in AndroZoo~\cite{DBLP:conf/msr/AllixBKT16}.
