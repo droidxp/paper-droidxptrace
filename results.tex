@@ -72,11 +72,11 @@ and wrongly labeled the repackaged version of seven apps as malware (FP column).
 
 
 {\bf \cds.} Surprisingly, when applied to our complete dataset (\apps apps), the \mas
-labels a total of 204 repackaged apps as malware (16.73\% of the total number of repackaged
+labels a total of 398 repackaged apps as malware (23.31\% of the total number of repackaged
 apps)---for which the repackaged version calls at least one additional sensitive API.
 Our analysis also reveals a {\bf negative result} related to the accuracy of the approach: here,
 the accuracy is much lower in comparison to what we reported for the
-\sds (see the second row of Table~\ref{tab:accuracy}), $F_1$ dropping from 0.89 to 0.26.
+\sds (see the second row of Table~\ref{tab:accuracy}), $F_1$ dropping from \fscoreSmall to \fscore.
 This result indicates that, when considering a more representative dataset, the accuracy of the \mas using
 DroidBot drops significantly. 
 
@@ -86,8 +86,8 @@ DroidBot drops significantly.
 \tb{2}{
   The \mas for malware detection
   leads to a substantially lower performance on the
-  \cds (\cds pairs of apps),
-  dropping the accuracy by a factor of 70.78\%  in comparison to
+  \cds (\apps pairs of apps),
+  dropping the accuracy by a factor of 63\%  in comparison to
   what we observed in the \sds.}
 
 
@@ -113,7 +113,7 @@ original and repackaged versions of an app are.
 The average \sscore of the
 \sds is 0.77 (median of 0.86 and sd of 0.22). Contrasting,
 the average \sscore of the complete dataset is
-0.63 (median of 0.72 and sd of 0.32).
+0.59 (median of 0.68 and sd of 0.33).
 
 \begin{figure}
   \includegraphics[width=\columnwidth]{images/boxplotSimilarity.pdf}
@@ -139,12 +139,12 @@ it presents a higher \sscore on average, in comparison with the \cds.
 %\kn{I am a bit confused here. Higher similariy score implies the app pairs are close to each other, making the detection easier? Or maybe I misundertood it here.}
 
 As a further analysis, we use the \emph{K-Means} algorithm to split the
-\cds into five clusters, according to the \sscore. We then
+\cds into ten clusters, according to the \sscore. We then
 estimate the accuracy for each cluster, as
 we show in Table~\ref{tab:ss-clusters}. Note that the \mas
-achieves the highest percentage of correct classification (63.27\%) for the third
-cluster (cId = 3), which
-presents an average \sscore of 0.67.
+achieves the highest percentage of correct classification (79.10\%) for the sixth
+cluster (cId = 6), which
+presents an average \sscore of 65\%.
 
 
 \tb{3}{We found a negative and real association between
@@ -167,12 +167,17 @@ the \mas in the \cds.}
   \centering
   \begin{scriptsize}
  \begin{tabular}{rrrrr}   \toprule
- cId & \sscore & Samples & Correct Classification & Percentage \\ \midrule  
-   1 & 0.11    & 260     & 153                    & 58.85 \\ 
-   2 & 0.43    & 188     &  88                    & 46.81 \\ 
-   3 & 0.67    & 196     & 124                    & 63.27 \\ 
-   4 & 0.82    & 169     &  79                    & 46.75 \\ 
-   5 & 0.96    & 406     & 137                    & 33.74 \\  \bottomrule
+   cId & \sscore & Samples & Correct Classification & Percentage \\ \midrule
+    1 & 0.03 & 185 & 134 & 72.43 \\ 
+    2 & 0.12 & 143 & 104 & 72.73 \\ 
+    3 & 0.25 & 146 &  94 & 64.38 \\
+    4 & 0.41 & 120 &  88 & 73.33 \\ 
+    5 & 0.53 & 126 &  92 & 73.02 \\ 
+    6 & 0.65 & 177 & 140 & 79.10 \\ 
+    7 & 0.74 & 125 & 103 & 82.40 \\ 
+    8 & 0.82 & 158 & 113 & 71.52 \\ 
+    9 & 0.90 & 156 &  88 & 56.41 \\ 
+   10 & 0.97 & 371 & 161 & 43.40 \\  \bottomrule
  \end{tabular}
  \end{scriptsize}
  \label{tab:ss-clusters}
