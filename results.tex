@@ -34,10 +34,10 @@ F-measure ($F_1$))---all repackaged apps labeled as
 malware are considered true positives in the previous studies.
 As we mentioned, in this paper we take advantage
 of \vt to label our dataset and build a ground truth: we only
-consider a repackaged version of an app a malware if the results
+classify a repackaged version of an app as malware if the results
 of our \vt query report that at least two
-\ses identify a malicious behavior in the asset (again, this
-decision is in accordance to existing recommendations~\cite{vt-label,DBLP:journals/ese/KhanmohammadiEH19}).
+\ses identify malicious behavior in the asset (again, this
+decision follows existing recommendations~\cite{vt-label,DBLP:journals/ese/KhanmohammadiEH19}).
 %\kn{Now its a bit clearer, but I would expect a separate paragraph when we introduce VT explaing how VT serves as a better ground truth and also justify our choices on the numbers with VT a bit more -- why we have two as the magic number of antivirus scanners... }
 The first row of Table~\ref{tab:accuracy} shows that the \mas achieves an accuracy of 0.89 when
 considering the \sds. The \mas fails
