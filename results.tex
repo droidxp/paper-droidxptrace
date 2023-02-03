@@ -11,36 +11,7 @@ the results of our research using two datasets: the \sds (102 pairs of apps) and
 \subsection{Exploratory Data Analysis of Accuracy}
 
 
-{\bf \sds.}
-After running the dynamic analysis via DroidBot, our infrastructure produces
-a dataset with the sensitive methods that both app versions call during their execution. We consider that a test
-generation tool, in our case, DroidBot, builds a sandbox that labels a repackaged version
-of an app as a malware if there is at least one call to a sensitive method that (a) was observed
-while executing the repackaged version of the app and that (b) was not observed while
-executing the original version of the same app. 
-If the set of sensitive methods that only the repackaged version of an app calls is empty,
-we conclude that the sandbox does not label the repackaged version of an app as a malware. We triangulate
-this information with the outputs of \vt, which might lead to one of the following
-situations:
-
-\begin{itemize}
-\item {\bf True Positive}. The \mas labels a repackaged version as a malware and, according to
-  \vt, at least two \ses label the asset as a malware.
-  
-\item {\bf True Negative}. The \mas does not label a repackaged version as a malware and,
-  according to \vt, at most one \se labels the asset as a malware. 
-
-\item {\bf False Positive}. The \mas labels a repackaged version as a malware and, according to
-  \vt, at most one \se labels the asset as a malware.
-
-\item {\bf False Negative}. The \mas does not label a repackaged version as a malware, and
-  according to \vt, at least two \ses label the asset as a malware.
-\end{itemize}
-
-%\kn{These numbers of atleast two and atmost two kind of jump out of nowhere. We have to provide some systematic explanation as to why these numbers make sense.}
-%\fh{Here Krishna asked where this number of at least two and at most two \se came from. But we have a explanation at section IIIA}
-
-Considering the \sds (102 apps), the \mas for malware detection 
+{\bf \sds.} Considering the \sds (102 apps), the \mas for malware detection 
 classifies a total of 69 repackaged versions as malware (67.64\%).
 This result is close to what Bao et al. report. That is, in their
 original paper,  the \mas using DroidBot classifies 66.66\% of the

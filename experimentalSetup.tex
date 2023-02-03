@@ -53,8 +53,8 @@ collect user contacts, send/receive SMS, and so on~\cite{DBLP:conf/iccns/RahaliL
 According to the
 \avt~\cite{avclass2-paper}, the malware samples in the \sds come from $17$ different families---most of them from the Kuguo (49.27\%) and Dowgin (17.39\%) families.
 Contrasting, our \cds is more representative. Besides a large sample of repackaged apps (\apps in total), it
-comprises 34 families of malware we collected using the \avt---most
-of them from the Gappusin (37.00\%), Revmob (20.69\%), and Dogwin (10.87) families.
+comprises 44 families of malware we collected using the \avt---most
+of them from the Gappusin (17.28\%) family.
 
 We also characterize our dataset according to the similarity
 between the original and repackaged versions of the apps, using the  
@@ -63,11 +63,11 @@ based on (a) the methods that are either identical or similar in both versions o
 (b) methods that only appear in the repackaged version of the apps (new methods), and (c) methods that only appear in the
 original version of the apps (deleted methods).
 
-Our \cds has an average similarity score of 63.59\%---with a much better distribution (252 of
+Our \cds has an average similarity score of 59.72\%---with a much better distribution {\color{red}(252 of
 app pairs have a similarity score of less than 0.25\%, 160 of app pairs
 between 0.25\% and 0.50\%, 232 of the apps between 0.5\% and 0.75\%,
 and 575 of the apps with more than 0.75\%). The \sds presents a much higher
-similarity index average (77.87\%). 
+similarity index average (77.87\%)}. 
 
 It is important to highlight that our sample comes
 from different Android app stores. Most of our repackage apps come from a non-official
@@ -108,8 +108,33 @@ this phase executes only once for each version of the apps in our dataset.
 
 \subsection{Data Analysis Procedures} \label{sec:dataAnalysisProc}
 
+After running the dynamic analysis via DroidBot, our infrastructure produces
+new datasets with the sensitive methods that both app versions call during their execution. We consider that a test
+generation tool, in our case, DroidBot, builds a sandbox that labels a repackaged version
+of an app as a malware if there is at least one call to a sensitive method that (a) was observed
+while executing the repackaged version of the app and that (b) was not observed while
+executing the original version of the same app. 
+If the set of sensitive methods that only the repackaged version of an app calls is empty,
+we conclude that the sandbox does not label the repackaged version of an app as a malware. We triangulate
+this information with the outputs of \vt, which might lead to one of the following
+situations:
+
+\begin{itemize}
+\item {\bf True Positive}. The \mas labels a repackaged version as a malware and, according to
+  \vt, at least two \ses label the asset as a malware.
+  
+\item {\bf True Negative}. The \mas does not label a repackaged version as a malware and,
+  according to \vt, at most one \se labels the asset as a malware. 
+
+\item {\bf False Positive}. The \mas labels a repackaged version as a malware and, according to
+  \vt, at most one \se labels the asset as a malware.
+
+\item {\bf False Negative}. The \mas does not label a repackaged version as a malware, and
+  according to \vt, at least two \ses label the asset as a malware.
+\end{itemize}
+
 We use basic statistics (average, median, standard deviation) to identify the
-accuracy of the \mas to identify malware, in both
+accuracy of the \mas for malware classification, in both
 datasets we use in our research---i.e., the \sds
 with 102 pairs of apps and our \cds with
 \apps pairs. We use the Spearman Correlation~\cite{spearman-correlation} method and
@@ -119,6 +144,8 @@ malware with the \mas accuracy---that is,
 if the approach was able to correctly classify an asset as malware. We also use existing tools to reverse engineer a sample of repackaged
 apps in order to better understand (the lack of) accuracy
 of the \mas.
+
+
 
 %\fh{I removed the item C of this section that talk about hardware and execution time.}
 
