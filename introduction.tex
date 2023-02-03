@@ -15,7 +15,7 @@ to explore the behavior of an app---in terms of calls to sensitive APIs---and th
 generates an Android sandbox~\cite{DBLP:conf/icse/JamrozikSZ16}. During a normal
 execution of the app, the sandbox might block any call to a sensitive API
 that had not been observed during the exploratory phase. 
-Researchers have shown that the mining sandbox approach is also effective
+Researchers have shown that the \mas is also effective
 in detecting a popular class of Android malware that ``repackages'' benign apps~\cite{DBLP:conf/wcre/BaoLL18,le2018towards}---i.e., starting with a benign
 version of an app from an official app store, such as Google Play, one might infect it with
 malicious code, such as broadcasting
@@ -26,7 +26,7 @@ produced from the execution of different test case generation tools, including M
 These reports bring evidence that the test generation tool DroidBot outperforms the other tools, leading to sandboxes that
 classify as malware 70\% of the repackaged apps in a dataset.
 
-Although revealing promising results, the previous research has two main limitations. First, they use a small dataset of malware comprising only \appsSmall pairs of original/repackaged versions of an app. Second, their impact analysis is not fine-grained. For instance, they do not consider whether the impact on the accuracy that might be due to malware characteristics, such as the similarity index between the original and the repackaged version of an app and the malware family (gappusin, kuguo, dowgin, etc.). So, in this paper we present the results of an investigation that aims to replicate previous studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:conf/scam/CostaMCMVBC20} in a larger dataset of app pairs (orriginal/repackaged versions), and then explore whether a more diverse sample of app pairs has an influence on the accuracy of the mining sandbox approach for malware identification. To this end, we explore the performance of the mining sandbox approach using a larger dataset we curated for this research and DroidBot~\cite{DBLP:conf/icse/LiYGC17} as test case generation---the tool that, according to the literature, leads to the most accuracy Android sandbox. Our new dataset is an order of magnitude larger (it contains \apps pairs of original/repackaged apps), comprises a much more diverse similarity index, and covers a broader range of malware families. 
+Although revealing promising results, the previous research has two main limitations. First, they use a small dataset of malware comprising only \appsSmall pairs of original/repackaged versions of an app. Second, their impact analysis is not fine-grained. For instance, they do not consider whether the impact on the accuracy that might be due to malware characteristics, such as the similarity index between the original and the repackaged version of an app and the malware family (gappusin, kuguo, dowgin, etc.). So, in this paper we present the results of an investigation that aims to replicate previous studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:conf/scam/CostaMCMVBC20} in a larger dataset of app pairs (original/repackaged versions), and then explore whether a more diverse sample of app pairs has an influence on the accuracy of the \mas for malware identification. To this end, we explore the performance of the \mas using a larger dataset we curated for this research and DroidBot~\cite{DBLP:conf/icse/LiYGC17} as test case generation---the tool that, according to the literature, leads to the most accuracy Android sandbox. Our new dataset is an order of magnitude larger (it contains \apps pairs of original/repackaged apps), comprises a much more diverse similarity index, and covers a broader range of malware families. 
 
 
 
@@ -43,8 +43,7 @@ information when trying to distinguish benign and malign app versions.
 
 We detail the \mas and the \mas for malware detection in
 Section~\ref{sec:background}. Next, in Section~\ref{sec:experimentalSetup}, we
-characterize our experiments in terms of research goal, questions, metrics, datasets, 
-and procedures for data collection and data analysis. Section~\ref{sec:results} and
+characterize our experiments in terms of research goal, questions, metrics, datasets, procedures for data collection and data analysis. Section~\ref{sec:results} and
 Section~\ref{sec:discussion} detail the main findings of our research and
 possible decisions that might threat the validity of our results. Finally,
 Section~\ref{sec:conclusions} presents final remarks and possible future
