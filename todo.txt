@@ -2,4 +2,7 @@
 
 
 1. We must insert on threats section about repackage confiability, when app pair (original/repackage) have a similarity coeficient too down (<0.75).
-2. Check the numbers at first paragraph of Section IV.B. 
+2. Check the numbers at Section IV.B. 
+3. Update Figure 1 (similarity score).
+4. Update Table II
+5. Update Figure 2 (similarity score Gappusin).
