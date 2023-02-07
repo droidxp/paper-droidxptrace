@@ -49,11 +49,11 @@ and wrongly labeled the repackaged version of seven apps as malware (FP column).
 \begin{table*}[htb]
   \caption{Accuracy of the \mas in both datasets.}
 \centering{
-  \begin{tabular}{llrrrrrr} \toprule
-    Approach       & Dataset & TP   & FP  & FN  & Precision & Recall & $F_1$ \\ \midrule
-    \mas   & \sds (102)    & 62   & 7   & 7   & 0.89      & 0.89   & 0.89  \\
+  \begin{tabular}{lrrrrrr} \toprule
+    Dataset & TP   & FP  & FN  & Precision & Recall & $F_1$ \\ \midrule
+    \sds (102)    & 62   & 7   & 7   & 0.89      & 0.89   & 0.89  \\
     %\mas + Traces  & \sds (102)   & 67   & 18  & 2   & 0.78      & 0.97   & 0.87  \\
-    \mas   & \cds (1203)    & 173  & 173 & 286 & 0.5       & 0.37   & 0.42  \\
+    \cds (1,707)    & 149  & 249 & 341 & 0.37       & 0.3   & 0.33  \\
     %\mas + Traces  & \cds (1203)   & 214  & 326 & 245 & 0.39      & 0.46   & 0.42  \\ 
     \bottomrule
   \end{tabular}
@@ -87,7 +87,7 @@ DroidBot drops significantly.
   The \mas for malware detection
   leads to a substantially lower performance on the
   \cds (\apps pairs of apps),
-  dropping the accuracy by a factor of 63\%  in comparison to
+  dropping the accuracy by a factor of 56\%  in comparison to
   what we observed in the \sds.}
 
 
@@ -196,11 +196,9 @@ both in terms of similarity and malware families. So,
 we hypothesize that the families of the malwares in the \cds could
 better explain the poor performance of the \mas on the \cds.
 Indeed, in the \cds, we identified a total of
-57 families of malwares, though the most frequent
-ones are \gps (198 samples),
-\emph{kuguo} (44 samples), \emph{revmob} (36 samples),
-and \emph{dowgin} (33 samples). Together, they
-account for 67.75\% of the repackaged apps in our
+44 families of malwares, though the most frequent
+ones are \gps (295 samples), \emph{revmob} (31 samples), \emph{dowgin} (25 samples) and \emph{airpush} (21 samples). Together, they
+account for 21.79\% of the repackaged apps in our
 complete dataset labeled as malware according to \vt.
 
 This family distribution in the \cds is
@@ -218,14 +216,14 @@ perform when considering only the gappusin samples?}
 
 Table~\ref{tab:gappusin} shows
 the results of an accuracy assessment considering
-only those particular samples in the \cds. Note that for 171 samples (86.36\%), the \mas was able to correctly identify
+only those particular samples in the \cds. Note that for 269 samples (91.18\%), the \mas was not able to correctly identify
 a repackaged version of an app as a malware. 
 %Merging the outcomes of both approaches (that is, the vanilla \mas and
 %the \mas with traces), leads to a recall of
 %$\frac{27}{198} = 0.13$. 
 Further, if we remove the \gps
 samples from the \cds, the recall
-of the \mas increases to 0.71 (similar
+of the \mas increases to 0.63 (similar
 to the performance of the original studies). 
 
 \begin{table}[ht]
@@ -236,9 +234,9 @@ to the performance of the original studies).
  \hline
  Malware & \mas & Total \\
  \hline
- True & False & 171 \\ 
+ True & False & 269 \\ 
  %True & False & True &  13 \\ 
- True & True & 12 \\ 
+ True & True & 26 \\ 
  %True & True & True &   2 \\ 
  \hline
 \end{tabular}
@@ -247,7 +245,7 @@ to the performance of the original studies).
 
 
 \tb{5}{The \mas fails to correctly
-  identify 86.36\% of the samples from the \gps family
+  identify 91.18\% of the samples from the \gps family
   as a malware. This is the main reason for the low
   recall of the \mas in the \cds.}
 
@@ -256,17 +254,16 @@ relevance to the negative result we present in our paper. First,
 Figure~\ref{fig:hist-gappusin} shows a histogram of the \sscore for the samples
 in the \gps family. Note that mostly of the repackaged versions from the
 \gps family are quite similar to the original versions (average \sscore
-of 0.90, median \sscore of 0.95, and sd of 0.14). We also reengineer
-a sample of 20 \gps malware (almost 10\% of the samples in this
+of 0.86, median \sscore of 0.71, and sd of 0.21). We also reengineer
+a sample of 30 \gps malware (more than 10\% of the samples in this
 family), using the \texttt{SimiDroid}\footnote{https://github.com/lilicoding/SimiDroid},
 \texttt{apktool}~\footnote{https://ibotpeaches.github.io/Apktool/},
 and \texttt{smali2java}~\footnote{https://github.com/AlexeySoshin/smali2java} tools.
-Considering this sample of 20 \gps malware, the median \sscore is 0.98. In addition,
-the repackaged version of the apps changes 2.73 methods, includes one new method,
-and delete six methods from the original app (on median). Table~\ref{tab:simidroid-outputs} summarizes
+Considering this sample of 30 \gps malware, the median \sscore is 0.95. In addition,
+the repackaged version of the apps changes 6.9 methods (on median), and whenever the sample includes 2 new methods, it also delete 2 methods from the original app. Table~\ref{tab:simidroid-outputs} summarizes
 the outputs of \texttt{SimiDroid} for this sample of \gps apps. The similarity assessment
-of this sample of 20 \gps malware reveal a few modification patterns when comparing the original and the
-repackaged versions of the apps. First, no sample in this random selected \gps dataset
+of this sample of 30 \gps malware reveal a few modification patterns when comparing the original and the
+repackaged versions of the apps. \fh{from this point forward we must review gappusin family action}First, no sample in this random selected \gps dataset
 modifies the Android Manifest file---that is, they do not require new permissions, for instance.
 Moreover, 19 out of the 20 samples in this dataset  {\bf completely modifies} the
 method \texttt{void onReceive(Context, Intent)}
@@ -353,32 +350,43 @@ public static void m7a(Activity activity, String str, String str2, String str3, 
  
 \begin{table}[ht]
   \centering
-  \caption{Summary of the outputs of the \texttt{SimiDroid} tool for the sample of 20
+  \caption{Summary of the outputs of the \texttt{SimiDroid} tool for the sample of 30
     \gps malware. (IM) Identical Methods, (SM) Similar Methods, (NM) New Methods, and
     (DM) Deleted Methods.}
   \begin{tabular}{lrrrrr}
    \toprule
     Hash & SimiScore & IM & SM & NM & DM \\ 
    \midrule
-   \texttt{2D76DE7} & 0.99 & 461 &    1 &   1 &   6 \\ 
-   \texttt{46C41BE} & 0.99 & 1164 &   1 &   1 &   6 \\ 
-   \texttt{0218D0E} & 0.99 & 1082 &   1 &   1 &   6 \\ 
-   \texttt{07EA86C} & 0.99 & 2127 &   1 &   1 &   6 \\ 
-   \texttt{078E0AE} & 0.95 & 134 &   6 &   1 &  10 \\ 
-   \texttt{5374927} & 0.95 & 134 &   6 &   1 &  10 \\ 
-   \texttt{17722D9} & 0.97 & 265 &   6 &   1 &  10 \\ 
-   \texttt{5B0C652} & 0.99 & 2642 &   4 &  10 &   1 \\ 
-   \texttt{CCD29EC} & 0.99 & 436 &   2 &   0 &   0 \\ 
-   \texttt{010C070} & 0.99 & 2249 &   3 &   3 &   0 \\ 
-   \texttt{723C231} & 0.98 & 228 &   2 &   1 &  10 \\ 
-   \texttt{27D5D22} & 0.99 & 612 &   5 &   1 &  10 \\ 
-   \texttt{92209D0} & 0.99 & 698 &   2 &   3 &   0 \\ 
-   \texttt{2441293} & 0.98 & 123 &   2 &   0 &  11 \\ 
-   \texttt{D83F1CE} & 0.94 & 150 &   2 &   6 &   6 \\ 
-   \texttt{00405B6} & 0.99 & 864 &   2 &   1 &  10 \\ 
-   \texttt{33896EB} & 0.99 & 3205 &   2 &   0 &   0 \\ 
-   \texttt{1AE4E8B} & 0.99 & 3964 &   2 &   3 &   3 \\
-   \texttt{114C5C8} & 0.99 & 5631 &   2 &   9 & 151 \\ 
+\texttt{0C962D289E}&0.933&99&7&0&0 \\
+\texttt{E5D71699E7}&0.971&275&8&0&0 \\
+\texttt{ECEA10902B}&0.897&44&5&0&0 \\
+\texttt{5374927E98}&0.974&349&9&0&0 \\
+\texttt{E29F53DA37}&0.986&375&5&0&0 \\
+\texttt{BCDF919487}&0.982&334&6&0&0 \\
+\texttt{01ECE4AE23}&0.931&108&6&2&2 \\
+\texttt{610113BB0C}&0.964&192&7&0&0 \\
+\texttt{295B663AD1}&0.946&196&11&0&0 \\
+\texttt{17722D9807}&0.867&46&7&0&0 \\
+\texttt{67310E41EC}&0.956&154&5&2&2 \\
+\texttt{5B5F2D5DAA}&0.956&154&5&2&2 \\
+\texttt{F9FC043249}&0.925&148&12&0&0 \\
+\texttt{010C070CAD}&0.968&245&6&2&2 \\
+\texttt{842BD5F8A9}&0.972&246&5&2&2 \\
+\texttt{00405B66DD}&0.835&66&13&0&0 \\
+\texttt{D83F1CEA61}&0.901&73&6&2&2 \\
+\texttt{723C231BA7}&0.857&42&7&0&0 \\
+\texttt{33896EBEC0}&0.978&229&5&0&0 \\
+\texttt{347FCF5AC1}&0.956&110&5&0&0 \\
+\texttt{4010CA0E70}&0.917&78&5&2&2 \\
+\texttt{D95B6E6417}&0.981&373&7&0&0 \\
+\texttt{A871E01516}&0.964&192&7&0&0 \\
+\texttt{CCD29EC8ED}&0.953&102&5&0&0 \\
+\texttt{FE76EBE7B4}&0.974&194&5&0&0 \\
+\texttt{A306DA6482}&0.853&35&6&0&0 \\
+\texttt{E53FAABBA0}&0.941&162&10&0&0 \\
+\texttt{92209D0E67}&0.975&284&5&2&2 \\
+\texttt{078E0AE6E3}&0.977&350&8&0&0 \\
+\texttt{0977B0E411}&0.946&196&9&2&2 \\
    \bottomrule
  \end{tabular}
  \label{tab:simidroid-outputs}
