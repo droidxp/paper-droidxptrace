@@ -165,7 +165,7 @@ the \mas in the \cds.}
   \caption{Characteristics of the clusters. Note that the percentage of
     hits decreases in the cluster with the higher average \sscore.}
   \centering
-  \begin{scriptsize}
+  \begin{small}
  \begin{tabular}{rrrrr}   \toprule
    cId & \sscore & Samples & Correct Classification & Percentage \\ \midrule
     1 & 0.03 & 185 & 134 & 72.43 \\ 
@@ -179,7 +179,7 @@ the \mas in the \cds.}
     9 & 0.90 & 156 &  88 & 56.41 \\ 
    10 & 0.97 & 371 & 161 & 43.40 \\  \bottomrule
  \end{tabular}
- \end{scriptsize}
+ \end{small}
  \label{tab:ss-clusters}
  \end{table}
 
@@ -194,18 +194,18 @@ section, the similarity assessment does not explain the low performance of the
 \mas on the \cds. Recall that the \cds is more heterogeneous
 both in terms of similarity and malware families. So,
 we hypothesize that the families of the malwares in the \cds could
-better explain the poor performance of the \mas on the \cds.
+explain the poor performance of the \mas on the \cds better.
 Indeed, in the \cds, we identified a total of
 44 families of malwares, though the most frequent
-ones are \gps (295 samples), \emph{revmob} (31 samples), \emph{dowgin} (25 samples) and \emph{airpush} (21 samples). Together, they
-account for 21.79\% of the repackaged apps in our
+ones are \gps (295 samples), \fm{revmob} (31 samples), \fm{dowgin} (25 samples) and \emph{airpush} (21 samples). Together, they
+account for 75.91\% of the repackaged apps in our
 complete dataset labeled as malware according to \vt.
 
 This family distribution in the \cds is
 significantly different from the family
 distribution in the \sds---where the
-families \emph{kuguo} (34 samples), \emph{dowgin} (12 samples),
-and \emph{youmi} (5 samples) account for
+families \fm{kuguo} (34 samples), \fm{dowgin} (12 samples),
+and \fm{youmi} (5 samples) account for
 73.91\% of the families considering the 69
 repackaged apps \vt labels as malware in the \sds.
 Most important, in the \sds, there is just one
@@ -216,7 +216,7 @@ perform when considering only the gappusin samples?}
 
 Table~\ref{tab:gappusin} shows
 the results of an accuracy assessment considering
-only those particular samples in the \cds. Note that for 269 samples (91.18\%), the \mas was not able to correctly identify
+only the \gps samples in the \cds. Note that for 269 samples (91.18\%), the \mas was not able to correctly identify
 a repackaged version of an app as a malware. 
 %Merging the outcomes of both approaches (that is, the vanilla \mas and
 %the \mas with traces), leads to a recall of
@@ -254,7 +254,7 @@ relevance to the negative result we present in our paper. First,
 Figure~\ref{fig:hist-gappusin} shows a histogram of the \sscore for the samples
 in the \gps family. Note that mostly of the repackaged versions from the
 \gps family are quite similar to the original versions (average \sscore
-of 0.86, median \sscore of 0.71, and sd of 0.21). We also reengineer
+of 0.86, median \sscore of 0.96, and sd of 0.21). We also reengineer
 a sample of 30 \gps malware (more than 10\% of the samples in this
 family), using the \texttt{SimiDroid}\footnote{https://github.com/lilicoding/SimiDroid},
 \texttt{apktool}~\footnote{https://ibotpeaches.github.io/Apktool/},
@@ -279,7 +279,7 @@ the repackaged versions often introduce into the same class (\texttt{AdReciver})
 %\begin{wrapfigure}{l}{0.4\textwidth}
 \begin{figure}
 \begin{center}
-    \includegraphics[width=0.38\textwidth]{images/gappusin-1.pdf}
+    \includegraphics[width=0.38\textwidth]{images/similarityGappusin.pdf}
   \end{center}
   \caption{Histogram of the \sscore for the samples in the \gps family.}
   \label{fig:hist-gappusin}
