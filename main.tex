@@ -3,9 +3,6 @@
 \acmConference[ISSTA 2023]{ACM SIGSOFT International Symposium on Software Testing and Analysis}{17-21 July, 2023}{Seattle, USA}
 %\IEEEoverridecommandlockouts
 
-%\documentclass[letterpaper,twocolumn,10pt]{article}
-%\acmConference[ESEC/FSE 2022]{The 30th ACM Joint European Software Engineering Conference and Symposium on the Foundations of Software Engineering}{14 - 18 November, 2022}{Singapore}
-
 
 % Fonte em português brasileiro
 \usepackage[american]{babel}
@@ -30,66 +27,7 @@
 \usepackage{wrapfig}
 \usepackage{lstcustom}
 
-%\usepackage{scalerel,stackengine}
-%\def\apeqA{\SavedStyle\sim}
-%\def\apeq{\setstackgap{L}{\dimexpr.5pt+1.5\LMpt}\ensurestackMath{%
-%  \ThisStyle{\mathrel{\Centerstack{{\apeqA} {\apeqA} {\apeqA}}}}}}
 
-\begin{filecontents*}{grade.csv}
-market,qt
-anzhi,274
-play.google.com,175
-PlayDrone/play.google.com,114
-play.google.com/PlayDrone,106
-appchina,54
-angeeks,33
-slideme,9
-1mobile,7
-appchina/play.google.com,4
-fdroid,4
-unknown/genome,3
-VirusShare/anzhi,2
-appchina/VirusShare,2
-play.google.com/appchina,2
-apkbang,2
-appchina/anzhi,2
-1mobile/PlayDrone/play.google.com,2
-anzhi/angeeks,2
-anzhi/appchina,2
-anzhi/appchina/PlayDrone/play.google.com,1
-anzhi/mi.com,1
-anzhi/play.google.com/PlayDrone/appchina,1
-anzhi/VirusShare,1
-1mobile/proandroid,1
-1mobile/play.google.com,1
-1mobile/play.google.com/PlayDrone,1
-appchina/play.google.com/anzhi/PlayDrone,1
-appchina/PlayDrone/play.google.com,1
-angeeks/PlayDrone/play.google.com,1
-appchina/1mobile/PlayDrone/play.google.com,1
-PlayDrone/mi.com/play.google.com,1
-PlayDrone/play.google.com/1mobile,1
-PlayDrone/play.google.com/anzhi,1
-PlayDrone/play.google.com/appchina,1
-hiapk,1
-hiapk/angeeks/play.google.com,1
-mi.com/anzhi,1
-play.google.com/1mobile,1
-play.google.com/1mobile/PlayDrone,1
-play.google.com/angeeks,1
-VirusShare/anzhi/appchina,1
-VirusShare/unknown/genome,1
-torrents,1
-unknown/angeeks,1
-
-\end{filecontents*}
-
-
-
-
-% Default fixed font does not support bold face
-%\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
-%\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{12}  % for normal
 
 % Custom colors
 \definecolor{keywords}{rgb}{0.5,0,0.35}
@@ -106,12 +44,10 @@ unknown/angeeks,1
         %identifierstyle=\color{red},
        }
        
-% Identação e Margens
-%\usepackage{fullpage}      % Margens
-%\usepackage{indentfirst}   % Autoidentar
 
-% Figuras
-\usepackage{graphicx}       % Pictures
+
+% Pictures
+\usepackage{graphicx}       
 
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
@@ -170,39 +106,35 @@ unknown/angeeks,1
 \newcommand{\appsGps}{\raw{295}}
 \newcommand{\appsGpsFN}{\raw{269}}
 
-\begin{document}
+\setlength {\marginparwidth }{2cm}
+\pgfplotsset{compat=1.18}
 
 \title{The Achilles' Heel of the Android Mining Sandbox Approach for Malware Identification (Replicability Studies)}
+
+\begin{document}
+
+
 
 % Title Alternatives
 % - \title{The Achilles' Heel of the Mining Sandbox Approach for Android Malware Identification}
 % - ...
 % 
+% Here we will put author ...
+
+%\author{Francisco Costa}
+%\affiliation{%
+%  \institution{Brasilia University}
+%  \city{Brasilia}
+%  \country{Brazil}}
+%\email{180040723@aluno.unb.br}
 
 
-\author{
-  \IEEEauthorblockN{
-    Anonymous
-  }
-%%     Francisco Handrick da Costa\IEEEauthorrefmark{1},
-%%     Ismael Medeiros\IEEEauthorrefmark{1},
-%%     Rodrigo Bonif\'{a}cio\IEEEauthorrefmark{1},
-%%     Marcio Ribeiro\IEEEauthorrefmark{3}, \\ 
-%%     Gabriel Martins\IEEEauthorrefmark{1},
-%%     Mira Mezini\IEEEauthorrefmark{2}, and
-%%     Krishna Narasimhan\IEEEauthorrefmark{2}
-%% }
 
-  \IEEEauthorblockA{
-    \IEEEauthorrefmark{1}Institution}}
-%%   \IEEEauthorrefmark{1}Computer Science Department, University of Bras\'{i}lia, Brazil,
-%%   \IEEEauthorrefmark{2}Software Technology Group, TU Darmstadt, Germany, \\ 
-%%   \IEEEauthorrefmark{3}Institute of Computing, Federal University of Alagoas, Brazil
-%%   }
-%}
+
+
 \input{abstract}
+\keywords{Android Malware Detection, Dynamic Analysis, Mining Android Sandboxes}
 \maketitle
-
 \input{introduction}
 \input{background}
 %\input{relatedwork}
