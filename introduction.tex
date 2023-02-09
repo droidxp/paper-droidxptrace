@@ -5,45 +5,72 @@ uses mobile technologies~\cite{Comscore,DBLP:journals/tse/MartinSJZH17}, with th
 Android Platform dominating this market and accounting for more than 70\% of the \emph{mobile
 market share} with almost 3.5 million Android applications~\footnote{In this paper, we will use the terms Android Applications, Android Apps, and Apps interchangeably, to refer to Android software applications} (apps)
 available on the Google Play Store~\cite{Statista}. 
-With increased popularity also comes increased risk of attacks---motivating plenty of research efforts to design and develop new techniques
+With increased popularity, comes increased risk of attacks---motivating plenty of research efforts to design and develop new techniques
 to identify malicious behavior or vulnerable code in Android apps~\cite{10.1145/3017427}.
 
 
-For instance, the
-Mining Android Sandbox approach (hereafter \mas) takes advantage of automated test case generation tools 
+In focus of this paper is the Mining Android Sandbox, hereafter \mas. 
+It  takes advantage of automated test case generation tools 
 to explore the behavior of an app---in terms of calls to sensitive APIs---and then
-generates an Android sandbox~\cite{DBLP:conf/icse/JamrozikSZ16}. During a normal
+generates a sandbox~\cite{DBLP:conf/icse/JamrozikSZ16}. During a normal
 execution of the app, the sandbox might block any call to a sensitive API
 that had not been observed during the exploratory phase. 
-Researchers have shown that the \mas is also effective
-in detecting a popular class of Android malware that ``repackages'' benign apps~\cite{DBLP:conf/wcre/BaoLL18,le2018towards}---i.e., starting with a benign
-version of an app from an official app store, such as Google Play, one might infect it with
-malicious code, such as broadcasting
-sensitive information to a private server~\cite{DBLP:journals/tse/LiBK21}. The infected app might be then 
-shared with users using different app stores. 
-Previous research works~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22} compare the accuracy of Android sandboxes for malware detection 
-produced from the execution of different test case generation tools, including Monkey~\cite{Monkey}, DroidBot~\cite{DBLP:conf/icse/LiYGC17}, and Droidmate~\cite{DBLP:conf/kbse/BorgesHZ18} tools.
-These reports bring evidence that the test generation tool DroidBot outperforms the other tools, leading to sandboxes that
+It has been shown that 
+the \mas is also effective
+in detecting a popular class of Android malware based on 
+repackaging benign apps~\cite{DBLP:conf/wcre/BaoLL18,le2018towards};
+Benign
+versions of an app from an official app store are
+%such as Google Play, 
+infected with malicious code, e.g., broadcasting
+sensitive information to a private server~\cite{DBLP:journals/tse/LiBK21}, and subsequently shared
+with users using different app stores. 
+
+Previous studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22} 
+have compared the accuracy of different Android sandboxes for malware detection 
+that were produced 
+from 
+%executing 
+different test case generation tools, including Monkey~\cite{Monkey}, DroidBot~\cite{DBLP:conf/icse/LiYGC17}, and Droidmate~\cite{DBLP:conf/kbse/BorgesHZ18} tools.
+The studies bring evidence that 
+DroidBot outperforms the other test generation tools and leads to sandboxes that
 classify as malware 70\% of the repackaged apps in a dataset.
+But these previous studies have two main limitations. First, they use a small dataset of malware comprising only \appsSmall pairs of original/repackaged versions of an app. Second, their impact analysis is not fine-grained enough; crucially, they do not analyse the impact of malware characteristics on accuracy, e.g., the similarity index between the original and the repackaged version of an app and the malware family (gappusin, kuguo, dowgin, etc.). 
+{\bf MM: The second part of the last sentence is not clear. Are similarity and malware family two different "malware characteristics"?}
 
-Although revealing promising results, the previous research has two main limitations. First, they use a small dataset of malware comprising only \appsSmall pairs of original/repackaged versions of an app. Second, their impact analysis is not fine-grained. For instance, they do not consider whether the impact on the accuracy that might be due to malware characteristics, such as the similarity index between the original and the repackaged version of an app and the malware family (gappusin, kuguo, dowgin, etc.). So, in this paper we present the results of an investigation that aims to replicate previous studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:conf/scam/CostaMCMVBC20} in a larger dataset of app pairs (original/repackaged versions), and then explore whether a more diverse sample of app pairs has an influence on the accuracy of the \mas for malware identification. To this end, we explore the performance of the \mas using a larger dataset we curated for this research and DroidBot~\cite{DBLP:conf/icse/LiYGC17} as test case generation---the tool that, according to the literature, leads to the most accuracy Android sandbox. Our new dataset is an order of magnitude larger (it contains \apps pairs of original/repackaged apps), comprises a much more diverse similarity index, and covers a broader range of malware families. 
+%In this paper, we present the results of an investigation that aims to replicate previous studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:conf/scam/CostaMCMVBC20} in a larger dataset of app pairs (original/repackaged versions), and then explore whether a more diverse sample of app pairs has an influence on the accuracy of the \mas for malware identification. To this end, we explore the performance of the \mas using a larger dataset we curated for this research and DroidBot~\cite{DBLP:conf/icse/LiYGC17} as test case generation---the tool that, according to the literature, leads to the most accuracy Android sandbox. Our new dataset is an order of magnitude larger (it contains \apps pairs of original/repackaged apps), comprises a much more diverse similarity index, and covers a broader range of malware families. 
 
-
-
-{\bf Negative results.} To our surprise, the experimental results show that, on a larger and more diverse dataset (compared to previous studies), the mining sandbox approach's accuracy ($F_1$ score) drops significantly (from \fscoreSmall to \fscore). This result motivated us to conduct a series of experiments to understand the reasons for the lower accuracy in the larger dataset.
+To empirically study the impact of these limitations on the reported results, in this paper, we reconsider the performance of the \mas based on DroidBot~\cite{DBLP:conf/icse/LiYGC17} -- the test case generation tool that, according to the literature, leads to the most accuracy Android sandbox. 
+Compared to previous studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:conf/scam/CostaMCMVBC20},
+we use a curated dataset of app pairs (original/repackaged versions) that is 
+(a) is an order of magnitude larger than the previously used dataset (it contains \apps pairs of original/repackaged apps), 
+(b) comprises a much more diverse similarity index, and 
+(c) covers a broader range of malware families. 
+ 
+{\bf Negative results.} Our study reveals a significantly lower
+%on a larger and more diverse dataset (compared to previous studies), 
+accuracy ($F_1$ score) of the \mas than the one reported previously (\fscore versus \fscoreSmall). 
+An accuracy of \fscore is clearly unsatisfactory for a truly trustworthy sandbox approach.
+This result motivated us to conduct a series of experiments 
+to understand the reasons for the lower accuracy in the larger dataset.
 %The original approach classifies an app as malware whenever there exists a difference between the sets of calls to sensitive APIs collected when running the test case generation tool over the original and repackaged versions of the same app.
 Our experiments show that the \mas fail to correct classify the samples
 from the {\color{red}\gps malware family} (a particular class of adware that frequently appears in repackaged apps). Out of the total of \appsGps samples within this family,
-the \mas fail to correctly classify \appsGpsFN samples as malware (false positive). Our results reveal that this particular family is
+the \mas fail to correctly classify \appsGpsFN samples as malware (false positive). 
+Our results reveal that this particular family is
 responsible for the low accuracy ($F_1 = \fscore$) of the \mas in the large dataset. 
-An accuracy of \fscore is unsatisfactory for a truly trustworthy sandbox approach. Still, 
+{\bf MM: How is the last sentence different from the one preceding it? It appears to repeat what was just said, IMHO. Also, given that we highlight two distinguishing characteristics of the larger dataset -- similarity of apps and different malware -- I was expecting that we analyse the impact of both the diversity of apps and malware. But we report only that one particular kind of malware is responsible. The dissimilarity of app pairs has no effect? What about other families of malware?}
+%
+Still, 
 our experiments open the discussion (a) on one important blindspot that must be considered when building 
 malware detection approaches that mine sandboxes, and (b) on the need to investigate further sources of
 information when trying to distinguish benign and malign app versions.
+{\bf MM: I don't get the logical implication that "Still" suggests. Also, (a) and (b) appear out of nowhere... how do they relate to what has been said before in the paragraph? What is blindspot that you are talking about here? How resp. from where do you derive the need to investigate further sources of information?}
 
-We detail the \mas and the \mas for malware detection in
-Section~\ref{sec:background}. Next, in Section~\ref{sec:experimentalSetup}, we
-characterize our experiments in terms of research goal, questions, metrics, datasets, procedures for collection and data analysis and environment configuration. Section~\ref{sec:results} and Section~\ref{sec:discussion} detail the main findings of our research and possible decisions that might threat the validity of our results. Finally,
-Section~\ref{sec:conclusions} presents final remarks and possible future
-work. The main assets we produced during this research are available in the
+The reminder of this paper is organized as follows. 
+We provide background information on the \mas and the \mas for malware detection in
+Section~\ref{sec:background}. Section~\ref{sec:experimentalSetup}
+characterizes our experiments in terms of research goal, questions, metrics, datasets, procedures for collection and data analysis, and environment configuration. Section~\ref{sec:results} and Section~\ref{sec:discussion} present the main findings of our experiments and possible threats to the validity of our results. Finally,
+Section~\ref{sec:conclusions} presents concluding remarks and possible future
+work. The main artifacts we produced during this research are available in the
 paper repository.\footnote{\url{https://anonymous.4open.science/r/paper-droidxptrace-results-F55A/}}
