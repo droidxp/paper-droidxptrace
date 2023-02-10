@@ -259,8 +259,8 @@ a sample of 30 \gps malware (more than 10\% of the samples in this
 family), using the \texttt{SimiDroid}\footnote{https://github.com/lilicoding/SimiDroid},
 \texttt{apktool}~\footnote{https://ibotpeaches.github.io/Apktool/},
 and \texttt{smali2java}~\footnote{https://github.com/AlexeySoshin/smali2java} tools.
-Considering this sample of 30 \gps malware, the median \sscore is 0.95. In addition,
-the repackaged version of the apps changes 6.9 methods (on median), and whenever the sample includes 2 new methods, it also delete 2 methods from the original app. Table~\ref{tab:simidroid-outputs} summarizes
+Considering this sample of 30 \gps malware, the median \sscore is \raw{0.99}. In addition,
+the repackaged version of the apps changes \raw{4.96} methods (on average). Table~\ref{tab:simidroid-outputs} summarizes
 the outputs of \texttt{SimiDroid} for this sample of \gps apps. The similarity assessment
 of this sample of 30 \gps malware reveal a few modification patterns when comparing the original and the
 repackaged versions of the apps. \fh{from this point forward we must review gappusin family action}First, no sample in this random selected \gps dataset
@@ -354,39 +354,68 @@ public static void m7a(Activity activity, String str, String str2, String str3, 
     \gps malware. (IM) Identical Methods, (SM) Similar Methods, (NM) New Methods, and
     (DM) Deleted Methods.}
   \begin{tabular}{lrrrrr}
-   \toprule
-    Hash & SimiScore & IM & SM & NM & DM \\ 
-   \midrule
-\texttt{0C962D289E}&0.933&99&7&0&0 \\
-\texttt{E5D71699E7}&0.971&275&8&0&0 \\
-\texttt{ECEA10902B}&0.897&44&5&0&0 \\
-\texttt{5374927E98}&0.974&349&9&0&0 \\
-\texttt{E29F53DA37}&0.986&375&5&0&0 \\
-\texttt{BCDF919487}&0.982&334&6&0&0 \\
-\texttt{01ECE4AE23}&0.931&108&6&2&2 \\
-\texttt{610113BB0C}&0.964&192&7&0&0 \\
-\texttt{295B663AD1}&0.946&196&11&0&0 \\
-\texttt{17722D9807}&0.867&46&7&0&0 \\
-\texttt{67310E41EC}&0.956&154&5&2&2 \\
-\texttt{5B5F2D5DAA}&0.956&154&5&2&2 \\
-\texttt{F9FC043249}&0.925&148&12&0&0 \\
-\texttt{010C070CAD}&0.968&245&6&2&2 \\
-\texttt{842BD5F8A9}&0.972&246&5&2&2 \\
-\texttt{00405B66DD}&0.835&66&13&0&0 \\
-\texttt{D83F1CEA61}&0.901&73&6&2&2 \\
-\texttt{723C231BA7}&0.857&42&7&0&0 \\
-\texttt{33896EBEC0}&0.978&229&5&0&0 \\
-\texttt{347FCF5AC1}&0.956&110&5&0&0 \\
-\texttt{4010CA0E70}&0.917&78&5&2&2 \\
-\texttt{D95B6E6417}&0.981&373&7&0&0 \\
-\texttt{A871E01516}&0.964&192&7&0&0 \\
-\texttt{CCD29EC8ED}&0.953&102&5&0&0 \\
-\texttt{FE76EBE7B4}&0.974&194&5&0&0 \\
-\texttt{A306DA6482}&0.853&35&6&0&0 \\
-\texttt{E53FAABBA0}&0.941&162&10&0&0 \\
-\texttt{92209D0E67}&0.975&284&5&2&2 \\
-\texttt{078E0AE6E3}&0.977&350&8&0&0 \\
-\texttt{0977B0E411}&0.946&196&9&2&2 \\
+    \toprule
+ Hash  & \sscore &   IM  &   SM  &  NM   &  DM  \\ \midrule
+ 33896E & 0.9994 &  3205 &     2 &     0 &     0 \\ 
+ 0C962D & 0.9994 &  3413 &     1 &     1 &    10 \\ 
+ BCDF91 & 0.9992 &  2645 &     2 &     0 &     0 \\ 
+ 01ECE4 & 0.9991 &  5697 &     4 &     1 &    10 \\ 
+ A306DA & 0.9989 &  1886 &     1 &     1 &     6 \\
+ 4010CA & 0.9987 &  3721 &     1 &     4 &     6 \\
+ 5B5F2D & 0.9983 &  1164 &     2 &     3 &     0 \\
+ 010C07 & 0.9982 &  2248 &     4 &     3 &     0 \\
+ F9FC04 & 0.9982 &  1121 &     1 &     1 &     6 \\
+ E29F53 & 0.9976 &   842 &     1 &     1 &     6 \\
+ FE76EB & 0.9976 &   839 &     1 &     1 &     6 \\
+ 842BD5 & 0.9973 &  2249 &     3 &     3 &     3 \\
+ 295B66 & 0.9972 &  1081 &     2 &     1 &    10 \\
+ 92209D & 0.9971 &   698 &     2 &     3 &     0 \\
+ 0977B0 & 0.9969 &  1613 &     4 &     1 &    10 \\
+ 347FCF & 0.9967 &   613 &     1 &     1 &     6 \\
+ 00405B & 0.9965 &   864 &     2 &     1 &    10 \\
+ 67310E & 0.9957 &  1164 &     2 &     3 &     3 \\
+ CCD29E & 0.9954 &   436 &     2 &     0 &     0 \\
+ 610113 & 0.9941 &   836 &     4 &     1 &    10 \\
+ A871E0 & 0.9941 &   836 &     4 &     1 &    10 \\
+ ECEA10 & 0.9913 &   229 &     1 &     1 &     6 \\
+ E53FAA & 0.9889 &   267 &     2 &     1 &    10 \\
+ 723C23 & 0.9870 &   228 &     2 &     1 &    10 \\
+ D95B6E & 0.9870 &   833 &    10 &     1 &    10 \\
+ 17722D & 0.9743 &   265 &     6 &     1 &    10 \\
+ 537492 & 0.9504 &   134 &     6 &     1 &    10 \\
+ 078E0A & 0.9504 &   134 &     6 &     1 &    10 \\
+ D83F1C & 0.9494 &   150 &     2 &     6 &     6 \\
+ E5D716 & 0.8840 &  2035 &    68 &   199 &   199 \\ 
+   %% \texttt{0C962D289E}&0.933&99&7&0&0 \\
+%% \texttt{E5D71699E7}&0.971&275&8&0&0 \\
+%% \texttt{ECEA10902B}&0.897&44&5&0&0 \\
+%% \texttt{5374927E98}&0.974&349&9&0&0 \\
+%% \texttt{E29F53DA37}&0.986&375&5&0&0 \\
+%% \texttt{BCDF919487}&0.982&334&6&0&0 \\
+%% \texttt{01ECE4AE23}&0.931&108&6&2&2 \\
+%% \texttt{610113BB0C}&0.964&192&7&0&0 \\
+%% \texttt{295B663AD1}&0.946&196&11&0&0 \\
+%% \texttt{17722D9807}&0.867&46&7&0&0 \\
+%% \texttt{67310E41EC}&0.956&154&5&2&2 \\
+%% \texttt{5B5F2D5DAA}&0.956&154&5&2&2 \\
+%% \texttt{F9FC043249}&0.925&148&12&0&0 \\
+%% \texttt{010C070CAD}&0.968&245&6&2&2 \\
+%% \texttt{842BD5F8A9}&0.972&246&5&2&2 \\
+%% \texttt{00405B66DD}&0.835&66&13&0&0 \\
+%% \texttt{D83F1CEA61}&0.901&73&6&2&2 \\
+%% \texttt{723C231BA7}&0.857&42&7&0&0 \\
+%% \texttt{33896EBEC0}&0.978&229&5&0&0 \\
+%% \texttt{347FCF5AC1}&0.956&110&5&0&0 \\
+%% \texttt{4010CA0E70}&0.917&78&5&2&2 \\
+%% \texttt{D95B6E6417}&0.981&373&7&0&0 \\
+%% \texttt{A871E01516}&0.964&192&7&0&0 \\
+%% \texttt{CCD29EC8ED}&0.953&102&5&0&0 \\
+%% \texttt{FE76EBE7B4}&0.974&194&5&0&0 \\
+%% \texttt{A306DA6482}&0.853&35&6&0&0 \\
+%% \texttt{E53FAABBA0}&0.941&162&10&0&0 \\
+%% \texttt{92209D0E67}&0.975&284&5&2&2 \\
+%% \texttt{078E0AE6E3}&0.977&350&8&0&0 \\
+%% \texttt{0977B0E411}&0.946&196&9&2&2 \\
    \bottomrule
  \end{tabular}
  \label{tab:simidroid-outputs}
