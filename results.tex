@@ -262,17 +262,17 @@ and \texttt{smali2java}~\footnote{https://github.com/AlexeySoshin/smali2java} to
 Considering this sample of 30 \gps malware, the median \sscore is \raw{0.99}. In addition,
 the repackaged version of the apps changes \raw{4.96} methods (on average). Table~\ref{tab:simidroid-outputs} summarizes
 the outputs of \texttt{SimiDroid} for this sample of \gps apps. The similarity assessment
-of this sample of 30 \gps malware reveal a few modification patterns when comparing the original and the
-repackaged versions of the apps. \fh{from this point forward we must review gappusin family action}First, no sample in this random selected \gps dataset
-modifies the Android Manifest file---that is, they do not require new permissions, for instance.
-Moreover, 19 out of the 20 samples in this dataset  {\bf completely modifies} the
-method \texttt{void onReceive(Context, Intent)}
-of the class \texttt{com.games.AdReciver}. Although the results of the
+of this sample of 30 \gps malware reveals a few modification patterns when comparing the original and the
+repackaged versions of the apps. First, no instance in this \gps sample dataset
+modifies the Android Manifest file to require additional permissions, for instance.
+In most of the cases, the repackaged version just change the apk package or main
+activity. Moreover, 29 out of the 30 samples in this dataset  {\bf modifies} thew 
+method \texttt{void onReceive(Context,Intent)>} of the class \texttt{com.games.AdReciver}. Although the results of the
 decompilation process are hard to understand (due to code obfuscation),
 the goal of this modification is to update the content of a \texttt{data.apk}
 resource. There is no extra call to sensitive API (which hinders the
 \mas to classify an asset as a malware). Figure~\ref{code:onReceive} shows
-the code pattern of the \texttt{onReceive} method present in the samples. This particular modification
+the code pattern of the \texttt{onReceive} method present in the samples. This modification
 typically use a new method (\texttt{public void a(Context)}
 the repackaged versions often introduce into the same class (\texttt{AdReciver}).
 
@@ -311,15 +311,15 @@ public void onReceive(Context context, Intent intent) {
   }
 }
 \end{lstlisting}
-\caption{Method introduced in 19 out of 20 \gps malware we randomly selected from the \cds.}
+\caption{Method introduced in 29 out of 30 \gps malware we randomly selected from the \cds.}
 \label{code:onReceive}
 \end{figure*}
 
 Our assessment also reveals recurrent modification patterns that {\bf delete} methods in the
-repackaged version of the apps. For instance, ten repackaged apps in our
-\gps sample of 20 malware remove methods from the
-class \texttt{com.game.a}. These methods extensively use 
-the Android reflection API, and we believe that removing these methods is
+repackaged version of the apps. For instance, 20 repackaged apps in our
+\gps sample of 30 malware remove the method \texttt{void b(Context)} from the
+class \texttt{com.game.a}. These class extensively use 
+the Android reflection API, and we believe that removing the methods from this class is
 a strategy for antivirus evasion. For instance, although
 specific usages of the class \texttt{DexClassLoader} might be legitimate, it allows specific
 types of atack based on dynamic code injection~\cite{falsina:acsac}. As such, 
