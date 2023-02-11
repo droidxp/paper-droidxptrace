@@ -265,14 +265,15 @@ the outputs of \texttt{SimiDroid} for this sample of \gps apps. The similarity a
 of this sample of 30 \gps malware reveals a few modification patterns when comparing the original and the
 repackaged versions of the apps. First, no instance in this \gps sample dataset
 modifies the Android Manifest file to require additional permissions, for instance.
-In most of the cases, the repackaged version just change the apk package or main
-activity. Moreover, 29 out of the 30 samples in this dataset  {\bf modifies} thew 
+In most of the cases, the repackaged version just changes the Manifest file to modify the package name or name of the main
+activity. Moreover, 29 out of the 30 samples in this dataset  {\bf modifies} the 
 method \texttt{void onReceive(Context,Intent)>} of the class \texttt{com.games.AdReciver}. Although the results of the
-decompilation process are hard to understand (due to code obfuscation),
-the goal of this modification is to update the content of a \texttt{data.apk}
+decompilation process are difficult to understand in full (due to code obfuscation),
+the goal of this modification is to change the behaviour of the benign version, so that it can
+download a different version of the \texttt{data.apk} 
 resource. There is no extra call to sensitive API (which hinders the
 \mas to classify an asset as a malware). Figure~\ref{code:onReceive} shows
-the code pattern of the \texttt{onReceive} method present in the samples. This modification
+the code pattern of the \texttt{onReceive} method presents in the samples. This modification
 typically use a new method (\texttt{public void a(Context)}
 the repackaged versions often introduce into the same class (\texttt{AdReciver}).
 
@@ -318,9 +319,11 @@ public void onReceive(Context context, Intent intent) {
 Our assessment also reveals recurrent modification patterns that {\bf delete} methods in the
 repackaged version of the apps. For instance, 20 repackaged apps in our
 \gps sample of 30 malware remove the method \texttt{void b(Context)} from the
-class \texttt{com.game.a}. These class extensively use 
-the Android reflection API, and we believe that removing the methods from this class is
-a strategy for antivirus evasion. For instance, although
+class \texttt{com.game.a}. This class extensively use 
+the Android reflection API. Although it is not clear the real purpose of removing these methods,
+that decision simplifies the procedure of downloading a \texttt{data.apk} asset that is different
+from the asset available in the original version of the apps. Removing those methods might
+be also an strategy for antivirus evasion. For instance, although
 specific usages of the class \texttt{DexClassLoader} might be legitimate, it allows specific
 types of atack based on dynamic code injection~\cite{falsina:acsac}. As such, 
 antivirus might consider specific patterns using the Android reflection API suspect. 
