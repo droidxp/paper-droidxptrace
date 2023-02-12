@@ -5,5 +5,5 @@
 2. Check the numbers at Section IV.B. Table II
 3. Update Figure 1 (similarity score).
 4. Update Figure 2 (similarity score Gappusin).
-5. Section 4.3. Percente is 75%, not 21% (490 malware)
-6. WE must write about sensitive API at background.
+5. Section 4.2 - update logistic regression / Finds 3 and 4
+6. Section 5 - Discussion RQ3
