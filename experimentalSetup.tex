@@ -20,10 +20,14 @@ collection and data analysis procedures in Sections~\ref{sec:dataCollectionProc}
 
 \subsection{Malware Dataset}\label{sec:dataset}
 
-We start with an original dataset that contains 15,297 pairs of original/repackaged Android apps~\cite{DBLP:journals/tse/LiBK21}. This original dataset
-has been curated using automatic procedures that mine repackaged apps from the Androzoo repository~\cite{DBLP:conf/msr/AllixBKT16}.
-From the original dataset, we curated a random sample to build our final dataset (hereafter \cds) of \apps apps that we could instrument
-and execute our experiments. In our research, we also consider a small dataset (hereafter \sds) used in previous studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22}.
+\fh{As described at Figure~\ref{fig:dataset}, we start with an original dataset containing 15,297 pairs of original/repackaged Android apps~\cite{DBLP:journals/tse/LiBK21}. This original dataset
+has been curated using automatic procedures that mine repackaged apps from the Androzoo repository~\cite{DBLP:conf/msr/AllixBKT16}. From this original dataset, we curated a random sample of 5,700 pairs. However, among these 5,700 app pairs, some samples could not be successfully instrumented by DroidFax~\cite{DBLP:conf/icsm/CaiR17a}, or fail to install on the emulator due to compatibility issues with the SDK. After removing incompatible apps, we are left 2,319 samples. To build our final dataset (hereafter \cds), we queried the \vt repository to find out, which app pairs the original app have not been labeled as a malware. \vt is a well-known mechanism for scanning software assets (such as Android apps) using more than 60 anti-virus engines~\cite{DBLP:journals/ese/KhanmohammadiEH19}. In the end, we are left with our \cds of \apps apps which we use for this study. In our research, we also consider a small dataset (hereafter \sds) used in previous studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22}.}
+
+ \begin{figure}
+  \includegraphics[width=\columnwidth]{images/dataset.pdf}
+  \caption{Malware samples in the Complete Datasets.}
+  \label{fig:dataset}
+\end{figure}
 
 
 
@@ -35,9 +39,8 @@ and execute our experiments. In our research, we also consider a small dataset (
 %\fh{At this paragraph I change the term set to Subset since 3344 is a subset of 15.000 repackage pair}
 
 %\kn{This whole part about Virustotal needs a bit more elaboration. Ideally, including a citation explaining why we go for this additional method of classifying whether something as a malware or not. Since we already start with the app pairs, we sort of already know the malicious and benign version right? }
-We queried the \vt repository to find out which repackaged apps in our
-dataset have been indeed labeled as a malware. \vt is a well-known mechanism for
-scanning software assets (such as Android apps) using more than 30 anti-virus engines~\cite{DBLP:journals/ese/KhanmohammadiEH19}.
+We also queried the \vt repository to find out which repackaged apps in our
+dataset have been indeed labeled as a malware.
 %, and we took this decision since the output of \vt can change over time~\cite{vt-label}.\fh{Here I inserted a litle discription of
 % VT and inserted some reference}
 %(\kn{two out of how many antiviruses are included by Virustotal}). 
@@ -54,7 +57,7 @@ According to the
 \avt~\cite{avclass2-paper}, the malware samples in the \sds come from $17$ different families---most of them from the Kuguo (49.27\%) and Dowgin (17.39\%) families.
 Contrasting, our \cds is more representative. Besides a large sample of repackaged apps (\apps in total), it
 comprises 44 families of malware we collected using the \avt---most
-of them from the Gappusin (17.28\%) family.
+of them from the Gappusin (60.2\%) family.
 
 We also characterize our dataset according to the similarity
 between the original and repackaged versions of the apps, using the  
@@ -63,11 +66,11 @@ based on (a) the methods that are either identical or similar in both versions o
 (b) methods that only appear in the repackaged version of the apps (new methods), and (c) methods that only appear in the
 original version of the apps (deleted methods).
 
-Our \cds has an average similarity score of 59.72\%---with a much better distribution {\color{red}(401 of
-app pairs have a similarity score of less than 0.25\%, 216 of app pairs
-between 25\% and 50\%, 352 of the apps between 50\% and 75\%,
-and 738 of the apps with more than 75\%). The \sds presents a much higher
-similarity index average (77.87\%)}. 
+Our \cds has an average similarity score of 93.37\%---with the follow distribution {\color{red}(27 of
+app pairs have a similarity score of less than 25\%, 18 of app pairs
+between 25\% and 50\%,  55 of the apps between 50\% and 75\%,
+and 1607 of the apps with more than 75\%). The \sds presents a lowest
+similarity index average (89.41\%)}. 
 
 It is important to highlight that our sample comes
 from different Android app stores. Most of our repackage apps come from a non-official
@@ -108,10 +111,13 @@ this phase executes only once for each version of the apps in our dataset.
 
 \subsection{Data Analysis Procedures} \label{sec:dataAnalysisProc}
 
-After running the dynamic analysis via DroidBot, our infrastructure produces
-new datasets with the sensitive methods that both app versions call during their execution. We consider that a test
+\fh{After running the dynamic analysis via DroidBot, our infrastructure produces
+new datasets with the sensitive APIs that both app versions call during their execution. The set of sensitive APIs used at this work was defined in the AppGuard framework~\cite{DBLP:conf/esorics/BackesGHMS13}, which was based on the mapping from sensitive APIs to permissions proposed by Song et al.~\cite{DBLP:conf/ccs/FeltCHSW11}}
+
+
+We consider that a test
 generation tool, in our case, DroidBot, builds a sandbox that labels a repackaged version
-of an app as a malware if there is at least one call to a sensitive method that (a) was observed
+of an app as a malware if there is at least one call to a sensitive APIs that (a) was observed
 while executing the repackaged version of the app and that (b) was not observed while
 executing the original version of the same app. 
 If the set of sensitive methods that only the repackaged version of an app calls is empty,

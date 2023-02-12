@@ -111,9 +111,9 @@ over the two datasets we use in our research
 Recall that the \sscore measures how similar the
 original and repackaged versions of an app are.
 The average \sscore of the
-\sds is 0.77 (median of 0.86 and sd of 0.22). Contrasting,
+\sds is 0.89 (median of 0.99 and sd of 0.25). Contrasting,
 the average \sscore of the complete dataset is
-0.59 (median of 0.68 and sd of 0.33).
+0.93 (median of 0.98 and sd of 0.14).
 
 \begin{figure}
   \includegraphics[width=\columnwidth]{images/boxplotSimilarity.pdf}
@@ -123,14 +123,14 @@ the average \sscore of the complete dataset is
 
 % \fh{at table 1 I inserted at second columns the sample amount}
 
-Here we hypothesize that \sscore might have an
+\fh{here we must review logistic regression}Here we hypothesize that \sscore might have an
 association with the accuracy of the \mas and could perhaps explain
 the differences in the accuracy results we report for both
 datasets. We first use Logistic Regression to assess the strength
 of the association between label correctness and
 the \sscore. The logistic regression results reveal
 a negative and real association ($p$-value $<$ 0.0005). This finding suggests
-that the \mas is more likely to assign a correct label to
+that the \mas \fh{maybe this result will change} is more likely to assign a correct label to
 a repackaged app in the cases where its \sscore with the original
 app is small. This is a an unexpected result, since
 we found a higher accuracy on the \sds even though

@@ -26,9 +26,10 @@ respecting the \emph{least privilege} principle.
 % This principle ensures unauthorized access to resources,
 % improving the system's overall health.
 Within the Android ecosystem, sandbox approaches ensure the principle
-of the \emph{least privilege} by preventing apps from having direct access to resources or data from other apps. Access to sensitives resources
-like contacts list is granted through specific APIs (Application Programming Interface),
-which are managed by the Android permissions system~\cite{DBLP:journals/corr/abs-2109-06613}. 
+of the \emph{least privilege} by preventing apps from having direct access to resources like device hardware (GPS, Camera), or sensitive data from other apps. Access to sensitives data
+like contacts list or resources are granted through specific APIs (Application Programming Interface), known as sensitive APIs, which are managed by by coarse-grained Android permissions system~\cite{DBLP:journals/corr/abs-2109-06613}.
+
+
 
 %% The main market source for Android apps is Google Play Store. Unfortunately, it has
 %% a flexible policy regarding the process of publishing apps, and therefore, many Android apps are removed from the
@@ -52,7 +53,7 @@ calls to other sensitive resources, which diverge from those found in the first 
 phase. Using the Droidmate test generation tool~\cite{DBLP:conf/icse/JamrozikZ16},
 Jamrozik et al. proposed a full fledged
 implementation of the \mas, named Boxmate~\cite{DBLP:conf/icse/JamrozikSZ16}. 
-Boxmate records the occurrences of calls to sensitive APIs and the UI events that triggers these calls,
+Boxmate records the occurrences of calls to sensitive APIs from native code, and the UI events that triggers these calls,
 like button clicks. It is possible to configure Boxmate to record events associated with each sensitive call as
 tuples (event, API), instead of recording just the set of calls to sensitive APIs. Jamrozik et al. argue that, in this way, Boxmate generates finer
 grain results which
@@ -97,16 +98,11 @@ In the third step ({\bf exploitation phase}), we (a) collect a set $S_2$ with al
 executes while running a test case generator tool and then (b) computes the set $S = S_2 \setminus S_1$ and check whether  $S$ is empty or not.
 The \mas classifies the repackaged version as a malware whenever $|S| > 0$.  
 
-%We configure DroidXP to execute DroidBot for a
-%period of $3$ minutes. Since some malicious app may use dynamic
-% features (such as reflection) to introduce malicious behavior,
-% which can change the behavior of the apps at runtime~\cite{DBLP:journals/spe/ZhangLTX18,DBLP:journals/tosem/LiTX19}, this second
-% analysis is also important to disclose some sensitive APIs calls ignored by static analysis.
+%%We configure DroidXP to run DroidBot for $3$ minutes. Since some malware may use dynamic features (such as reflection) to introduce malicious behavior,
+%%which can change apps behavior at runtime~\cite{DBLP:journals/spe/ZhangLTX18,DBLP:journals/tosem/LiTX19}, this second
+%%analysis is also important to disclose some sensitive APIs calls ignored by first analysis (static analysis).
 
-%% While our static analysis is made once, we execute dynamic analysis $3$ times. The result of static analysis and all executions is finally joined, forming a final set that contains all identified calls to sensitive APIs coming from the benign version of the app, as described at Figure~\ref{fig:sensitiveAPI}: ($S_{A}$, $D_{A1}$, $D_{A2}$, $D_{A3}$). We carry out the same procedure for the malicious version of the apps,
-%% creating a distinct set of calls to sensitive APIs (now coming from the malicious version of the apps). In
-%% a final step, we compare the two sets of calls to sensitive APIs ($Set_B, Set_M$). We use the following rules to
-%% check for a malicious behavior. 
+%%While our static analysis is made once, we execute dynamic analysis $3$ times. The result of static analysis and all executions is finally joined, forming a final set containing all calls to sensitive APIs coming from the original version of the app, as described at Figure~\ref{fig:sensitiveAPI}: ($S_{A}$, $D_{A1}$, $D_{A2}$, $D_{A3}$). We carry out the same procedure for the malicious version of the apps, creating a distinct set of calls to sensitive APIs (now coming from the malicious version of the apps). In a final step, we compare the two sets of calls to sensitive APIs ($Set_B, Set_M$). We use the following rules to check for a malicious behavior. 
 
 %% \begin{enumerate}
 %%     \item If the difference between the two final sets is an empty set, we cannot distinguish the benign from the malicious version of the app (false negative).
@@ -119,12 +115,12 @@ The \mas classifies the repackaged version as a malware whenever $|S| > 0$.
 
 %% %\fh{here I have to insert the figure}
 
-%% \begin{figure}[ht]
-%% \centering
-%% \includegraphics[scale=0.45]{images/sensitiveAPIdiff.pdf}
-%% \caption{All procedure for suspicious app identification using sensitive API set diff.}
-%%  \label{fig:sensitiveAPI}
-%% \end{figure}
+%%\begin{figure}[ht]
+%%\centering
+%%\includegraphics[scale=0.45]{images/sensitiveAPIdiff.pdf}
+%%\caption{All procedure for suspicious app identification %%using sensitive API set diff.}
+%%\label{fig:sensitiveAPI}
+%%\end{figure}
 
 
 
