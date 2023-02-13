@@ -205,33 +205,33 @@ a percentage of correct classifications around 22\%.
 %\kn{I feel we need some definition of what we mean by a family of malware. Words like gappusin etc donot have big meaning for people outside this domain}
 As we discussed in the previous
 section, the similarity assessment does not explain the low performance of the
-\mas on the \cds. Recall that the \cds is more heterogeneous
-both in terms of similarity and malware families. So,
-we hypothesize that the families of the malwares in the \cds could
-explain the poor performance of the \mas on the \cds better.
+\mas on the \cds. Since the \cds covers a wide range of malware families, we investigate the
+hypothesis that the malware families in the \cds could
+explain the poor performance of the \mas on the \cds.
 Indeed, in the \cds, we identified a total of
 44 families of malwares, though the most frequent
-ones are \gps (295 samples), \fm{revmob} (31 samples), \fm{dowgin} (25 samples) and \emph{airpush} (21 samples). Together, they
+ones are \gps (295 samples), \fm{revmob} (31 samples), \fm{dowgin} (25 samples), and \emph{airpush} (21 samples). Together, they
 account for 75.91\% of the repackaged apps in our
 complete dataset labeled as malware according to \vt.
 
 This family distribution in the \cds is
-significantly different from the family
+different from the family
 distribution in the \sds---where the
 families \fm{kuguo} (34 samples), \fm{dowgin} (12 samples),
 and \fm{youmi} (5 samples) account for
 73.91\% of the families considering the 69
 repackaged apps \vt labels as malware in the \sds.
 Most important, in the \sds, there is just one
-\gps sample. This observation
-leads us to a question: \emph{how does the \mas
+sample from the \gps family. This observation
+leads us to the question: \emph{how does the \mas
 perform when considering only the gappusin samples?}
 
 
-Table~\ref{tab:gappusin} shows
-the results of an accuracy assessment considering
-only the \gps samples in the \cds. Note that for 269 samples (91.18\%), the \mas was not able to correctly identify
-a repackaged version of an app as a malware. 
+
+The confusion matrix of Table~\ref{tab:gappusin} summarizes the accuracy assessment of the \mas considering
+only the \gps samples in the \cds. Note that \vt classify as malware all repackaged versions in the \gps
+family and that for 269 samples (91.18\%), the \mas was not able to correctly identify
+a repackaged version of an app as a malware (recall of 0.08). 
 %Merging the outcomes of both approaches (that is, the vanilla \mas and
 %the \mas with traces), leads to a recall of
 %$\frac{27}{198} = 0.13$. 
@@ -241,18 +241,14 @@ of the \mas increases to 0.63 (similar
 to the performance of the original studies). 
 
 \begin{table}[ht]
-  \caption{Accuracy of the \mas when considering only the
+  \caption{Confusion matrix of the \mas when considering only the
   samples from the \gps family in the \cds.}
 \centering
-\begin{tabular}{llr}
- \hline
- Malware & \mas & Total \\
- \hline
- True & False & 269 \\ 
- %True & False & True &  13 \\ 
- True & True & 26 \\ 
- %True & True & True &   2 \\ 
- \hline
+\begin{tabular}{r|cc} \hline
+\multirow{2}{*}{Actual Condition}   & \multicolumn{2}{c}{Predicted Condition} \\ 
+                                    & Benign    & Malware   \\ \hline 
+  Benign  (0)                       & TN (0)    & FP (0)    \\
+  Malware (295)                     & FN (269)  & TP (26)   \\ \hline
 \end{tabular}
 \label{tab:gappusin}
 \end{table}
@@ -268,29 +264,32 @@ relevance to the negative result we present in our paper. First,
 Figure~\ref{fig:hist-gappusin} shows a histogram of the \sscore for the samples
 in the \gps family. Note that mostly of the repackaged versions from the
 \gps family are quite similar to the original versions (average \sscore
-of 0.86, median \sscore of 0.96, and sd of 0.21). We also reengineer
+of 0.97, median \sscore of 0.99, and sd of 0.06). We also reengineer
 a sample of 30 \gps malware (more than 10\% of the samples in this
 family), using the \texttt{SimiDroid}\footnote{https://github.com/lilicoding/SimiDroid},
 \texttt{apktool}~\footnote{https://ibotpeaches.github.io/Apktool/},
 and \texttt{smali2java}~\footnote{https://github.com/AlexeySoshin/smali2java} tools.
 Considering this sample of 30 \gps malware, the median \sscore is \raw{0.99}. In addition,
 the repackaged version of the apps changes \raw{4.96} methods (on average). Table~\ref{tab:simidroid-outputs} summarizes
-the outputs of \texttt{SimiDroid} for this sample of \gps apps. The similarity assessment
-of this sample of 30 \gps malware reveals a few modification patterns when comparing the original and the
+the outputs of \texttt{SimiDroid} for this sample of \gps apps.
+
+The similarity assessment of this sample of 30 \gps malware reveals a few modification patterns when comparing the original and the
 repackaged versions of the apps. First, no instance in this \gps sample dataset
 modifies the Android Manifest file to require additional permissions, for instance.
-In most of the cases, the repackaged version just changes the Manifest file to modify the package name or name of the main
-activity. Moreover, 29 out of the 30 samples in this dataset  {\bf modifies} the 
+In most of the cases, the repackaged version just changes the Manifest file to modify either
+the package name or the main activity name. Moreover, 29 out of the 30 samples in this dataset  {\bf modifies} the 
 method \texttt{void onReceive(Context,Intent)>} of the class \texttt{com.games.AdReciver}. Although the results of the
 decompilation process are difficult to understand in full (due to code obfuscation),
 the goal of this modification is to change the behaviour of the benign version, so that it can
 download a different version of the \texttt{data.apk} 
-resource. There is no extra call to sensitive API (which hinders the
-\mas to classify an asset as a malware). Figure~\ref{code:onReceive} shows
+asset. Figure~\ref{code:onReceive} shows
 the code pattern of the \texttt{onReceive} method presents in the samples. This modification
 typically use a new method (\texttt{public void a(Context)}
 the repackaged versions often introduce into the same class (\texttt{AdReciver}).
+Since there is no extra call to sensitive APIs, the \mas fails to label
+the \gps samples correctly. 
 
+.
 %\begin{wrapfigure}{l}{0.4\textwidth}
 \begin{figure}
 \begin{center}
@@ -337,11 +336,11 @@ class \texttt{com.game.a}. This class extensively use
 the Android reflection API. Although it is not clear the real purpose of removing these methods,
 that decision simplifies the procedure of downloading a \texttt{data.apk} asset that is different
 from the asset available in the original version of the apps. Removing those methods might
-be also an strategy for antivirus evasion. For instance, although
-specific usages of the class \texttt{DexClassLoader} might be legitimate, it allows specific
+also be an strategy for antivirus evasion. For instance, although
+some usages of the class \texttt{DexClassLoader} might be legitimate, it allows specific
 types of atack based on dynamic code injection~\cite{falsina:acsac}. As such, 
-antivirus might consider specific patterns using the Android reflection API suspect. 
-Unfortunately, the \mas does not identify
+antivirus might flag specific patterns using the Android reflection API suspect. 
+Unfortunately, the \mas also fails to identify
 a malicious behavior with this type of change (i.e., changes that remove methods).
 Listing~\ref{code:deletedMethod} shows an example of code pattern frequently removed
 from the repackaged versions from the \gps family. 
