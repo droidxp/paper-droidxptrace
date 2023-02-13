@@ -35,8 +35,9 @@ different test case generation tools, including Monkey~\cite{Monkey}, DroidBot~\
 The studies bring evidence that 
 DroidBot outperforms the other test generation tools and leads to sandboxes that
 classify as malware 70\% of the repackaged apps in a dataset.
-But these previous studies have two main limitations. First, they use a small dataset of malware comprising only \appsSmall pairs of original/repackaged versions of an app. Second, their impact analysis is not fine-grained enough; crucially, they do not analyse the impact of malware characteristics on accuracy, e.g., the similarity index between the original and the repackaged version of an app and the malware family (gappusin, kuguo, dowgin, etc.). 
-{\bf MM: The second part of the last sentence is not clear. Are similarity and malware family two different "malware characteristics"?}
+But these previous studies have two main limitations. \fh{
+First, they use a small dataset of malware comprising only \appsSmall pairs of original/repackaged versions of an app. Second, their impact analysis is not fine-grained enough; crucially, they do not analyse the impact of malware characteristics on accuracy, e.g., the similarity index between the original app and the corresponding repackaged malware, and the repackaged malware family (gappusin, kuguo, dowgin, etc.).}
+%{\bf MM: The second part of the last sentence is not clear. Are similarity and malware family two different "malware characteristics"?}
 
 %In this paper, we present the results of an investigation that aims to replicate previous studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:conf/scam/CostaMCMVBC20} in a larger dataset of app pairs (original/repackaged versions), and then explore whether a more diverse sample of app pairs has an influence on the accuracy of the \mas for malware identification. To this end, we explore the performance of the \mas using a larger dataset we curated for this research and DroidBot~\cite{DBLP:conf/icse/LiYGC17} as test case generation---the tool that, according to the literature, leads to the most accuracy Android sandbox. Our new dataset is an order of magnitude larger (it contains \apps pairs of original/repackaged apps), comprises a much more diverse similarity index, and covers a broader range of malware families. 
 
@@ -51,12 +52,12 @@ An accuracy of \fscore is clearly unsatisfactory for a truly trustworthy sandbox
 This result motivated us to conduct a series of experiments 
 to understand the reasons for the lower accuracy in the larger dataset.
 %The original approach classifies an app as malware whenever there exists a difference between the sets of calls to sensitive APIs collected when running the test case generation tool over the original and repackaged versions of the same app.
-Our experiments show that the \mas fail to correct classify the samples
-from the {\color{red}\gps malware family} (a particular class of adware that frequently appears in repackaged apps). Out of the total of \appsGps samples within this family,
-the \mas fail to correctly classify \appsGpsFN samples as malware (false positive). 
-Our results reveal that this particular family is
-responsible for the low accuracy ($F_1 = \fscore$) of the \mas in the large dataset. 
-{\bf MM: How is the last sentence different from the one preceding it? It appears to repeat what was just said, IMHO. Also, given that we highlight two distinguishing characteristics of the larger dataset -- similarity of apps and different malware -- I was expecting that we analyse the impact of both the diversity of apps and malware. But we report only that one particular kind of malware is responsible. The dissimilarity of app pairs has no effect? What about other families of malware?}
+
+\fh {First, we check if there is an association between the lower accuracy and the difference (or similarity) in the packages of app pairs (original/repackaged versions), used at both dataset (previous studies and our studies). Our results show that Similarity Score~\cite{DBLP:journals/tifs/0029LBKTLC17} does not influence the lower accuracy in the larger dataset. However, when look at family samples, our experiments show that the \mas fail to correct classify the most of samples
+from the {\color{red}\gps malware family} (a particular class of adware that frequently appears in repackaged apps). Out of the total of \appsGps samples within this family, the \mas fail to correctly classify \appsGpsFN samples as malware (false positive), worst accuracy when compared with others malware family with expressive samples at our dataset. Our results reveal that this particular family is
+responsible for the low accuracy ($F_1 = \fscore$) of the \mas in the large dataset.}
+
+%{\bf MM: How is the last sentence different from the one preceding it? It appears to repeat what was just said, IMHO. Also, given that we highlight two distinguishing characteristics of the larger dataset -- similarity of apps and different malware -- I was expecting that we analyse the impact of both the diversity of apps and malware. But we report only that one particular kind of malware is responsible. The dissimilarity of app pairs has no effect? What about other families of malware?}
 %
 Still, 
 our experiments open the discussion (a) on one important blindspot that must be considered when building 
