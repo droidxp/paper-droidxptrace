@@ -13,7 +13,8 @@ the results of our research using two datasets: the \sds (102 pairs of apps) and
 
 {\bf \sds.} Considering the \sds (102 apps), the \mas for malware detection 
 classifies a total of 69 repackaged versions as malware (67.64\%).
-This result is close to what Bao et al. report. That is, in their
+This result is close to what Bao et al. report~\cite{DBLP:conf/wcre/BaoLL18}.
+That is, in their
 original paper,  the \mas using DroidBot classifies 66.66\% of the
 repackaged version of the apps as malware~\cite{DBLP:conf/wcre/BaoLL18}.
 This result confirms that we were able to reproduce
@@ -53,7 +54,7 @@ and wrongly labeled the repackaged version of seven apps as malware (FP column).
     Dataset & TP   & FP  & FN  & Precision & Recall & $F_1$ \\ \midrule
     \sds (102)    & 62   & 7   & 7   & 0.89      & 0.89   & 0.89  \\
     %\mas + Traces  & \sds (102)   & 67   & 18  & 2   & 0.78      & 0.97   & 0.87  \\
-    \cds (1,707)    & 149  & 249 & 341 & 0.37       & 0.3   & 0.33  \\
+    \cds (1,707)    & 149  & 249 & 341 & 0.37       & 0.30   & 0.33  \\
     %\mas + Traces  & \cds (1203)   & 214  & 326 & 245 & 0.39      & 0.46   & 0.42  \\ 
     \bottomrule
   \end{tabular}
@@ -71,13 +72,13 @@ and wrongly labeled the repackaged version of seven apps as malware (FP column).
 
 
 
-{\bf \cds.} Surprisingly, when applied to our complete dataset (\apps apps), the \mas
+{\bf \cds.} Surprisingly, considering our complete dataset (\apps apps), the \mas
 labels a total of 398 repackaged apps as malware (23.31\% of the total number of repackaged
 apps)---for which the repackaged version calls at least one additional sensitive API.
 Our analysis also reveals a {\bf negative result} related to the accuracy of the approach: here,
 the accuracy is much lower in comparison to what we reported for the
-\sds (see the second row of Table~\ref{tab:accuracy}), $F_1$ dropping from \fscoreSmall to \fscore.
-This result indicates that, when considering a more representative dataset, the accuracy of the \mas using
+\sds (see the second row of Table~\ref{tab:accuracy}): $F_1$ dropping from \fscoreSmall to \fscore.
+This result indicates that, when considering a large dataset, the accuracy of the \mas using
 DroidBot drops significantly. 
 
 %The use of the trace analysis reduces the number of false negatives in the \cds (from 286 to 245), though increasing the number of false positives from 173 to 326. Altogether, the $F_1$ measure does not change when comparing performance of the vanilla \mas and its trace-based variant in the \cds. 
@@ -93,7 +94,7 @@ DroidBot drops significantly.
 
 Therefore, the resulting sandbox we generate using
 DroidBot suffers from a significantly low accuracy rate when considering a
-large and more representative dataset.
+large dataset.
 %Besides that, enriching the \mas with trace analysis does not  improve the overall accuracy in the \cds (even though we reduce the number of false negatives with trace analysis, the increasing in the number of false positives negatively impacts the performance of the approach). 
 This is shown in the second row of Table~\ref{tab:accuracy}.
 The negative performance of the \mas in the \cds encouraged us to endorse efforts aimed at identifying potential reasons for
@@ -117,67 +118,80 @@ the average \sscore of the complete dataset is
 
 \begin{figure}
   \includegraphics[width=\columnwidth]{images/boxplotSimilarity.pdf}
-  \caption{\sscore of the malware samples in the small and complete datasets.}
+  \caption{\sscore of the malware samples in the small and complete datasets. The boxplots in the figure do not show
+  outliers.}
   \label{fig:ss}
 \end{figure}
 
 % \fh{at table 1 I inserted at second columns the sample amount}
 
-\fh{here we must review logistic regression}Here we hypothesize that \sscore might have an
+Here we hypothesize that \sscore might have an
 association with the accuracy of the \mas and could perhaps explain
 the differences in the accuracy results we report for both
 datasets. We first use Logistic Regression to assess the strength
 of the association between label correctness and
-the \sscore. The logistic regression results reveal
-a negative and real association ($p$-value $<$ 0.0005). This finding suggests
-that the \mas \fh{maybe this result will change} is more likely to assign a correct label to
+the \sscore. To this analysis, we removed the
+occurences of true negatives (i.e., the repackaged version is benign accordint to
+\vt and the \mas correctly label the repackaged version as benign).
+As such, we test the following null hypothesis:
+
+\begin{quote}
+  {\bf $H_0$} \sscore does not influence the accuracy of the
+  \mas for malware detection. 
+\end{quote}
+
+The results of the logistic regression suggest that we should
+not reject our null hypothesis ($p$-value $<$ 0.89). This finding suggests
+that the \mas is not more likely to assign a correct label to
 a repackaged app in the cases where its \sscore with the original
-app is small. This is a an unexpected result, since
-we found a higher accuracy on the \sds even though
-it presents a higher \sscore on average, in comparison with the \cds. 
+app is high (or small). \raw{This is an expected result, since
+we found a higher accuracy on the \sds, even though  the
+\sscore of the original and repackage apps in both datasets
+do not differ significantly.} 
 
 %\kn{I am a bit confused here. Higher similariy score implies the app pairs are close to each other, making the detection easier? Or maybe I misundertood it here.}
 
-As a further analysis, we use the \emph{K-Means} algorithm to split the
-\cds into ten clusters, according to the \sscore. We then
-estimate the accuracy for each cluster, as
+\tb{3}{There is no association between
+  the \sscore and the \mas performance, which means that
+  the similarity between the original and repackaged versions of
+  an app is not sufficient to explain the performance
+  of the \mas for malware detection.}
+
+
+\rb{Based on the current results so far, I believe that we should
+  remove this study based on k-means}
+
+To clarify the lack of association between
+\sscore and correctness, we use the \emph{K-Means} algorithm to split the
+\cds into ten clusters---according to the \sscore. We then
+estimate the percentage of correct classifications for each cluster, as
 we show in Table~\ref{tab:ss-clusters}. Note that the \mas
-achieves the highest percentage of correct classification (79.10\%) for the sixth
+achieves the highest percentage of correct classification (40.54\%) for the sixth
 cluster (cId = 6), which
-presents an average \sscore of 65\%.
+presents an average \sscore of 0.91\%. Nonetheless, the
+cluster cId = 10, with larger number of samples (316) and \sscore (99\%), presents
+a percentage of correct classifications around 22\%. 
 
-
-\tb{3}{We found a negative and real association between
-  the \sscore and the \mas performance. This means that the
-  less similar the original and repackaged versions of an app are,
-  the more likely is the accuracy of the \mas to correctly label
-  the repackaged version.}
-
-\tb{4}{Besides that, the \sscore assessment alone
-  does not explain the lower accuracy of the \mas in
-  the \cds. That is, although the \cds presents an average
-  \sscore smaller than the average \sscore of the \sds, we found a lower accuracy of 
-the \mas in the \cds.}
-
-%\kn{This conclusion also is a bit confusing. There seems to be a direct relationship between the similariy score and the accurary right? More dissimilar the apps are, the difficult it seems for the approach to detect the malware. But I understand this correlation is not one to one. But I feel the last line could be a bit more positively framed. Currently, it reads as if the whole section did not yield any insights at all which is not true. }
 
 \begin{table}[ht]
-  \caption{Characteristics of the clusters. Note that the percentage of
-    hits decreases in the cluster with the higher average \sscore.}
+  \caption{Characteristics of the clusters. Note there is no specific
+    pattern associating the percentage of
+    correct answers with the \sscore.
+   For this analysis, we removed the true negatives in our dataset.}
   \centering
   \begin{small}
- \begin{tabular}{rrrrr}   \toprule
-   cId & \sscore & Samples & Correct Classification & Percentage \\ \midrule
-    1 & 0.03 & 185 & 134 & 72.43 \\ 
-    2 & 0.12 & 143 & 104 & 72.73 \\ 
-    3 & 0.25 & 146 &  94 & 64.38 \\
-    4 & 0.41 & 120 &  88 & 73.33 \\ 
-    5 & 0.53 & 126 &  92 & 73.02 \\ 
-    6 & 0.65 & 177 & 140 & 79.10 \\ 
-    7 & 0.74 & 125 & 103 & 82.40 \\ 
-    8 & 0.82 & 158 & 113 & 71.52 \\ 
-    9 & 0.90 & 156 &  88 & 56.41 \\ 
-   10 & 0.97 & 371 & 161 & 43.40 \\  \bottomrule
+    \begin{tabular}{rrrrr}   \toprule
+ cId & \sscore & Samples & Correct Answers & Percentage \\ \midrule
+   1 & 0.02 &  10 &   1 & 10.00 \\ 
+   2 & 0.49 &  13 &   2 & 15.38 \\ 
+   3 & 0.71 &  14 &   5 & 35.71 \\ 
+   4 & 0.80 &  45 &  11 & 24.44 \\ 
+   5 & 0.88 &  68 &  10 & 14.71 \\ 
+   6 & 0.91 &  37 &  15 & 40.54 \\ 
+   7 & 0.94 &  48 &   8 & 16.67 \\ 
+   8 & 0.97 &  44 &   8 & 18.18 \\ 
+   9 & 0.98 & 144 &  19 & 13.19 \\ 
+  10 & 0.99 & 316 &  70 & 22.15 \\ \bottomrule
  \end{tabular}
  \end{small}
  \label{tab:ss-clusters}
