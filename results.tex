@@ -303,12 +303,12 @@ the \gps samples correctly.
 \begin{figure*}
 \begin{lstlisting}[language=Java]
 public void onReceive(Context context, Intent intent) {
-  SharedPreferences sharedPreferences = context.getSharedPreferences(String.valueOf("com.") + "game." + "param", 0);
-  int i = sharedPreferences.getInt("sn", 0) + 1;
+  SharedPreferences sp = context.getSharedPreferences(String.valueOf("com.") + "game." + "param", 0);
+  int i = sp.getInt("sn", 0) + 1;
   System.out.println("sn: " + i);
   if (i < 2) {
     mo4a(context);
-    SharedPreferences.Editor edit = sharedPreferences.edit();
+    SharedPreferences.Editor edit = sp.edit();
     edit.putInt("sn", i);
     edit.commit();
   } else if (!new C0004b(context).f7h.equals("")) {
@@ -319,7 +319,7 @@ public void onReceive(Context context, Intent intent) {
     String str5 = String.valueOf("InitS") + "tart";
     String str6 = "ff048a5de4cc5eabec4a209293513b6e";    
     C0003a.m3a(context, str2, str3, str4, str5, str6);
-    SharedPreferences.Editor edit2 = sharedPreferences.edit();
+    SharedPreferences.Editor edit2 = sp.edit();
     edit2.putInt("sn", 0);
     edit2.commit();
   }
