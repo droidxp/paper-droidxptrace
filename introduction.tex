@@ -35,7 +35,7 @@ DroidBot outperforms the other test generation tools and leads to sandboxes that
 classify as malware 70\% of the repackaged apps in a dataset.
 But these previous studies have two main limitations.
 First, they use a small dataset of malware comprising only \appsSmall pairs of original/repackaged versions of an app. This decision
-might compromise the external validity of previous studuies. Second, their assessment do not investigate
+might compromise the external validity of previous studies. Second, their assessment do not investigate
 the impact of repackaged characteristics on the accuracy of the \mas for malware classification, including
 (a) whether or not the repackaged version is a malware, (b) the similarity between the original app and the corresponding repackaged malware,
 and (c) the malware family (e.g., \fm{gappusin}, \fm{kuguo}, \fm{dowgin}, etc.) when the repackaged
@@ -64,17 +64,18 @@ association between similarity and the accuracy of the \mas . Second, we explore
 malware familiy could explain the lower performance of the \mas for malware identification in 
 our dataset. Our results reveal that the \mas fails to correctly classify most of the samples from
 the \gps malware family (a particular adware class frequently appearing in repackaged apps).
-Out of the total of \appsGps samples within this family, the \mas failed to correctly classify \appsGpsFN samples as malware (false negativs).
+Out of the total of \appsGps samples within this family, the \mas failed to correctly classify \appsGpsFN samples as malware (false negative).
 Our results reveal that this particular family is responsible for substantially reducing the recall of the \mas in our dataset.
   
 
 %{\bf MM: How is the last sentence different from the one preceding it? It appears to repeat what was just said, IMHO. Also, given that we highlight two distinguishing characteristics of the larger dataset -- similarity of apps and different malware -- I was expecting that we analyse the impact of both the diversity of apps and malware. But we report only that one particular kind of malware is responsible. The dissimilarity of app pairs has no effect? What about other families of malware?}
 %
-Still, 
-our experiments open the discussion (a) on one important blindspot that must be considered when building 
-malware detection approaches that mine sandboxes, and (b) on the need to investigate further sources of
-information when trying to distinguish benign and malign app versions.
-{\bf MM: I don't get the logical implication that "Still" suggests. Also, (a) and (b) appear out of nowhere... how do they relate to what has been said before in the paragraph? What is blindspot that you are talking about here? How resp. from where do you derive the need to investigate further sources of information?}
+\fh{Still, 
+our experiments open the discussion (a) on one important feature found at \gps malware family that should be considered when building malware detection approaches that mine sandboxes, and (b) on the need to have a representative dataset, that should be labeled with sought answers and which should leads close to real-life scenarios.
+}
+
+
+%{\bf MM: I don't get the logical implication that "Still" suggests. Also, (a) and (b) appear out of nowhere... how do they relate to what has been said before in the paragraph? What is blindspot that you are talking about here? How resp. from where do you derive the need to investigate further sources of information?}
 
 The reminder of this paper is organized as follows. 
 We provide background information on the \mas and the \mas for malware detection in

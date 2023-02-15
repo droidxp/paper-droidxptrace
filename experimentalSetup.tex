@@ -75,6 +75,23 @@ between 25\% and 50\%,  55 of the apps between 50\% and 75\%,
 and 1607 of the apps with more than 75\%). The \sds presents a lowest
 similarity index average (89.41\%)}. 
 
+
+\fh{Lastly, we also explored all sensitive APIs called by all app pairs at our dataset. This brought to the light the most frequently abused sensitive APIs that appear in the repackaged, malicious version of our samples. We observed that when executed all sample from \cds, malicous app version injected $75$ sensitive APIs distinct at least one time (from our list of 261 sensitive APIs). Compared to Previous studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22}, the samples from our dataset has a wider range of sensitive APIs injected into its malicious version. Table XXX presents the list of the most frequent sensitive APIs injected at malicious version from our dataset.}
+%% version of the apps in our dataset call.
+%% %\rb{I could not understand the previous sentence}.
+%% The sensitive API that is abused the most by repackaged apps is \textbf{android.telephony.TelephonyManager: java.lang.String getDeviceId()}, which gets the device
+%% IMEI\footnote{From Wikipedia: International Mobile Equipment Identity (IMEI) is a number, usually unique, to identify 3GPP and iDEN mobile phones.}.
+%% Table~\ref{tab:APIused} presents the list of the most frequent sensitive APIs that only the malicious
+%% version of the apps in our dataset call.
+
+%% \begin{obs}{6}{}
+%%   The results so far bring evidence that only a handful of resources accesses like the \textbf{device id} are most attractive to malware designers, providing a potentially high-impact point of focus for future researchers and practitioners.
+%% \end{obs}
+
+
+
+
+
 It is important to highlight that our sample comes
 from different Android app stores. Most of our repackage apps come from a non-official
 Android app store, Anzhi~\cite{anzhi}. However some repackaged apps also come from the
