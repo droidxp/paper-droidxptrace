@@ -278,7 +278,7 @@ repackaged versions of the apps. First, no instance in this \gps sample dataset
 modifies the Android Manifest file to require additional permissions, for instance.
 In most of the cases, the repackaged version just changes the Manifest file to modify either
 the package name or the main activity name. Moreover, 29 out of the 30 samples in this dataset  {\bf modifies} the 
-method \texttt{void onReceive(Context,Intent)>} of the class \texttt{com.games.AdReciver}. Although the results of the
+method \texttt{void onReceive(Context,Intent)} of the class \texttt{com.games.AdReciver}. Although the results of the
 decompilation process are difficult to understand in full (due to code obfuscation),
 the goal of this modification is to change the behaviour of the benign version, so that it can
 download a different version of the \texttt{data.apk} 
@@ -303,12 +303,12 @@ the \gps samples correctly.
 \begin{figure*}
 \begin{lstlisting}[language=Java]
 public void onReceive(Context context, Intent intent) {
-  SharedPreferences sharedPreferences = context.getSharedPreferences(String.valueOf("com.") + "game." + "param", 0);
-  int i = sharedPreferences.getInt("sn", 0) + 1;
+  SharedPreferences sp = context.getSharedPreferences(String.valueOf("com.") + "game." + "param", 0);
+  int i = sp.getInt("sn", 0) + 1;
   System.out.println("sn: " + i);
   if (i < 2) {
     mo4a(context);
-    SharedPreferences.Editor edit = sharedPreferences.edit();
+    SharedPreferences.Editor edit = sp.edit();
     edit.putInt("sn", i);
     edit.commit();
   } else if (!new C0004b(context).f7h.equals("")) {
@@ -319,7 +319,7 @@ public void onReceive(Context context, Intent intent) {
     String str5 = String.valueOf("InitS") + "tart";
     String str6 = "ff048a5de4cc5eabec4a209293513b6e";    
     C0003a.m3a(context, str2, str3, str4, str5, str6);
-    SharedPreferences.Editor edit2 = sharedPreferences.edit();
+    SharedPreferences.Editor edit2 = sp.edit();
     edit2.putInt("sn", 0);
     edit2.commit();
   }
@@ -436,6 +436,8 @@ public static void m7a(Activity activity, String str, String str2, String str3, 
  \end{tabular}
  \label{tab:simidroid-outputs}
 \end{table}
+
+\fh{Our analyses show that both app version, original and repackaged from the \gps family, have the same behavior of present ads. However, from repackaged version, we can find more call points to Ads API than its respective original version, and from different sources. This behavior is not so harmful when compared to other repackaged apps that can leak sensitive information. However, nothing prevents others malware families to also download apks at runtime, and execute additional calls to sensitive APIs different from the original version.}
 
 In summary, our reverse engineering effort brings evidence that malware
 samples from the \gps family neither modify the Android Manifest
