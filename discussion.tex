@@ -8,7 +8,7 @@ validity of the results presented so far.
 \subsection{Answers to the Research Questions}
 
 The results we presented in the previous sections
-allow us to answer our four research questions, as
+allow us to answer our three research questions, as
 we summarize in the following.
 
 \begin{itemize}
@@ -83,7 +83,7 @@ since, in the existing literature, researchers had explored just
 one dataset of 102 pairs of original/repackaged apps. Curiously,
 for this small dataset, the performance of the
 \mas is more than twice superior
-than its performance on our complete dataset (\apps pairs of
+than its performance on our \cds (\apps pairs of
 apps).
 
 We contacted the authors of the Bao et al. research paper~\cite{DBLP:conf/wcre/BaoLL18}, asking them
@@ -104,9 +104,7 @@ DroidBot). That is, the \mas assumes the existence of a benign original
 version of a given app in the exploratory phase. \highlight{We also query \vt to confirm this
 assumption, and found that the original version of seven (out 102) apps in the
 \sds contains malicious code. We believe the authors of previous studies carefully check that assumption,
-and this difference had occurred because the outputs of \vt change over time~\cite{vt-label}}.
-Therefore, while reproducing this research, it is necessary to query \vt to get the most
-up-to-date classification of the assets, which might lead to results that might slightly
+and this difference had occurred because the outputs of \vt change over time~\cite{vt-label}}, and a dataset that is consistent at a date will not so in the future. Therefore, while reproducing this research, it is necessary to query \vt to get the most up-to-date classification of the assets, which might lead to results that might slightly
 diverge from what we have reported here. Besides that, in the \cds we only consider
 pairs of original/repackaged apps for which \vt classifies the original version as benign. 
 
