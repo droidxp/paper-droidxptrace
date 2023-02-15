@@ -5,7 +5,7 @@ uses mobile technologies~\cite{Comscore,DBLP:journals/tse/MartinSJZH17}, with th
 Android Platform dominating this market and accounting for more than 70\% of the \emph{mobile
 market share} with almost 3.5 million Android applications~\footnote{In this paper, we will use the terms Android Applications, Android Apps, and Apps interchangeably, to refer to Android software applications} (apps)
 available on the Google Play Store~\cite{Statista}. 
-With increased popularity, comes increased risk of attacks---motivating plenty of research efforts to design and develop new techniques
+With increased popularity, comes increased risk of attacks---motivating efforts from both academia and industry to design and develop new techniques
 to identify malicious behavior or vulnerable code in Android apps~\cite{10.1145/3017427}.
 
 
@@ -15,12 +15,12 @@ versions of an app from an official app store are
 infected with malicious code, e.g., to broadcast
 sensitive information to a private server~\cite{DBLP:journals/tse/LiBK21}, and subsequently shared
 with users using different app stores.  The focus of this paper is the Mining Android Sandbox, hereafter \mas, which has been shown effective
-in detecting a popular class of Android malware based on 
+in detecting the popular class of Android malware based on 
 repackaging benign apps. 
 It  takes advantage of automated test case generation tools 
 to explore the behavior of an app---in terms of calls to sensitive APIs---and then
 generates a sandbox~\cite{DBLP:conf/icse/JamrozikSZ16}. During a normal
-execution of the app, the sandbox might block any call to a sensitive API
+execution of the app, the sandbox might block calls to a sensitive API
 that had not been observed during the exploratory phase. 
 
 
@@ -31,8 +31,7 @@ from
 %executing 
 different test case generation tools, including Monkey~\cite{Monkey}, DroidBot~\cite{DBLP:conf/icse/LiYGC17}, and Droidmate~\cite{DBLP:conf/kbse/BorgesHZ18} tools.
 The studies bring evidence that 
-DroidBot outperforms the other test generation tools and leads to sandboxes that
-classify as malware 70\% of the repackaged apps in a dataset.
+DroidBot outperforms the other test generation tools and leads to sandboxes that are more accurate in detecting malware with a classification rate of 70\%.
 But these previous studies have two main limitations.
 First, they use a small dataset of malware comprising only \appsSmall pairs of original/repackaged versions of an app. This decision
 might compromise the external validity of previous studies. Second, their assessment do not investigate
@@ -60,7 +59,9 @@ to understand the reasons for the lower accuracy in our larger dataset.
 %The original approach classifies an app as malware whenever there exists a difference between the sets of calls to sensitive APIs collected when running the test case generation tool over the original and repackaged versions of the same app.
 First, we check the impact of the similarity between original and repackaged versions of
 an app on the performance of the \mas for malware classification. Interestingly, our results reveal that there is no
-association between similarity and the accuracy of the \mas . Second, we explore if the
+association between similarity and the accuracy of the \mas . 
+\kn{Saying there is no association is not the same as saying that similarity does not impact the accuracy. Somehow I feel this statement is very strong. I would rather say that we did not find any significant association between similarity and the accuracy of the \mas.} 
+Second, we explore if the
 malware familiy could explain the lower performance of the \mas for malware identification in 
 our dataset. Our results reveal that the \mas fails to correctly classify most of the samples from
 the \gps malware family (a particular adware class frequently appearing in repackaged apps).
