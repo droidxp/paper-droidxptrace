@@ -9,7 +9,8 @@ repackage them with malicious payloads, and re-publish them in app stores, inclu
 It is well-known that repackaged Android apps can leverage the popularity of real apps to increase its propagation and spread malware.  
 Repackaging has been raised as a noteworthy security concern in Android ecosystem by stakeholders in the app development industry and researchers. Indeed, there are reports claiming that about 25\% of Google Play Store app content correspond to repackaged apps~\cite{DBLP:conf/sigmetrics/ViennotGN14}. Nevertheless, all the workload to detect and remove malware from markets by the stores (official and non-official ones), have not been accurate enough to address the problem. As a result, repackaged Android apps threaten security and privacy of unsuspicious Android app users, beyond compromising the copyright of the original developers~\cite{DBLP:journals/access/KimLCP19}. Aiming at
 mitigating the threat of malicious code injection in repackaged apps,
-several techniques based on both static and dynamic analysis of Android apps have been proposed.
+several techniques based on both static and dynamic analysis of Android apps have been proposed,
+including the \mas for malware classification~\cite{DBLP:conf/icse/JamrozikSZ16,DBLP:conf/wcre/BaoLL18}. 
 
 \subsection{Mining Android Sandboxes}\label{sec:android-sandbox}
 
@@ -90,7 +91,7 @@ apps.
 %repackaged apps identification.
 %We leverage DroidXP~\cite{DBLP:conf/scam/CostaMCMVBC20} to collect the set of sensitive APIs
 %the versions of the apps call (benign/malign versions).
-The \mas for malware detection typically works as follows. In a first step ({\bf instrumentation phase}), 
+The \mas for malware classification typically works as follows. In a first step ({\bf instrumentation phase}), 
 a tool instruments the code of the apps (both original and repackaged versions) to collect relevant information
 during the apps execution in later stages. Then, in a second step ({\bf exploration phase}),
 we collect a set $S_1$ with all calls to sensitive APIs the original version of an app executes while running a test case generator tool (like DroidBot).
@@ -131,8 +132,9 @@ The \mas classifies the repackaged version as a malware whenever $|S| > 0$.
 %There is a vast body of research in this direction. 
 
 Previous research works reported the results of empirical studies that aim to investigate the effectiveness of
-the \mas for malware identification~\cite{DBLP:conf/wcre/BaoLL18,DBLP:conf/scam/CostaMCMVBC20}.
-For instance, Bao et al. found that, in general, the sandboxes constructed using test generators classify at least 66\% of repackaged apps as malware in a dataset comprising 102 pairs of apps (original/repackaged) versions~\cite{DBLP:conf/wcre/BaoLL18}.
+the \mas for malware classification~\cite{DBLP:conf/wcre/BaoLL18,DBLP:conf/scam/CostaMCMVBC20}.
+For instance, Bao et al. found that, in general, the sandboxes constructed using test generators classify at least 66\% of repackaged apps as malware in a
+dataset comprising 102 pairs of apps (original/repackaged versions)~\cite{DBLP:conf/wcre/BaoLL18}.
 Actually, the mentioned work performed two studies: one pilot study involving a dataset
 of 10 pairs of apps (\texttt{SmallE}), in which the authors executed each test case generation tools for one hour; and a larger experiment
 (\texttt{LargeE}) involving 102 pairs of
@@ -140,11 +142,11 @@ apps in which the authors executed the test case generation tools for one minute
 
 Here we replicate their larger experiment. 
 The authors also presented that, among five test generation tools used, DroidBot~\cite{DBLP:conf/icse/LiYGC17} leads to the most effective sandbox.
-Le et al. extend the \mas for malware detection with additional verification,
+Le et al. extend the \mas for malware classification with additional verification,
 such as the values of the parameters used in the
 calls to sensitive APIs~\cite{le2018towards}, while
 Costa et al.\cite{DBLP:journals/jss/CostaMMSSBNR22} investigated the impact of static analysis to complement the accuracy of the \mas
-for malware detection. Their study reports that DroidFax~\cite{DBLP:conf/icsm/CaiR17a}, the static analysis infrastructure used in~\cite{DBLP:conf/wcre/BaoLL18}, classifies as malware almost half of the repackaged apps.
+for malware classification. Their study reports that DroidFax~\cite{DBLP:conf/icsm/CaiR17a}, the static analysis infrastructure used in~\cite{DBLP:conf/wcre/BaoLL18}, classifies as malware almost half of the repackaged apps.
 %in a dataset of $96$ pairs of
 %benign/malicious apps.
 
@@ -158,7 +160,7 @@ for malware detection. Their study reports that DroidFax~\cite{DBLP:conf/icsm/Ca
 
 Our work, although closely related to previous studies, differs from them in several aspects.  First, our assessment is more comprehensive: instead of considering 102 pairs of original/repackaged apps, we execute our study considering \apps pairs of apps.
 %Curiously, the performance of the \mas in our large dataset drops significantly.
-We then investigate which characteristics of the malware samples in the large dataset contribute to the performance of the \mas for malware detection.
+We then investigate which characteristics of the malware samples in the large dataset contribute to the performance of the \mas for malware classification.
 
 
 %\subsection{Extending the Mining Sandbox with Trace Analysis}

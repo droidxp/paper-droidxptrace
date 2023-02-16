@@ -36,7 +36,7 @@ But these previous studies have two main limitations.
 First, they use a small dataset of malware comprising only \appsSmall pairs of original/repackaged versions of an app. This decision
 might compromise the external validity of previous studies. Second, their assessment do not investigate
 the impact of repackaged characteristics on the accuracy of the \mas for malware classification, including
-(a) whether or not the repackaged version is a malware, (b) the similarity between the original app and the corresponding repackaged malware,
+(a) whether or not the repackaged version is a malware, (b) the similarity between the original and the repackaged versions of an app,
 and (c) the malware family (e.g., \fm{gappusin}, \fm{kuguo}, \fm{dowgin}, etc.) when the repackaged
 version of an app is a malware.
 
@@ -44,42 +44,51 @@ version of an app is a malware.
 
 %In this paper, we present the results of an investigation that aims to replicate previous studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:conf/scam/CostaMCMVBC20} in a larger dataset of app pairs (original/repackaged versions), and then explore whether a more diverse sample of app pairs has an influence on the accuracy of the \mas for malware identification. To this end, we explore the performance of the \mas using a larger dataset we curated for this research and DroidBot~\cite{DBLP:conf/icse/LiYGC17} as test case generation---the tool that, according to the literature, leads to the most accuracy Android sandbox. Our new dataset is an order of magnitude larger (it contains \apps pairs of original/repackaged apps), comprises a much more diverse similarity index, and covers a broader range of malware families. 
 
-To empirically study the impact of these limitations on the reported results, in this paper, we reconsider the performance of the \mas based on
-DroidBot~\cite{DBLP:conf/icse/LiYGC17}---as we mentioned, the test case generation tool that, according to the literature, leads to the most accuracy Android sandbox. 
+To empirically study the impact of these limitations on the reported results, in this paper we reconsider the performance of the \mas based on
+DroidBot~\cite{DBLP:conf/icse/LiYGC17}---as we mentioned, the test case generation tool that, according to the literature, leads to the most accurate Android sandbox. 
 Compared to previous studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:conf/scam/CostaMCMVBC20},
 we use a curated dataset of app pairs (original/repackaged versions) that is, in terms of magnitude, larger than the previously used
 dataset (it contains \apps pairs of original/repackaged apps).
  
 {\bf Negative results.} Our study reveals a significantly lower
 %on a larger and more diverse dataset (compared to previous studies), 
-accuracy ($F_1$ score) of the \mas in comparison to what has been reported previously (\fscore versus \fscoreSmall). 
-An accuracy of \fscore is clearly unsatisfactory for a trustworthy sandbox approach.
+accuracy ($F_1$ score) of the \mas in comparison to what has been reported before (\fscore versus \fscoreSmall). 
+An accuracy of \fscore is clearly unsatisfactory for a trustworthy malware classification technique.
 This result motivated us to conduct a series of experiments 
 to understand the reasons for the lower accuracy in our larger dataset.
 %The original approach classifies an app as malware whenever there exists a difference between the sets of calls to sensitive APIs collected when running the test case generation tool over the original and repackaged versions of the same app.
 First, we check the impact of the similarity between original and repackaged versions of
-an app on the performance of the \mas for malware classification. Interestingly, our results reveal that we did not find any significant association association between similarity and the accuracy of the \mas . 
-%\kn{Saying there is no association is not the same as saying that similarity does not impact the accuracy. Somehow I feel this statement is very strong. I would rather say that we did not find any significant association between similarity and the accuracy of the \mas.} 
-
+an app on the performance of the \mas for malware classification. Our results reveal a non significant association association between similarity and the accuracy of the \mas. 
+%\kn{Saying there is no association is not the same as saying that similarity does not impact the accuracy. Somehow I feel this statement is very strong. I would rather say that we did not find any significant association between similarity and the accuracy of the \mas.
 Second, we explore if the
-malware familiy could explain the lower performance of the \mas for malware identification in 
-our dataset. Our results reveal that the \mas fails to correctly classify most of the samples from
-the \gps malware family (a particular adware class frequently appearing in repackaged apps).
-Out of the total of \appsGps samples within this family, the \mas failed to correctly classify \appsGpsFN samples as malware (false negative).
-Our results reveal that this particular family is responsible for substantially reducing the recall of the \mas in our dataset.
+malware familiy could explain the lower performance of the \mas for malware classification in 
+our dataset.
+
+Considering this second analysis, our results reveal that the \mas fails to correctly classify most of the samples from
+the \gps malware family (a particular class of adware that frequently appears in repackaged apps). 
+Out of the total of \appsGps samples within this family in our large dataset, the \mas failed to correctly classify \appsGpsFN samples as malware (false negative).
+Our results reveal that this particular family is responsible for substantially reducing the recall of the \mas.
+Our findings have two main implications, which open the discussion (a) on one important feature found at \gps malware family that should be
+considered when building malware detection approaches that mine sandboxes, and (b) on the need to have a representative dataset, that should be labeled with sought
+answers and which should leads close to real-life scenarios.
   
 
 %{\bf MM: How is the last sentence different from the one preceding it? It appears to repeat what was just said, IMHO. Also, given that we highlight two distinguishing characteristics of the larger dataset -- similarity of apps and different malware -- I was expecting that we analyse the impact of both the diversity of apps and malware. But we report only that one particular kind of malware is responsible. The dissimilarity of app pairs has no effect? What about other families of malware?}
 %
-Still, 
-our experiments open the discussion (a) on one important feature found at \gps malware family that should be considered when building malware detection approaches that mine sandboxes, and (b) on the need to have a representative dataset, that should be labeled with sought answers and which should leads close to real-life scenarios.
 
 %{\bf MM: I don't get the logical implication that "Still" suggests. Also, (a) and (b) appear out of nowhere... how do they relate to what has been said before in the paragraph? What is blindspot that you are talking about here? How resp. from where do you derive the need to investigate further sources of information?}
 
 The remainder of this paper is organized as follows. 
 We provide background information on the \mas and the \mas for malware detection in
 Section~\ref{sec:background}. Section~\ref{sec:experimentalSetup}
-characterizes our experiments in terms of research goal, questions, metrics, datasets, procedures for collection and data analysis, and environment configuration. Section~\ref{sec:results} and Section~\ref{sec:discussion} present the main findings of our experiments and possible threats to the validity of our results. Finally,
+characterizes our experiments in terms of research goal, questions, metrics, datasets, and our procedures for data collection and data analysis.
+Section~\ref{sec:results} and Section~\ref{sec:discussion} present the main findings of our experiments and possible threats to the validity of our results. Finally,
 Section~\ref{sec:conclusions} presents concluding remarks and possible future
 work. The main artifacts we produced during this research are available in the
-paper repository.\footnote{\url{https://anonymous.4open.science/r/paper-droidxptrace-results-F55A/}}
+paper repository.
+
+\begin{small}
+  \begin{center}
+    \url{https://anonymous.4open.science/r/paper-droidxptrace-results-F55A/}
+  \end{center}
+\end{small}

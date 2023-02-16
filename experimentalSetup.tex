@@ -3,30 +3,44 @@
 The goal of this research is to build an in-depth understanding about
 the performance of the \mas for detecting malware. To this
 end, we conduct our research using a dataset of repackaged apps one order of magnitude
-larger than previous studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22}. Altogether, our
-aim is to answer the following research questions:
+larger than previous studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22}. Altogether,
+explore the the following research questions:
 
 \begin{enumerate}[(RQ1)]
 \item \rqa
-%\item \rqb
 \item \rqc
 \item \rqd  
 \end{enumerate}
 
 In this section, we describe our study settings. First, we present how we mined the samples of Android apps that we
 use as a dataset for our study (Section~\ref{sec:dataset}).  Then, we describe the data
-collection and data analysis procedures in Sections~\ref{sec:dataCollectionProc} and~\ref{sec:dataAnalysisProc}.
+collection and data analysis procedures (Sections~\ref{sec:dataCollectionProc} and~\ref{sec:dataAnalysisProc}). Finally,
+we detail our experiment configuration on Section~\ref{sec:hardware}. 
 
 
 \subsection{Malware Dataset}\label{sec:dataset}
 
 
-Our experiment aims to compute if an app pair from a given sample is a repackaged variant of its corresponding original app. To answer this question, we should run our infrastructure on a representative dataset to estimate the \mas precision. This dataset also should be \textit{labeled}, i.e., the interest characteristic of each app, like malware family, should be know beforehand. 
+%Our experiment aims to compute if an app pair from a given sample is a malware variant of its corresponding original app.
+To investigate our research questions, we shall run our infrastructure on a representative dataset and
+estimate the \mas performance (in terms of accuracy). Our dataset shall also
+be \textit{labeled}, i.e., the interest characteristic of each app, like similarity and malware family, should be known beforehand. 
 
-Figure~\ref{fig:dataset} presents the methodology used to extract the dataset for our study. We start with an original dataset containing 15,297 pairs of original/repackaged Android apps~\cite{DBLP:journals/tse/LiBK21}. This original dataset
-has been curated using automatic procedures that mine repackaged apps from the Androzoo repository~\cite{DBLP:conf/msr/AllixBKT16}. From this original dataset, we filter a random sample of 5,700 pairs. However, among these 5,700 app pairs, some samples could not be successfully instrumented by DroidFax~\cite{DBLP:conf/icsm/CaiR17a}, or fail to install on the emulator due to compatibility issues with the SDK. After removing incompatible apps, we were left with 2,319 samples. To build our final dataset (hereafter \cds), we queried the \vt repository to find out, which app pairs had not been labeled as a malware. \vt is a well-known mechanism for scanning software assets (such as Android apps) using more than 60 anti-virus engines~\cite{DBLP:journals/ese/KhanmohammadiEH19}. In the end, we are left with our \cds of \apps apps which we use for this study. In our research, we also consider a small dataset (hereafter \sds) used in previous studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22}.
+\subsubsection{Procedures for Building the Dataset}
 
- \begin{figure}
+Figure~\ref{fig:dataset} presents the methodology we use to extract the dataset for our study. We start with an original dataset containing 15,297
+pairs of original/repackaged Android apps~\cite{DBLP:journals/tse/LiBK21}. This original dataset
+has been curated using automatic procedures that mine repackaged apps from the well-known Androzoo repository~\cite{DBLP:conf/msr/AllixBKT16}.
+From this original dataset, we filter a random sample of 5,700 pairs. However, among these 5,700 app pairs, we fail to execute our
+study in 3,381 samples. We could not either instrument
+some of these samples using DroidFax~\cite{DBLP:conf/icsm/CaiR17a} or we fail to install some of them on the emulator---due to compatibility issues with the Android SDK.
+After removing incompatible apps, we were left with 2,319 samples. To build our final dataset (hereafter \cds), we queried the \vt repository to find out which original version of
+the apps have been labeled as a malware. We exclude these samples from our dataset---since the \mas
+assumes that the original version of an app is legitimate. \vt is a well-known mechanism for scanning software assets (such as Android apps) using more than 60 anti-virus
+engines~\cite{DBLP:journals/ese/KhanmohammadiEH19}. In the end, we are left with our \cds of \apps apps which we use for this study.
+In our research, we also consider a small dataset (hereafter \sds) used in previous studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22}.
+
+ \begin{figure}[htb]
   \includegraphics[width=\columnwidth]{images/dataset.pdf}
   \caption{Malware samples in the Complete Datasets.}
   \label{fig:dataset}
@@ -42,7 +56,10 @@ has been curated using automatic procedures that mine repackaged apps from the A
 %\fh{At this paragraph I change the term set to Subset since 3344 is a subset of 15.000 repackage pair}
 
 %\kn{This whole part about Virustotal needs a bit more elaboration. Ideally, including a citation explaining why we go for this additional method of classifying whether something as a malware or not. Since we already start with the app pairs, we sort of already know the malicious and benign version right? }
-We also queried the \vt repository to find out which repackaged apps in our
+
+\subsubsection{Features of the Datasets}
+ 
+We queried the \vt repository to find out which repackaged apps in our
 dataset have been indeed labeled as a malware.
 %, and we took this decision since the output of \vt can change over time~\cite{vt-label}.\fh{Here I inserted a litle discription of
 % VT and inserted some reference}
@@ -54,11 +71,11 @@ two \ses identify a malicious behavior within the asset. This is in accordance w
 
 Classifying malware into different categories is a common practice. For instance, Android malware can be classified into categories
 like riskware, trojan, adware, etc. Each category might be further specialized in several malware families, depending of its
-characteristics and atack strategy---e.g, steal network info (IP, DNS, WiFi), collect phone info,
+characteristics and atack strategy---e.g., steal network info (IP, DNS, WiFi), collect phone info,
 collect user contacts, send/receive SMS, and so on~\cite{DBLP:conf/iccns/RahaliLKTGM20}.
 According to the
 \avt~\cite{avclass2-paper}, the malware samples in the \sds come from $17$ different families---most of them from the Kuguo (49.27\%) and Dowgin (17.39\%) families.  
-Our \cds, besides a large sample of repackaged apps (\apps in total), it
+Our \cds, besides a large sample of repackaged apps (\apps in total),
 comprises 44 families of malware we collected using the \avt---most
 of them from the Gappusin (60.2\%) family.
 
@@ -68,7 +85,6 @@ SimiDroid tool~\cite{DBLP:conf/trustcom/0029BK17}. SimiDroid quantifies the simi
 based on (a) the methods that are either identical or similar in both versions of the apps (original and repackaged versions),
 (b) methods that only appear in the repackaged version of the apps (new methods), and (c) methods that only appear in the
 original version of the apps (deleted methods).
-
 Our \cds has an average similarity score of 93.37\%---with the follow distribution (27 of
 app pairs have a similarity score of less than 25\%, 18 of app pairs
 between 25\% and 50\%,  55 of the apps between 50\% and 75\%,
@@ -76,38 +92,33 @@ and 1607 of the apps with more than 75\%). The \sds presents a lowest
 similarity index average (89.41\%). 
 
 
-Lastly, we also explored all sensitive APIs called by the samples in our dataset. This brought to light the most frequently abused sensitive APIs called by the repackaged, malicious version of our samples. We observed that upon execution of all samples from \cds, malicious app versions injected $138$ distinct sensitive APIs (i.e., one distinct occurence from set of sensitive APIs defined in AppGuard~\cite{DBLP:conf/esorics/BackesGHMS13} security framework), whereas \sds got the most insertions (131 insertions). The sensitive API that was inserted the most number of times was from java reflection: \textbf{java.lang.reflect.Field: java.lang.Object get(java.lang.Object)}. \footnote{Reflection is an API that can be used to modify the behavior of methods, classes, and interfaces at runtime.} Malicious code may use these APIs frequently to help in its attempt to compromise security in the system. Table~\ref{tab:APIused} presents the list of the most frequent sensitive APIs injected at malicious version from our \cds.
+After executing our experiments, we identified the  most frequently abused sensitive APIs called by the repackaged version of our samples.
+We observed that upon execution of all samples from the \cds, malicious app versions injected $138$ methods from sensitive APIs (according to the
+AppGuard~\cite{DBLP:conf/esorics/BackesGHMS13} security framework). Malicious code may use these APIs to compromise system security and
+share sensitive data. Table~\ref{tab:APIused} presents a list of methods from sensitive APIs the  malicious versions of the apps
+frequently inject.
 
 
 \begin{table*}[ht]
-\caption{Sensitive APIs more used by repackage apps.}
+  \caption{Sensitive APIs that frequently appear in the repackaged versions of the apps. The
+    \emph{Occurrences} column gives the number of distinct repackaged apps that introduce a call
+  to a sensitive method.}
 \centering
   \begin{tabular}{lc}
 
     \toprule
-    Sensitive API & Occurrences \\
+    Method of Sensitive API & Occurrences \\
     \midrule
-    01 java.lang.reflect.Field: java.lang.Object get(java.lang.Object) &  155 \\
-    02 android.net.wifi.WifiInfo: java.lang.String getMacAddress() &  151\\
-    03 android.database.sqlite.SQLiteOpenHelper: android.database.sqlite.SQLiteDatabase getWritableDatabase() &  150 \\
-    04 android.net.NetworkInfo: android.net.NetworkInfoState getState() &  150 \\
-    05 android.net.wifi.WifiManager: android.net.wifi.WifiInfo getConnectionInfo() &  149 \\
-    06 android.telephony.TelephonyManager: java.lang.String getSubscriberId() &  147 \\
-    07 android.database.sqlite.SQLiteDatabase: android.database.Cursor query(java.lang.String,java.lang.String[],...,java.lang.String) &  146 \\
-    08 android.telephony.TelephonyManager: java.lang.String getDeviceId() &  142 \\
-   09 android.database.sqlite.SQLiteOpenHelper: android.database.sqlite.SQLiteDatabase getReadableDatabase() &  133 \\
-    10 android.net.ConnectivityManager: android.net.NetworkInfo getNetworkInfo(int) &  130\\
-    11 android.telephony.TelephonyManager: java.lang.String getNetworkOperator() &  127\\
-    12 android.net.NetworkInfo: java.lang.String getTypeName() &  125\\
-    13 java.lang.reflect.Field: int getInt(java.lang.Object) &  124 \\
-    14 android.telephony.TelephonyManager: java.lang.String getNetworkOperatorName() &  123 \\
-    .&  .\\
-    .&  .\\
-    .&  .\\
-    137 java.lang.ClassLoader: java.lang.Class loadClass(java.lang.String,boolean) & 1 \\
-    138 java.lang.reflect.Constructor: java.lang.reflect.Type[] getGenericExceptionTypes() & 1 \\
-
-\hline
+    android.net.wifi.WifiInfo: java.lang.String getMacAddress() &  151\\
+    android.net.NetworkInfo: android.net.NetworkInfoState getState() &  150 \\
+    android.net.wifi.WifiManager: android.net.wifi.WifiInfo getConnectionInfo() &  149 \\
+    android.telephony.TelephonyManager: java.lang.String getSubscriberId() &  147 \\
+    android.telephony.TelephonyManager: java.lang.String getDeviceId() &  142 \\
+    android.net.ConnectivityManager: android.net.NetworkInfo getNetworkInfo(int) &  130\\
+    android.telephony.TelephonyManager: java.lang.String getNetworkOperator() &  127\\
+    android.net.NetworkInfo: java.lang.String getTypeName() &  125\\
+%    android.telephony.TelephonyManager: java.lang.String getNetworkOperatorName() &  123 \\
+\bottomrule
 \end{tabular}
 \label{tab:APIused}
 \end{table*}
@@ -159,7 +170,7 @@ DroidFax~\cite{DBLP:conf/icsm/CaiR17a} to instrument the apps and collect static
 information about them. To improve the performance across multiple executions,
 this phase executes only once for each version of the apps in our dataset.
 
-\item \textbf{Execution}: In this step, DroidXP first installs the (instrumented) version of the APK files in the Android emulator we use in our experiment (API 28) and then starts a test case generation tool for executing both apps version (original and repackage). We execute the apps via DroidBot~\cite{DBLP:conf/icse/LiYGC17}, mostly because previous works report the best accuracy of the sandboxes built using the \mas and the DroidBot as test case generation tool. To also ensure that each execution gets the benefit of running on a fresh Android instance without biases that could stem out of history, DroidXP wipes out all data stored on the emulator that has been collected from previous executions.
+\item \textbf{Execution}: In this step, DroidXP first installs the (instrumented) version of the APK files in the Android emulator we use in our experiment (API 28) and then starts a test case generation tool for executing both app versions (original and repackage). We execute the apps via DroidBot~\cite{DBLP:conf/icse/LiYGC17}, mostly because previous research works report the best accuracy of the sandboxes built using the \mas and the DroidBot as test case generation tool. To also ensure that each execution gets the benefit of running on a fresh Android instance without biases that could stem out of history, DroidXP wipes out all data stored on the emulator that has been collected from previous executions.
 
 
 \item \textbf{Data Collection}: During the execution of the instrumented apps, we collect all relevant information (such as calls to sensitive APIs, test coverage metrics, and so on). We use this information to analyse the performance of the \mas for detecting malicious behavior.
@@ -179,27 +190,29 @@ this information with the outputs of \vt, which might lead to one of the followi
 situations:
 
 \begin{itemize}
-\item {\bf True Positive}. The \mas labels a repackaged version as a malware and, according to
+\item {\bf True Positive (TP)}. The \mas labels a repackaged version as a malware and, according to
   \vt, at least two \ses label the asset as a malware.
   
-\item {\bf True Negative}. The \mas does not label a repackaged version as a malware and,
+\item {\bf True Negative (TN)}. The \mas does not label a repackaged version as a malware and,
   according to \vt, at most one \se labels the asset as a malware. 
 
-\item {\bf False Positive}. The \mas labels a repackaged version as a malware and, according to
+\item {\bf False Positive (FP)}. The \mas labels a repackaged version as a malware and, according to
   \vt, at most one \se labels the asset as a malware.
 
-\item {\bf False Negative}. The \mas does not label a repackaged version as a malware, and
+\item {\bf False Negative (FN)}. The \mas does not label a repackaged version as a malware, and
   according to \vt, at least two \ses label the asset as a malware.
 \end{itemize}
 
-We use basic statistics (average, median, standard deviation) to identify the
+We compute \emph{precision}, \emph{recall}, and \emph{F-score} ($F_1$) from
+the number of true-positives, fasle-positives, and false-negatives (using standard
+formulae). We use basic statistics (average, median, standard deviation) to identify the
 accuracy of the \mas for malware classification, in both
 datasets we use in our research---i.e., the \sds
 with 102 pairs of apps and our \cds with
 \apps pairs. We use the Spearman Correlation~\cite{spearman-correlation} method and
 Logistic Regression~\cite{statistical-learning} to understand the strengths of
-the associations between the similarity index of a
-malware with the \mas accuracy---that is,
+the associations between the similarity index between the original and the repackaged versions
+of a malware with the \mas accuracy---that is,
 if the approach was able to correctly classify an asset as malware. We also use existing tools to reverse engineer a sample of repackaged
 apps in order to better understand (the lack of) accuracy
 of the \mas.
@@ -213,6 +226,5 @@ of the \mas.
 %\todo[inline]{RB: later, if we need space, we can safely comment this section out.}
 
 We deployed our experiment on a 32-Core, AMD EPYC 7542 CPU, 512 GB RAM, storage Samsung SSD 970 EVO 1TB machine running a 64-bit Debian GNU/Linux 11. We also configured our emulator to run all selected apps on Google Android version 9.0, API 28, 512M SD Card, 7GB internal storage, with X86 ABI image.
-
 For our study, we configured DroidXP to run each of the \apps app pairs using DroidBot for 3 minutes. To mitigate noise, we repeated the full process 3 times,  which took around 513 machine hours in total. Although it was possible to run more than 10 emulators in parallel on one physical machine, to avoid any interference resulting from context switching within the operating system, we chose to run one emulator at a time. Hence, all processes took around 27 days, 23 days for experiment execution and additional 4 days for environment configuration.%\rb{I don't know if the following is relevant\ldots} 
 
