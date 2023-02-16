@@ -58,9 +58,9 @@ This result motivated us to conduct a series of experiments
 to understand the reasons for the lower accuracy in our larger dataset.
 %The original approach classifies an app as malware whenever there exists a difference between the sets of calls to sensitive APIs collected when running the test case generation tool over the original and repackaged versions of the same app.
 First, we check the impact of the similarity between original and repackaged versions of
-an app on the performance of the \mas for malware classification. Interestingly, our results reveal that there is no
-association between similarity and the accuracy of the \mas . 
-\kn{Saying there is no association is not the same as saying that similarity does not impact the accuracy. Somehow I feel this statement is very strong. I would rather say that we did not find any significant association between similarity and the accuracy of the \mas.} 
+an app on the performance of the \mas for malware classification. Interestingly, our results reveal that we did not find any significant association association between similarity and the accuracy of the \mas . 
+%\kn{Saying there is no association is not the same as saying that similarity does not impact the accuracy. Somehow I feel this statement is very strong. I would rather say that we did not find any significant association between similarity and the accuracy of the \mas.} 
+
 Second, we explore if the
 malware familiy could explain the lower performance of the \mas for malware identification in 
 our dataset. Our results reveal that the \mas fails to correctly classify most of the samples from
@@ -71,10 +71,8 @@ Our results reveal that this particular family is responsible for substantially 
 
 %{\bf MM: How is the last sentence different from the one preceding it? It appears to repeat what was just said, IMHO. Also, given that we highlight two distinguishing characteristics of the larger dataset -- similarity of apps and different malware -- I was expecting that we analyse the impact of both the diversity of apps and malware. But we report only that one particular kind of malware is responsible. The dissimilarity of app pairs has no effect? What about other families of malware?}
 %
-\fh{Still, 
+Still, 
 our experiments open the discussion (a) on one important feature found at \gps malware family that should be considered when building malware detection approaches that mine sandboxes, and (b) on the need to have a representative dataset, that should be labeled with sought answers and which should leads close to real-life scenarios.
-}
-
 
 %{\bf MM: I don't get the logical implication that "Still" suggests. Also, (a) and (b) appear out of nowhere... how do they relate to what has been said before in the paragraph? What is blindspot that you are talking about here? How resp. from where do you derive the need to investigate further sources of information?}
 

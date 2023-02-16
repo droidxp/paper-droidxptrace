@@ -69,14 +69,14 @@ based on (a) the methods that are either identical or similar in both versions o
 (b) methods that only appear in the repackaged version of the apps (new methods), and (c) methods that only appear in the
 original version of the apps (deleted methods).
 
-Our \cds has an average similarity score of 93.37\%---with the follow distribution {\color{red}(27 of
+Our \cds has an average similarity score of 93.37\%---with the follow distribution (27 of
 app pairs have a similarity score of less than 25\%, 18 of app pairs
 between 25\% and 50\%,  55 of the apps between 50\% and 75\%,
 and 1607 of the apps with more than 75\%). The \sds presents a lowest
-similarity index average (89.41\%)}. 
+similarity index average (89.41\%). 
 
 
-Lastly, we also explored all sensitive APIs called by the samples in our dataset. This brought to light the most frequently abused sensitive APIs called by the repackaged, malicious version of our samples. We observed that upon execution of all samples from \cds, malicious app versions injected $138$ distinct sensitive APIs (i.e., one distinct occurence from set of sensitive APIs defined in AppGuard security framework), whereas \sds got the most insertions (131 insertions). The sensitive API that was inserted the most number of times was from java reflection: \textbf{java.lang.reflect.Field: java.lang.Object get(java.lang.Object)}. \footnote{Reflection is an API that can be used to modify the behavior of methods, classes, and interfaces at runtime.} Malicious code may use these APIs frequently to help in its attempt to compromise security in the system. Table~\ref{tab:APIused} presents the list of the most frequent sensitive APIs injected at malicious version from our dataset.
+Lastly, we also explored all sensitive APIs called by the samples in our dataset. This brought to light the most frequently abused sensitive APIs called by the repackaged, malicious version of our samples. We observed that upon execution of all samples from \cds, malicious app versions injected $138$ distinct sensitive APIs (i.e., one distinct occurence from set of sensitive APIs defined in AppGuard~\cite{DBLP:conf/esorics/BackesGHMS13} security framework), whereas \sds got the most insertions (131 insertions). The sensitive API that was inserted the most number of times was from java reflection: \textbf{java.lang.reflect.Field: java.lang.Object get(java.lang.Object)}. \footnote{Reflection is an API that can be used to modify the behavior of methods, classes, and interfaces at runtime.} Malicious code may use these APIs frequently to help in its attempt to compromise security in the system. Table~\ref{tab:APIused} presents the list of the most frequent sensitive APIs injected at malicious version from our \cds.
 
 
 \begin{table*}[ht]
@@ -167,17 +167,14 @@ this phase executes only once for each version of the apps in our dataset.
 
 \subsection{Data Analysis Procedures} \label{sec:dataAnalysisProc}
 
-\fh{After running the dynamic analysis via DroidBot, our infrastructure produces
-new datasets with the sensitive APIs that both app versions call during their execution. The set of sensitive APIs used at this work was defined in the AppGuard framework~\cite{DBLP:conf/esorics/BackesGHMS13}, which was based on the mapping from sensitive APIs to permissions proposed by Song et al.~\cite{DBLP:conf/ccs/FeltCHSW11}}
 
 
 We consider that a test
 generation tool, in our case, DroidBot, builds a sandbox that labels a repackaged version
 of an app as a malware if there is at least one call to a sensitive APIs that (a) was observed
 while executing the repackaged version of the app and that (b) was not observed while
-executing the original version of the same app. 
-If the set of sensitive methods that only the repackaged version of an app calls is empty,
-we conclude that the sandbox does not label the repackaged version of an app as a malware. We triangulate
+executing the original version of the same app. If the set of sensitive methods that only the repackaged version of an app calls is empty,
+we conclude that the sandbox does not label the repackaged version of an app as a malware. The set of sensitive APIs used at our work was defined in the AppGuard framework~\cite{DBLP:conf/esorics/BackesGHMS13}, which was based on the mapping from sensitive APIs to permissions proposed by Song et al.~\cite{DBLP:conf/ccs/FeltCHSW11}. We triangulate
 this information with the outputs of \vt, which might lead to one of the following
 situations:
 

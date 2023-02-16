@@ -144,10 +144,10 @@ The results of the logistic regression suggest that we should
 not reject our null hypothesis ($p$-value $<$ 0.89). This finding suggests
 that the \mas is not more likely to assign a correct label to
 a repackaged app in the cases where its \sscore with the original
-app is high (or small). \raw{This is an expected result, since
+app is high (or small). This is an expected result, since
 we found a higher accuracy on the \sds, even though  the
 \sscore of the original and repackage apps in both datasets
-do not differ significantly.} 
+do not differ significantly.
 
 %\kn{I am a bit confused here. Higher similariy score implies the app pairs are close to each other, making the detection easier? Or maybe I misundertood it here.}
 
@@ -269,8 +269,8 @@ a sample of 30 \gps malware (more than 10\% of the samples in this
 family), using the \texttt{SimiDroid}\footnote{https://github.com/lilicoding/SimiDroid},
 \texttt{apktool}~\footnote{https://ibotpeaches.github.io/Apktool/},
 and \texttt{smali2java}~\footnote{https://github.com/AlexeySoshin/smali2java} tools.
-Considering this sample of 30 \gps malware, the median \sscore is \raw{0.99}. In addition,
-the repackaged version of the apps changes \raw{4.96} methods (on average). Table~\ref{tab:simidroid-outputs} summarizes
+Considering this sample of 30 \gps malware, the median \sscore is 0.99. In addition,
+the repackaged version of the apps changes 4.96 methods (on average). Table~\ref{tab:simidroid-outputs} summarizes
 the outputs of \texttt{SimiDroid} for this sample of \gps apps.
 
 The similarity assessment of this sample of 30 \gps malware reveals a few modification patterns when comparing the original and the
@@ -441,8 +441,7 @@ public static void m7a(Activity activity, String str, String str2, String str3, 
 In summary, our reverse engineering effort brings evidence that malware
 samples from the \gps family neither modify the Android Manifest
 files nor call additional sensitive APIs---which reduce the ability
-of the \mas to correctly classify a sample as a malware. \fh{Both versions (original/repackaged) from the \gps family have the same behavior of present ads, however the repackaged version have more call points to Ads API, and Ads sources different. This behavior is not so harmful when compared to others repackaged apps, however nothing prevents others malware families to also download apks at runtime, and execute additional calls to sensitive APIs different from the original version.}
-
+of the \mas to correctly classify a sample as a malware. Both versions (original/repackaged) from the \gps family have the same behavior to showing advertisements to the user, however the repackaged version have more call points to Ads API, and Ads sources different. This behavior is not so harmful when compared to others repackaged apps, however nothing prevents that others malware families include other malicious operations at runtime.
 
 We argue in favor of new research efforts to integrate the \mas 
 with other techniques that could increase their performance
