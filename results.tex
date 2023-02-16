@@ -41,7 +41,7 @@ of our \vt query report that at least two
 decision follows existing recommendations~\cite{vt-label,DBLP:journals/ese/KhanmohammadiEH19}).
 %\kn{Now its a bit clearer, but I would expect a separate paragraph when we introduce VT explaing how VT serves as a better ground truth and also justify our choices on the numbers with VT a bit more -- why we have two as the magic number of antivirus scanners... }
 The first row of Table~\ref{tab:accuracy} shows that the \mas achieves an accuracy of 0.89 when
-considering the \sds. The \mas fails
+considering the \sds. Nonetheless, the \mas fails
 to correctly classify seven assets as malware on the \sds (FN column, first row of Table~\ref{tab:accuracy}),
 and wrongly labeled the repackaged version of seven apps as malware (FP column).
 
@@ -141,7 +141,7 @@ As such, we test the following null hypothesis:
 \end{quote}
 
 The results of the logistic regression suggest that we should
-not reject our null hypothesis ($p$-value $<$ 0.89). This finding suggests
+not reject our null hypothesis ($p$-value $=$ 0.89). This finding suggests
 that the \mas is not more likely to assign a correct label to
 a repackaged app in the cases where its \sscore with the original
 app is high (or small). This is an expected result, since
@@ -151,15 +151,12 @@ do not differ significantly.
 
 %\kn{I am a bit confused here. Higher similariy score implies the app pairs are close to each other, making the detection easier? Or maybe I misundertood it here.}
 
-\tb{3}{There is no association between
+\tb{3}{There is no significant association between
   the \sscore and the \mas performance, which means that
   the similarity between the original and repackaged versions of
   an app is not sufficient to explain the performance
-  of the \mas for malware detection.}
+  of the \mas for malware classification.}
 
-
-\rb{Based on the current results so far, I believe that we should
-  remove this study based on k-means}
 
 To clarify the lack of association between
 \sscore and correctness, we use the \emph{K-Means} algorithm to split the
@@ -229,7 +226,7 @@ perform when considering only the gappusin samples?}
 
 
 The confusion matrix of Table~\ref{tab:gappusin} summarizes the accuracy assessment of the \mas considering
-only the \gps samples in the \cds. Note that \vt classify as malware all repackaged versions in the \gps
+only the \gps samples in the \cds. Note that \vt classifies as malware all repackaged versions in the \gps
 family and that for 269 samples (91.18\%), the \mas was not able to correctly identify
 a repackaged version of an app as a malware (recall of 0.08). 
 %Merging the outcomes of both approaches (that is, the vanilla \mas and
@@ -274,7 +271,7 @@ the repackaged version of the apps changes 4.96 methods (on average). Table~\ref
 the outputs of \texttt{SimiDroid} for this sample of \gps apps.
 
 The similarity assessment of this sample of 30 \gps malware reveals a few modification patterns when comparing the original and the
-repackaged versions of the apps. First, no instance in this \gps sample dataset
+repackaged versions of the apps. First, no instance in this \gps sample dataset,
 modifies the Android Manifest file to require additional permissions, for instance.
 In most of the cases, the repackaged version just changes the Manifest file to modify either
 the package name or the main activity name. Moreover, 29 out of the 30 samples in this dataset  {\bf modifies} the 
@@ -289,7 +286,6 @@ the repackaged versions often introduce into the same class (\texttt{AdReciver})
 Since there is no extra call to sensitive APIs, the \mas fails to label
 the \gps samples correctly. 
 
-.
 %\begin{wrapfigure}{l}{0.4\textwidth}
 \begin{figure}
 \begin{center}
@@ -441,7 +437,9 @@ public static void m7a(Activity activity, String str, String str2, String str3, 
 In summary, our reverse engineering effort brings evidence that malware
 samples from the \gps family neither modify the Android Manifest
 files nor call additional sensitive APIs---which reduce the ability
-of the \mas to correctly classify a sample as a malware. Both versions (original/repackaged) from the \gps family have the same behavior to showing advertisements to the user, however the repackaged version have more call points to Ads API, and Ads sources different. This behavior is not so harmful when compared to others repackaged apps, however nothing prevents that others malware families include other malicious operations at runtime.
+of the \mas to correctly classify a sample as a malware. Both versions (original/repackaged) from the \gps family have the same behavior for showing advertisements to the user,
+however the repackaged version have additional call sites to the advertisement API and the and advertisements sources are different.
+%This behavior is not so harmful when compared to others repackaged apps, however nothing prevents that others malware families include other malicious operations at runtime.
 
 We argue in favor of new research efforts to integrate the \mas 
 with other techniques that could increase their performance
