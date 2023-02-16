@@ -58,7 +58,7 @@ our results
 %discussed in the previous sections 
 lead to a more systematic understanding
 of the strengths and limitations of using the \mas
-for malware detection. In particular, this is the
+for malware classification. In particular, this is the
 first study that empirically evaluates the \mas
 considering as ground truth the outcomes
 of \vt. This decision allowed us to explore the
@@ -67,6 +67,7 @@ $F_1$ score). Previous studies assume that all repackaged versions of the
 apps were malware. Our triangulation with \vt reveals this is not true. Although
 the \mas presents a good accuracy for the \sds ($F_1$ = \fscoreSmall), 
 in the presence of a large dataset the \mas accuracy drops significantly ($F_1$ = \fscore). 
+
 We also reveal that a specific family in the \cds is responsible for a large number of false negatives,
 compromising the accuracy of the \mas.
 Altogether, the takeaways of this research are twofold:
@@ -108,17 +109,17 @@ our findings to malware that targets other platforms or that use different appro
 to generate a malicious asset.
 
 Regarding {\bf conclusion validity}, during the exploratory phase of the \mas, we collected the set of calls to sensitive APIs the original version of
-an app executes, while running a test case generation tool (such as
-DroidBot). That is, the \mas assumes the existence of a benign original
+an app executes, while running a test case generation tool (DroidBot).
+That is, the \mas assumes the existence of a benign original
 version of a given app in the exploratory phase. \highlight{We also query \vt to confirm this
 assumption, and found that the original version of seven (out 102) apps in the
 \sds contains malicious code. We believe the authors of previous studies carefully check that assumption,
-and this difference had occurred because the outputs of \vt change over time~\cite{vt-label}}, and a dataset that is consistent at a date will not so in the future. Therefore, while reproducing this research, it is necessary to query \vt to get the most up-to-date classification of the assets, which might lead to results that might slightly
+and this difference had occurred because the outputs of \vt change over time~\cite{vt-label}}, and a dataset that is consistent at a date will not so in the future.
+Therefore, while reproducing this research, it is necessary to query \vt to get the most up-to-date classification of the assets, which might lead to results that might slightly
 diverge from what we have reported here. Besides that, in the \cds we only consider
 pairs of original/repackaged apps for which \vt classifies the original version as benign. 
 
-\begin{comment}
-    
+\begin{comment}    
 Regarding the \textbf{correlation between dataset properties and accuracy drop}, after running statistical tests (logistic regression),
 we could not find evidence that the \emph{diversity} of the
 complete dataset---in terms of similarity score and types of malware-
@@ -129,8 +130,6 @@ contains a large percentage of malware that use more
 advanced techniques to evade from both static and dynamic analysis---
 both methods are used in the mining sandbox approach
 we discussed in this paper.
-
-
 \end{comment}
 
 
