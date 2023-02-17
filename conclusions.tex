@@ -5,12 +5,12 @@
 To better understand the strengths and limitations of the \mas for repackaged malware detection,
 this paper reported the results of an empirical study that reproduces previous research works~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22}
 using a larger and more diverse dataset---in comparison to the datasets used in previous research. To our surprise, compared to published results,
-the performance of the \mas drops significantly for the comprehensive dataset. This result is largely
+the performance of the \mas drops significantly for our comprehensive dataset. This result is largely
 explained by the prevalence of a specific malware family (named \gps), for which the \mas fails to correctly classify.
 %The false negative rate in the \gps family at \cds explains the drop in the recall of the \mas and consequently its low $F_1$ score.
 We also report the results of a reverse engineering effort, whose goal was to understand the features from the \gps family that
 reduce the performance of the \mas for malware classification. Our reverse engineering effort revealed common changing patterns in the \gps repackaged versions of original apps, which mostly use reflection to download an external
-\texttt{apk} asset for handling advertisements without introducing additional calls to sensitive APIs. This
+\texttt{apk} asset for handling advertisements without introducing additional calls to sensitive APIs. This kind of change
 compromises the ability of the \mas for malware identification. 
 These negative results showed how far we are for using the \mas for malware classification.
 
