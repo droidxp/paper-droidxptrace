@@ -2,10 +2,18 @@
 \section{Conclusions and future work}\label{sec:conclusions}
 
 
-To better understand the strengths and limitations of the \mas for malware detection, this paper reported the results of an empirical study that reproduces previous research work~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22} using a larger and more diverse dataset---comprising \apps pairs of \emph{original} and \emph{repackaged} apps. To our surprise, compared to results already published, the performance of the \mas drops significantly at \cds, mainly because the \mas fails to detect a specific family of Android malware (named \gps). 
+To better understand the strengths and limitations of the \mas for repackaged malware detection,
+this paper reported the results of an empirical study that reproduces previous research works~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22}
+using a larger and more diverse dataset---in comparison to the datasets used in previous research. To our surprise, compared to published results,
+the performance of the \mas drops significantly for the comprehensive dataset. This result is largely
+explained by the prevalence of a specific malware family (named \gps), for which the \mas fails to correctly classify.
+%The false negative rate in the \gps family at \cds explains the drop in the recall of the \mas and consequently its low $F_1$ score.
+We also report the results of a reverse engineering effort, whose goal was to understand the features from the \gps family that
+reduce the performance of the \mas for malware classification. Our reverse engineering effort revealed common changing patterns in the \gps repackaged versions of original apps, which mostly use reflection to download an external
+\texttt{apk} asset for handling advertisements without introducing additional calls to sensitive APIs. This
+compromises the ability of the \mas for malware identification. 
+These negative results showed how far we are for using the \mas for malware classification.
 
-The false negative rate in the \gps family at \cds explains the drop in the recall of the \mas and consequently its low $F_1$ score. To understand what are the features from \gps family that may contribute to this rate, we performed a reverse engineering effort. This work revealed that the ability of the \mas to classify Android malware is weak against \gps family, because it does not call additional sensitive APIs at your respective repackaged version.
 
-Additionally, the low $F_1$ score is also driven by the reduced precision rate of the \mas in the \cds. The high number of false positives explains this low rate, and has a possible explanations, our imbalance dataset, since \vt labels few samples in the \cds as malware. We open discuss about the number of engines we must consider for \vt report a repackage as malware, since the stricter we were in this criterion, the precision of the \mas down.
+%Additionally, the low $F_1$ score is also driven by the reduced precision rate of the \mas in the \cds. The high number of false positives explains this low rate, and has a possible explanations, our imbalance dataset, since \vt labels few samples in the \cds as malware. We open discuss about the number of engines we must consider for \vt report a repackage as malware, since the stricter we were in this criterion, the precision of the \mas down.
 
-These negative results brought evidence of the need to complement the \mas with other techniques, so that it could be effective for Android malware detection, and are treated as future work for the research.
