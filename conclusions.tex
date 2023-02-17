@@ -1,16 +1,11 @@
 %\section{Conclusions and Future Work}\label{sec:conclusions}
 \section{Conclusions and future work}\label{sec:conclusions}
 
-The Mining Android Sandboxes (MAS) approach~\cite{DBLP:conf/icse/JamrozikZ16}
-has been tailored for Android malware detection~\cite{DBLP:conf/wcre/BaoLL18}
-and empirically validated in a couple of studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:conf/iceccs/LeB0GL18,DBLP:journals/jss/CostaMMSSBNR22}.
-To better understand the strengths and limitations of the \mas for malware detection,
-this paper reported the results of an empirical study that reproduces previous research
-work~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22} using a larger and more
-diverse dataset---comprising \apps pairs of \emph{original} and \emph{repackaged} apps.
-To our surprise, compared to results already published,
-the performance of the \mas drops significantly in this new dataset, mainly
-because the \mas fails to detect a popular family of Android malware (named \gps). 
-%We also evaluated an extension to the \mas that we designed to improve the overall accuracy of the approach for malware detection. Although this extension reduces the number of false negatives of the \emph{vanilla \mas}, it was not sufficient to increase the \mas accuracy in the large dataset. 
 
-These negative results brought evidence of the need to complement the \mas with other techniques, so that it could be effective for Android malware detection.
+To better understand the strengths and limitations of the \mas for malware detection, this paper reported the results of an empirical study that reproduces previous research work~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22} using a larger and more diverse dataset---comprising \apps pairs of \emph{original} and \emph{repackaged} apps. To our surprise, compared to results already published, the performance of the \mas drops significantly at \cds, mainly because the \mas fails to detect a specific family of Android malware (named \gps). 
+
+The false negative rate in the \gps family at \cds explains the drop in the recall of the \mas and consequently its low $F_1$ score. To understand what are the features from \gps family that may contribute to this rate, we performed a reverse engineering effort. This work revealed that the ability of the \mas to classify Android malware is weak against \gps family, because it do not call additional sensitive APIs at your respective repackaged version.
+
+Additionally, the low $F_1$ score is also driven by the reduced precision rate of the \mas in the \cds. The high number of false positives explains this low rate, and has a possible explanations, our imbalance dataset, since \vt labels few samples in the \cds as malware. We open discuss about the number of engines we must consider to \vt report a repackage as malware, since the stricter we were in this criterion, the precision of the \mas down.
+
+These negative results brought evidence of the need to complement the \mas with other techniques, so that it could be effective for Android malware detection, and are treated as future work for the research.
