@@ -9,7 +9,8 @@ explore the the following research questions:
 \begin{enumerate}[(RQ1)]
 \item \rqa
 \item \rqc
-\item \rqd  
+\item \rqd
+\textcolor{blue}{\item \rqe}
 \end{enumerate}
 
 In this section, we describe our study settings. First, we present how we mined the samples of Android apps that we
@@ -29,8 +30,14 @@ be \textit{labeled}, i.e., the interest characteristic of each app, like similar
 \subsubsection{Procedures for Building the Dataset}
 
 Figure~\ref{fig:dataset} presents the methodology we use to extract the dataset for our study. We start with an original dataset containing 15,297
-pairs of original/repackaged Android apps, \textcolor{blue}{for 2,776 original apps. Many original apps are repackaged several times by different attackers, with a minimal, and maximum times of 1 and 176, respectively}~\cite{DBLP:journals/tse/LiBK21}. This original dataset
-has been curated using automatic procedures that mine repackaged apps from the well-known Androzoo repository~\cite{DBLP:conf/msr/AllixBKT16}. However, among these 15,297 app pairs, we fail to execute our study in 1,176 original apps. We could not either instrument some of them using DroidFax~\cite{DBLP:conf/icsm/CaiR17a} or we fail to install some of them on the emulator---due to compatibility issues with the Android SDK. After removing \textcolor{blue}{incompatible original apps}, we were left with \textcolor{blue}{3,827 samples of app pairs}. To build our final dataset (hereafter \cds), we queried the \vt repository to find out which original version of the apps have been labeled as a malware. We exclude these samples from our dataset---since the \mas assumes that the original version of an app is legitimate. \vt is a well-known mechanism for scanning software assets (such as Android apps) using more than 60 anti-virus
+pairs of original/repackaged Android apps, \textcolor{blue}{with 2,776 original apps. Many original apps are repackaged several times by different attackers, with a minimal, and maximum times of 1 and 176, respectively}~\cite{DBLP:journals/tse/LiBK21}. This original dataset
+has been curated using automatic procedures that mine repackaged apps from the well-known Androzoo repository~\cite{DBLP:conf/msr/AllixBKT16}.
+From this original dataset, we filter a random sample of 5,700 pairs. However, among these 5,700 app pairs, we fail to execute our
+study in 3,381 samples. We could not either instrument
+some of these samples using DroidFax~\cite{DBLP:conf/icsm/CaiR17a} or we fail to install some of them on the emulator---due to compatibility issues with the Android SDK.
+After removing incompatible apps, we were left with 2,319 samples. To build our final dataset (hereafter \cds), we queried the \vt repository to find out which original version of
+the apps have been labeled as a malware. We exclude these samples from our dataset---since the \mas
+assumes that the original version of an app is legitimate. \vt is a well-known mechanism for scanning software assets (such as Android apps) using more than 60 anti-virus
 engines~\cite{DBLP:journals/ese/KhanmohammadiEH19}. In the end, we are left with our \cds of \apps apps which we use for this study.
 In our research, we also consider a small dataset (hereafter \sds) used in previous studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22}.
 
@@ -61,7 +68,7 @@ dataset have been indeed labeled as a malware.
 According to \vt, in the \sds (102 pairs),
 69 of the repackaged apps (67.64\%) have been identified as a malware by at least two
 \ses. Here we only consider that a repackaged version of an app is a malware if \vt reports that at least
-two \ses identify a malicious behavior within the asset. This is in accordance with previous research~\cite{vt-label,DBLP:journals/ese/KhanmohammadiEH19}. Conversely, considering the \cds, at least two \se identified \malwares out of the \textcolor{blue}{3,211} repackaged apps as malware (\malwaresP\%).
+two \ses identify a malicious behavior within the asset. This is in accordance with previous research~\cite{vt-label,DBLP:journals/ese/KhanmohammadiEH19}. Conversely, considering the \cds, at least two \se identified \malwares out of the \apps repackaged apps as malware (\malwaresP\%).
 
 Classifying malware into different categories is a common practice. For instance, Android malware can be classified into categories
 like riskware, trojan, adware, etc. Each category might be further specialized in several malware families, depending of its
@@ -70,8 +77,8 @@ collect user contacts, send/receive SMS, and so on~\cite{DBLP:conf/iccns/RahaliL
 According to the
 \avt~\cite{avclass2-paper}, the malware samples in the \sds come from $17$ different families---most of them from the Kuguo (49.27\%) and Dowgin (17.39\%) families.  
 Our \cds, besides a large sample of repackaged apps (\apps in total),
-comprises \textcolor{blue}{52} families of malware we collected using the \avt---most
-of them from the Gappusin \textcolor{blue}{(40.17\%)} family.
+comprises 44 families of malware we collected using the \avt---most
+of them from the Gappusin (60.2\%) family.
 
 We also characterize our dataset according to the similarity
 between the original and repackaged versions of the apps, using the  
@@ -79,18 +86,19 @@ SimiDroid tool~\cite{DBLP:conf/trustcom/0029BK17}. SimiDroid quantifies the simi
 based on (a) the methods that are either identical or similar in both versions of the apps (original and repackaged versions),
 (b) methods that only appear in the repackaged version of the apps (new methods), and (c) methods that only appear in the
 original version of the apps (deleted methods).
-Our \cds has an average similarity score of \textcolor{blue}{92.72\%}---with the follow distribution \textcolor{blue}{(84 of
-app pairs have a similarity score of less than 25\%, 48 of app pairs
-between 25\% and 50\%,  62 of the apps between 50\% and 75\%,
-and 3017 of the apps with more than 75\%). The \sds presents a lowest
-similarity index average (89.41\%). }
+Our \cds has an average similarity score of 93.37\%---with the follow distribution (27 of
+app pairs have a similarity score of less than 25\%, 18 of app pairs
+between 25\% and 50\%,  55 of the apps between 50\% and 75\%,
+and 1607 of the apps with more than 75\%). The \sds presents a lowest
+similarity index average (89.41\%). 
 
 
 After executing our experiments, we identified the  most frequently abused sensitive APIs called by the repackaged version of our samples.
-We observed that upon execution of all samples from the \cds, malicious app versions injected \textcolor{blue}{$126$} methods from sensitive APIs (according to the
+We observed that upon execution of all samples from the \cds, malicious app versions injected $138$ methods from sensitive APIs (according to the
 AppGuard~\cite{DBLP:conf/esorics/BackesGHMS13} security framework). Malicious code may use these APIs to compromise system security and
 share sensitive data. Table~\ref{tab:APIused} presents a list of methods from sensitive APIs the  malicious versions of the apps
 frequently inject.
+
 
 
 \begin{table*}[ht]
@@ -100,31 +108,23 @@ frequently inject.
 \centering
   \begin{tabular}{lc}
 
-    \toprule
+    \hline
     Method of Sensitive API & Occurrences \\
-    \midrule
-    android.telephony.TelephonyManager: java.lang.String getNetworkOperatorName() &  193\\
-    android.content.ContentResolver: android.database.Cursor query(android.net.Uri,java.lang.String[],...,...) &  185 \\
-    android.database.sqlite.SQLiteOpenHelper: android.database.sqlite.SQLiteDatabase getWritableDatabase() &  170 \\
-    java.lang.reflect.Field: java.lang.Object get(java.lang.Object) &  170 \\
-    android.database.sqlite.SQLiteDatabase: android.database.Cursor query(java.lang.String,java.lang.String[],...,...,...,...,...) &  168 \\
-    android.telephony.TelephonyManager: int getPhoneType() &  164\\
-    java.lang.reflect.Field: int getInt(java.lang.Object) &  156\\
-    android.database.sqlite.SQLiteOpenHelper: android.database.sqlite.SQLiteDatabase getReadableDatabase() &  154\\
+    \hline
+    android.net.wifi.WifiInfo: java.lang.String getMacAddress() &  151\\
+    android.net.NetworkInfo: android.net.NetworkInfoState getState() &  150 \\
+    android.net.wifi.WifiManager: android.net.wifi.WifiInfo getConnectionInfo() &  149 \\
+    android.telephony.TelephonyManager: java.lang.String getSubscriberId() &  147 \\
+    android.telephony.TelephonyManager: java.lang.String getDeviceId() &  142 \\
+    android.net.ConnectivityManager: android.net.NetworkInfo getNetworkInfo(int) &  130\\
+    android.telephony.TelephonyManager: java.lang.String getNetworkOperator() &  127\\
+    android.net.NetworkInfo: java.lang.String getTypeName() &  125\\
+    \hline
 %    android.telephony.TelephonyManager: java.lang.String getNetworkOperatorName() &  123 \\
-\bottomrule
+
 \end{tabular}
 \label{tab:APIused}
 \end{table*}
-
-%%  \end{tabular}
-%%  %\end{small}
-%%  \label{tab:APIused}
-%% \end{table*}
-%\end{landscape}
-
-
-
 
 
 
@@ -135,8 +135,8 @@ frequently inject.
 
 It is important to highlight that our sample comes
 from different Android app stores. Most of our repackage apps come from a non-official
-Android app store, Anzhi~\cite{anzhi} ($1610$). However some repackaged apps also come from the
-official Android app store, Google Play ($521$).
+Android app store, Anzhi~\cite{anzhi}. However some repackaged apps also come from the
+official Android app store, Google Play.
 
 
 %\begin{figure}[ht]
@@ -220,5 +220,5 @@ of the \mas.
 %\todo[inline]{RB: later, if we need space, we can safely comment this section out.}
 
 We deployed our experiment on a 32-Core, AMD EPYC 7542 CPU, 512 GB RAM, storage Samsung SSD 970 EVO 1TB machine running a 64-bit Debian GNU/Linux 11. We also configured our emulator to run all selected apps on Google Android version 9.0, API 28, 512M SD Card, 7GB internal storage, with X86 ABI image.
-For our study, we configured DroidXP to run each of the \apps app pairs using DroidBot for 3 minutes. To mitigate noise, we repeated the full process 3 times,  which took around \textcolor{blue}{$965$} machine hours in total. Although it was possible to run more than 10 emulators in parallel on one physical machine, to avoid any interference resulting from context switching within the operating system, we chose to run one emulator at a time. Hence, all processes took around 45 days, 40 days for experiment execution and additional 5 days for environment configuration.%\rb{I don't know if the following is relevant\ldots} 
+For our study, we configured DroidXP to run each of the \apps app pairs using DroidBot for 3 minutes. To mitigate noise, we repeated the full process 3 times,  which took around 513 machine hours in total. Although it was possible to run more than 10 emulators in parallel on one physical machine, to avoid any interference resulting from context switching within the operating system, we chose to run one emulator at a time. Hence, all processes took around 27 days, 23 days for experiment execution and additional 4 days for environment configuration.%\rb{I don't know if the following is relevant\ldots} 
 

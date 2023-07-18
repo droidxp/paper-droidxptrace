@@ -50,13 +50,13 @@ and wrongly labeled the repackaged version of seven apps as malware (FP column).
 \begin{table*}[htb]
   \caption{Accuracy of the \mas in both datasets.}
 \centering{
-  \begin{tabular}{lrrrrrr} \toprule
-    Dataset & TP   & FP  & FN  & Precision & Recall & $F_1$ \\ \midrule
+  \begin{tabular}{lrrrrrr} \hline
+    Dataset & TP   & FP  & FN  & Precision & Recall & $F_1$ \\ \hline
     \sds (102)    & 62   & 7   & 7   & 0.89      & 0.89   & 0.89  \\
     %\mas + Traces  & \sds (102)   & 67   & 18  & 2   & 0.78      & 0.97   & 0.87  \\
-    \cds (3,211)    & 545  & 252 & 1450 & 0.68       & 0.27   & 0.39  \\
+    \cds (1,707)    & 151  & 252 & 339 & 0.37       & 0.30   & 0.33  \\
     %\mas + Traces  & \cds (1203)   & 214  & 326 & 245 & 0.39      & 0.46   & 0.42  \\ 
-    \bottomrule
+    \hline
   \end{tabular}
   }
   \label{tab:accuracy}
@@ -73,7 +73,7 @@ and wrongly labeled the repackaged version of seven apps as malware (FP column).
 
 
 {\bf \cds.} Surprisingly, considering our complete dataset (\apps apps), the \mas
-labels a total of \textcolor{blue}{$797$} repackaged apps as malware (\textcolor{blue}{$24.82$\%} of the total number of repackaged
+labels a total of 398 repackaged apps as malware (23.31\% of the total number of repackaged
 apps)---for which the repackaged version calls at least one additional sensitive API.
 Our analysis also reveals a {\bf negative result} related to the accuracy of the approach: here,
 the accuracy is much lower in comparison to what we reported for the
@@ -88,7 +88,7 @@ DroidBot drops significantly.
   The \mas for malware detection
   leads to a substantially lower performance on the
   \cds (\apps pairs of apps),
-  dropping the accuracy by a factor of \textcolor{blue}{$50$\%}  in comparison to
+  dropping the accuracy by a factor of 56\%  in comparison to
   what we observed in the \sds.}
 
 
@@ -114,7 +114,7 @@ original and repackaged versions of an app are.
 The average \sscore of the
 \sds is 0.89 (median of 0.99 and sd of 0.25). Contrasting,
 the average \sscore of the complete dataset is
-\textcolor{blue}{0.92} (median of \textcolor{blue}{0.99} and sd of \textcolor{blue}{0.18}).
+0.93 (median of 0.98 and sd of 0.14).
 
 \begin{figure}
   \includegraphics[width=\columnwidth]{images/boxplotSimilarity.pdf}
@@ -177,8 +177,8 @@ a percentage of correct classifications around 22\%.
    For this analysis, we removed the true negatives in our dataset.}
   \centering
   \begin{small}
-    \begin{tabular}{rrrrr}   \toprule
- cId & \sscore & Samples & Correct Answers & Percentage \\ \midrule
+    \begin{tabular}{rrrrr}   \hline
+ cId & \sscore & Samples & Correct Answers & Percentage \\ \hline
    1 & 0.02 &  10 &   1 & 10.00 \\ 
    2 & 0.49 &  13 &   2 & 15.38 \\ 
    3 & 0.71 &  14 &   5 & 35.71 \\ 
@@ -188,7 +188,7 @@ a percentage of correct classifications around 22\%.
    7 & 0.94 &  48 &   8 & 16.67 \\ 
    8 & 0.97 &  44 &   8 & 18.18 \\ 
    9 & 0.98 & 144 &  19 & 13.19 \\ 
-  10 & 0.99 & 316 &  70 & 22.15 \\ \bottomrule
+  10 & 0.99 & 316 &  70 & 22.15 \\ \hline
  \end{tabular}
  \end{small}
  \label{tab:ss-clusters}
@@ -206,9 +206,9 @@ section, the similarity assessment does not explain the low performance of the
 hypothesis that the malware families in the \cds could
 explain the poor performance of the \mas on the \cds.
 Indeed, in the \cds, we identified a total of
-\textcolor{blue}{52 malware families}, though the most frequent
-ones are \gps (1290 samples), \fm{revmob} (201 samples), \emph{airpush} (103 samples) and \fm{dowgin} (101 samples). Together, they
-account for \textcolor{blue}{$52.78$\%} of the repackaged apps in our
+44 families of malwares, though the most frequent
+ones are \gps (295 samples), \fm{revmob} (31 samples), \fm{dowgin} (25 samples), and \emph{airpush} (21 samples). Together, they
+account for 75.91\% of the repackaged apps in our
 complete dataset labeled as malware according to \vt.
 
 This family distribution in the \cds is
@@ -227,14 +227,14 @@ perform when considering only the gappusin samples?}
 
 The confusion matrix of Table~\ref{tab:gappusin} summarizes the accuracy assessment of the \mas considering
 only the \gps samples in the \cds. Note that \vt classifies as malware all repackaged versions in the \gps
-family and that for \textcolor{blue}{1153} samples \textcolor{blue}{($89.37$\%)}, the \mas was not able to correctly identify
-a repackaged version of an app as a malware (recall of \textcolor{blue}{0.1}). 
+family and that for 269 samples (91.18\%), the \mas was not able to correctly identify
+a repackaged version of an app as a malware (recall of 0.08). 
 %Merging the outcomes of both approaches (that is, the vanilla \mas and
 %the \mas with traces), leads to a recall of
 %$\frac{27}{198} = 0.13$. 
 Further, if we remove the \gps
 samples from the \cds, the recall
-of the \mas increases to \textcolor{blue}{0.62} (similar
+of the \mas increases to 0.63 (similar
 to the performance of the original studies). 
 
 \begin{table}[ht]
@@ -245,14 +245,14 @@ to the performance of the original studies).
 \multirow{2}{*}{Actual Condition}   & \multicolumn{2}{c}{Predicted Condition} \\ 
                                     & Benign    & Malware   \\ \hline 
   Benign  (0)                       & TN (0)    & FP (0)    \\
-  Malware (1290)                     & FN (1153)  & TP (137)   \\ \hline
+  Malware (295)                     & FN (269)  & TP (26)   \\ \hline
 \end{tabular}
 \label{tab:gappusin}
 \end{table}
 
 
 \tb{4}{The \mas fails to correctly
-  identify \textcolor{blue}{$89.37$\%} of the samples from the \gps family
+  identify 91.18\% of the samples from the \gps family
   as a malware. This is the main reason for the low
   recall of the \mas in the \cds.}
 
@@ -262,7 +262,8 @@ Figure~\ref{fig:hist-gappusin} shows a histogram of the \sscore for the samples
 in the \gps family. Note that mostly of the repackaged versions from the
 \gps family are quite similar to the original versions (average \sscore
 of 0.97, median \sscore of 0.99, and sd of 0.06). We also reengineer
-a sample of 30 \gps malware, using the \texttt{SimiDroid}\footnote{https://github.com/lilicoding/SimiDroid},
+a sample of 30 \gps malware (more than 10\% of the samples in this
+family), using the \texttt{SimiDroid}\footnote{https://github.com/lilicoding/SimiDroid},
 \texttt{apktool}~\footnote{https://ibotpeaches.github.io/Apktool/},
 and \texttt{smali2java}~\footnote{https://github.com/AlexeySoshin/smali2java} tools.
 Considering this sample of 30 \gps malware, the median \sscore is 0.99. In addition,
@@ -298,7 +299,7 @@ the \gps samples correctly.
 \begin{figure*}
 \begin{lstlisting}[language=Java]
 public void onReceive(Context context, Intent intent) {
-  SharedPreferences sp = context.getSharedPreferences(String.valueOf("com.") + "game." + "param", 0);
+  SharedPreferences sp = context.getSharedPreferences(String.valueOf("com.")+"game."+"param",0);
   int i = sp.getInt("sn", 0) + 1;
   System.out.println("sn: " + i);
   if (i < 2) {
@@ -342,9 +343,9 @@ from the repackaged versions from the \gps family.
 
 \begin{figure*}[t]
 \begin{lstlisting}[language=Java]
-public static void m7a(Activity activity, String str, String str2, String str3, String str4, String str5) {
+public static void m7a(Activity activity, String str, String str2, ... , String str5) {
   try {
-    Class loadClass = new DexClassLoader(str, str2, (String) null, activity.getClassLoader()).loadClass(str3);
+    Class loadClass = new DexClassLoader(..., activity.getClassLoader()).loadClass(str3);
     Object newInstance = loadClass.getConstructor(new Class[0]).newInstance(new Object[0]);
     Method method = loadClass.getMethod(str4, new Class[]{Activity.class, String.class});
     method.setAccessible(true);
@@ -365,8 +366,8 @@ public static void m7a(Activity activity, String str, String str2, String str3, 
     \gps malware. (IM) Identical Methods, (SM) Similar Methods, (NM) New Methods, and
     (DM) Deleted Methods.}
   \begin{tabular}{lrrrrr}
-    \toprule
- Hash  & \sscore &   IM  &   SM  &  NM   &  DM  \\ \midrule
+    \hline
+ Hash  & \sscore &   IM  &   SM  &  NM   &  DM  \\ \hline
  33896E & 0.9994 &  3205 &     2 &     0 &     0 \\ 
  0C962D & 0.9994 &  3413 &     1 &     1 &    10 \\ 
  BCDF91 & 0.9992 &  2645 &     2 &     0 &     0 \\ 
@@ -427,26 +428,24 @@ public static void m7a(Activity activity, String str, String str2, String str3, 
 %% \texttt{92209D0E67}&0.975&284&5&2&2 \\
 %% \texttt{078E0AE6E3}&0.977&350&8&0&0 \\
 %% \texttt{0977B0E411}&0.946&196&9&2&2 \\
-   \bottomrule
+   \hline
  \end{tabular}
  \label{tab:simidroid-outputs}
 \end{table}
 
 
-In summary, our reverse engineering effort brings evidence that malware
-samples from the \gps family neither modify the Android Manifest
-files nor call additional sensitive APIs---which reduce the ability
-of the \mas to correctly classify a sample as a malware. Both versions (original/repackaged) from the \gps family have the same behavior for showing advertisements to the user,
-however the repackaged version have additional call sites to the advertisement API and the advertisements sources are different.
-%This behavior is not so harmful when compared to others repackaged apps, however nothing prevents that others malware families include other malicious operations at runtime.
+In summary, our reverse engineering effort brings evidence that malware samples from the \gps family neither modify the Android Manifest files nor call additional sensitive APIs. It acts as a
+downloader for further malicious app~\cite{DBLP:conf/ndss/ArpSHGR14}---which reduce the ability of the \mas to correctly classify a sample as a malware. Both versions (original/repackaged) from the \gps family have the same behavior for showing advertisements to the user,
+however the repackaged version have additional call sites to the advertisement API and the advertisements sources are different. This behavior is not so harmful when compared to others repackaged apps, however nothing prevents that others malware families insert malicious operations, such as theft of
+sensitive data.
 
 We argue in favor of new research efforts to integrate the \mas 
 with other techniques that could increase their performance
 on malware identification. Since the samples from the \gps
 family use specific patterns to introduce malicious behavior,
-it might be promising to explore static analysis approaches that
-search for these specific patterns. 
-
+it might be promising to explore complementary techniques that
+search for these patterns.
+ 
 %% \kn{I really like this part of the gps family analysis. }
 
 

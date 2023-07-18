@@ -16,7 +16,7 @@ we summarize in the following.
   Our study indicates that the accuracy of the \mas reported in
   previous studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22} does not
   generalize to a larger dataset. That is, while in our
-  replication study (using the \sds of previous research) the \mas
+  reproduction study (using the \sds of previous research) the \mas
   leads to an accuracy of \fscoreSmall, we observed a drop of precision and recall
   that leads to an accuracy of \fscore in the presence of our \cds (\apps pairs of
   original and repackaged versions of Android apps). 
@@ -37,10 +37,18 @@ we summarize in the following.
   a sample of 30 \gps malware, we confirmed that the \mas cannot identify the
   patterns of changes introduced in the repackaged versions of the apps. The prevalence of the \gps family
   in the \cds largely explains the poor performance of the \mas for malware classification in the large dataset. 
+
+\item \textbf{Effective of MAS approach approach compared to the original MAS approach}
+\textcolor{blue}{Must answer this question}
+
 \end{itemize}
 
+
+
+
+
 Although the \gps family explains the drop in the recall of the \mas, other  reasons might explain the reduced precision of the \mas in the \cds. First, the proportion of malware samples in the
-datasets differs. That is, \vt labels \textcolor{blue}{$62.13$\%} of the repackaged version of the apps in the \cds as malware---contrasting with 67.64\% of the samples that \vt labels as malware in the \sds. The lack of balance in the datasets might partially explain the low precision of the \mas in the \cds. Second, we only label a repackaged version of an app as malware if \vt reports that at least two engines find suspicious behavior in that asset. This decision might be considered an over-constraint. When we relax this constraint and label an assets as malware whenever at least one engine finds suspicious behavior, the precision of the \mas increases from \textcolor{blue}{0.68} to \textcolor{blue}{0.79}---still significantly smaller than the \mas precision for the \sds.
+datasets significantly differs. That is, \vt labels only 40.26\% of the repackaged version of the apps in the \cds as malware---contrasting with 67.64\% of the samples that \vt labels as malware in the \sds. The lack of balance in the datasets might partially explain the low precision of the \mas in the \cds. Second, we only label a repackaged version of an app as malware if \vt reports that at least two engines find suspicious behavior in that asset. This decision might be considered an over-constraint. When we relax this constraint and label an assets as malware whenever at least one engine finds suspicious behavior, the precision of the \mas increases from 0.37 to 0.59---still significantly smaller than the \mas precision for the \sds.
 
 \subsection{Implications}\label{sec:implications} 
 

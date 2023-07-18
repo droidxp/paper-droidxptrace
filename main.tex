@@ -1,10 +1,15 @@
-%\documentclass[10pt,conference]{IEEEtran}
-\documentclass[sigconf,review, anonymous]{acmart}
-\acmConference[ISSTA 2023]{ACM SIGSOFT International Symposium on Software Testing and Analysis}{17-21 July, 2023}{Seattle, USA}
-%\IEEEoverridecommandlockouts
+\documentclass[lettersize,journal,anonymous]{IEEEtran}
+\usepackage{amsmath,amsfonts}
+\usepackage{algorithmic}
+\usepackage{array}
+\usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
+\usepackage{textcomp}
+\usepackage{stfloats}
+\usepackage{url}
+\usepackage{verbatim}
+\usepackage{graphicx}
 
 
-% Fonte em português brasileiro
 \usepackage{enumerate}
 \usepackage{listings}
 \usepackage{hyperref}
@@ -12,9 +17,17 @@
 \usepackage{balance}
 \usepackage[most]{tcolorbox}
 \usepackage{awesomebox}
-\usepackage{graphicx}
 \usepackage{multirow}
 \usepackage{blindtext}
+
+
+
+\hyphenation{op-tical net-works semi-conduc-tor IEEE-Xplore}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.15emX}}
+
+%.1667
+
 
 % Custom colors
 \definecolor{keywords}{rgb}{0.5,0,0.35}
@@ -36,8 +49,7 @@
 % Pictures
 \usepackage{graphicx}       
 
-\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
-    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
 
 \newtcbtheorem{obs}{Finding}{%
         theorem name,%
@@ -75,9 +87,12 @@
 
 \newcommand{\rqd}{What is the influence of the malware family (e.g., \fm{gappusin}, \fm{kuguo}, \fm{dowgin}) on the performance of the \mas for malware classification?}
 
+\newcommand{\rqe}{How effective is the extension \mas
+compared to the original \mas ?}
+
 
 \newcommand{\appsSmall}{102\xspace}
-\newcommand{\apps}{\textcolor{blue}{3,211}\xspace}
+\newcommand{\apps}{1,707\xspace}
 
 \newcommand{\sds}{\texttt{Small Dataset}\xspace}
 \newcommand{\cds}{\texttt{Complete Dataset}\xspace}
@@ -88,13 +103,12 @@
 
 
 \newcommand{\fscoreSmall}{0.89\xspace}
-\newcommand{\fscore}{\textcolor{blue}{0.39}\xspace}
+\newcommand{\fscore}{0.33\xspace}
 
-\newcommand{\malwares}{\textcolor{blue}{1995}\xspace}
-\newcommand{\malwaresP}{\textcolor{blue}{62.13}\xspace}
-
-\newcommand{\appsGps}{\textcolor{blue}{1,290}\xspace}
-\newcommand{\appsGpsFN}{\textcolor{blue}{1,153}\xspace}
+\newcommand{\malwares}{490\xspace}
+\newcommand{\malwaresP}{28.70}
+\newcommand{\appsGps}{295\xspace}
+\newcommand{\appsGpsFN}{269\xspace}
 
 
 
@@ -102,35 +116,31 @@
 
 \begin{document}
 
-\setlength{\aweboxleftmargin}{0.04\linewidth}
-\setlength{\aweboxcontentwidth}{0.94\linewidth}
-
-% Title Alternatives
-% - \title{The Achilles' Heel of the Mining Sandbox Approach for Android Malware Identification}
-% - ...
-% 
-% Here we will put author ...
-
-%\author{Francisco Costa}
-%\affiliation{%
-%  \institution{Brasilia University}
-%  \city{Brasilia}
-%  \country{Brazil}}
-%\email{180040723@aluno.unb.br}
 
 
 
+\author{Francisco Handrick 
+\IEEEmembership{UNB}, 
+\thanks{}
+}
 
+
+\markboth{IEEE Transactions on Software Engineering}%
+{How to Use the IEEEtran \LaTeX \ Templates}
+
+\maketitle
 
 \input{abstract}
-\keywords{Android Malware Detection, Dynamic Analysis, Mining Android Sandboxes}
-\maketitle
+
+\begin{IEEEkeywords}
+Android Malware Detection, Dynamic Analysis, Mining Android Sandboxes.
+\end{IEEEkeywords}
+
 \input{introduction}
 \input{background}
-%\input{relatedwork}
-%\input{sandboxweakness}
 \input{experimentalSetup}
 \input{results}
+\input{resultsTraceParameter}
 \input{discussion}
 \input{conclusions}
 \balance 
@@ -138,4 +148,13 @@
 \bibliographystyle{IEEEtran}
 \bibliography{ref}
 
+
+
+
+
+
+
+
 \end{document}
+
+

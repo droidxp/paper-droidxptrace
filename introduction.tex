@@ -8,6 +8,7 @@ available on the Google Play Store~\cite{Statista}.
 With increased popularity, comes increased risk of attacks---motivating efforts from both academia and industry to design and develop new techniques
 to identify malicious behavior or vulnerable code in Android apps~\cite{10.1145/3017427}.
 
+
 One of the most popular classes of malwares are based on repackaging apps~\cite{DBLP:conf/wcre/BaoLL18,le2018towards} where benign
 versions of an app from an official app store are
 %such as Google Play, 
@@ -54,7 +55,7 @@ dataset (it contains \apps pairs of original/repackaged apps).
 accuracy ($F_1$ score) of the \mas in comparison to what has been reported before (\fscore versus \fscoreSmall). 
 An accuracy of \fscore is clearly unsatisfactory for a trustworthy malware classification technique.
 This result motivated us to conduct a series of experiments 
-to understand the reasons for the lower accuracy in our larger dataset.
+to understand the reasons for the lower accuracy in our larger dataset, \textcolor{blue}{and a possible solution to revert it.}
 %The original approach classifies an app as malware whenever there exists a difference between the sets of calls to sensitive APIs collected when running the test case generation tool over the original and repackaged versions of the same app.
 First, we check the impact of the similarity between original and repackaged versions of
 an app on the performance of the \mas for malware classification. Our results reveal a non significant association association between similarity and the accuracy of the \mas. 
@@ -80,8 +81,7 @@ answers and which should leads close to real-life scenarios.
 The remainder of this paper is organized as follows. 
 We provide background information on the \mas and the \mas for malware detection in
 Section~\ref{sec:background}. Section~\ref{sec:experimentalSetup}
-characterizes our experiments in terms of research goal, questions, metrics, datasets, and our procedures for data collection and data analysis.
-Section~\ref{sec:results} and Section~\ref{sec:discussion} present the main findings of our experiments and possible threats to the validity of our results. Finally,
+characterizes our experiments in terms of research goal, questions, metrics, datasets, and our procedures for data collection and data analysis. \textcolor{blue}{Section~\ref{sec:results}, Section~\ref{sec:resultsTraceParameter} and Section~\ref{sec:discussion} present the main findings of our experiments, results of others techniques that can complement the \mas, and possible threats to the validity of our results.} Finally,
 Section~\ref{sec:conclusions} presents concluding remarks and possible future
 work. The main artifacts we produced during this research are available in the
 paper repository.
