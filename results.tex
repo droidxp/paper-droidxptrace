@@ -445,6 +445,27 @@ on malware identification. Since the samples from the \gps
 family use specific patterns to introduce malicious behavior,
 it might be promising to explore complementary techniques that
 search for these patterns.
+
+
+\subsection{Complementary Techniques}\label{sec:resultsTraceParameter}
+\textcolor{blue}{Here we will present the results of parameter and trace, and show table\ref{tab:accuracyParameter} as well}
+
+\begin{table*}[htb]
+  \caption{Accuracy of the \mas in both techniques.}
+\centering{
+  \begin{tabular}{lrrrrrr} \hline
+    Dataset & TP   & FP  & FN  & Precision & Recall & $F_1$ \\ \hline
+    
+    %\mas + Traces  & \sds (102)   & 67   & 18  & 2   & 0.78      & 0.97   & 0.87  \\
+    \cds \mas (1,707)    & 151  & 252 & 339 & 0.37       & 0.30   & 0.33  \\
+    \cds \mas + Trace + Parameter (1,707)    & 253  & 277 & 237 & 0.47       & 0.51   & 0.49  \\
+    %\mas + Traces  & \cds (1203)   & 214  & 326 & 245 & 0.39      & 0.46   & 0.42  \\ 
+    \hline
+  \end{tabular}
+  }
+  \label{tab:accuracyParameter}
+\end{table*}
+
  
 %% \kn{I really like this part of the gps family analysis. }
 
