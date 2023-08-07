@@ -51,10 +51,11 @@ and wrongly labeled the repackaged version of seven apps as malware (FP column).
   \caption{Accuracy of the \mas in both datasets.}
 \centering{
   \begin{tabular}{lrrrrrr} \hline
-    Dataset & TP   & FP  & FN  & Precision & Recall & $F_1$ \\ \hline
+    Dataset & TP   & FP  & FN  & Precision & Recall & $F_1$ \\
+    \hline
     \sds (102)    & 62   & 7   & 7   & 0.89      & 0.89   & 0.89  \\
     %\mas + Traces  & \sds (102)   & 67   & 18  & 2   & 0.78      & 0.97   & 0.87  \\
-    \cds (1,707)    & 151  & 252 & 339 & 0.37       & 0.30   & 0.33  \\
+    \cds (3,211)    & 545  & 252 & 1450 & 0.68       & 0.27   & 0.39  \\
     %\mas + Traces  & \cds (1203)   & 214  & 326 & 245 & 0.39      & 0.46   & 0.42  \\ 
     \hline
   \end{tabular}
@@ -71,15 +72,15 @@ and wrongly labeled the repackaged version of seven apps as malware (FP column).
 %\tb{2}{Although the use of Trace Analysis reduces the number of false negatives (in comparison with the vanilla \mas), it slightly decreases the overall accuracy ($F_1$) of the \mas to detect malware, from 0.89\% to 0.87\% in the \sds.} 
 
 
-
 {\bf \cds.} Surprisingly, considering our complete dataset (\apps apps), the \mas
-labels a total of 398 repackaged apps as malware (23.31\% of the total number of repackaged
+labels a total of \textcolor{blue}{$797$} repackaged apps as malware (\textcolor{blue}{$24.82$\%} of the total number of repackaged
 apps)---for which the repackaged version calls at least one additional sensitive API.
 Our analysis also reveals a {\bf negative result} related to the accuracy of the approach: here,
 the accuracy is much lower in comparison to what we reported for the
 \sds (see the second row of Table~\ref{tab:accuracy}): $F_1$ dropping from \fscoreSmall to \fscore.
 This result indicates that, when considering a large dataset, the accuracy of the \mas using
 DroidBot drops significantly. 
+
 
 %The use of the trace analysis reduces the number of false negatives in the \cds (from 286 to 245), though increasing the number of false positives from 173 to 326. Altogether, the $F_1$ measure does not change when comparing performance of the vanilla \mas and its trace-based variant in the \cds. 
 
@@ -88,7 +89,7 @@ DroidBot drops significantly.
   The \mas for malware detection
   leads to a substantially lower performance on the
   \cds (\apps pairs of apps),
-  dropping the accuracy by a factor of 56\%  in comparison to
+  dropping the accuracy by a factor of \textcolor{blue}{$50$\%} in comparison to
   what we observed in the \sds.}
 
 
@@ -114,7 +115,7 @@ original and repackaged versions of an app are.
 The average \sscore of the
 \sds is 0.89 (median of 0.99 and sd of 0.25). Contrasting,
 the average \sscore of the complete dataset is
-0.93 (median of 0.98 and sd of 0.14).
+\textcolor{blue}{0.92} (median of \textcolor{blue}{0.99} and sd of \textcolor{blue}{0.18}).
 
 \begin{figure}
   \includegraphics[width=\columnwidth]{images/boxplotSimilarity.pdf}
@@ -122,7 +123,6 @@ the average \sscore of the complete dataset is
   outliers.}
   \label{fig:ss}
 \end{figure}
-
 % \fh{at table 1 I inserted at second columns the sample amount}
 
 Here we hypothesize that \sscore might have an
@@ -206,9 +206,9 @@ section, the similarity assessment does not explain the low performance of the
 hypothesis that the malware families in the \cds could
 explain the poor performance of the \mas on the \cds.
 Indeed, in the \cds, we identified a total of
-44 families of malwares, though the most frequent
-ones are \gps (295 samples), \fm{revmob} (31 samples), \fm{dowgin} (25 samples), and \emph{airpush} (21 samples). Together, they
-account for 75.91\% of the repackaged apps in our
+\textcolor{blue}{52 malware families}, though the most frequent
+ones are \gps (1290 samples), \fm{revmob} (201 samples), \emph{airpush} (103 samples) and \fm{dowgin} (101 samples). Together, they
+account for \textcolor{blue}{$52.78$\%} of the repackaged apps in our
 complete dataset labeled as malware according to \vt.
 
 This family distribution in the \cds is
@@ -227,14 +227,14 @@ perform when considering only the gappusin samples?}
 
 The confusion matrix of Table~\ref{tab:gappusin} summarizes the accuracy assessment of the \mas considering
 only the \gps samples in the \cds. Note that \vt classifies as malware all repackaged versions in the \gps
-family and that for 269 samples (91.18\%), the \mas was not able to correctly identify
-a repackaged version of an app as a malware (recall of 0.08). 
+family and that for \textcolor{blue}{1153} samples \textcolor{blue}{($89.37$\%)}, the \mas was not able to correctly identify
+a repackaged version of an app as a malware (recall of \textcolor{blue}{0.1}). 
 %Merging the outcomes of both approaches (that is, the vanilla \mas and
 %the \mas with traces), leads to a recall of
 %$\frac{27}{198} = 0.13$. 
 Further, if we remove the \gps
 samples from the \cds, the recall
-of the \mas increases to 0.63 (similar
+of the \mas increases to \textcolor{blue}{0.62} (similar
 to the performance of the original studies). 
 
 \begin{table}[ht]
@@ -245,16 +245,17 @@ to the performance of the original studies).
 \multirow{2}{*}{Actual Condition}   & \multicolumn{2}{c}{Predicted Condition} \\ 
                                     & Benign    & Malware   \\ \hline 
   Benign  (0)                       & TN (0)    & FP (0)    \\
-  Malware (295)                     & FN (269)  & TP (26)   \\ \hline
+  Malware (1290)                     & FN (1153)  & TP (137)   \\ \hline
 \end{tabular}
 \label{tab:gappusin}
 \end{table}
 
 
 \tb{4}{The \mas fails to correctly
-  identify 91.18\% of the samples from the \gps family
+  identify \textcolor{blue}{$89.37$\%} of the samples from the \gps family
   as a malware. This is the main reason for the low
   recall of the \mas in the \cds.}
+
 
 We further analyse the sample of \gps malware in our dataset, given its
 relevance to the negative result we present in our paper. First,
@@ -451,14 +452,15 @@ search for these patterns.
 \textcolor{blue}{Here we will present the results of parameter and trace, and show table\ref{tab:accuracyParameter} as well}
 
 \begin{table*}[htb]
-  \caption{Accuracy of the \mas in both techniques.}
+  \caption{Accuracy of the \mas with the aid of complementary techniques.}
 \centering{
   \begin{tabular}{lrrrrrr} \hline
     Dataset & TP   & FP  & FN  & Precision & Recall & $F_1$ \\ \hline
     
     %\mas + Traces  & \sds (102)   & 67   & 18  & 2   & 0.78      & 0.97   & 0.87  \\
-    \cds \mas (1,707)    & 151  & 252 & 339 & 0.37       & 0.30   & 0.33  \\
-    \cds \mas + Trace + Parameter (1,707)    & 253  & 277 & 237 & 0.47       & 0.51   & 0.49  \\
+    \cds \mas (3,211)    & 545  & 252 & 1,450 & 0.68       & 0.27   & 0.39  \\
+    \cds \mas + Parameter (3,211)    & 656  & 271 & 1,339 & 0.7       & 0.32   & 0.44  \\
+    \cds \mas + Trace + Parameter (3,211)    & 752  & 272 & 1,243 & 0.73       & 0.37   & 0.49  \\
     %\mas + Traces  & \cds (1203)   & 214  & 326 & 245 & 0.39      & 0.46   & 0.42  \\ 
     \hline
   \end{tabular}
