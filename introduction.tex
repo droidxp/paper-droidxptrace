@@ -45,7 +45,7 @@ version of an app is a malware.
 %In this paper, we present the results of an investigation that aims to replicate previous studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:conf/scam/CostaMCMVBC20} in a larger dataset of app pairs (original/repackaged versions), and then explore whether a more diverse sample of app pairs has an influence on the accuracy of the \mas for malware identification. To this end, we explore the performance of the \mas using a larger dataset we curated for this research and DroidBot~\cite{DBLP:conf/icse/LiYGC17} as test case generation---the tool that, according to the literature, leads to the most accuracy Android sandbox. Our new dataset is an order of magnitude larger (it contains \apps pairs of original/repackaged apps), comprises a much more diverse similarity index, and covers a broader range of malware families. 
 
 To empirically study the impact of these limitations on the reported results, in this paper we reconsider the performance of the \mas based on
-DroidBot~\cite{DBLP:conf/icse/LiYGC17}---as we mentioned, the test case generation tool that, according to the literature, leads to the most accurate Android sandbox. 
+DroidBot~\cite{DBLP:conf/icse/LiYGC17}---as we mentioned, the test case generation tool that, according to the literature, leads to the most accurate Android sandbox, regarding malware identification. 
 Compared to previous studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:conf/scam/CostaMCMVBC20},
 we use a curated dataset of app pairs (original/repackaged versions) that is, in terms of magnitude, larger than the previously used
 dataset (it contains \apps pairs of original/repackaged apps).
@@ -58,7 +58,7 @@ This result motivated us to conduct a series of experiments
 to understand the reasons for the lower accuracy in our larger dataset, \textcolor{blue}{and a possible solution to revert it.}
 %The original approach classifies an app as malware whenever there exists a difference between the sets of calls to sensitive APIs collected when running the test case generation tool over the original and repackaged versions of the same app.
 First, we check the impact of the similarity between original and repackaged versions of
-an app on the performance of the \mas for malware classification. Our results reveal a non significant association association between similarity and the accuracy of the \mas. 
+an app on the performance of the \mas for malware classification. Our results reveal a non-significant association between similarity and the accuracy of the \mas. 
 %\kn{Saying there is no association is not the same as saying that similarity does not impact the accuracy. Somehow I feel this statement is very strong. I would rather say that we did not find any significant association between similarity and the accuracy of the \mas.
 Second, we explore if the
 malware family could explain the lower performance of the \mas for malware classification in 

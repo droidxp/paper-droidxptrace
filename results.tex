@@ -13,13 +13,10 @@ the results of our research using two datasets: the \sds (102 pairs of apps) and
 
 {\bf \sds.} Considering the \sds (102 apps), the \mas for malware detection 
 classifies a total of 69 repackaged versions as malware (67.64\%).
-This result is close to what Bao et al. report~\cite{DBLP:conf/wcre/BaoLL18}.
-That is, in their
-original paper,  the \mas using DroidBot classifies 66.66\% of the
+This result is close to what Bao et al. reported~\cite{DBLP:conf/wcre/BaoLL18}.
+That is, in their original paper,  the \mas using DroidBot classifies 66.66\% of the
 repackaged version of the apps as malware~\cite{DBLP:conf/wcre/BaoLL18}.
-This result confirms that we were able to reproduce
-the findings of the original study using our
-infrastructure. 
+This result confirms that we were able to reproduce the findings of the original study using our infrastructure. 
 
 \tb{1}{We were able to reproduce the results of
   existing research using our infrastructure,
@@ -257,7 +254,7 @@ to the performance of the original studies).
   recall of the \mas in the \cds.}
 
 
-We further analyse the sample of \gps malware in our dataset, given its
+We further analyze the sample of \gps malware in our dataset, given its
 relevance to the negative result we present in our paper. First,
 Figure~\ref{fig:hist-gappusin} shows a histogram of the \sscore for the samples
 in the \gps family. Note that mostly of the repackaged versions from the
@@ -282,7 +279,7 @@ the goal of this modification is to change the behaviour of the benign version, 
 download a different version of the \texttt{data.apk} 
 asset. Figure~\ref{code:onReceive} shows
 the code pattern of the \texttt{onReceive} method presents in the samples. This modification
-typically use a new method (\texttt{public void a(Context)}
+typically uses a new method (\texttt{public void a(Context)}
 the repackaged versions often introduce into the same class (\texttt{AdReciver}).
 Since there is no extra call to sensitive APIs, the \mas fails to label
 the \gps samples correctly. 
@@ -459,13 +456,6 @@ We also investigate if Trace Analysis improve the performance of the \mas. That 
 
 Additionally, we investigate if we could benefit from combining both techniques. When combining Parameter and Trace Analysis, we were able to detect $752$ (TP) of the repackaged apps ($23.41$\%). We reduce the number of FN from $1,450$ to $1,243$, however increasing the number of FP from $252$ to $272$. In summary, the combination of both techniques shows to be more effective than the vanilla \mas, or when we used just one of the techniques, resulting in a ($F_1$) of $0.49$, as reported in Table~\ref{tab:accuracyParameter}.
 
-\tb{5}{When combining both techniques (Parameter and Trace Analysis), we reduces the number of
-  false negatives (in comparison with the vanilla \mas), with the side effect of increasing the number of false positives. However, it improves the
-  overall accuracy ($F_1$) of \mas at malware detection,
-  from 0.39\% to 0.49\% at \cds.} 
-
-
-
 \begin{table*}[htb]
   \caption{Accuracy of the \mas with aid of complementary techniques (3,211 app pairs).}
 \centering{
@@ -484,6 +474,8 @@ Additionally, we investigate if we could benefit from combining both techniques.
   \label{tab:accuracyParameter}
 \end{table*}
 
+\tb{5}{When combining both techniques, we reduces the number of false negatives (in comparison with the vanilla \mas), with the side effect of increasing the number of false positives. However, it improves the
+overall accuracy ($F_1$) of \mas at malware detection, from 0.39\% to 0.49\% at \cds.} 
  
 %% \kn{I really like this part of the gps family analysis. }
 
