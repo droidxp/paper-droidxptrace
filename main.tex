@@ -1,4 +1,5 @@
-\documentclass[lettersize,journal,anonymous]{IEEEtran}
+\documentclass[10pt,journal,compsoc]{IEEEtran}
+
 \usepackage{amsmath,amsfonts}
 \usepackage{algorithmic}
 \usepackage{array}
@@ -112,48 +113,36 @@ compared to vanilla \mas ?}
 
 
 
-\title{The Achilles' Heel of the Android Mining Sandbox Approach for Malware Identification}
 
 \begin{document}
 
+\title{The Achilles' Heel of the Android Mining Sandbox Approach for Malware Identification}
 
 
-\author{Francisco Costa, 
-\IEEEmembership{Computer Science Department / University of Brasília}
-
-{Ismael Medeiros, 
-\IEEEmembership{Computer Science Department / University of Brasília}
-}
-
-{Leandro Oliveira , 
-\IEEEmembership{Computer Science Department / University of Brasília}
-}
-
-{João Calassio, 
-\IEEEmembership{Computer Science Department / University of Brasília}
-}
-
-{Rodrigo Bonifacio , 
-\IEEEmembership{Computer Science Department / University of Brasília}
-}
-
-{Krishna Narasimhan , 
-\IEEEmembership{Software Technology Group / TU Darmstadt}
-}
-
-{Mira Mezini , 
-\IEEEmembership{Software Technology Group / TU Darmstadt}
-}
-
-{Márcio Ribeiro , 
-\IEEEmembership{Federal University of Alagoas (UFAL)}
+\author{Francisco Costa, %~\IEEEmembership{Member,~IEEE,}
+        Ismael Medeiros, %~\IEEEmembership{Fellow,~OSA,}
+        Leandro Oliveira, %~\IEEEmembership{Fellow,~OSA,}
+        Jo\~{a}o Cal\'{a}ssio, %~\IEEEmembership{Fellow,~OSA,}
+        Rodrigo~Bonif\'{a}cio,
+        Krishna Narasimhan,
+        Mira Mezini,
+        M\'{a}rcio Ribeiro, 
+        and~Eduardo Alchieri% <-this % stops a space
+\IEEEcompsocitemizethanks{
+\IEEEcompsocthanksitem F. Costa, I. Medeiros, L. Oliveira, J. Cal\'{a}ssio, R. Bonif\'{a}cio, and E. Alchieri are with the 
+Computer Science Department, University of Bras\'{i}lia, Bras\'{i}lia, Brazil.
+E-mail: \{francisco.costa,ismael.medeiros,leandro.oliveira,joao.calassion\}@aluno.unb.br and \{rbonifacio,alchieri\}@unb.br.
+\IEEEcompsocthanksitem K. Narasimhan and M. Mezini are with the Software Technology Group / TU Darmstadt, Darmstadt, Germany.\protect\\
+E-mail: {\color{red}email}.
+\IEEEcompsocthanksitem M\'{a}rcio Ribeiro is with the Computing Institute, Federal University of Alagoas, Macei\'{o}, Brazil\protect\\
+E-mail: marcio@ic.ufal.br}% <-this % stops an unwanted space
+%\thanks{Manuscript received April 19, 2005; revised August 26, 2015.}
 }
 
 
 
-\thanks{}
+% \thanks{}
 
-}
 
 
 %\author{IEEE Publication Technology Department
@@ -171,13 +160,15 @@ compared to vanilla \mas ?}
 %\address[2]{Software Technology Group, TU Darmstadt, Germany}
 %\address[3]{Institute of Computing, Federal University of Alagoas, Brazil}
 
+\input{abstract}
 
 
+\markboth{IEEE Transactions on Software Engineering,~Vol.~XX, No.~X, August~XXXX}%
+         {Costa \MakeLowercase{\textit{et al.}}: The Achilles' Heel of the Android Mining Sandbox Approach}
 
 
 \maketitle
 
-\input{abstract}
 
 \begin{IEEEkeywords}
 Android Malware Detection, Dynamic Analysis, Mining Android Sandboxes.
