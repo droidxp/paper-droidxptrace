@@ -5,7 +5,7 @@ uses mobile technologies~\cite{Comscore,DBLP:journals/tse/MartinSJZH17}, with th
 Android Platform dominating this market and accounting for more than 70\% of the \emph{mobile
 market share} with almost 3.5 million Android applications~\footnote{In this paper, we will use the terms Android Applications, Android Apps, and Apps interchangeably, to refer to Android software applications} (apps)
 available on the Google Play Store~\cite{Statista}. 
-With increased popularity, comes increased risk of attacks---motivating efforts from both academia and industry to design and develop new techniques
+With increased popularity, comes increased the risk of attacks---motivating efforts from both academia and industry to design and develop new techniques
 to identify malicious behavior or vulnerable code in Android apps~\cite{10.1145/3017427}.
 
 
@@ -14,13 +14,12 @@ versions of an app from an official app store are
 %such as Google Play, 
 infected with malicious code, e.g., to broadcast
 sensitive information to a private server~\cite{DBLP:journals/tse/LiBK21}, and subsequently shared
-with users using different app stores.  The focus of this paper is the Mining Android Sandbox, hereafter \mas, which has been shown effective
+with users using different app stores. In this paper we focus on the Mining Android Sandbox, hereafter \mas, which has been shown effective
 in detecting the popular class of Android malware based on 
 repackaging benign apps. 
-It  takes advantage of automated test case generation tools 
-to explore the behavior of an app---in terms of calls to sensitive APIs---and then
-generates a sandbox~\cite{DBLP:conf/icse/JamrozikSZ16}. During a normal
-execution of the app, the sandbox might block calls to a sensitive API
+The \mas takes advantage of automated test case generation tools 
+to explore the behavior of an app---in terms of calls to sensitive APIs. Originally, the \mas first builds a ``sandbox'' based on the collected calls to sensitive APIs~\cite{DBLP:conf/icse/JamrozikSZ16}. After that, during a normal
+execution of the app, the sandbox might block calls to other sensitive API
 that had not been observed during the exploratory phase. 
 
 
@@ -29,22 +28,21 @@ have compared the accuracy of  Android sandboxes for malware detection
 that were produced 
 from 
 %executing 
-different test case generation tools, including Monkey~\cite{Monkey}, DroidBot~\cite{DBLP:conf/icse/LiYGC17}, and Droidmate~\cite{DBLP:conf/kbse/BorgesHZ18} tools.
+different test case generation tools, including Monkey~\cite{Monkey}, DroidBot~\cite{DBLP:conf/icse/LiYGC17}, and Droidmate~\cite{DBLP:conf/kbse/BorgesHZ18}.
 The studies bring evidence that 
-DroidBot outperforms the other test generation tools and leads to sandboxes that are more accurate in detecting malware, with a ($F_1$ score) of \fscoreSmall.
+DroidBot outperforms the other test generation tools and leads to sandboxes that are more accurate in detecting malware.
 But these previous studies have two main limitations.
-First, they use a small dataset of malware comprising only \appsSmall pairs of original/repackaged versions of an app. This decision
-might compromise the external validity of previous studies. Second, their assessment do not investigate
-the impact of repackaged characteristics on the accuracy of the \mas for malware classification, including
+First, they use a small dataset of malware comprising only \appsSmall pairs of original/repackaged versions of an app---compromising external validity. Second, their assessments do not investigate
+the impact of relevant features of the repackaged apps on the accuracy of the \mas for malware classification, including
 (a) whether or not the repackaged version is a malware, (b) the similarity between the original and the repackaged versions of an app,
 and (c) the malware family (e.g., \fm{gappusin}, \fm{kuguo}, \fm{dowgin}, etc.) when the repackaged
-version of an app is a malware.
+version of an app is a malware---limiting the complete understanding of the \mas performance. 
 
 %{\bf MM: The second part of the last sentence is not clear. Are similarity and malware family two different "malware characteristics"?}
 
 %In this paper, we present the results of an investigation that aims to replicate previous studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:conf/scam/CostaMCMVBC20} in a larger dataset of app pairs (original/repackaged versions), and then explore whether a more diverse sample of app pairs has an influence on the accuracy of the \mas for malware identification. To this end, we explore the performance of the \mas using a larger dataset we curated for this research and DroidBot~\cite{DBLP:conf/icse/LiYGC17} as test case generation---the tool that, according to the literature, leads to the most accuracy Android sandbox. Our new dataset is an order of magnitude larger (it contains \apps pairs of original/repackaged apps), comprises a much more diverse similarity index, and covers a broader range of malware families. 
 
-To empirically study the impact of these limitations on the reported results, in this paper we reconsider the performance of the \mas based on
+To understand the impact of these issues on results already published in the literature, in this paper we reconsider the accuracy of the \mas based on
 DroidBot~\cite{DBLP:conf/icse/LiYGC17}---as we mentioned, the test case generation tool that, according to the literature, leads to the most accurate Android sandbox, regarding malware identification. 
 Compared to previous studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:conf/scam/CostaMCMVBC20},
 we use a curated dataset of app pairs (original/repackaged versions) that is, in terms of magnitude, larger than the previously used
@@ -55,9 +53,9 @@ dataset (it contains \apps pairs of original/repackaged apps).
 accuracy ($F_1$ score) of the \mas in comparison to what has been reported before (\fscore versus \fscoreSmall). 
 An accuracy of \fscore is clearly unsatisfactory for a trustworthy malware classification technique.
 This result motivated us to conduct a series of experiments 
-to understand the reasons for the lower accuracy in our larger dataset, \textcolor{blue}{and a possible solution to revert it.}
+to understand the reasons for the lower accuracy in our larger dataset, \textcolor{blue}{and explore possible extensions to the \mas that could amplify its accuracy.}
 %The original approach classifies an app as malware whenever there exists a difference between the sets of calls to sensitive APIs collected when running the test case generation tool over the original and repackaged versions of the same app.
-First, we check the impact of the similarity between original and repackaged versions of
+Accordingly, we first check the impact of the similarity between original and repackaged versions of
 an app on the performance of the \mas for malware classification. Our results reveal a non-significant association between similarity and the accuracy of the \mas. 
 %\kn{Saying there is no association is not the same as saying that similarity does not impact the accuracy. Somehow I feel this statement is very strong. I would rather say that we did not find any significant association between similarity and the accuracy of the \mas.
 Second, we explore if the
@@ -67,7 +65,7 @@ our dataset.
 Considering this second analysis, our results reveal that the \mas fails to correctly classify most of the samples from
 the \gps malware family (a particular class of adware that frequently appears in repackaged apps). 
 Out of the total of \appsGps samples within this family in our large dataset, the \mas failed to correctly classify \appsGpsFN samples as malware (false negative).
-Our results reveal that this particular family is responsible for substantially reducing the recall of the \mas.
+Therefore, our results reveal that this particular family is responsible for substantially reducing the recall of the \mas.
 Our findings have two main implications, which open the discussion (a) on one important feature found at \gps malware family that should be
 considered when building malware detection approaches that mine sandboxes, and (b) on the need to have a representative dataset, that should be labeled with sought
 answers and which should leads close to real-life scenarios.
