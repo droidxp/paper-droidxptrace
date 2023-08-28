@@ -3,8 +3,8 @@
 Mobile technologies like smartphones and tablets have become fundamental to the way we function as a society. Almost two-thirds of the world population
 uses mobile technologies~\cite{Comscore,DBLP:journals/tse/MartinSJZH17}, with the
 Android Platform dominating this market and accounting for more than 70\% of the \emph{mobile
-market share} with almost 3.5 million Android applications~\footnote{In this paper, we will use the terms Android Applications, Android Apps, and Apps interchangeably, to refer to Android software applications} (apps)
-available on the Google Play Store~\cite{Statista}. 
+market share}, with almost 2.5 million Android applications~\footnote{In this paper, we will use the terms Android Applications, Android Apps, and Apps interchangeably, to refer to Android software applications} (apps)
+available on the Google Play Store, in June 2023~\cite{Statista}. 
 With increased popularity, comes increased the risk of attacks---motivating efforts from both academia and industry to design and develop new techniques
 to identify malicious behavior or vulnerable code in Android apps~\cite{10.1145/3017427}.
 
@@ -65,7 +65,7 @@ our dataset.
 Considering this second analysis, our results reveal that the \mas fails to correctly classify most of the samples from
 the \gps malware family (a particular class of adware that frequently appears in repackaged apps). 
 Out of the total of \appsGps samples within this family in our large dataset, the \mas failed to correctly classify \appsGpsFN samples as malware (false negative).
-Therefore, our results reveal that this particular family is responsible for substantially reducing the recall of the \mas.
+Therefore, our results reveal that this particular family is responsible for substantially reducing the recall of the \mas, from $0.89$ to $0.27$.
 Our findings have two main implications, which open the discussion (a) on one important feature found at \gps malware family that should be
 considered when building malware detection approaches that mine sandboxes, and (b) on the need to have a representative dataset, that should be labeled with sought
 answers and which should leads close to real-life scenarios.
@@ -76,16 +76,18 @@ answers and which should leads close to real-life scenarios.
 
 %{\bf MM: I don't get the logical implication that "Still" suggests. Also, (a) and (b) appear out of nowhere... how do they relate to what has been said before in the paragraph? What is blindspot that you are talking about here? How resp. from where do you derive the need to investigate further sources of information?}
 
+\textcolor{blue}{As described earlier, the vanilla \mas initially identifies an app as malware if there are differences between the sets of calls to sensitive APIs collected when using an automated test case generation tool. Our work proposed two extensions for this original \mas: Trace analysis and parameter analysis. In the context of trace analysis, we proposed classify as malware a version of an app that calls the same set of sensitive APIs collected in the exploratory phase, though presenting at least one different trace from the app's entry points to the collected sensitive API calls. This first extension led us to a accuracy increase of around 6\% ($F_1$ from $0.39$ to $0.45$). In the parameter analysis extension, we classify as malware whenever there are differences on the parameters (from both app versions), passed to the same sensitive APIs. This extension also led us a accuracy increase, of 5\% ($F_1$ from $0.39$ to $0.44$). By incorporating both extensions, the work managed to achieve higher accuracy in distinguishing between malicious and benign apps, reaching a final $F_1$ of $0.49$, which may still appear unsatisfactory for a truly trustworthy \mas.}
+
 The remainder of this paper is organized as follows. 
 We provide background information on the \mas and the \mas for malware detection in
 Section~\ref{sec:background}. Section~\ref{sec:experimentalSetup}
-characterizes our experiments in terms of research goal, questions, metrics, datasets, our procedures for data collection and data analysis. \textcolor{blue}{Section~\ref{sec:complementary} presents complementary techniques that can give support to \mas. Section~\ref{sec:results} and Section~\ref{sec:discussion} present the main findings of our experiments, results of complementary techniques, and possible threats of our results.} Finally,
+characterizes our experiments in terms of research goal, questions, metrics, datasets, our procedures for data collection and data analysis. \textcolor{blue}{Section~\ref{sec:results} and Section~\ref{sec:discussion} present the main findings of our experiments, implications and possible threats of our results. At Section~\ref{sec:complementary} we present complementary techniques that we suppose give support to \mas}. Finally,
 Section~\ref{sec:conclusions} presents concluding remarks and possible future
 work. The main artifacts we produced during this research are available in the
 paper repository.
 
 \begin{small}
   \begin{center}
-    \url{https://anonymous.4open.science/r/paper-droidxptrace-results-F55A/}
+    \url{https://github.com/droidxp/paper-droidxptrace-results}
   \end{center}
 \end{small}

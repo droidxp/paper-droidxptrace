@@ -175,7 +175,7 @@ a percentage of correct classifications around 22\%.
   \centering
   \begin{small}
     \begin{tabular}{rrrrr}   \hline
- cId & \sscore & Samples & Correct Answers & Percentage \\ \hline
+ cId & \sscore & Samples & Correct Answers & \% \\ \hline
    1 & 0.02 &  10 &   1 & 10.00 \\ 
    2 & 0.49 &  13 &   2 & 15.38 \\ 
    3 & 0.71 &  14 &   5 & 35.71 \\ 
@@ -445,37 +445,7 @@ it might be promising to explore complementary techniques that
 search for these patterns.
 
 
-\subsection{Complementary Techniques (\textcolor{blue}{ALL THIS SECTION IS ALSO NEW FOR TSE JOURNAL...})}\label{sec:resultsTraceParameter}
 
-In this Section we show the result of two complementary techniques, presented at Section~\ref{sec:complementary}, which we supposed to support \mas. The following paragraphs explores the results of our investigations using our \cds (3,211 app pairs) by performing both techniques (Parameter and Trace Analysis).
-
-First, we conducted our investigation using Parameter Analysis. When we introduce it, we reduce the number of false negatives from $1450$ (vanilla \mas) to $1339$ samples, with the side effect of increasing the number of false positives from $252$ to $271$ (see the first and second row of Table~\ref{tab:accuracyParameter}).
-In general, the accuracy ($F_1$) of the \mas using Parameter Analysis improves from 0.39 to 0.44 at \cds.
-
-We also investigate if Trace Analysis improve the performance of the \mas. That is, instead of only comparing the sets of calls to sensitive APIs, here we also compare the traces from entry points to such a calls, as described at Section~\ref{sec:complementary}. With Trace Analysis, we reduce the number of false negatives from $1,450$ to $1,327$, with the side effect of increasing the number of false positives from $252$ to $253$ (first and third row of Table~\ref{tab:accuracyParameter}). Trace Analysis improve the accuracy ($F_1$) of \mas from $0.39$ to $0.45$, when compared with vanilla \mas.
-
-Additionally, we investigate if we could benefit from combining both techniques. When combining Parameter and Trace Analysis, we were able to detect $752$ (TP) of the repackaged apps ($23.41$\%). We reduce the number of FN from $1,450$ to $1,243$, however increasing the number of FP from $252$ to $272$. In summary, the combination of both techniques shows to be more effective than the vanilla \mas, or when we used just one of the techniques, resulting in a ($F_1$) of $0.49$, as reported in Table~\ref{tab:accuracyParameter}.
-
-\begin{table*}[htb]
-  \caption{Accuracy of the \mas with aid of complementary techniques (3,211 app pairs).}
-\centering{
-  \begin{tabular}{lrrrrrr} \hline
-    Dataset & TP   & FP  & FN  & Precision & Recall & $F_1$ \\ \hline
-    
-    %\mas + Traces  & \sds (102)   & 67   & 18  & 2   & 0.78      & 0.97   & 0.87  \\
-    \cds \mas    & 545  & 252 & 1,450 & 0.68       & 0.27   & 0.39  \\
-    \cds \mas + Parameter     & 656  & 271 & 1,339 & 0.7       & 0.32   & 0.44  \\
-    \cds \mas + Trace     & 668  & 253 & 1,327 & 0.72       & 0.33   & 0.45  \\
-    \cds \mas + Trace + Parameter     & 752  & 272 & 1,243 & 0.73       & 0.37   & 0.49  \\
-    %\mas + Traces  & \cds (1203)   & 214  & 326 & 245 & 0.39      & 0.46   & 0.42  \\ 
-    \hline
-  \end{tabular}
-  }
-  \label{tab:accuracyParameter}
-\end{table*}
-
-\tb{5}{When combining both techniques, we reduces the number of false negatives (in comparison with the vanilla \mas), with the side effect of increasing the number of false positives. However, it improves the
-overall accuracy ($F_1$) of \mas at malware detection, from 0.39\% to 0.49\% at \cds.} 
  
 %% \kn{I really like this part of the gps family analysis. }
 
