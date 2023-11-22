@@ -25,10 +25,7 @@ that had not been observed during the exploratory phase.
 
 Previous studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22} 
 have compared the accuracy of  Android sandboxes for malware detection 
-that were produced 
-from 
-%executing 
-different test case generation tools, including Monkey~\cite{Monkey}, DroidBot~\cite{DBLP:conf/icse/LiYGC17}, and Droidmate~\cite{DBLP:conf/kbse/BorgesHZ18}.
+that were produced from different test case generation tools, including Monkey~\cite{Monkey}, DroidBot~\cite{DBLP:conf/icse/LiYGC17}, and Droidmate~\cite{DBLP:conf/kbse/BorgesHZ18}.
 The studies bring evidence that 
 DroidBot outperforms the other test generation tools and leads to sandboxes that are more accurate in detecting malware.
 But these previous studies have two main limitations.
@@ -43,28 +40,23 @@ version of an app is a malware---limiting the complete understanding of the \mas
 %In this paper, we present the results of an investigation that aims to replicate previous studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:conf/scam/CostaMCMVBC20} in a larger dataset of app pairs (original/repackaged versions), and then explore whether a more diverse sample of app pairs has an influence on the accuracy of the \mas for malware identification. To this end, we explore the performance of the \mas using a larger dataset we curated for this research and DroidBot~\cite{DBLP:conf/icse/LiYGC17} as test case generation---the tool that, according to the literature, leads to the most accuracy Android sandbox. Our new dataset is an order of magnitude larger (it contains \apps pairs of original/repackaged apps), comprises a much more diverse similarity index, and covers a broader range of malware families. 
 
 To understand the impact of these issues on results already published in the literature, in this paper we reconsider the accuracy of the \mas based on
-DroidBot~\cite{DBLP:conf/icse/LiYGC17}---as we mentioned, the test case generation tool that, according to the literature, leads to the most accurate Android sandbox, regarding malware identification. 
-Compared to previous studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:conf/scam/CostaMCMVBC20},
-we use a curated dataset of app pairs (original/repackaged versions) that is, in terms of magnitude, larger than the previously used
-dataset (it contains \apps pairs of original/repackaged apps).
- 
-{\bf Negative results.} Our study reveals a significantly lower
-%on a larger and more diverse dataset (compared to previous studies), 
-accuracy ($F_1$ score) of the \mas in comparison to what has been reported before (\fscore versus \fscoreSmall). 
-An accuracy of \fscore is clearly unsatisfactory for a trustworthy malware classification technique.
+DroidBot~\cite{DBLP:conf/icse/LiYGC17}---as we mentioned, the test case generation tool that, according to the literature, leads to the most accurate Android sandbox, regarding malware identification. \textcolor{blue}{Compared to previous studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:conf/scam/CostaMCMVBC20},
+we use two curated datasets (\cds and \nds) of app pairs (original/repackaged versions) that are, in terms of magnitude, larger than the previously used dataset (\sds), (\apps and \napps pairs of original/repackaged apps respectively). While \sds and \cds have oldest repackaged samples (until 2016), \nds have repackaged samples more update (until 2022), based on previous AndroMalPack dataset~\cite{andromalpack}.}
+
+{\bf Initial Results.} When we compared the accuracy ($F_1$ score) of the \mas, our studies reveals a very close result to what has been reported before, when we use \sds and \nds  (\fscoreSmall versus \nfscoreSmall respectively). However, our studies also reveals a significantly lower accuracy of the \mas, when we use \sds and \cds (\fscoreSmall versus \fscore respectively). An accuracy of \fscore is clearly unsatisfactory for a trustworthy malware classification technique. 
+
 This result motivated us to conduct a series of experiments 
-to understand the reasons for the lower accuracy in our larger dataset, \textcolor{blue}{and explore possible extensions to the \mas that could amplify its accuracy.}
+to understand the reasons for the lower accuracy in our \cds, \textcolor{blue}{and explore possible extensions to the \mas that could amplify its accuracy.}
 %The original approach classifies an app as malware whenever there exists a difference between the sets of calls to sensitive APIs collected when running the test case generation tool over the original and repackaged versions of the same app.
 Accordingly, we first check the impact of the similarity between original and repackaged versions of
-an app on the performance of the \mas for malware classification. Our results reveal a non-significant association between similarity and the accuracy of the \mas. 
+an app on the performance of the \mas for malware classification at \sds. Our results reveal a non-significant association between similarity and the accuracy of the \mas. 
 %\kn{Saying there is no association is not the same as saying that similarity does not impact the accuracy. Somehow I feel this statement is very strong. I would rather say that we did not find any significant association between similarity and the accuracy of the \mas.
-Second, we explore if the
-malware family could explain the lower performance of the \mas for malware classification in 
-our dataset.
+Second, we also explore if the
+malware family could explain the lower performance of the \mas at our \cds for malware classification .
 
 Considering this second analysis, our results reveal that the \mas fails to correctly classify most of the samples from
 the \gps malware family (a particular class of adware that frequently appears in repackaged apps). 
-Out of the total of \appsGps samples within this family in our large dataset, the \mas failed to correctly classify \appsGpsFN samples as malware (false negative).
+Out of the total of \appsGps samples within this family in our \cds, the \mas failed to correctly classify \appsGpsFN samples as malware (false negative).
 Therefore, our results reveal that this particular family is responsible for substantially reducing the recall of the \mas, from $0.89$ to $0.27$.
 Our findings have two main implications, which open the discussion (a) on one important feature found at \gps malware family that should be
 considered when building malware detection approaches that mine sandboxes, and (b) on the need to have a representative dataset, that should be labeled with sought
@@ -76,7 +68,7 @@ answers and which should leads close to real-life scenarios.
 
 %{\bf MM: I don't get the logical implication that "Still" suggests. Also, (a) and (b) appear out of nowhere... how do they relate to what has been said before in the paragraph? What is blindspot that you are talking about here? How resp. from where do you derive the need to investigate further sources of information?}
 
-\textcolor{blue}{As described earlier, the vanilla \mas initially identifies an app as malware if there are differences between the sets of calls to sensitive APIs collected when using an automated test case generation tool. Our work proposed two extensions for this original \mas: Trace analysis and parameter analysis. In the context of trace analysis, we proposed classify as malware a version of an app that calls the same set of sensitive APIs collected in the exploratory phase, though presenting at least one different trace from the app's entry points to the collected sensitive API calls. This first extension led us to a accuracy increase of around 6\% ($F_1$ from $0.39$ to $0.45$). In the parameter analysis extension, we classify as malware whenever there are differences on the parameters (from both app versions), passed to the same sensitive APIs. This extension also led us a accuracy increase, of 5\% ($F_1$ from $0.39$ to $0.44$). By incorporating both extensions, the work managed to achieve higher accuracy in distinguishing between malicious and benign apps, reaching a final $F_1$ of $0.49$, which may still appear unsatisfactory for a truly trustworthy \mas.}
+\textcolor{blue}{As described earlier, the vanilla \mas initially identifies an app as malware if there are differences between the sets of calls to sensitive APIs collected when using an automated test case generation tool. Our work proposed two extensions for this original \mas: Trace analysis and parameter analysis. In the context of trace analysis, we proposed classify as malware a version of an app that calls the same set of sensitive APIs collected in the exploratory phase, though presenting at least one different trace from the app's entry points to the collected sensitive API calls. When we use this first extension at our \cds, we get an accuracy increase of around 6\% ($F_1$ from $0.39$ to $0.45$). In the parameter analysis extension, we classify as malware whenever there are differences on the parameters (from both app versions), passed to the same sensitive APIs. This extension also led us a accuracy increase at our \cds of 5\% ($F_1$ from $0.39$ to $0.44$). By incorporating both extensions, the work managed to achieve higher accuracy in distinguishing between malicious and benign apps, reaching a final $F_1$ of $0.49$, which may still appear unsatisfactory for a truly trustworthy \mas. Regarding our \nds, our studies shows that these extensions do not increase accuracy significantly, reaching a final $F_1$ of $0.87$ (from $0.85$ to $0.87$).}
 
 The remainder of this paper is organized as follows. 
 We provide background information on the \mas and the \mas for malware detection in
