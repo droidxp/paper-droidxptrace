@@ -1,19 +1,19 @@
 \section{Experimental Setup}\label{sec:experimentalSetup}
 
-The goal of this research is to build an in-depth understanding about
+Our goal is to build an in-depth understanding about
 the performance of the \mas for detecting malware. \textcolor{blue}{To this
-end, we conduct our research using a dataset of repackaged apps, with order of magnitude
-larger and more up-to-date than previous studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22}.} Altogether,
-explore the the following research questions:
+end, we replicate previous studies using a dataset of repackaged apps that is an order of magnitude
+larger than the datasets used before~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22}.} Accordingly,
+we investigate the the following research questions:
 
 \begin{enumerate}[(RQ1)]
 \item \rqa
 \item \rqc
 \item \rqd
-\textcolor{blue}{\item \rqe}
+% \textcolor{blue}{\item \rqe}
 \end{enumerate}
 
-\textcolor{blue}{In this section, we describe our study settings. First, we present how we mined the samples of Android apps that we use at our dataset (Section~\ref{sec:dataset}).  Then, we describe the data collection and data analysis procedures (Sections~\ref{sec:dataCollectionProc} and~\ref{sec:dataAnalysisProc}).}
+\textcolor{blue}{In this section, we describe our study settings. First, we present the procedures we use to create our datasets (Section~\ref{sec:dataset}).  Then, we describe the data collection and data analysis procedures (Sections~\ref{sec:dataCollectionProc} and~\ref{sec:dataAnalysisProc}).}
 
 
 \subsection{Malware Dataset}\label{sec:dataset}
@@ -25,21 +25,45 @@ be \textit{labeled}, i.e., the interest characteristic of each app, like similar
 
 \subsubsection{Procedures for Building the Dataset}
 
-Figure~\ref{fig:dataset} \textcolor{blue}{must review this figure} presents the methodology we use to extract our representative and up-to-date dataset (hereafter \cds). We start with an original dataset, called \texttt{RePack-Dataset}\footnote{https://github.com/serval-snt-uni-lu/RePack/tree/master}, containing 15,297 pairs of original/repackaged Android apps, \textcolor{blue}{with 2,776 original apps. Many original apps are repackaged several times by different attackers, with a minimal, and maximum times of 1 and 176, respectively}~\cite{DBLP:journals/tse/LiBK21}. This original dataset has been curated using automatic procedures that mine repackaged apps from the well-known Androzoo repository~\cite{DBLP:conf/msr/AllixBKT16}. However, among these 15,297 app pairs, we fail to execute our study in 1,176 original apps. We could not either instrument some of them using DroidFax~\cite{DBLP:conf/icsm/CaiR17a} or we fail to install some of them on the emulator---due to compatibility issues with the Android SDK. After removing \textcolor{blue}{incompatible original apps}, we were left with \textcolor{blue}{3,827 samples of app pairs} from \texttt{RePack-Dataset}. 
+We use two repositories of repackaged Android apps (\repack and \amc) to
+curate the dataset we use in our research. \repack has been curated using automatic procedures that mine repackaged apps from the Androzoo
+repository~\cite{DBLP:conf/msr/AllixBKT16}, and
+comprises 15,297 pairs of original and repackaged Android apps, with 2,776 unique original apps~\cite{DBLP:journals/tse/LiBK21}---
+multiple repackaged versions of the same original app may coexist within \repack.
+However, we encountered compatibility issues with many samples either in relation to DroidFax or the versions of the Android emulator we employed (API level 28).
+This led to the removal of 1,176 samples from the initial set of 2,776 original apps. Consequently, we selected 3,827 samples of app pairs from \repack.
 
 
-To continue the \cds creation, we also used a subset of another dataset, called \texttt{AndroMalPack}\footnote{https://github.com/hasnainrafique/AndroMalPack-Dataset}. It contains 378,546 repackaged samples from Androzoo repository, where most of them are clones of previously identified malwares (80,353)~\cite{andromalpack}. It contains samples more up-to-date than \texttt{RePack-Dataset} (\textit{.dex file} create date until 2022), however \texttt{AndroMalPack} do not contains the original app version. For discovery the original app pairs version, we queried the Androzoo repository to find out apps from 80,535 packages that have not been labeled as malware by no anti-virus engines. To ensure both originality and up-to-date of the samples, we took the decision to filter our samples with oldest (\textit{insert date}) on Androzoo repository, and (\textit{.dex file} date) from 2018. After removing the samples that do not meet this initial criteria, we left with 2,816 app pairs ``candidates''. To ensure that the pairs are indeed (original/repackaged), we also check some meta-files, like app signature~\cite{DBLP:journals/percom/MerloRSV21}. We compare the signature of original and repackaged app, and assume that, if they do not match, means that they have different developers. We also check if the repackaged app version have 
-\textit{.dex file} create date later than the original app, to ensure that the repackaged version was developed after the original. After removing all app pair that do not meet both criteria, we were left with 1,190 app pair. As \texttt{RePack-Dataset}, we also fail to execute our study in some samples, due to same instrumentation problem or emulator compatibility. After removing 419 incompatible app pairs, we were left with 771 app pair from \texttt{AndroMalPack}. 
+\amc comprises 378,546 repackaged Android apps~\cite{andromalpack}. In contrast to \repack,
+which only includes packages built until 2018, \amc includes many recent samples, some packaged as late as 2022.
+Unfortunately, \amc lacks information about the original apps, leading us to employ a conservative heuristic
+to identify the original versions of repackaged apps in \amc. This heuristic is based on an adapted
+procedure designed to identify repackaged versions of a given app~\cite{DBLP:journals/percom/MerloRSV21}.
+Despite our efforts, we could not identify the original version for several repackaged samples in \amc.
+We also excluded samples with a package date before 2018, resulting in 1,190 ``app pair candidates''.
+Finally, we eliminated 419 pairs that shown incompatible issues with either DroidFax or the versions of the Android
+emulator used in our research (API level 28). In total, we selected 771 app pairs from \amc to curate our dataset.
 
-To build our final \cds, we first join both previous samples, resuming the total of $4,598$ app pair (3,827+771). Then, we queried the \vt repository to find out which original version of the apps have been labeled as a malware. We exclude these samples from \cds---since the \mas assumes that the original version of an app is legitimate. \vt is a well-known mechanism for scanning software assets (such as Android apps) using more than 60 anti-virus
-engines~\cite{DBLP:journals/ese/KhanmohammadiEH19}. In the end, we are left with our \cds of \apps apps which we use for this study.
-In our research, we also consider a small dataset (hereafter \sds) used in previous studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22}.
+%% To ensure that the pairs are indeed (original/repackaged), we also check some meta-files, like app signature~\cite{DBLP:journals/percom/MerloRSV21}. We compare the signature of original and repackaged app, and assume that, if they do not match, means that they have different developers. We also check if the repackaged app version have 
+%% \textit{.dex file} create date later than the original app, to ensure that the repackaged version was developed after the original. After removing all app pair that do not meet both criteria, we were left with 1,190 app pair. As \texttt{RePack-Dataset}, we also fail to execute our study in some samples, due to same instrumentation problem or emulator compatibility. After removing 419 incompatible app pairs, we were left with 771 app pair from \texttt{AndroMalPack}. 
 
- \begin{figure}[htb]
-  \includegraphics[width=\columnwidth]{images/dataset.pdf}
-  \caption{Malware samples in \cds.}
-  \label{fig:dataset}
-\end{figure}
+We combined the selected samples from \repack and \amc, resulting in a total of 4,598 app
+pairs (3,827 from \repack and 771 from \amc). Subsequently, we queried the \vt repository
+to identify original versions of apps labeled as malware. Samples with such labels were excluded from our dataset,
+as the \mas assumes that the original version of an app is not malware (or else, the repackaged versions might
+also exhibit malicious behavior). \vt, a widely recognized tool, scans software assets, including Android apps,
+using over 60 antivirus engines~\cite{DBLP:journals/ese/KhanmohammadiEH19}. In the end, we are left with our \cds of \apps apps which we use in our study.
+
+To bring evidence that we were able to reproduce the results of previous research, we also consider a small dataset (hereafter \sds)
+used in the original studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22}.
+
+% I do not think the figure is helping. 
+
+%%  \begin{figure}[htb]
+%%   \includegraphics[width=\columnwidth]{images/dataset.pdf}
+%%   \caption{Malware samples in \cds.}
+%%   \label{fig:dataset}
+%% \end{figure}
 
 
 
@@ -66,7 +90,7 @@ two \ses identify a malicious behavior within the asset. This is in accordance w
 
 Classifying malware into different categories is a common practice. For instance, Android malware can be classified into categories
 like riskware, trojan, adware, etc. Each category might be further specialized in several malware families, depending of its
-characteristics and atack strategy---e.g., steal network info (IP, DNS, WiFi), collect phone info,
+characteristics and attack strategy---e.g., steal network info (IP, DNS, WiFi), collect phone info,
 collect user contacts, send/receive SMS, and so on~\cite{DBLP:conf/iccns/RahaliLKTGM20}.
 According to the
 \avt~\cite{avclass2-paper}, the malware samples in the \sds come from $17$ different families---most of them from the Kuguo (49.27\%) and Dowgin (17.39\%) families.  
@@ -87,10 +111,11 @@ and $3,461$ of the apps with more than 75\%). The \sds presents a similarity ind
 
 
 After executing our experiments, we identified the  most frequently abused sensitive APIs called by the repackaged version of our samples.
-We observed that upon execution of all samples from our dataset (\sds and \cds), malicious app versions injected \textcolor{blue}{$134$} distincts methods from sensitive APIs (according to the
-AppGuard~\cite{DBLP:conf/esorics/BackesGHMS13} security framework). Malicious code may use these APIs to compromise system security and
-share sensitive data. Table~\ref{tab:APIused} presents a list of 10 methods from sensitive APIs, most frequently inject by repackaged versions of the apps, at our samples.
-
+We observed that upon execution of all samples from our dataset (\sds and \cds), malicious app versions injected \textcolor{blue}{$134$} distinct methods from sensitive APIs (according to the
+AppGuard~\cite{DBLP:conf/esorics/BackesGHMS13} security framework).
+Malicious code often exploits these APIs to compromise system security and access sensitive data. Table~\ref{tab:APIused}
+presents a list of the 10 most frequently injected methods from sensitive APIs found in the
+\cds samples of repackaged versions of the apps.
 
 \begin{table*}[ht]
   \caption{Sensitive APIs that frequently appear in the repackaged versions of the apps. The
@@ -122,7 +147,7 @@ share sensitive data. Table~\ref{tab:APIused} presents a list of 10 methods from
 \label{tab:APIused}
 \end{table*}
 
-It is important to highlight that our samples comes from different Android app stores. Most of our repackage apps come from a non-official
+It is important to highlight that our samples come from different Android app stores. Most of our repackage apps come from a non-official
 Android app store, Anzhi~\cite{anzhi}. However, some repackaged apps also come from the official Android app store, Google Play.
 
 
@@ -146,7 +171,7 @@ this phase executes only once for each version of the apps in our dataset.
 \item \textbf{Execution}: In this step, DroidXP first installs the (instrumented) version of the APK files in the Android emulator we use in our experiment (API 28) and then starts a test case generation tool for executing both app versions (original and repackage). We execute the apps via DroidBot~\cite{DBLP:conf/icse/LiYGC17}, mostly because previous research works report the best accuracy of the sandboxes built using the \mas and the DroidBot as test case generation tool. To also ensure that each execution gets the benefit of running on a fresh Android instance without biases that could stem out of history, DroidXP wipes out all data stored on the emulator that has been collected from previous executions.
 
 
-\item \textbf{Data Collection}: During the execution of the instrumented apps, we collect all relevant information (such as calls to sensitive APIs, test coverage metrics, and so on). We use this information to analyse the performance of the \mas for detecting malicious behavior.
+\item \textbf{Data Collection}: During the execution of the instrumented apps, we collect all relevant information (such as calls to sensitive APIs, test coverage metrics, and so on). We use this information to analyze the performance of the \mas for detecting malicious behavior.
 \end{enumerate}
 
 \subsection{Data Analysis Procedures} \label{sec:dataAnalysisProc}
@@ -158,8 +183,8 @@ generation tool, in our case, DroidBot, builds a sandbox that labels a repackage
 of an app as a malware if there is at least one call to a sensitive APIs that (a) was observed
 while executing the repackaged version of the app and that (b) was not observed while
 executing the original version of the same app. If the set of sensitive methods that only the repackaged version of an app calls is empty,
-we conclude that the sandbox does not label the repackaged version of an app as a malware. The set of sensitive APIs used at our work was defined in the AppGuard framework~\cite{DBLP:conf/esorics/BackesGHMS13}, which was based on the mapping from sensitive APIs to permissions proposed by Song et al.~\cite{DBLP:conf/ccs/FeltCHSW11}. We triangulate
-this information with the outputs of \vt, which might lead to one of the following
+we conclude that the sandbox does not label the repackaged version of an app as a malware. The set of sensitive APIs we use was defined in the AppGuard framework~\cite{DBLP:conf/esorics/BackesGHMS13}, which was based on the mapping from sensitive APIs to permissions proposed by Song et al.~\cite{DBLP:conf/ccs/FeltCHSW11}. We triangulate
+the results of the \mas classification with the outputs of \vt, which might lead to one of the following
 situations:
 
 \begin{itemize}
@@ -179,15 +204,14 @@ situations:
 We compute \emph{Precision}, \emph{Recall}, and \emph{F-measure} ($F_1$) from
 the number of true-positives, false-positives, and false-negatives (using standard
 formulae). We use basic statistics (average, median, standard deviation) to identify the
-accuracy of the \mas for malware classification, at our
-datasets which we use in our research---i.e., the \sds
+accuracy of the \mas for malware classification, using both datasets---i.e., the \sds
 with 102 pairs of apps and \cds with
 \apps pairs. We use the Spearman Correlation~\cite{spearman-correlation} method and
 Logistic Regression~\cite{statistical-learning} to understand the strengths of
 the associations between the similarity index between the original and the repackaged versions
 of a malware with the \mas accuracy---that is,
 if the approach was able to correctly classify an asset as malware. We also use existing tools to reverse engineer a sample of repackaged
-apps in order to better understand (the lack of) accuracy
+apps in order to better understand the (lack of) accuracy
 of the \mas.
 
 %\subsection{Environment Configuration}\label{sec:hardware}

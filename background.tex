@@ -22,13 +22,13 @@ data~\cite{DBLP:journals/peerj-cs/MaassSCS16}. The idea of using sandboxes emerg
 need to test unsafe software, possible malware, without worrying about the integrity of the
 device under test~\cite{DBLP:conf/esorics/BordoniCS17}, shielding the operating system from security issues.
 To this end, a sandbox environment should have the minimum requirements to run the
-program, and make sure it will never assign the program greater privileges than it should have,
+program, and make sure it will never assign the program more privileges than it should have,
 respecting the \emph{least privilege} principle.
 % This principle ensures unauthorized access to resources,
 % improving the system's overall health.
 Within the Android ecosystem, sandbox approaches ensure the principle
-of the \emph{least privilege} by preventing apps from having direct access to resources like device hardware (GPS, Camera), or sensitive data from other apps. Access to sensitives data
-like contacts list or resources are granted through specific APIs (Application Programming Interface), known as sensitive APIs, which are managed by by coarse-grained Android permissions system~\cite{DBLP:journals/corr/abs-2109-06613}.
+of the \emph{least privilege} by preventing apps from having direct access to resources like device hardware (e.g., GPS, Camera), or sensitive data from other apps. Access to sensitives data
+like contact list or resources are granted through specific APIs, known as sensitive APIs, which are managed by by coarse-grained Android permissions system~\cite{DBLP:journals/corr/abs-2109-06613}.
 
 
 
@@ -54,11 +54,11 @@ calls to other sensitive resources, which diverge from those found in the first 
 phase. Using the Droidmate test generation tool~\cite{DBLP:conf/icse/JamrozikZ16},
 Jamrozik et al. proposed a full-fledged
 implementation of the \mas, named Boxmate~\cite{DBLP:conf/icse/JamrozikSZ16}. 
-Boxmate records the occurrences of calls to sensitive APIs from native code, and the UI events that triggers these calls,
+Boxmate records the occurrences of calls to sensitive APIs, and the UI events that triggers these calls,
 like button clicks. It is possible to configure Boxmate to record events associated with each sensitive call as
 tuples (event, API), instead of recording just the set of calls to sensitive APIs. Jamrozik et al. argue that, in this way, Boxmate generates finer
 grain results which
-might improve the accuracy of the \mas, even with the presence of reflection---which is quite commonly used in
+might improve the accuracy of the \mas, even with the presence of reflection---a feature commonly used in
 malicious apps~\cite{DBLP:conf/issta/0029BOK16}.
 
 In fact, the \mas can be implemented using
@@ -78,7 +78,7 @@ the more accurate would be the resulting sandbox.
 %  more necessary. Nonetheless, I will change this figure a bit, in order to
 %represent the instrumentation phase.}
 
-\subsection{Mining Android Sandbox for Malware Identification}
+\subsection{Mining Android Sandbox for Malware Classification}
 
 Besides being used to generate Android sandboxes, the \mas is also effective 
 to detect if a repackaged version of an Android app contains malicious
@@ -94,9 +94,9 @@ apps.
 The \mas for malware classification typically works as follows. In a first step ({\bf instrumentation phase}), 
 a tool instruments the code of the apps (both original and repackaged versions) to collect relevant information
 during the apps execution in later stages. Then, in a second step ({\bf exploration phase}),
-we collect a set $S_1$ with all calls to sensitive APIs the original version of an app executes while running a test case generator tool (like DroidBot).
-In the third step ({\bf exploitation phase}), we (a) collect a set $S_2$ with all calls to sensitive APIs the repackaged version of an app
-executes while running a test case generator tool and then (b) computes the set $S = S_2 \setminus S_1$ and check whether  $S$ is empty or not.
+the \mas collects a set $S_1$ with all calls to sensitive APIs the original version of an app executes while running a test case generator tool (like DroidBot).
+In the third step ({\bf exploitation phase}), the \mas (a) collects a set $S_2$ with all calls to sensitive APIs the repackaged version of an app
+executes while running a test case generator tool and then (b) computes the set $S = S_2 \setminus S_1$ and checks whether  $S$ is empty or not.
 The \mas classifies the repackaged version as a malware whenever $|S| > 0$.  
 
 %%We configure DroidXP to run DroidBot for $3$ minutes. Since some malware may use dynamic features (such as reflection) to introduce malicious behavior,
