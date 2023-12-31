@@ -4,8 +4,7 @@
 In this section, we detail the findings of our study.  We remind the reader that our main goal with this study is to
 better understand the strengths and limitations of the \mas for malware detection using the state-of-the-art
 test case generation tool (DroidBot). We explore
-the results of our research using two datasets: the \sds (102 pairs of apps) and the
-\cds (\apps pairs of apps).
+the results of our research using two datasets: the \sds (\appsSmall app pairs), and \cds (\apps pairs).
 
 
 \subsection{Exploratory Data Analysis of Accuracy}\label{sec:accuracy}
@@ -52,7 +51,7 @@ and wrongly labeled the repackaged version of seven apps as malware (FP column).
     \hline
     \sds (102)    & 62   & 7   & 7   & 0.89      & 0.89   & 0.89  \\
     %\mas + Traces  & \sds (102)   & 67   & 18  & 2   & 0.78      & 0.97   & 0.87  \\
-    \cds (3,211)    & 545  & 252 & 1450 & 0.68       & 0.27   & 0.39  \\
+    \cds (3,937)    & 1,422  & 592 & 1,297 & 0.70       & 0.52   & 0.60  \\
     %\mas + Traces  & \cds (1203)   & 214  & 326 & 245 & 0.39      & 0.46   & 0.42  \\ 
     \hline
   \end{tabular}
@@ -70,13 +69,13 @@ and wrongly labeled the repackaged version of seven apps as malware (FP column).
 
 
 {\bf \cds.} Surprisingly, considering our complete dataset (\apps apps), the \mas
-labels a total of \textcolor{blue}{$797$} repackaged apps as malware (\textcolor{blue}{$24.82$\%} of the total number of repackaged
+labels a total of \textcolor{blue}{$2,014$} repackaged apps as malware (\textcolor{blue}{$51.15$\%} of the total number of repackaged
 apps)---for which the repackaged version calls at least one additional sensitive API.
 Our analysis also reveals a {\bf negative result} related to the accuracy of the approach: here,
 the accuracy is much lower in comparison to what we reported for the
 \sds (see the second row of Table~\ref{tab:accuracy}): $F_1$ dropping from \fscoreSmall to \fscore.
 This result indicates that, when considering a large dataset, the accuracy of the \mas using
-DroidBot drops significantly. 
+DroidBot drops significantly.
 
 
 %The use of the trace analysis reduces the number of false negatives in the \cds (from 286 to 245), though increasing the number of false positives from 173 to 326. Altogether, the $F_1$ measure does not change when comparing performance of the vanilla \mas and its trace-based variant in the \cds. 
@@ -86,7 +85,7 @@ DroidBot drops significantly.
   The \mas for malware detection
   leads to a substantially lower performance on the
   \cds (\apps pairs of apps),
-  dropping the accuracy by a factor of \textcolor{blue}{$50$\%} in comparison to
+  dropping the accuracy by a factor of \textcolor{blue}{$32.58$\%} in comparison to
   what we observed in the \sds.}
 
 
@@ -96,7 +95,7 @@ large dataset.
 %Besides that, enriching the \mas with trace analysis does not  improve the overall accuracy in the \cds (even though we reduce the number of false negatives with trace analysis, the increasing in the number of false positives negatively impacts the performance of the approach). 
 This is shown in the second row of Table~\ref{tab:accuracy}.
 The negative performance of the \mas in the \cds encouraged us to endorse efforts aimed at identifying potential reasons for
-this phenomenon and motivate the research questions RQ2 and RQ3. 
+this phenomenon and motivate the research questions RQ2 and RQ3.
 
 %\todo[inline]{The previous paragraph now seems a bit unnecessary.}
 
@@ -106,16 +105,16 @@ this phenomenon and motivate the research questions RQ2 and RQ3.
 
 Figure~\ref{fig:ss} shows the \sscore distribution
 over the two datasets we use in our research
-(the small and the complete datasets).
+(the \sds and the \cds).
 Recall that the \sscore measures how similar the
 original and repackaged versions of an app are.
 The average \sscore of the
 \sds is 0.89 (median of 0.99 and sd of 0.25). Contrasting,
 the average \sscore of the complete dataset is
-\textcolor{blue}{0.92} (median of \textcolor{blue}{0.99} and sd of \textcolor{blue}{0.18}).
+\textcolor{blue}{0.90} (median of \textcolor{blue}{0.98} and sd of \textcolor{blue}{0.18}).
 
 \begin{figure}
-  \includegraphics[width=\columnwidth]{images/boxplotSimilarity.pdf}
+  \includegraphics[width=\columnwidth]{images/boxplotSimilarity_V2.pdf}
   \caption{\sscore of the malware samples in the small and complete datasets. The boxplots in the figure do not show
   outliers.}
   \label{fig:ss}
@@ -138,7 +137,7 @@ As such, we test the following null hypothesis:
 \end{quote}
 
 The results of the logistic regression suggest that we should
-not reject our null hypothesis ($p$-value $=$ 0.89). This finding suggests
+not reject our null hypothesis ($p$-value $=$ 0.89)(\textcolor{blue}{Most review this number}). This finding suggests
 that the \mas is not more likely to assign a correct label to
 a repackaged app in the cases where its \sscore with the original
 app is high (or small). This is an expected result, since
@@ -160,11 +159,11 @@ To clarify the lack of association between
 \cds into ten clusters---according to the \sscore. We then
 estimate the percentage of correct classifications for each cluster, as
 we show in Table~\ref{tab:ss-clusters}. Note that the \mas
-achieves the highest percentage of correct classification (40.54\%) for the sixth
-cluster (cId = 6), which
-presents an average \sscore of 0.91\%. Nonetheless, the
-cluster cId = 10, with larger number of samples (316) and \sscore (99\%), presents
-a percentage of correct classifications around 22\%. 
+achieves the highest percentage of correct classification (76.34\%) for the second
+cluster (cId = 2), which
+presents an average \sscore of 0.55\%. Nonetheless, the
+cluster cId = 10, with larger number of samples (1410) and \sscore (0.99\%), presents
+a percentage of correct classifications around 35.60\% (\textcolor{blue}{Most review this cluster}). 
 
 
 \begin{table}[ht]
@@ -176,20 +175,24 @@ a percentage of correct classifications around 22\%.
   \begin{small}
     \begin{tabular}{rrrrr}   \hline
  cId & \sscore & Samples & Correct Answers & \% \\ \hline
-   1 & 0.02 &  10 &   1 & 10.00 \\ 
-   2 & 0.49 &  13 &   2 & 15.38 \\ 
-   3 & 0.71 &  14 &   5 & 35.71 \\ 
-   4 & 0.80 &  45 &  11 & 24.44 \\ 
-   5 & 0.88 &  68 &  10 & 14.71 \\ 
-   6 & 0.91 &  37 &  15 & 40.54 \\ 
-   7 & 0.94 &  48 &   8 & 16.67 \\ 
-   8 & 0.97 &  44 &   8 & 18.18 \\ 
-   9 & 0.98 & 144 &  19 & 13.19 \\ 
-  10 & 0.99 & 316 &  70 & 22.15 \\ \hline
+
+1 &   0.09 &  95 &  60 & 63.16 \\ 
+  2 &    0.55 & 186 & 142 & 76.34 \\ 
+  3 &    0.67 & 136 & 100 & 73.53 \\ 
+  4 &    0.79 & 188 & 116 & 61.70 \\ 
+  5 &    0.87 & 283 & 104 & 36.75 \\ 
+  6 &    0.90 & 249 & 156 & 62.65 \\ 
+  7 &    0.94 & 150 &  49 & 32.67 \\ 
+  8 &    0.96 & 170 &  66 & 38.82 \\ 
+  9 &    0.98 & 444 & 127 & 28.60 \\ 
+  10 &   0.99 & 1410 & 502 & 35.60 \\ \hline
+
+
  \end{tabular}
  \end{small}
  \label{tab:ss-clusters}
  \end{table}
+
 
 
 \subsection{Assessment Based on Malware Family}
@@ -203,9 +206,9 @@ section, the similarity assessment does not explain the low performance of the
 hypothesis that the malware families in the \cds could
 explain the poor performance of the \mas on the \cds.
 Indeed, in the \cds, we identified a total of
-\textcolor{blue}{52 malware families}, though the most frequent
-ones are \gps (1290 samples), \fm{revmob} (201 samples), \emph{airpush} (103 samples) and \fm{dowgin} (101 samples). Together, they
-account for \textcolor{blue}{$52.78$\%} of the repackaged apps in our
+\textcolor{blue}{116 malware families}, though the most frequent
+ones are \gps (1330 samples), \fm{revmob} (207 samples), \fm{dowgin} (183 samples) and \emph{airpush} (120 samples). Together, they
+account for \textcolor{blue}{$67.67$\%} of the repackaged apps in our
 complete dataset labeled as malware according to \vt.
 
 This family distribution in the \cds is
@@ -224,14 +227,14 @@ perform when considering only the gappusin samples?}
 
 The confusion matrix of Table~\ref{tab:gappusin} summarizes the accuracy assessment of the \mas considering
 only the \gps samples in the \cds. Note that \vt classifies as malware all repackaged versions in the \gps
-family and that for \textcolor{blue}{1153} samples \textcolor{blue}{($89.37$\%)}, the \mas was not able to correctly identify
+family and that for \textcolor{blue}{1,018} samples \textcolor{blue}{($76.54$\%)}, the \mas was not able to correctly identify
 a repackaged version of an app as a malware (recall of \textcolor{blue}{0.1}). 
 %Merging the outcomes of both approaches (that is, the vanilla \mas and
 %the \mas with traces), leads to a recall of
 %$\frac{27}{198} = 0.13$. 
 Further, if we remove the \gps
 samples from the \cds, the recall
-of the \mas increases to \textcolor{blue}{0.62} (similar
+of the \mas increases to \textcolor{blue}{0.80} (similar
 to the performance of the original studies). 
 
 \begin{table}[ht]
@@ -242,14 +245,14 @@ to the performance of the original studies).
 \multirow{2}{*}{Actual Condition}   & \multicolumn{2}{c}{Predicted Condition} \\ 
                                     & Benign    & Malware   \\ \hline 
   Benign  (0)                       & TN (0)    & FP (0)    \\
-  Malware (1290)                     & FN (1153)  & TP (137)   \\ \hline
+  Malware (1,330)                     & FN (1,018)  & TP (312)   \\ \hline
 \end{tabular}
 \label{tab:gappusin}
 \end{table}
 
 
 \tb{4}{The \mas fails to correctly
-  identify \textcolor{blue}{$89.37$\%} of the samples from the \gps family
+  identify \textcolor{blue}{$76.54$\%} of the samples from the \gps family
   as a malware. This is the main reason for the low
   recall of the \mas in the \cds.}
 
@@ -259,9 +262,8 @@ relevance to the negative result we present in our paper. First,
 Figure~\ref{fig:hist-gappusin} shows a histogram of the \sscore for the samples
 in the \gps family. Note that mostly of the repackaged versions from the
 \gps family are quite similar to the original versions (average \sscore
-of 0.97, median \sscore of 0.99, and sd of 0.06). We also reengineer
-a sample of 30 \gps malware (more than 10\% of the samples in this
-family), using the \texttt{SimiDroid}\footnote{https://github.com/lilicoding/SimiDroid},
+of 0.97, median \sscore of 0.98, and sd of 0.06). We also reengineer
+a sample of 30 \gps malware, using the \texttt{SimiDroid}\footnote{https://github.com/lilicoding/SimiDroid},
 \texttt{apktool}~\footnote{https://ibotpeaches.github.io/Apktool/},
 and \texttt{smali2java}~\footnote{https://github.com/AlexeySoshin/smali2java} tools.
 Considering this sample of 30 \gps malware, the median \sscore is 0.99. In addition,
@@ -279,7 +281,7 @@ the goal of this modification is to change the behaviour of the benign version, 
 download a different version of the \texttt{data.apk} 
 asset. Figure~\ref{code:onReceive} shows
 the code pattern of the \texttt{onReceive} method presents in the samples. This modification
-typically uses a new method (\texttt{public void a(Context)}
+typically uses a new method (\texttt{public void a(Context)})
 the repackaged versions often introduce into the same class (\texttt{AdReciver}).
 Since there is no extra call to sensitive APIs, the \mas fails to label
 the \gps samples correctly. 
@@ -287,7 +289,7 @@ the \gps samples correctly.
 %\begin{wrapfigure}{l}{0.4\textwidth}
 \begin{figure}
 \begin{center}
-    \includegraphics[width=0.38\textwidth]{images/similarityGappusin.pdf}
+    \includegraphics[width=0.38\textwidth]{images/similarityGappusin_V2.pdf}
   \end{center}
   \caption{Histogram of the \sscore for the samples in the \gps family.}
   \label{fig:hist-gappusin}
