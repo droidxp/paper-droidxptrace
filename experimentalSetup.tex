@@ -40,7 +40,8 @@ Unfortunately, \amc lacks information about the original apps, leading us to emp
 to identify the original versions of repackaged apps in \amc. This heuristic is based on an adapted
 procedure designed to identify repackaged versions of a given app~\cite{DBLP:journals/percom/MerloRSV21}.
 Despite our efforts, we could not identify the original version for several repackaged samples in \amc.
-We also excluded samples with a package date before 2018, resulting in 1,190 ``app pair candidates''.
+We also excluded samples with a package date before 2018 (so that we could avoid any overlapping with
+the samples already selected from \repack), resulting in 1,190 ``app pair candidates''.
 Finally, we eliminated 419 pairs that shown incompatible issues with either DroidFax or the versions of the Android
 emulator used in our research (API level 28). In total, we selected 771 app pairs from \amc to curate our dataset.
 
