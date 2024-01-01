@@ -15,10 +15,11 @@ classifies a total of 69 repackaged versions as malware (67.64\%).
 This result is close to what Bao et al. reported~\cite{DBLP:conf/wcre/BaoLL18}.
 That is, in their original paper,  the \mas using DroidBot classifies 66.66\% of the
 repackaged version of the apps as malware~\cite{DBLP:conf/wcre/BaoLL18}.
-This result confirms that we were able to reproduce the findings of the original study using our infrastructure. 
+This result confirms that we were able to reproduce the findings of the original study using our
+implementation of the \mas. 
 
 \tb{1}{We were able to reproduce the results of
-  existing research using our infrastructure,
+  existing research using our implementation of the \mas,
   achieving a malware classification in the
   \sds close to what has been reported in
   previous studies.}
@@ -30,11 +31,10 @@ explore accuracy metrics (such as Precision, Recall, and
 F-measure ($F_1$))---all repackaged apps labeled as
 malware are considered true positives in the previous studies.
 As we mentioned, in this paper we take advantage
-of \vt to label our dataset and build a ground truth: we only
-classify a repackaged version of an app as malware if the results
-of our \vt query report that at least two
-\ses identify malicious behavior in the asset (again, this
-decision follows existing recommendations~\cite{vt-label,DBLP:journals/ese/KhanmohammadiEH19}).
+of \vt to label our dataset and build a ground truth:
+In our datasets, we classify a repackaged version of an app as malware if, according to our \vt
+query results, at least two security engines identify malicious behavior in the asset.
+This decision aligns with existing recommendations~\cite{vt-label,DBLP:journals/ese/KhanmohammadiEH19}).
 %\kn{Now its a bit clearer, but I would expect a separate paragraph when we introduce VT explaing how VT serves as a better ground truth and also justify our choices on the numbers with VT a bit more -- why we have two as the magic number of antivirus scanners... }
 The first row of Table~\ref{tab:accuracy} shows that the \mas achieves an accuracy of 0.89 when
 considering the \sds. Nonetheless, the \mas fails
@@ -125,7 +125,7 @@ Here we hypothesize that \sscore might have an
 association with the accuracy of the \mas and could perhaps explain
 the differences in the accuracy results we report for both
 datasets. We first use Logistic Regression to assess the strength
-of the association between label correctness and
+of the association between accuracy and
 the \sscore. To this analysis, we removed the
 occurrences of true negatives (i.e., the repackaged version is benign according to
 \vt and the \mas correctly label the repackaged version as benign).
@@ -234,8 +234,8 @@ a repackaged version of an app as a malware (recall of \textcolor{blue}{0.1}).
 %$\frac{27}{198} = 0.13$. 
 Further, if we remove the \gps
 samples from the \cds, the recall
-of the \mas increases to \textcolor{blue}{0.80} (similar
-to the performance of the original studies). 
+of the \mas increases to \textcolor{blue}{0.80} (\textcolor{red}similar
+to the performance of the original studies)}. 
 
 \begin{table}[ht]
   \caption{Confusion matrix of the \mas when considering only the
@@ -257,10 +257,10 @@ to the performance of the original studies).
   recall of the \mas in the \cds.}
 
 
-We further analyze the sample of \gps malware in our dataset, given its
+We further analyze the samples from \gps malware family in our dataset, given its
 relevance to the negative result we present in our paper. First,
 Figure~\ref{fig:hist-gappusin} shows a histogram of the \sscore for the samples
-in the \gps family. Note that mostly of the repackaged versions from the
+in the \gps family. Note that most of the repackaged versions from the
 \gps family are quite similar to the original versions (average \sscore
 of 0.97, median \sscore of 0.98, and sd of 0.06). We also reengineer
 a sample of 30 \gps malware, using the \texttt{SimiDroid}\footnote{https://github.com/lilicoding/SimiDroid},
@@ -271,7 +271,7 @@ the repackaged version of the apps changes 4.96 methods (on average). Table~\ref
 the outputs of \texttt{SimiDroid} for this sample of \gps apps.
 
 The similarity assessment of this sample of 30 \gps malware reveals a few modification patterns when comparing the original and the
-repackaged versions of the apps. First, no instance in this \gps sample dataset,
+repackaged versions of the apps. First, no instance in this \gps sample dataset
 modifies the Android Manifest file to require additional permissions, for instance.
 In most of the cases, the repackaged version just changes the Manifest file to modify either
 the package name or the main activity name. Moreover, 29 out of the 30 samples in this dataset  {\bf modifies} the 
