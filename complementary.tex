@@ -1,12 +1,18 @@
 \section{Complementary Techniques - Trace and Parameters Analysis as \mas support (\textcolor{blue}{All this section is new for TSE journal})}\label{sec:complementary}
 
 
-Our work, although closely related to previous studies, differs from them in several aspects.  First, our assessment is more comprehensive: instead of considering $102$ pairs of benign/malign apps, we execute our study considering \apps pairs of apps. We then investigate which characteristics of the malware samples in the large dataset explain the lower performance. We observed and also explore two extensions to the \mas. First we compare the traces from the app entry points to the calls to sensitive APIs, and second we replicate the additional verification proposed by Le et al.~\cite{le2018towards}, which observed the values of the parameters used in the calls to sensitive API. We explore the results of our investigations using our \cds (3,211 app pairs) by performing both techniques (parameter and trace Analysis).
+%Our work, although closely related to previous studies, differs from them in several aspects.  First, our assessment is more comprehensive: instead of considering $102$ pairs of benign/malign apps, we execute our study considering \apps pairs of apps. We then investigate which characteristics of the malware samples in the large dataset explain the lower performance.
+We expand our investigation by introducing two extensions to the \mas. The first extension leverages dynamic call graphs
+to analyze the paths from entry points to calls made to sensitive APIs in both the original and repackaged versions of an application.
+The second extension enhances the \mas by comparing the values of actual parameters used in the calls to sensitive APIs,
+drawing inspiration from the work of Le et al.~\cite{le2018towards}. We conduct a series of experiments using our \cds,
+employing three configurations of the \mas: (a) with the call-graph-based extension enabled,
+(b) with the parameter-based extension enabled, and (c) with both extensions enabled.
+
+\subsection{Call Graph Path Analysis}
 
 
-\subsection{Trace Analysis}
-
-Regarding trace analysis, we build the dynamic call graphs that characterize the execution of each version of the apps in our dataset. Our goal is to explore how many pairs of apps call the same set of sensitive APIs, though using different call traces. We hypothesize that differences in the traces might be used to complement the \mas for suspicious app identification. As such, here we execute the trace analysis for all app pairs of our \cds, and check if there are situations in which the basic version of the \mas was not able to correctly classify the malign version of an app as a repackaged, however it has a distinct execution trace. For detecting different trace, we performed an evaluation of the dynamic call graph of each app pair. Our procedure checks if there is some new node, representing a new sensitive API at malicious version, or a new edge($x$, $y$), where $x$ and $y$ indicates a method $x$ calling a sensitive method $y$. Figure~\ref{fig:callGraph} illustrates an example of benign and malicious call graphs.
+Regarding call graph path analysis, we build the dynamic call graphs that characterize the execution of each version of the apps in our dataset. Our goal is to explore how many pairs of apps call the same set of sensitive APIs, though using different call traces. We hypothesize that differences in the traces might be used to complement the \mas for suspicious app identification. As such, here we execute the trace analysis for all app pairs of our \cds, and check if there are situations in which the basic version of the \mas was not able to correctly classify the malign version of an app as a repackaged, however it has a distinct execution trace. For detecting different trace, we performed an evaluation of the dynamic call graph of each app pair. Our procedure checks if there is some new node, representing a new sensitive API at malicious version, or a new edge($x$, $y$), where $x$ and $y$ indicates a method $x$ calling a sensitive method $y$. Figure~\ref{fig:callGraph} illustrates an example of benign and malicious call graphs.
 At this example, although both app versions access the same set of sensitive resources, the
 malicious version follows a different execution trace.
 
