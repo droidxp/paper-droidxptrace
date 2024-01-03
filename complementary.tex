@@ -12,7 +12,7 @@ employing three configurations of the \mas: (a) with the call-graph-based extens
 
 \subsection{Call Graph Path Analysis}
 
-In the context of call graph path analysis, our initial step involves constructing a
+Regarding the first extension (call graph path analysis), our initial step involves constructing a
 dynamic call graph that encapsulates the execution flow of the Android apps,
 distinguishing between the original and repackaged variants. We derive two distinct sets:
 one comprising all paths from entry points to calls invoking sensitive APIs identified in the dynamic call graph generated during the execution of
@@ -59,17 +59,26 @@ In conclusion, the extension of path analysis enhances the overall accuracy ($F_
 
 \subsection{Parameter Analysis}
 
-As described at~\cite{le2018towards}, malicious apps may require external data, like a remote server address to push an advertisement, or sink sensitive information to another location, different from the original, using SMS message for example. For this purpose, malicious apps may insert parameter in sensitive APIs, different from the original app. Thus, we also hypothesize that differences on the parameter (from both app versions), passed to the same sensitive APIS, may provides hints for suspicious repackaged apps. Figure~\ref{fig:parameterDiff} presents a real example of different parameters inserted at the same method, also extracted from our dataset \textbf{[com.nla.downloader]}. This example just use a \textit{java.net.URL} object to present a different advertising from the original app. Although not expressly harmful, repackaged apps may use objects from this \textit{Class} to download and run external files from a network in the infected system\cite{DBLP:journals/compsec/ObaidatSPP22}.
-
-When we explore parameter analysis, we reduce the number of false negatives from $1297$ (vanilla \mas) to $1221$ samples, with the side effect of increasing the number of false positives from $592$ to $603$ (see the first and second row of Table~\ref{tab:accuracyParameter}).
-In general, the accuracy ($F_1$) of the \mas using Parameter Analysis improves from 0.60 to 0.62 at \cds.
-
-
+As described in~\cite{le2018towards}, malicious apps might require external data,
+such as a remote server address to push advertisements, or sink sensitive information to another location,
+different from the original, using SMS messages (for instance). For this purpose, malicious apps
+might change the actual parameter values used in calls to sensitive APIs, values that might differ from those
+used in the original app. Thus, we hypothesize that differences on the parameter values (from both app versions), passed to the same calls to
+sensitive APIS, might provide hints for of suspiciously. Figure~\ref{fig:parameterDiff} presents a concrete example of
+different parameter values used in the calls to the same sensitive method. This example comes from the \texttt{com.nla.downloader} app
+(one of the apps in the \cds). This example uses a \texttt{java.net.URL} object to remunerate a different publisher from the original app.
+{\color{red}Although not expressly harmful, repackaged apps might use objects from this class to download and run external files
+  from a network in the infected system~\cite{DBLP:journals/compsec/ObaidatSPP22}.} We executed our
+experiment one more time, to estimate the impact of parameter analysis into the accuracy of the \mas for
+malware detection. 
+The parameter analysis reduces the number of false negatives from 1,297 (vanilla \mas) to 1,221, with the side effect of
+increasing the number of false positives from 592 to 603 (see the first and second rows of Table~\ref{tab:accuracyParameter}).
+In general, the accuracy ($F_1$) of the \mas using parameter analysis improves from 0.60 to 0.62 at \cds.
 
 \begin{figure*}[t]
 \centering
 \includegraphics[scale=0.3]{images/parameterDiff.pdf}
-\caption{Example of different parameters inserted at the same method.}
+\caption{Example of different parameter values used in the same method call.}
  \label{fig:parameterDiff}
 \end{figure*}
 
@@ -91,7 +100,7 @@ In general, the accuracy ($F_1$) of the \mas using Parameter Analysis improves f
   \label{tab:accuracyParameter}
 \end{table*}
 
-\subsection{Combining trace and parameter analysis}
+\subsection{Combining The Path and Parameter-based extensions}
 
 Additionally, we investigate if we could benefit from combining both techniques. When combining parameter and trace Analysis, we were able to detect $1,620$ (TP) of the repackaged apps ($41.14$\%). We reduce the number of FN from $1,297$ to $1,099$, however increasing the number of FP from $592$ to $605$. The combination of both techniques shows to be more effective than the vanilla \mas, or when we used just one of the techniques. In summary, the results of our studies reveal that the combination of both techniques present a ($F_1$) of $0.65$, as also reported in Table~\ref{tab:accuracyParameter}, improving the vanilla \mas.
 
