@@ -12,38 +12,48 @@ employing three configurations of the \mas: (a) with the call-graph-based extens
 \subsection{Call Graph Path Analysis}
 
 
-Regarding call graph path analysis, we build the dynamic call graphs that characterize the execution of each version of the apps in our dataset. Our goal is to explore how many pairs of apps call the same set of sensitive APIs, though using different call traces. We hypothesize that differences in the traces might be used to complement the \mas for suspicious app identification. As such, here we execute the trace analysis for all app pairs of our \cds, and check if there are situations in which the basic version of the \mas was not able to correctly classify the malign version of an app as a repackaged, however it has a distinct execution trace. For detecting different trace, we performed an evaluation of the dynamic call graph of each app pair. Our procedure checks if there is some new node, representing a new sensitive API at malicious version, or a new edge($x$, $y$), where $x$ and $y$ indicates a method $x$ calling a sensitive method $y$. Figure~\ref{fig:callGraph} illustrates an example of benign and malicious call graphs.
-At this example, although both app versions access the same set of sensitive resources, the
-malicious version follows a different execution trace.
+Regarding the call graph path analysis, we first build the dynamic call graph that abstracts the execution
+of each version (original/repackaged) of the apps in our dataset. Our goal is to compute two sets: the set $S_p1$ of
+paths from the entry points to the calls to sensitive APIs that appear in the dynamic call graph
+that we build while executing DroidBot either in the original (set $S_{p1}$) or repackaged (set $S_{p2}$) version
+of an app. Whenever the set difference $S_{p2} - S_{p1}$ is nonempty, we classify the repackaged version  as
+malware. Our hypothesis is that the path analysis might complement the \mas in the task of malware classification.
 
-
-
+Figure~\ref{fig:callGraph} illustrates an example of paths that we compute from the original and
+repackaged versions of the app \texttt{com.android.remotecontrolppt}.
+For this particular app, the vanilla \mas does not classify the repackaged version as a
+malware (the vanilla \mas execution outputs that both versions calls the same set of sensitive APIs).
+In Figure~\ref{fig:maliciousTrace}, the original and repackaged versions call the same
+sensitive method \texttt{getSubscriberid()}. This sensitive method returns the device's unique
+subscriber ID, and requires the manifest file permission \texttt{READ\_PHONE\_STATE}, present in both app versions.
+Note that the original app calls this method through two distinct paths (Path 01 and Path 02), which suggests an expected action from an app user.
+However, besides the two original paths, the repackaged version includes a third path (Path 03), which contains as start node a method
+that performs a stealth computation on a background thread, suggesting an action that might start without
+user's awareness.
 
 \begin{figure}[ht]
 \centering
 \includegraphics[scale=0.30]{images/maliciousCallGraph.pdf}
-\caption{Illustrative example of the trace analysis. In this case, both versions call the same set of sensitive APIs. Nonetheless,
-the traces between the entry point and the calls to sensitive APIs diverge.}
+\caption{Illustrative example of the path analysis. In this case, both versions call the same set of sensitive APIs. Nonetheless,
+the paths between the entry points and the calls to sensitive APIs diverge.}
  \label{fig:callGraph}
 \end{figure}
-
-
-A real example, from our dataset, presents a trace injected in the malicious app version \textbf{[com.android.remotecontrolppt]} from original app (Figure~\ref{fig:maliciousTrace}). Here, the benign and malicious app versions access the same
-sensitive method, \textit{getSubscriberid()}. This sensitive method returns the device's unique
-subscriber ID, and requires the manifest file permission \texttt{READ\_PHONE\_STATE}, present in both app versions.
-The original app accesses this method through two distinct traces (Trace 01 and Trace 02), which suggests an expected action from app user. However,
-instead of the two original traces, the malicious version injected a third trace (Trace 03) containing as entry point a method that performs a stealth
-computation on a background thread, \textit{doInBackground}, suggesting an action without user's awareness.
 
 \begin{figure}
 \centering
 \includegraphics[scale=0.28]{images/maliciousTrace_example01.pdf}
-\caption{Example of Malicious Trace.}
+\caption{Example of suspect path.}
  \label{fig:maliciousTrace}
 \end{figure}
 
-
-The results of our investigation reveal that with trace analysis, we reduce the number of false negatives from $1,450$ to $1,327$, with the side effect of increasing the number of false positives from $252$ to $253$ (first and third row of Table~\ref{tab:accuracyParameter}). In the end, our trace analysis improved the accuracy ($F_1$) of \mas from $0.39$ to $0.45$, when compared with vanilla \mas.
+Given the understanding that a malicious repackaged variant of an app
+might include the same set of calls to sensitive APIs of the original version, though with additional
+paths, we execute our experiments for all app pairs in our \cds, and check if this extension can
+improve the accuracy of the \mas for malware classification. 
+The results of our investigation reveal that the path analysis slightly reduces the number of false negatives---from $1,450$ to $1,327$,
+with the side effect of increasing the number of false positives (from $252$ to $253$). We show these
+results in the first and third rows of Table~\ref{tab:accuracyParameter}). In the end, the path analysis extension
+improves the accuracy ($F_1$) of the \mas from $0.39$ to $0.45$, when compared with vanilla \mas.
 
 
 \subsection{Parameter Analysis}
