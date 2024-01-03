@@ -1,10 +1,11 @@
-\section{Complementary Techniques - Trace and Parameters Analysis as \mas support (\textcolor{blue}{All this section is new for TSE journal})}\label{sec:complementary}
+\section{Exploring the MAS Extensions}
 
 
 %Our work, although closely related to previous studies, differs from them in several aspects.  First, our assessment is more comprehensive: instead of considering $102$ pairs of benign/malign apps, we execute our study considering \apps pairs of apps. We then investigate which characteristics of the malware samples in the large dataset explain the lower performance.
 
-We expand our investigation by introducing two extensions to the \mas. The first extension leverages dynamic call graphs
-to analyze the paths from entry points to calls made to sensitive APIs in both the original and repackaged versions of an application.
+We extend our investigation by evaluating two extensions to the \mas. The first extension leverages dynamic call graphs
+to analyze the paths from entry points to calls made to sensitive APIs (in both the original and repackaged versions of an application).
+An inspiration for this extension comes from the work of Jamrozik et al.~\cite{DBLP:conf/icse/JamrozikSZ16}.
 The second extension enhances the \mas by comparing the values of actual parameters used in the calls to sensitive APIs,
 drawing inspiration from the work of Le et al.~\cite{le2018towards}. We conduct a series of experiments using our \cds,
 employing three configurations of the \mas: (a) with the call-graph-based extension enabled,
@@ -19,6 +20,8 @@ one comprising all paths from entry points to calls invoking sensitive APIs iden
 DroidBot on the original app version (designated as set $S_{p1}$.
 Following that, we calculate the set difference denoted as $S_p = S_{p2} \setminus S_{p1}$.
 In cases where $S_p$ is not empty, we categorize the repackaged version as potential malware.
+This extension complements a variant of the \mas proposed by Jamrozik et al.~\cite{DBLP:conf/icse/JamrozikSZ16},
+which considers not only the calls to sensitive APIs but also the events that trigger those calls.
 Our underlying assumption is that the integration of path analysis can enhance the effectiveness of
 the \mas in the realm of malware classification.
 In Figure~\ref{fig:callGraph} , both the original and repackaged
@@ -49,7 +52,7 @@ the paths between the entry points and the calls to sensitive APIs diverge.}
 
 Recognizing that a malicious repackaged version of an app may exhibit the same set of calls
 to sensitive APIs as the original, albeit with additional paths, we conducted an additional experiments
-across all app pairs in our \cds. Our aim was to assess whether this path-based analysis extension could enhance
+using all app pairs in our \cds. Our aim was to assess whether this path-based analysis extension could enhance
 the accuracy of the \mas for malware classification. Our findings indicate that the inclusion of path analysis
 leads to a modest reduction in false negatives, though, decreasing from 1,297 to 1,164.
 However, this improvement comes at the expense of a slight increase in false positives, rising from 592 to 594
@@ -61,12 +64,12 @@ In conclusion, the extension of path analysis enhances the overall accuracy ($F_
 
 As described in~\cite{le2018towards}, malicious apps might require external data,
 such as a remote server address to push advertisements, or sink sensitive information to another location,
-different from the original, using SMS messages (for instance). For this purpose, malicious apps
+different from the original version, using SMS messages (for instance). For this purpose, malicious apps
 might change the actual parameter values used in calls to sensitive APIs, values that might differ from those
 used in the original app. Thus, we hypothesize that differences on the parameter values (from both app versions), passed to the same calls to
-sensitive APIS, might provide hints for of suspiciously. Figure~\ref{fig:parameterDiff} presents a concrete example of
+sensitive APIS, might provide hints of suspiciously repackaged apps. Figure~\ref{fig:parameterDiff} presents a concrete example of
 different parameter values used in the calls to the same sensitive method. This example comes from the \texttt{com.nla.downloader} app
-(one of the apps in the \cds). This example uses a \texttt{java.net.URL} object to remunerate a different publisher from the original app.
+(one of the apps in the \cds), and uses a \texttt{java.net.URL} object to remunerate a different publisher from the original app.
 {\color{red}Although not expressly harmful, repackaged apps might use objects from this class to download and run external files
   from a network in the infected system~\cite{DBLP:journals/compsec/ObaidatSPP22}.} We executed our
 experiment one more time, to estimate the impact of parameter analysis into the accuracy of the \mas for
@@ -102,7 +105,13 @@ In general, the accuracy ($F_1$) of the \mas using parameter analysis improves f
 
 \subsection{Combining The Path and Parameter-based extensions}
 
-Additionally, we investigate if we could benefit from combining both techniques. When combining parameter and trace Analysis, we were able to detect $1,620$ (TP) of the repackaged apps ($41.14$\%). We reduce the number of FN from $1,297$ to $1,099$, however increasing the number of FP from $592$ to $605$. The combination of both techniques shows to be more effective than the vanilla \mas, or when we used just one of the techniques. In summary, the results of our studies reveal that the combination of both techniques present a ($F_1$) of $0.65$, as also reported in Table~\ref{tab:accuracyParameter}, improving the vanilla \mas.
+Finally, we investigate if we could benefit
+from combining both extensions (path and parameter-based extensions).
+The execution that combines both extensions correctly classifies 1,620 repackaged apps as malware (TP),
+reducing the number of FN from 1,297 to 1,099. Nonetheless, this execution increases the number of FP from 592 to 605.
+The combination of both techniques proves to be more effective than the vanilla \mas or when we use just one of the extensions.
+In summary, the results of our last experiment reveal that the combination of both techniques presents an $F_1$ score of
+0.65 (see Table 6).
 
-\tb{5}{When combining both techniques, we reduces the number of false negatives (in comparison with the vanilla \mas), with the side effect of increasing the number of false positives. However, it improves the
+\tb{5}{When combining both techniques, we reduces the number of false negatives (in comparison with the vanilla \mas), with the side effect of increasing the number of false positives. However, this configuration improves the
 overall accuracy ($F_1$) of \mas at malware detection, from 0.60\% to 0.65\% at \cds.} 
