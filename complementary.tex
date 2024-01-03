@@ -2,6 +2,7 @@
 
 
 %Our work, although closely related to previous studies, differs from them in several aspects.  First, our assessment is more comprehensive: instead of considering $102$ pairs of benign/malign apps, we execute our study considering \apps pairs of apps. We then investigate which characteristics of the malware samples in the large dataset explain the lower performance.
+
 We expand our investigation by introducing two extensions to the \mas. The first extension leverages dynamic call graphs
 to analyze the paths from entry points to calls made to sensitive APIs in both the original and repackaged versions of an application.
 The second extension enhances the \mas by comparing the values of actual parameters used in the calls to sensitive APIs,
@@ -11,25 +12,25 @@ employing three configurations of the \mas: (a) with the call-graph-based extens
 
 \subsection{Call Graph Path Analysis}
 
+In the context of call graph path analysis, our initial step involves constructing a
+dynamic call graph that encapsulates the execution flow of the Android apps,
+distinguishing between the original and repackaged variants. We derive two distinct sets:
+one comprising all paths from entry points to calls invoking sensitive APIs identified in the dynamic call graph generated during the execution of
+DroidBot on the original app version (designated as set $S_{p1}$.
+Following that, we calculate the set difference denoted as $S_p = S_{p2} \setminus S_{p1}$.
+In cases where $S_p$ is not empty, we categorize the repackaged version as potential malware.
+Our underlying assumption is that the integration of path analysis can enhance the effectiveness of
+the \mas in the realm of malware classification.
+In Figure~\ref{fig:callGraph} , both the original and repackaged
+versions invoke the same sensitive method, \texttt{getSubscriberId()}.
+This method retrieves the unique subscriber ID of the device and necessitates the manifest file
+permission \texttt{READ\_PHONE\_STATE}, which is present in both versions of the app.
+Notably, the original app calls this method through two distinct paths (\emph{Path 01} and \emph{Path 02}),
+indicating an expected user action. However, in addition to the two original paths,
+the repackaged version introduces a third path (\emph{Path 03}). This new path initiates
+from a method that conducts a stealth computation on a background thread, suggesting an action that could
+commence without the user's awareness.
 
-Regarding the call graph path analysis, we first build the dynamic call graph that abstracts the execution
-of each version (original/repackaged) of the apps in our dataset. Our goal is to compute two sets: the set $S_p1$ of
-paths from the entry points to the calls to sensitive APIs that appear in the dynamic call graph
-that we build while executing DroidBot either in the original (set $S_{p1}$) or repackaged (set $S_{p2}$) version
-of an app. Whenever the set difference $S_{p2} - S_{p1}$ is nonempty, we classify the repackaged version  as
-malware. Our hypothesis is that the path analysis might complement the \mas in the task of malware classification.
-
-Figure~\ref{fig:callGraph} illustrates an example of paths that we compute from the original and
-repackaged versions of the app \texttt{com.android.remotecontrolppt}.
-For this particular app, the vanilla \mas does not classify the repackaged version as a
-malware (the vanilla \mas execution outputs that both versions calls the same set of sensitive APIs).
-In Figure~\ref{fig:maliciousTrace}, the original and repackaged versions call the same
-sensitive method \texttt{getSubscriberid()}. This sensitive method returns the device's unique
-subscriber ID, and requires the manifest file permission \texttt{READ\_PHONE\_STATE}, present in both app versions.
-Note that the original app calls this method through two distinct paths (Path 01 and Path 02), which suggests an expected action from an app user.
-However, besides the two original paths, the repackaged version includes a third path (Path 03), which contains as start node a method
-that performs a stealth computation on a background thread, suggesting an action that might start without
-user's awareness.
 
 \begin{figure}[ht]
 \centering
@@ -46,22 +47,22 @@ the paths between the entry points and the calls to sensitive APIs diverge.}
  \label{fig:maliciousTrace}
 \end{figure}
 
-Given the understanding that a malicious repackaged variant of an app
-might include the same set of calls to sensitive APIs of the original version, though with additional
-paths, we execute our experiments for all app pairs in our \cds, and check if this extension can
-improve the accuracy of the \mas for malware classification. 
-The results of our investigation reveal that the path analysis slightly reduces the number of false negatives---from $1,450$ to $1,327$,
-with the side effect of increasing the number of false positives (from $252$ to $253$). We show these
-results in the first and third rows of Table~\ref{tab:accuracyParameter}). In the end, the path analysis extension
-improves the accuracy ($F_1$) of the \mas from $0.39$ to $0.45$, when compared with vanilla \mas.
-
+Recognizing that a malicious repackaged version of an app may exhibit the same set of calls
+to sensitive APIs as the original, albeit with additional paths, we conducted an additional experiments
+across all app pairs in our \cds. Our aim was to assess whether this path-based analysis extension could enhance
+the accuracy of the \mas for malware classification. Our findings indicate that the inclusion of path analysis
+leads to a modest reduction in false negatives, though, decreasing from 1,297 to 1,164.
+However, this improvement comes at the expense of a slight increase in false positives, rising from 592 to 594
+(as depicted in the first and third rows of Table~\ref{tab:accuracyParameter}).
+In conclusion, the extension of path analysis enhances the overall accuracy ($F_1$) of the vanilla
+\mas from 0.60 to 0.63.
 
 \subsection{Parameter Analysis}
 
 As described at~\cite{le2018towards}, malicious apps may require external data, like a remote server address to push an advertisement, or sink sensitive information to another location, different from the original, using SMS message for example. For this purpose, malicious apps may insert parameter in sensitive APIs, different from the original app. Thus, we also hypothesize that differences on the parameter (from both app versions), passed to the same sensitive APIS, may provides hints for suspicious repackaged apps. Figure~\ref{fig:parameterDiff} presents a real example of different parameters inserted at the same method, also extracted from our dataset \textbf{[com.nla.downloader]}. This example just use a \textit{java.net.URL} object to present a different advertising from the original app. Although not expressly harmful, repackaged apps may use objects from this \textit{Class} to download and run external files from a network in the infected system\cite{DBLP:journals/compsec/ObaidatSPP22}.
 
-When we explore parameter analysis, we reduce the number of false negatives from $1450$ (vanilla \mas) to $1339$ samples, with the side effect of increasing the number of false positives from $252$ to $271$ (see the first and second row of Table~\ref{tab:accuracyParameter}).
-In general, the accuracy ($F_1$) of the \mas using Parameter Analysis improves from 0.39 to 0.44 at \cds.
+When we explore parameter analysis, we reduce the number of false negatives from $1297$ (vanilla \mas) to $1221$ samples, with the side effect of increasing the number of false positives from $592$ to $603$ (see the first and second row of Table~\ref{tab:accuracyParameter}).
+In general, the accuracy ($F_1$) of the \mas using Parameter Analysis improves from 0.60 to 0.62 at \cds.
 
 
 
@@ -79,10 +80,10 @@ In general, the accuracy ($F_1$) of the \mas using Parameter Analysis improves f
     Dataset & TP   & FP  & FN  & Precision & Recall & $F_1$ \\ \hline
     
     %\mas + Traces  & \sds (102)   & 67   & 18  & 2   & 0.78      & 0.97   & 0.87  \\
-    \cds \mas    & 545  & 252 & 1,450 & 0.68       & 0.27   & 0.39  \\
-    \cds \mas + Trace     & 668  & 253 & 1,327 & 0.72       & 0.33   & 0.45  \\
-    \cds \mas + Parameter     & 656  & 271 & 1,339 & 0.7       & 0.32   & 0.44  \\
-    \cds \mas + Trace + Parameter     & 752  & 272 & 1,243 & 0.73       & 0.37   & 0.49  \\
+    \cds \mas    & 1,422  & 592 & 1,297 & 0.70       & 0.52   & 0.60  \\
+    \cds \mas + Trace     & 1,555  & 594 & 1,164 & 0.72       & 0.57   & 0.63  \\
+    \cds \mas + Parameter     & 1,498  & 603 & 1,221 & 0.71       & 0.55   & 0.62  \\
+    \cds \mas + Trace + Parameter     & 1,620  & 605 & 1,099 & 0.72       & 0.59   & 0.65  \\
     %\mas + Traces  & \cds (1203)   & 214  & 326 & 245 & 0.39      & 0.46   & 0.42  \\ 
     \hline
   \end{tabular}
@@ -92,7 +93,7 @@ In general, the accuracy ($F_1$) of the \mas using Parameter Analysis improves f
 
 \subsection{Combining trace and parameter analysis}
 
-Additionally, we investigate if we could benefit from combining both techniques. When combining parameter and trace Analysis, we were able to detect $752$ (TP) of the repackaged apps ($23.41$\%). We reduce the number of FN from $1,450$ to $1,243$, however increasing the number of FP from $252$ to $272$. The combination of both techniques shows to be more effective than the vanilla \mas, or when we used just one of the techniques. In summary, the results of our studies reveal that the combination of both techniques present a ($F_1$) of $0.49$, as also reported in Table~\ref{tab:accuracyParameter}, improving the vanilla \mas.
+Additionally, we investigate if we could benefit from combining both techniques. When combining parameter and trace Analysis, we were able to detect $1,620$ (TP) of the repackaged apps ($41.14$\%). We reduce the number of FN from $1,297$ to $1,099$, however increasing the number of FP from $592$ to $605$. The combination of both techniques shows to be more effective than the vanilla \mas, or when we used just one of the techniques. In summary, the results of our studies reveal that the combination of both techniques present a ($F_1$) of $0.65$, as also reported in Table~\ref{tab:accuracyParameter}, improving the vanilla \mas.
 
 \tb{5}{When combining both techniques, we reduces the number of false negatives (in comparison with the vanilla \mas), with the side effect of increasing the number of false positives. However, it improves the
-overall accuracy ($F_1$) of \mas at malware detection, from 0.39\% to 0.49\% at \cds.} 
+overall accuracy ($F_1$) of \mas at malware detection, from 0.60\% to 0.65\% at \cds.} 
