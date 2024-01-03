@@ -43,15 +43,15 @@ computation on a background thread, \textit{doInBackground}, suggesting an actio
 \end{figure}
 
 
-The results of our investigation reveal that with trace analysis, we reduce the number of false negatives from $1,450$ to $1,327$, with the side effect of increasing the number of false positives from $252$ to $253$ (first and third row of Table~\ref{tab:accuracyParameter}). In the end, our trace analysis improved the accuracy ($F_1$) of \mas from $0.39$ to $0.45$, when compared with vanilla \mas.
+The results of our investigation reveal that with trace analysis, we reduce the number of false negatives from $1,297$ to $1,164$, with the side effect of increasing the number of false positives from $592$ to $594$ (first and third row of Table~\ref{tab:accuracyParameter}). In the end, our trace analysis improved the accuracy ($F_1$) of \mas from $0.60$ to $0.63$, when compared with vanilla \mas.
 
 
 \subsection{Parameter Analysis}
 
 As described at~\cite{le2018towards}, malicious apps may require external data, like a remote server address to push an advertisement, or sink sensitive information to another location, different from the original, using SMS message for example. For this purpose, malicious apps may insert parameter in sensitive APIs, different from the original app. Thus, we also hypothesize that differences on the parameter (from both app versions), passed to the same sensitive APIS, may provides hints for suspicious repackaged apps. Figure~\ref{fig:parameterDiff} presents a real example of different parameters inserted at the same method, also extracted from our dataset \textbf{[com.nla.downloader]}. This example just use a \textit{java.net.URL} object to present a different advertising from the original app. Although not expressly harmful, repackaged apps may use objects from this \textit{Class} to download and run external files from a network in the infected system\cite{DBLP:journals/compsec/ObaidatSPP22}.
 
-When we explore parameter analysis, we reduce the number of false negatives from $1450$ (vanilla \mas) to $1339$ samples, with the side effect of increasing the number of false positives from $252$ to $271$ (see the first and second row of Table~\ref{tab:accuracyParameter}).
-In general, the accuracy ($F_1$) of the \mas using Parameter Analysis improves from 0.39 to 0.44 at \cds.
+When we explore parameter analysis, we reduce the number of false negatives from $1297$ (vanilla \mas) to $1221$ samples, with the side effect of increasing the number of false positives from $592$ to $603$ (see the first and second row of Table~\ref{tab:accuracyParameter}).
+In general, the accuracy ($F_1$) of the \mas using Parameter Analysis improves from 0.60 to 0.62 at \cds.
 
 
 
@@ -69,10 +69,10 @@ In general, the accuracy ($F_1$) of the \mas using Parameter Analysis improves f
     Dataset & TP   & FP  & FN  & Precision & Recall & $F_1$ \\ \hline
     
     %\mas + Traces  & \sds (102)   & 67   & 18  & 2   & 0.78      & 0.97   & 0.87  \\
-    \cds \mas    & 545  & 252 & 1,450 & 0.68       & 0.27   & 0.39  \\
-    \cds \mas + Trace     & 668  & 253 & 1,327 & 0.72       & 0.33   & 0.45  \\
-    \cds \mas + Parameter     & 656  & 271 & 1,339 & 0.7       & 0.32   & 0.44  \\
-    \cds \mas + Trace + Parameter     & 752  & 272 & 1,243 & 0.73       & 0.37   & 0.49  \\
+    \cds \mas    & 1,422  & 592 & 1,297 & 0.70       & 0.52   & 0.60  \\
+    \cds \mas + Trace     & 1,555  & 594 & 1,164 & 0.72       & 0.57   & 0.63  \\
+    \cds \mas + Parameter     & 1,498  & 603 & 1,221 & 0.71       & 0.55   & 0.62  \\
+    \cds \mas + Trace + Parameter     & 1,620  & 605 & 1,099 & 0.72       & 0.59   & 0.65  \\
     %\mas + Traces  & \cds (1203)   & 214  & 326 & 245 & 0.39      & 0.46   & 0.42  \\ 
     \hline
   \end{tabular}
@@ -82,7 +82,7 @@ In general, the accuracy ($F_1$) of the \mas using Parameter Analysis improves f
 
 \subsection{Combining trace and parameter analysis}
 
-Additionally, we investigate if we could benefit from combining both techniques. When combining parameter and trace Analysis, we were able to detect $752$ (TP) of the repackaged apps ($23.41$\%). We reduce the number of FN from $1,450$ to $1,243$, however increasing the number of FP from $252$ to $272$. The combination of both techniques shows to be more effective than the vanilla \mas, or when we used just one of the techniques. In summary, the results of our studies reveal that the combination of both techniques present a ($F_1$) of $0.49$, as also reported in Table~\ref{tab:accuracyParameter}, improving the vanilla \mas.
+Additionally, we investigate if we could benefit from combining both techniques. When combining parameter and trace Analysis, we were able to detect $1,620$ (TP) of the repackaged apps ($41.14$\%). We reduce the number of FN from $1,297$ to $1,099$, however increasing the number of FP from $592$ to $605$. The combination of both techniques shows to be more effective than the vanilla \mas, or when we used just one of the techniques. In summary, the results of our studies reveal that the combination of both techniques present a ($F_1$) of $0.65$, as also reported in Table~\ref{tab:accuracyParameter}, improving the vanilla \mas.
 
 \tb{5}{When combining both techniques, we reduces the number of false negatives (in comparison with the vanilla \mas), with the side effect of increasing the number of false positives. However, it improves the
-overall accuracy ($F_1$) of \mas at malware detection, from 0.39\% to 0.49\% at \cds.} 
+overall accuracy ($F_1$) of \mas at malware detection, from 0.60\% to 0.65\% at \cds.} 
