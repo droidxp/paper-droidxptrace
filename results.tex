@@ -69,7 +69,7 @@ and wrongly labeled the repackaged version of seven apps as malware (FP column).
 
 
 {\bf \cds.} Surprisingly, considering our complete dataset (\apps apps), the \mas
-labels a total of \textcolor{blue}{$2,014$} repackaged apps as malware (\textcolor{blue}{$51.15$\%} of the total number of repackaged
+labels a total of \review{$2,014$} repackaged apps as malware (\review{$51.15$\%} of the total number of repackaged
 apps)---for which the repackaged version calls at least one additional sensitive API.
 Our analysis also reveals a {\bf negative result} related to the accuracy of the approach: here,
 the accuracy is much lower in comparison to what we reported for the
@@ -85,7 +85,7 @@ DroidBot drops significantly.
   The \mas for malware detection
   leads to a substantially lower performance on the
   \cds (\apps pairs of apps),
-  dropping the accuracy by a factor of \textcolor{blue}{$32.58$\%} in comparison to
+  dropping the accuracy by a factor of \review{$32.58$\%} in comparison to
   what we observed in the \sds.}
 
 
@@ -111,7 +111,7 @@ original and repackaged versions of an app are.
 The average \sscore of the
 \sds is 0.89 (median of 0.99 and sd of 0.25). Contrasting,
 the average \sscore of the complete dataset is
-\textcolor{blue}{0.90} (median of \textcolor{blue}{0.98} and sd of \textcolor{blue}{0.18}).
+\review{0.90} (median of \review{0.98} and sd of \review{0.18}).
 
 \begin{figure}
   \includegraphics[width=\columnwidth]{images/boxplotSimilarity_V2.pdf}
@@ -137,7 +137,7 @@ As such, we test the following null hypothesis:
 \end{quote}
 
 The results of the logistic regression suggest that we should
-not reject our null hypothesis ($p$-value $=$ 0.89)(\textcolor{blue}{Most review this number}). This finding suggests
+not reject our null hypothesis ($p$-value $=$ 0.89)(\review{Most review this number}). This finding suggests
 that the \mas is not more likely to assign a correct label to
 a repackaged app in the cases where its \sscore with the original
 app is high (or small). This is an expected result, since
@@ -163,7 +163,7 @@ achieves the highest percentage of correct classification (76.34\%) for the seco
 cluster (cId = 2), which
 presents an average \sscore of 0.55\%. Nonetheless, the
 cluster cId = 10, with larger number of samples (1410) and \sscore (0.99\%), presents
-a percentage of correct classifications around 35.60\% (\textcolor{blue}{Most review this cluster}). 
+a percentage of correct classifications around 35.60\% (\review{Most review this cluster}). 
 
 
 \begin{table}[ht]
@@ -206,9 +206,9 @@ section, the similarity assessment does not explain the low performance of the
 hypothesis that the malware families in the \cds could
 explain the poor performance of the \mas on the \cds.
 Indeed, in the \cds, we identified a total of
-\textcolor{blue}{116 malware families}, though the most frequent
+\review{116 malware families}, though the most frequent
 ones are \gps (1330 samples), \fm{revmob} (207 samples), \fm{dowgin} (183 samples) and \emph{airpush} (120 samples). Together, they
-account for \textcolor{blue}{$67.67$\%} of the repackaged apps in our
+account for \review{$67.67$\%} of the repackaged apps in our
 complete dataset labeled as malware according to \vt.
 
 This family distribution in the \cds is
@@ -227,15 +227,15 @@ perform when considering only the gappusin samples?}
 
 The confusion matrix of Table~\ref{tab:gappusin} summarizes the accuracy assessment of the \mas considering
 only the \gps samples in the \cds. Note that \vt classifies as malware all repackaged versions in the \gps
-family and that for \textcolor{blue}{1,018} samples \textcolor{blue}{($76.54$\%)}, the \mas was not able to correctly identify
-a repackaged version of an app as a malware (recall of \textcolor{blue}{0.1}). 
+family and that for \review{1,018} samples \review{($76.54$\%)}, the \mas was not able to correctly identify
+a repackaged version of an app as a malware (recall of \review{0.1}). 
 %Merging the outcomes of both approaches (that is, the vanilla \mas and
 %the \mas with traces), leads to a recall of
 %$\frac{27}{198} = 0.13$. 
 Further, if we remove the \gps
 samples from the \cds, the recall
-of the \mas increases to \textcolor{blue}{0.80} ({\textcolor{red}similar
-to the performance of the original studies)}. 
+of the \mas increases to \review{0.80} (\alert{similar
+to the performance of the original studies}). 
 
 \begin{table}[ht]
   \caption{Confusion matrix of the \mas when considering only the
@@ -252,7 +252,7 @@ to the performance of the original studies)}.
 
 
 \tb{4}{The \mas fails to correctly
-  identify \textcolor{blue}{$76.54$\%} of the samples from the \gps family
+  identify \review{$76.54$\%} of the samples from the \gps family
   as a malware. This is the main reason for the low
   recall of the \mas in the \cds.}
 
@@ -439,12 +439,12 @@ downloader for further malicious app~\cite{DBLP:conf/ndss/ArpSHGR14}---which red
 however the repackaged version have additional call sites to the advertisement API and the advertisements sources are different. This behavior is not so harmful when compared to others repackaged apps, however nothing prevents that others malware families insert malicious operations, such as theft of
 sensitive data.
 
-We argue in favor of new research efforts to integrate the \mas 
+\alert{We argue in favor of new research efforts to integrate the \mas 
 with other techniques that could increase their performance
 on malware identification. Since the samples from the \gps
 family use specific patterns to introduce malicious behavior,
 it might be promising to explore complementary techniques that
-search for these patterns.
+search for these patterns.}
 
 
 

@@ -1,7 +1,7 @@
 \section{Experimental Setup}\label{sec:experimentalSetup}
 
 Our goal is to build an in-depth understanding about
-the performance of the \mas for detecting malware. \textcolor{blue}{To this
+the performance of the \mas for detecting malware. \review{To this
 end, we replicate previous studies using a dataset of repackaged apps that is an order of magnitude
 larger than the datasets used before~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22}.} Accordingly,
 we investigate the the following research questions:
@@ -10,10 +10,10 @@ we investigate the the following research questions:
 \item \rqa
 \item \rqc
 \item \rqd
-% \textcolor{blue}{\item \rqe}
+% \review{\item \rqe}
 \end{enumerate}
 
-\textcolor{blue}{In this section, we describe our study settings. First, we present the procedures we use to create our datasets (Section~\ref{sec:dataset}).  Then, we describe the data collection and data analysis procedures (Sections~\ref{sec:dataCollectionProc} and~\ref{sec:dataAnalysisProc}).}
+\review{In this section, we describe our study settings. First, we present the procedures we use to create our datasets (Section~\ref{sec:dataset}).  Then, we describe the data collection and data analysis procedures (Sections~\ref{sec:dataCollectionProc} and~\ref{sec:dataAnalysisProc}).}
 
 
 \subsection{Malware Dataset}\label{sec:dataset}
@@ -96,8 +96,8 @@ collect user contacts, send/receive SMS, and so on~\cite{DBLP:conf/iccns/RahaliL
 According to the
 \avt~\cite{avclass2-paper}, the malware samples in the \sds come from $17$ different families---most of them from the Kuguo (49.27\%) and Dowgin (17.39\%) families.  
 Our \cds, besides a large sample of repackaged apps (\apps in total),
-comprises \textcolor{blue}{116} families of malware we collected using the \avt---most
-of them from the Gappusin \textcolor{blue}{(33.78\%)} family.
+comprises \review{116} families of malware we collected using the \avt---most
+of them from the Gappusin \review{(33.78\%)} family.
 
 We also characterize our dataset according to the similarity
 between the original and repackaged versions of the apps, using the  
@@ -105,14 +105,14 @@ SimiDroid tool~\cite{DBLP:conf/trustcom/0029BK17}. SimiDroid quantifies the simi
 based on (a) the methods that are either identical or similar in both versions of the apps (original and repackaged versions),
 (b) methods that only appear in the repackaged version of the apps (new methods), and (c) methods that only appear in the
 original version of the apps (deleted methods).
-Our \cds has an average similarity score of \textcolor{blue}{(90.38)\%}---with the follow distribution \textcolor{blue}{($84$ of
+Our \cds has an average similarity score of \review{(90.38)\%}---with the follow distribution \review{($84$ of
 app pairs have a similarity score of less than 25\%, $49$ of app pairs
 between 25\% and 50\%,  $343$ of the apps between 50\% and 75\%,
 and $3,461$ of the apps with more than 75\%). The \sds presents a similarity index average of (89.41\%). }
 
 
 After executing our experiments, we identified the  most frequently abused sensitive APIs called by the repackaged version of our samples.
-We observed that upon execution of all samples from our dataset (\sds and \cds), malicious app versions injected \textcolor{blue}{$134$} distinct methods from sensitive APIs (according to the
+We observed that upon execution of all samples from our dataset (\sds and \cds), malicious app versions injected \review{$134$} distinct methods from sensitive APIs (according to the
 AppGuard~\cite{DBLP:conf/esorics/BackesGHMS13} security framework).
 Malicious code often exploits these APIs to compromise system security and access sensitive data. Table~\ref{tab:APIused}
 presents a list of the 10 most frequently injected methods from sensitive APIs found in the
@@ -220,7 +220,7 @@ of the \mas.
 %\todo[inline]{RB: later, if we need space, we can safely comment this section out.}
 
 %We deployed our experiment on a 32-Core, AMD EPYC 7542 CPU, 512 GB RAM, storage Samsung SSD 970 EVO 1TB machine running a 64-bit Debian GNU/Linux 11. We also configured our emulator to run all selected apps on Google Android version 9.0, API 28, 512M SD Card, 7GB internal storage, with X86 ABI image.
-%For our study, we configured DroidXP to run each of the \apps app pairs using DroidBot for 3 minutes. To mitigate noise, we repeated the full process 3 times,  which took around \textcolor{blue}{$965$} machine hours in total. Although it was possible to run more than 10 emulators in parallel on one physical machine, to avoid any interference resulting from context switching within the operating system, we chose to run one emulator at a time. Hence, all processes took around 45 days, 40 days for experiment execution and additional 5 days for environment configuration.
+%For our study, we configured DroidXP to run each of the \apps app pairs using DroidBot for 3 minutes. To mitigate noise, we repeated the full process 3 times,  which took around \review{$965$} machine hours in total. Although it was possible to run more than 10 emulators in parallel on one physical machine, to avoid any interference resulting from context switching within the operating system, we chose to run one emulator at a time. Hence, all processes took around 45 days, 40 days for experiment execution and additional 5 days for environment configuration.
 
 
 

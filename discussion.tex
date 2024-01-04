@@ -38,19 +38,18 @@ we summarize in the following.
   patterns of changes introduced in the repackaged versions of the apps. The prevalence of the \gps family
   in the \cds largely explains the poor performance of the \mas for malware classification in the large dataset. 
 
-\item \textbf{Efficiency gain with \mas extension (RQ4).}
-\textcolor{blue}{Our investigation indicates that  
-although the techniques presented demonstrate an accuracy gain, they still do not represent a big step towards to make \mas effective enough. That is, there is still a gap at \mas for malware detection, 
-which requires further of alternative techniques investigation.}
-
-
+\item \textbf{Efficiency gain with the \mas extensions (RQ4).}
+  \review{Our experimental findings provide evidence that the extensions to the \mas,
+    investigated in this study, result in a modest improvement in accuracy. That is, even with the combined
+    integration of both extensions (see Section~\ref{}), the accuracy achieved in the \cds is significantly
+    lower when compared to the results obtained in the \sds, with a notable disparity of 0.65 as opposed to 0.89.}
 
 \end{itemize}
 
 
 
 Although the \gps family explains the drop in the recall of the \mas, other  reasons might explain the reduced precision of the \mas in the \cds. First, the proportion of malware samples in the
-datasets differs. That is, \vt labels \textcolor{blue}{$62.13$\%} of the repackaged version of the apps in the \cds as malware---contrasting with 67.64\% of the samples that \vt labels as malware in the \sds. The lack of balance in the datasets might partially explain the low precision of the \mas in the \cds. Second, we only label a repackaged version of an app as malware if \vt reports that at least two engines find suspicious behavior in that asset. This decision might be considered an over-constraint. When we relax this constraint and label an assets as malware whenever at least one engine finds suspicious behavior, the precision of the \mas increases from \textcolor{blue}{0.68} to \textcolor{blue}{0.79}---still significantly smaller than the \mas precision for the \sds.
+datasets differs. That is, \vt labels \review{$62.13$\%} of the repackaged version of the apps in the \cds as malware---contrasting with 67.64\% of the samples that \vt labels as malware in the \sds. The lack of balance in the datasets might partially explain the low precision of the \mas in the \cds. Second, we only label a repackaged version of an app as malware if \vt reports that at least two engines find suspicious behavior in that asset. This decision might be considered an over-constraint. When we relax this constraint and label an assets as malware whenever at least one engine finds suspicious behavior, the precision of the \mas increases from \review{0.68} to \review{0.79}---still significantly smaller than the \mas precision for the \sds.
 
 \subsection{Implications}\label{sec:implications} 
 
@@ -93,7 +92,7 @@ Indeed, mitigating this threat was one of the motivations for our research,
 since, in the existing literature, researchers had explored just
 one dataset of 102 pairs of original/repackaged apps. Curiously,
 for this small dataset, the performance of the
-\mas is more than twice superior
+\mas is substantially superior
 than its performance on our \cds (\apps pairs of
 apps).
 
@@ -102,12 +101,13 @@ if they had used any additional criteria for selecting the pairs of apps in thei
 dataset. Their answers suggest the contrary: they have not used
 any particular app selection process that
 could explain the superior performance of the \mas for the small dataset. We believe that
-our results in the complete dataset generalize better than previous research works,
+our results in the complete dataset generalize better than previous research work,
 since we have a more comprehensive collection of malware with different
 families and degrees of similarity. Nonetheless, our
 research focus only on Android repackaged malware and thus we cannot generalize
 our findings to malware that targets other platforms or that use different approaches
-to generate a malicious asset.
+to instantiate a malicious asset. Besides that, repackaging is a recurrent approach
+for implementing Android malware.
 
 Regarding {\bf conclusion validity}, during the exploratory phase of the \mas, we collected the set of calls to sensitive APIs the original version of
 an app executes, while running a test case generation tool (DroidBot).
@@ -115,7 +115,8 @@ That is, the \mas assumes the existence of a benign original
 version of a given app in the exploratory phase. \highlight{We also query \vt to confirm this
 assumption, and found that the original version of seven (out 102) apps in the
 \sds contains malicious code. We believe the authors of previous studies carefully check that assumption,
-and this difference had occurred because the outputs of \vt change over time~\cite{vt-label}}, and a dataset that is consistent at a date will not so in the future.
+and this difference had occurred because the outputs of \vt change over time~\cite{vt-label}}, and a dataset that is consistent at a date will
+not so in the future.
 Therefore, while reproducing this research, it is necessary to query \vt to get the most up-to-date classification of the assets, which might lead to results that might slightly
 diverge from what we have reported here. Besides that, in the \cds we only consider
 pairs of original/repackaged apps for which \vt classifies the original version as benign. 
