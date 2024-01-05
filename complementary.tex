@@ -70,9 +70,7 @@ might change the actual parameter values used in calls to sensitive APIs, values
 used in the original app. Thus, we hypothesize that differences on the parameter values (from both app versions), passed to the same calls to
 sensitive APIS, might provide hints of suspiciously repackaged apps. Figure~\ref{fig:parameterDiff} presents a concrete example of
 different parameter values used in the calls to the same sensitive method. This example comes from the \texttt{com.nla.downloader} app
-(one of the apps in the \cds), and uses a \texttt{java.net.URL} object to remunerate a different publisher from the original app.
-{\color{red}Although not expressly harmful, repackaged apps might use objects from this class to download and run external files
-  from a network in the infected system~\cite{DBLP:journals/compsec/ObaidatSPP22}.} We executed our
+(one of the apps in the \cds), and uses a \texttt{java.net.URL} object to remunerate a different publisher from the original app, an expressly harmful behavior. We executed our
 experiment one more time, to estimate the impact of parameter analysis into the accuracy of the \mas for
 malware detection. 
 The parameter analysis reduces the number of false negatives from 1,297 (vanilla \mas) to 1,221, with the side effect of
