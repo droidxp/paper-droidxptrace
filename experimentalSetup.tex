@@ -30,9 +30,10 @@ curate the dataset we use in our research. \repack has been curated using automa
 repository~\cite{DBLP:conf/msr/AllixBKT16}, and
 comprises 15,297 pairs of original and repackaged Android apps, with 2,776 unique original apps~\cite{DBLP:journals/tse/LiBK21}---
 multiple repackaged versions of the same original app may coexist within \repack, \review{with a minimal, and maximum times of 1 and 176, respectively}.
-However, we encountered compatibility issues with many samples, either in relation to DroidFax~\cite{DBLP:conf/icsm/CaiR17a} or the versions of the Android emulator we employed (API level 28). First, out of 2,776 original apps, DroidFax instrumented 1,915. Among these 1,915 samples, 554 apps we failed to install due Android emulator compatibility or other emulator settings. This led to the removal of 1,416 samples from the initial set of 2,776 original apps. Consequently, we selected 3,827 samples of app pairs (original/repackaged) from \repack. 
 
-\review{Released in August 2018, the decision to use API 28 for the emulator is based on the fact that it is an intermediate version between the \repack and \amc releases. Since Android apps are forward-compatible, older apps can run on newer versions of the Android Operating System. Thus, with this decision, we aim to cover the maximum number of samples in both datasets.}
+However, we encountered compatibility issues with many samples, either in relation to DroidFax~\cite{DBLP:conf/icsm/CaiR17a} or the versions of the Android emulator we employed (API level 28). First, out of 2,776 original apps, DroidFax instrumented 1,990 samples, resulting in a total of 4,958 app pairs (original/repackaged). Among these 4,958 app pairs, 4,668 samples from repackaged pair could be successfully instrumented by DroidFax. Finally, out of the remaining 4,668 app pairs, 841 pairs failed to install due to Android emulator compatibility issues or other emulator settings. Consequently, after removing incompatible app pairs, we selected 3,827 app pairs (original/repackaged) from \repack.
+
+%\review{Released in August 2018, the decision to use API 28 for the emulator is based on the fact that it is an intermediate version between the \repack and \amc releases. Since Android apps are forward-compatible, older apps can run on newer versions of the Android Operating System. Thus, with this decision, we aim to cover the maximum number of samples in both datasets.}
 
 Regarding \amc, it comprises 378,546 repackaged Android apps~\cite{andromalpack}, \review{and as \repack, it has multiple repackaged version of the same orignal app, with a minimal and maximum time of 2 and 2,113.}
 
@@ -43,9 +44,11 @@ to identify the original versions of repackaged apps in \amc. This heuristic is 
 procedure designed to identify repackaged versions of a given app~\cite{DBLP:journals/tse/LiBK21}.
 Despite our efforts, we could not identify the original version for several repackaged samples in \amc.
 We also excluded samples with a package date before 2018 (so that we could avoid any overlapping with
-the samples already selected from \repack), resulting in 1,190 ``app pair candidates''.
-Finally, we eliminated 419 pairs that shown incompatible issues with either DroidFax (396 samples), or the versions of the Android
-emulator (23 samples) used in our research (API level 28). In total, we selected 771 app pairs from \amc to curate our dataset.
+the samples already selected from \repack), resulting in 1,190 ``app pair candidates''. 
+
+\review{From these app pairs, we had 507 unique originals, of which DroidFax instrumented 374 samples, resulting in a total of 917 app pairs. From these pairs, DroidFax instrumented 777 samples from repackaged pair. Finally, we eliminated 6 pairs that showed incompatible issues with the versions of the Android emulator used in our research (API level 28). In total, we selected 771 app pairs from \amc to curate our dataset. It is important to highlight that at both datasets, we had lower initial sample loss rates when compared to the dataset from original study~\cite{DBLP:conf/wcre/BaoLL18}.}
+
+
 
 %% To ensure that the pairs are indeed (original/repackaged), we also check some meta-files, like app signature~\cite{DBLP:journals/percom/MerloRSV21}. We compare the signature of original and repackaged app, and assume that, if they do not match, means that they have different developers. We also check if the repackaged app version have 
 %% \textit{.dex file} create date later than the original app, to ensure that the repackaged version was developed after the original. After removing all app pair that do not meet both criteria, we were left with 1,190 app pair. As \texttt{RePack-Dataset}, we also fail to execute our study in some samples, due to same instrumentation problem or emulator compatibility. After removing 419 incompatible app pairs, we were left with 771 app pair from \texttt{AndroMalPack}. 
