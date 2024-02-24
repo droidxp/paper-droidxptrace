@@ -7,14 +7,12 @@ market share}, with almost 2.5 million Android applications~\footnote{In this pa
 available on the Google Play Store, in June 2023~\cite{Statista}.  
 As popularity rises, so does the risk of potential attacks, prompting collaborative efforts from both academia and industry to design and develop new techniques for identifying malicious behavior or vulnerable code in Android apps~\cite{10.1145/3017427}.
 
-For instance, one popular classes of Android malware is based on repackaging apps~\cite{DBLP:conf/wcre/BaoLL18,le2018towards} where benign
-versions of an app are
+For instance, one popular class of Android malware is based on repackaging apps~\cite{DBLP:conf/wcre/BaoLL18,le2018towards} where a benign
+version of an app is
 %such as Google Play, 
 infected with malicious code, e.g., to broadcast
 sensitive information to a private server~\cite{DBLP:journals/tse/LiBK21}, and subsequently shared
-with users using even official app stores. The Mining Android Sandbox approach, hereafter \mas, has been shown effective
-in detecting Android repackage malware. 
-During an \emph{exploratory} phase, it takes advantage of automated test case generation tools to abstract the behavior of an app, focusing on calls to sensitive APIs (Application Programming Interfaces). Actually, the \mas was originally designed to build sandboxes based on these exploratory calls to sensitive APIs~\cite{DBLP:conf/icse/JamrozikSZ16}; and then, during a normal execution of the app, the generated sandbox would block any call to sensitive APIs not observed during the exploratory phase. 
+with users using even official app stores. The Mining Android Sandbox approach (\mas) was initially designed to construct sandboxes based on exploratory calls to sensitive APIs~\cite{DBLP:conf/icse/JamrozikSZ16}. However, it has also proven effective in detecting Android repackaged malware. The \mas operates in two distinct phases. In the first phase (exploratory phase), it utilizes automated test case generation tools to abstract the behavior of an app, focusing on calls to sensitive APIs (Application Programming Interfaces). Subsequently, duringthe normal executions of the app, the generated sandbox blocks any calls to sensitive APIs not observed during the exploratory phase.
 
 Prior studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22} have investigated the application of the MAS approach in detecting potential malicious behavior in repackaged apps. These studies have also conducted comparisons of the approach's performance by employing different test case generation tools during the exploratory phase, including Monkey~\cite{Monkey}, DroidBot~\cite{DBLP:conf/icse/LiYGC17}, and Droidmate~\cite{DBLP:conf/kbse/BorgesHZ18}.
 These studies provide evidence that DroidBot surpasses other test generation tools, uncovering a larger number of potential malicious behaviors.
@@ -36,16 +34,16 @@ we use a curated dataset of app pairs (original/repackaged versions) that is, in
 dataset (it contains \apps pairs of original/repackaged apps). We detail our datasets and the procedures we follow for data collection and data analysis in Section~\ref{sec:experimentalSetup}.
  
 {\bf Negative results.} Our study reveals a significantly lower
-accuracy ($F_1$ score of \fscore) of the \mas in comparison to what has been reported before ($F_1$ score of \fscoreSmall). 
+accuracy (\fone of \fscore) of the \mas in comparison to what has been reported before (\fone of \fscoreSmall). 
 Since an accuracy of \fscore is clearly unsatisfactory for a trustworthy malware classification technique, we conduct a set of experiments 
 to understand the reasons for the lower accuracy in our larger dataset.
 Our further assessments reveal that the \mas fails to correctly classify most of the samples from
 the \gps malware family (a particular class of adware that frequently appears in repackaged apps). 
 Out of the total of \appsGps samples within this family in our large dataset, the \mas failed to correctly classify \appsGpsFN samples as malware.
 %(false negative).
-Therefore, the \gps family is responsible for substantially reducing the recall of the \mas. We detail the results of our experiments in Section~\ref{sec:results}. %, from $0.89$ to {\color{red}$0.52$}.
+Accordingly, the \gps family is responsible for substantially reducing the recall of the \mas. We detail the results of our experiments in Section~\ref{sec:results}. %, from $0.89$ to {\color{red}$0.52$}.
 
-\review{In this paper we also investigate two extensions for the vanilla \mas, which consider additional information for classifying a repackaged version of an app as a malware (a) the traces from entry points to the calls to sensitive APIs and (b) the value of the actual parameters in sensitive API method calls. We detail these extensions in Section~\ref{sec:complementary}. However, integrating both extensions lead to a slight improvement on the \mas accuracy ($F_1$ score ranges from 0.60 to 0.65). We discuss the implications and possible threads to the validity of our study in Section~\ref{sec:discussion} and present some final remarks in Section~\ref{sec:conclusions}. 
+\review{In this paper we also investigate two extensions for the vanilla \mas, which consider additional information for classifying a repackaged version of an app as a malware: (a) the traces from entry points to the calls to sensitive APIs and (b) the value of the actual parameters in sensitive API method calls. We detail these extensions in Section~\ref{sec:complementary}. However, integrating both extensions lead to a slight improvement on the \mas accuracy (\fone ranges from 0.60 to 0.65). We discuss the implications and possible threads to the validity of our study in Section~\ref{sec:discussion} and present some final remarks in Section~\ref{sec:conclusions}. 
 The main artifacts we produced during this research are available in the paper repository.}
 
 \begin{small}
