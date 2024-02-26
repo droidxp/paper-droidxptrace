@@ -4,7 +4,7 @@ Our goal is to build an in-depth understanding about
 the performance of the \mas for detecting malware. \review{To this
 end, we replicate previous studies using a dataset of repackaged apps that is an order of magnitude
 larger than the datasets used before~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22}.} Accordingly,
-we investigate the the following research questions:
+we investigate the following research questions:
 
 \begin{enumerate}[(RQ1)]
 \item \rqa
@@ -19,57 +19,50 @@ we investigate the the following research questions:
 \subsection{Malware Dataset}\label{sec:dataset}
 
 
-%Our experiment aims to compute if an app pair from a given sample is a malware variant of its corresponding original app.
-To investigate our research questions, we shall run our infrastructure on a representative and up-to-date dataset and estimate the \mas performance (in terms of accuracy). Our dataset shall also
-be \textit{labeled}, i.e., the interest characteristic of each app, like similarity and malware family, should be known beforehand. 
+To address our research questions, we curated a dataset designed to meet two primary requirements.
+Firstly, it should encompass a comprehensive and current selection of Android repackaged apps, spanning a diverse range of malware families for representativeness.
+Secondly, our dataset should be appropriately labeled, ensuring that key attributes of each app, such as similarity and malware family, are known in advance
 
 \subsubsection{Procedures for Building the Dataset}
 
-We use two repositories of repackaged Android apps (\repack and \amc) to
-curate the dataset we use in our research. \repack has been curated using automatic procedures that mine repackaged apps from the Androzoo
-repository~\cite{DBLP:conf/msr/AllixBKT16}, and
-comprises 15,297 pairs of original and repackaged Android apps, with 2,776 unique original apps~\cite{DBLP:journals/tse/LiBK21}---
-multiple repackaged versions of the same original app may coexist within \repack, \review{with a minimal, and maximum times of 1 and 176, respectively}.
+We use two repositories of repackaged Android apps (\repack and \amc) to curate the
+dataset we use in our research. \repack was curated using automatic procedures that extract repackaged apps from the Androzoo
+repository~\cite{DBLP:conf/msr/AllixBKT16}. It comprises 18,073 apps, totaling 15,297 pairs of original and repackaged Android
+apps—--many repackaged versions of the same original app may coexist within the \repack dataset. Although \repack is the leading dataset used in Android
+repackaged research, it only contains packages built up until 2018. For this reason, we decided to include samples from the \amc
+dataset that were built after 2018 in our research. However, unlike RePack, \amc lacks information about the original apps, leading
+us to follow an existing algorithm~\cite{~\cite{DBLP:journals/tse/LiBK21}} to identify the original versions of repackaged apps in \amc.
+We then built a sample from the \amc dataset that contains 1,190 pairs (original/repackaged) of apps—--all pairs
+satisfying our constraint of being built after 2018. Altogether, our initial dataset contains a total of 16,687 pairs of apps.
 
-However, we encountered compatibility issues with many samples, either in relation to DroidFax~\cite{DBLP:conf/icsm/CaiR17a} or the versions of the Android emulator we employed (API level 28). First, out of 2,776 original apps, DroidFax instrumented 1,990 samples, resulting in a total of 4,958 app pairs (original/repackaged). Among these 4,958 app pairs, 4,668 samples from repackaged pair could be successfully instrumented by DroidFax. Finally, out of the remaining 4,668 app pairs, 841 pairs failed to install due to Android emulator compatibility issues or other emulator settings. Consequently, after removing incompatible app pairs, we selected 3,827 app pairs (original/repackaged) from \repack.
+During the execution of our experiments, we encountered a small number of issues with many samples.
+These problems arose either during the instrumentation of the apps using DroidFax~\cite{DBLP:conf/icsm/CaiR17a}
+or while executing the apps in the Android emulator (API level 28).
+Initially, we encountered failures while instrumenting 919 original apps from our initial dataset, which comprised 3,283 original apps collected from \repack and \amc.
+After removing these original apps from our dataset, we were left with a total of 5,875 app pairs (original/repackaged). Among these pairs,
+430 repackaged apps could not be instrumented, resulting in a total of 5,445 pairs of apps.
+Out of the remaining 5,445 pairs that we successfully instrumented using DroidFax, 847 pairs failed to execute in the Android emulator.
+To sum up, after filtering out apps that either failed to instrument or execute, we curated a dataset containing a total of 4,598
+app pairs (original/repackaged). Compared to our experience building our dataset, a larger percentage of similar instrumentation and execution issues have been reported in previous research~\cite{DBLP:conf/wcre/BaoLL18}.
 
-%\review{Released in August 2018, the decision to use API 28 for the emulator is based on the fact that it is an intermediate version between the \repack and \amc releases. Since Android apps are forward-compatible, older apps can run on newer versions of the Android Operating System. Thus, with this decision, we aim to cover the maximum number of samples in both datasets.}
-
-Regarding \amc, it comprises 378,546 repackaged Android apps~\cite{andromalpack}, \review{and as \repack, it has multiple repackaged version of the same orignal app, with a minimal and maximum time of 2 and 2,113.}
-
-In contrast to \repack,
-which only includes packages built until 2018, \amc includes many recent samples, some packaged as late as 2022.
-Unfortunately, \amc lacks information about the original apps, leading us to employ a conservative heuristic
-to identify the original versions of repackaged apps in \amc. This heuristic is based on an adapted
-procedure designed to identify repackaged versions of a given app~\cite{DBLP:journals/tse/LiBK21}.
-Despite our efforts, we could not identify the original version for several repackaged samples in \amc.
-We also excluded samples with a package date before 2018 (so that we could avoid any overlapping with
-the samples already selected from \repack), resulting in 1,190 ``app pair candidates''. 
-
-\review{From these app pairs, we had 507 unique originals, of which DroidFax instrumented 374 samples, resulting in a total of 917 app pairs. From these pairs, DroidFax instrumented 777 samples from repackaged pair. Finally, we eliminated 6 pairs that showed incompatible issues with the versions of the Android emulator used in our research (API level 28). In total, we selected 771 app pairs from \amc to curate our dataset. It is important to highlight that at both datasets, we had lower initial sample loss rates when compared to the dataset from original study~\cite{DBLP:conf/wcre/BaoLL18}.}
-
-
-
-%% To ensure that the pairs are indeed (original/repackaged), we also check some meta-files, like app signature~\cite{DBLP:journals/percom/MerloRSV21}. We compare the signature of original and repackaged app, and assume that, if they do not match, means that they have different developers. We also check if the repackaged app version have 
-%% \textit{.dex file} create date later than the original app, to ensure that the repackaged version was developed after the original. After removing all app pair that do not meet both criteria, we were left with 1,190 app pair. As \texttt{RePack-Dataset}, we also fail to execute our study in some samples, due to same instrumentation problem or emulator compatibility. After removing 419 incompatible app pairs, we were left with 771 app pair from \texttt{AndroMalPack}. 
-
-We combined the selected samples from \repack and \amc, resulting in a total of 4,598 app
-pairs (3,827 from \repack and 771 from \amc). Subsequently, we queried the \vt repository
+Finally, we queried the \vt repository
 to identify original versions of apps labeled as malware. Samples with such labels were excluded from our dataset,
-as the \mas assumes that the original version of an app is not malware (or else, the repackaged versions might
+as the \mas assumes that the original version of an app is not malware (otherwise, the repackaged versions might
 also exhibit malicious behavior). \vt, a widely recognized tool, scans software assets, including Android apps,
-using over 60 antivirus engines~\cite{DBLP:journals/ese/KhanmohammadiEH19}. Thus, we excluded 616 samples from \repack and 45 samples from \amc. In the end, we are left with our \cds of \apps apps which we use in our study (3,211+726). Figure~\ref{fig:dataset} summarizes the methodology we use to extract the dataset for our study.
+using over 60 antivirus engines~\cite{DBLP:journals/ese/KhanmohammadiEH19}. Thus, we excluded 661 samples from our dataset that
+do not satisfy this constraint. In the end, we are left with our \cds of \apps apps which we use in our study. 
 
-To bring evidence that we were able to reproduce the results of previous research, we also consider a small dataset (hereafter \sds)
+To bring evidence that we were able to reproduce the results of previous research, we also consider in our research
+a small dataset (hereafter \sds)
 used in the original studies~\cite{DBLP:conf/wcre/BaoLL18,DBLP:journals/jss/CostaMMSSBNR22}.
 
 % I do not think the figure is helping. 
 
-  \begin{figure}[htb]
-   \includegraphics[width=\columnwidth]{images/dataSet_V2.pdf}
-   \caption{Malware samples in \cds.}
-   \label{fig:dataset}
- \end{figure}
+ %%  \begin{figure}[htb]
+ %%   \includegraphics[width=\columnwidth]{images/dataSet_V2.pdf}
+ %%   \caption{Malware samples in \cds.}
+ %%   \label{fig:dataset}
+ %% \end{figure}
 
 
 
