@@ -41,16 +41,16 @@ These problems arose either during the instrumentation of the apps using DroidFa
 or while executing the apps in the Android emulator (API level 28).
 More specifically, we encountered failures while instrumenting 919 original apps from our initial dataset, which comprised 3,283 original apps collected from \repack and \amc.
 After removing these original apps from our dataset, we were left with a total of 5,875 pairs (original/repackaged) of apps. Among these pairs,
-430 repackaged apps could not be instrumented. We also encoutered failures while executing either the original or the
-repackaged version of 847 pairs of apps in the Android emulator, leading to
-a dataset containing a total of 4,598 pairs. Compared to our experience building our dataset,
+430 repackaged apps could not be instrumented. We also encountered failures while executing 591 apps in the Android emulator (either the original or the
+repackaged version), leading to
+a dataset containing a total of 4,802 pairs. Compared to our experience building our dataset,
 a larger percentage of similar instrumentation and execution failures have been reported in previous research~\cite{DBLP:conf/wcre/BaoLL18}.
 
 Third, we queried the \vt repository
 to identify original versions of apps labeled as malware. Samples with such labels were excluded from our dataset,
 as the \mas assumes that the original version of an app is not malware (otherwise, the repackaged versions might
 also exhibit malicious behavior). \vt is a widely recognized tool that scans software assets, including Android apps,
-using over 60 antivirus engines~\cite{DBLP:journals/ese/KhanmohammadiEH19}. Thus, we excluded 661 samples from our dataset that
+using over 60 antivirus engines~\cite{DBLP:journals/ese/KhanmohammadiEH19}. Thus, we excluded 726 samples from our dataset that
 do not satisfy this constraint.
 
 In the end, we are left with our final dataset (hereafter \cds) of \apps apps which we use in our study. 
@@ -96,7 +96,7 @@ According to the
 \avt~\cite{avclass2-paper}, the malware samples in the \sds come from $17$ different families---most of them from the Kuguo (49.27\%) and Dowgin (17.39\%) families.  
 Our \cds, besides a large sample of repackaged apps (\apps in total),
 comprises \review{116} families of malware we collected using the \avt---most
-of them from the Gappusin \review{(33.78\%)} family.
+of them from the Gappusin \review{(32.80\%)} family.
 
 We also characterize our dataset according to the similarity
 between the original and repackaged versions of the apps, using the  
@@ -104,14 +104,14 @@ SimiDroid tool~\cite{DBLP:conf/trustcom/0029BK17}. SimiDroid quantifies the simi
 based on (a) the methods that are either identical or similar in both versions of the apps (original and repackaged versions),
 (b) methods that only appear in the repackaged version of the apps (new methods), and (c) methods that only appear in the
 original version of the apps (deleted methods).
-Our \cds has an average similarity score of \review{(90.38)\%}---with the follow distribution \review{($84$ of
+Our \cds has an average similarity score of \review{(90.39)\%}---with the follow distribution \review{($87$ of
 app pairs have a similarity score of less than 25\%, $49$ of app pairs
-between 25\% and 50\%,  $343$ of the apps between 50\% and 75\%,
-and $3,461$ of the apps with more than 75\%). The \sds presents a similarity index average of (89.41\%). }
+between 25\% and 50\%,  $353$ of the apps between 50\% and 75\%,
+and $3,587$ of the apps with more than 75\%). The \sds presents a similarity index average of (89.41\%). }
 
 
 After executing our experiments, we identified the  most frequently abused sensitive APIs called by the repackaged version of our samples.
-We observed that upon execution of all samples from our dataset (\sds and \cds), malicious app versions injected \review{$134$} distinct methods from sensitive APIs (according to the
+We observed that upon execution of all samples from our dataset (\sds and \cds), malicious app versions injected \review{$133$} distinct methods from sensitive APIs (according to the
 AppGuard~\cite{DBLP:conf/esorics/BackesGHMS13} security framework).
 Malicious code often exploits these APIs to compromise system security and access sensitive data. Table~\ref{tab:APIused}
 presents a list of the 10 most frequently injected methods from sensitive APIs found in the
@@ -127,17 +127,17 @@ presents a list of the 10 most frequently injected methods from sensitive APIs f
     \hline
     Method of Sensitive API & Occurrences \\
     \hline \\
-    android.telephony.TelephonyManager: java.lang.String getNetworkOperatorName() &  312\\
-    android.telephony.TelephonyManager: int getPhoneType() &  312 \\
-    java.lang.reflect.Field: java.lang.Object get(java.lang.Object) &  289 \\
-    android.location.LocationManager: java.lang.String getBestProvider(android.location.Criteria,boolean) &  288 \\
-    android.database.sqlite.SQLiteDatabase: android.database.Cursor query(java.lang.String,java.lang.String[],...,...,...,...,...) &  278 \\
-    android.net.NetworkInfo: java.lang.String getTypeName() &  278\\
+    android.telephony.TelephonyManager: java.lang.String getNetworkOperatorName() &  320\\
+    android.telephony.TelephonyManager: int getPhoneType() &  320 \\
+    java.lang.reflect.Field: java.lang.Object get(java.lang.Object) &  299 \\
+    android.location.LocationManager: java.lang.String getBestProvider(android.location.Criteria,boolean) &  292 \\
+    android.database.sqlite.SQLiteDatabase: android.database.Cursor query(java.lang.String,java.lang.String[],...,...,...,...,...) &  286 \\
+    android.net.NetworkInfo: java.lang.String getTypeName() &  283\\
     android.telephony.TelephonyManager: int getSimState() &	276\\
-    java.lang.reflect.Field: int getInt(java.lang.Object) &  259\\
+    java.lang.reflect.Field: int getInt(java.lang.Object) &  269\\
     
-    android.telephony.TelephonyManager: java.lang.String getNetworkOperator() &  251\\
-    android.net.wifi.WifiInfo: java.lang.String getMacAddress()	& 250
+    android.telephony.TelephonyManager: java.lang.String getNetworkOperator() &  260\\
+    android.net.wifi.WifiInfo: java.lang.String getMacAddress()	& 260
 
 
     
