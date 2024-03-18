@@ -26,7 +26,7 @@ Secondly, our dataset should be appropriately labeled, ensuring that key attribu
 \subsubsection{Procedures for Building the Dataset}
 
 We curate our dataset in three main phases. 
-First, we use two repositories of repackaged Android apps (\repack and \amc) to build the
+First, we use two repositories of repackaged Android apps (\repack~\cite{DBLP:journals/tse/LiBK21} and \amc~\cite{rafiq2022andromalpack}) to build the
 dataset we use in our research. \repack was curated using automatic procedures that extract repackaged apps from the Androzoo
 repository~\cite{DBLP:conf/msr/AllixBKT16}. It comprises 18,073 apps, totaling 15,297 pairs of original and repackaged Android
 apps---many repackaged versions of the same original app may coexist within the \repack dataset. \repack is the leading dataset used in Android
@@ -36,15 +36,9 @@ us to follow an existing algorithm~\cite{DBLP:journals/tse/LiBK21} to identify t
 leading to a sample from the \amc dataset that contains 1,190 pairs (original/repackaged) of apps—--all pairs
 satisfying our constraint of being built after 2018. Altogether, our initial dataset contains a total of 16,487 pairs of apps.
 
-Second, during the execution of our experiments, we encountered recurrent issues with many samples in our initial dataset.
-These problems arose either during the instrumentation of the apps using DroidFax~\cite{DBLP:conf/icsm/CaiR17a}
-or while executing the apps in the Android emulator (API level 28).
-More specifically, we encountered failures while instrumenting 919 original apps from our initial dataset, which comprised 3,283 original apps collected from \repack and \amc.
-After removing these original apps from our dataset, we were left with a total of 5,875 pairs (original/repackaged) of apps. Among these pairs,
-430 repackaged apps could not be instrumented. We also encountered failures while executing 591 apps in the Android emulator (either the original or the
-repackaged version), leading to
-a dataset containing a total of 4,802 pairs. Compared to our experience building our dataset,
-a larger percentage of similar instrumentation and execution failures have been reported in previous research~\cite{DBLP:conf/wcre/BaoLL18}.
+
+Secondly, during the execution of our experiments, we encountered recurrent issues with many samples in our initial dataset. Many of these issues arose during the process of instrumenting the apps using DroidFax~\cite{DBLP:conf/icsm/CaiR17a}. Other problems occurred during the installation of apps or while formulating reports from the execution of apps in the Android emulator. More specifically, we encountered failures while instrumenting 919 original apps from our initial dataset, including both \repack and \amc. After removing these original apps from our dataset, we were left with a total of 5,875 pairs (original/repackaged) of apps. Among these pairs, 430 repackaged apps could not be instrumented. Additional failures occurred while installing or synthesizing information arising from app execution (either the original or the repackaged version), resulting in a dataset containing a total of 4,802 pairs. Compared to our experience building our dataset, a larger percentage of samples failures have been reported in previous research~\cite{DBLP:conf/wcre/BaoLL18}.
+
 
 Third, we queried the \vt repository
 to identify original versions of apps labeled as malware. Samples with such labels were excluded from our dataset,
@@ -171,8 +165,9 @@ this phase executes only once for each version of the apps in our dataset.
 \item \textbf{Execution}: In this step, DroidXP first installs the (instrumented) version of the APK files in the Android emulator we use in our experiment (API 28) and then starts a test case generation tool for executing both app versions (original and repackage). We execute the apps via DroidBot~\cite{DBLP:conf/icse/LiYGC17}, mostly because previous research works report the best accuracy of the sandboxes built using the \mas and the DroidBot as test case generation tool. To also ensure that each execution gets the benefit of running on a fresh Android instance without biases that could stem out of history, DroidXP wipes out all data stored on the emulator that has been collected from previous executions.
 
 
-\item \textbf{Data Collection}: During the execution of the instrumented apps, we collect all relevant information (such as calls to sensitive APIs, test coverage metrics, and so on). We use this information to analyze the performance of the \mas for detecting malicious behavior.
+\item \textbf{Data Collection}: After the execution of the instrumented apps, once again, DroidXP leverages DroidFax, this time to analyze traces and collect all relevant information (such as calls to sensitive APIs, test coverage metrics, and so on). We use this information to analyze the performance of the \mas for detecting malicious behavior.
 \end{enumerate}
+
 
 \subsection{Data Analysis Procedures} \label{sec:dataAnalysisProc}
 
