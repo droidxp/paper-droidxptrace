@@ -28,16 +28,22 @@ Secondly, our dataset should be appropriately labeled, ensuring that key attribu
 We curate our dataset in three main phases. 
 First, we use two repositories of repackaged Android apps (\repack~\cite{DBLP:journals/tse/LiBK21} and \amc~\cite{rafiq2022andromalpack}) to build the
 dataset we use in our research. \repack was curated using automatic procedures that extract repackaged apps from the Androzoo
-repository~\cite{DBLP:conf/msr/AllixBKT16}. It comprises 18,073 apps, totaling 15,297 pairs of original and repackaged Android
+repository~\cite{DBLP:conf/msr/AllixBKT16}. It comprises a total of 18,073 apps, from which 2,776 are original versions of an app and the remaining ones are repackaged versions. \repack contains a total of 15,297 pairs of original and repackaged Android
 apps---many repackaged versions of the same original app may coexist within the \repack dataset. \repack is the leading dataset used in Android
 repackaged research~\cite{DBLP:journals/ese/KhanmohammadiEH19}, even though it only contains packages built up until 2018. For this reason, we decided to include samples from the \amc
 dataset that were built after 2018 in our research. Nonetheless, unlike RePack, \amc lacks information about the original apps, leading
-us to follow an existing algorithm~\cite{DBLP:journals/tse/LiBK21} to identify the original versions of the repackaged apps in \amc,
+us to follow an existing heuristic~\cite{DBLP:journals/tse/LiBK21} to identify the original versions of the repackaged apps in \amc,
 leading to a sample from the \amc dataset that contains 1,190 pairs (original/repackaged) of apps—--all pairs
 satisfying our constraint of being built after 2018. Altogether, our initial dataset contains a total of 16,487 pairs of apps.
 
 
-Secondly, during the execution of our experiments, we encountered recurrent issues with many samples in our initial dataset. Many of these issues arose during the process of instrumenting the apps using DroidFax~\cite{DBLP:conf/icsm/CaiR17a}. Other problems occurred during the installation of apps or while formulating reports from the execution of apps in the Android emulator. More specifically, we encountered failures while instrumenting 919 original apps from our initial dataset, including both \repack and \amc. After removing these original apps from our dataset, we were left with a total of 5,875 pairs (original/repackaged) of apps. Among these pairs, 430 repackaged apps could not be instrumented. Additional failures occurred while installing or synthesizing information arising from app execution (either the original or the repackaged version), resulting in a dataset containing a total of 4,802 pairs. Compared to our experience building our dataset, a larger percentage of samples failures have been reported in previous research~\cite{DBLP:conf/wcre/BaoLL18}.
+Secondly, during the execution of our experiments, we encountered recurrent issues with many samples in our initial dataset. Many of these issues arose during the process of instrumenting the apps using DroidFax~\cite{DBLP:conf/icsm/CaiR17a}.
+Other problems occurred after the execution of the apps in the Android emulator, while analysing the apps and the execution logs .
+More specifically, we encountered failures while instrumenting 919 original apps from our initial dataset, including both \repack and \amc. After removing these original apps
+from our dataset, we were left with a total of 5,875 pairs (original/repackaged) of apps. Among these pairs, 430 repackaged apps could not be instrumented.
+A total of \rb{ABC} failures occurred while analysing the original or repackaged version of the apps and their execution logs, resulting in a dataset containing a total of \rb{XYZ} pairs.
+Finally, we were not able to install four apps in the version of the Android emulator we used in our research.
+Compared to our experience building our dataset, a larger percentage of samples failures have been reported in previous research~\cite{DBLP:conf/wcre/BaoLL18}.
 
 
 Third, we queried the \vt repository
