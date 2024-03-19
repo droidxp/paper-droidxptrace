@@ -42,8 +42,8 @@ Other problems occurred after the execution of the apps in the Android emulator,
 More specifically, we encountered failures while instrumenting 919 original apps from our initial dataset, including both \repack and \amc. After removing these original apps
 from our dataset, we were left with a total of 5,875 pairs (original/repackaged) of apps. Among these pairs, 430 repackaged apps could not be instrumented.
 A total of 588 failures occurred while analysing the original or repackaged version of the apps and their execution logs, resulting in a dataset containing a total of 4,806 pairs.
-Finally, we were not able to install four apps in the version of the Android emulator we used in our research.
-Compared to our experience building our dataset, a larger percentage of samples failures have been reported in previous research~\cite{DBLP:conf/wcre/BaoLL18}.
+Finally, we were not able to install four apps in the version of the Android emulator (API level 28) we used in our research.
+Compared to our experience building our dataset, a larger percentage of failures have been reported in previous research~\cite{DBLP:conf/wcre/BaoLL18}.
 
 
 Third, we queried the \vt repository
@@ -93,7 +93,7 @@ like riskware, trojan, adware, etc. Each category might be further specialized i
 characteristics and attack strategy---e.g., steal network info (IP, DNS, WiFi), collect phone info,
 collect user contacts, send/receive SMS, and so on~\cite{DBLP:conf/iccns/RahaliLKTGM20}.
 According to the
-\avt~\cite{avclass2-paper}, the malware samples in the \sds come from $17$ different families---most of them from the Kuguo (49.27\%) and Dowgin (17.39\%) families.  
+\avt~\cite{avclass2-paper}, the malware samples in the \sds come from 17 different families---most of them from the Kuguo (49.27\%) and Dowgin (17.39\%) families.  
 Our \cds, besides a large sample of repackaged apps (\apps in total),
 comprises \review{116} families of malware we collected using the \avt---most
 of them from the Gappusin \review{(32.80\%)} family.
@@ -104,10 +104,10 @@ SimiDroid tool~\cite{DBLP:conf/trustcom/0029BK17}. SimiDroid quantifies the simi
 based on (a) the methods that are either identical or similar in both versions of the apps (original and repackaged versions),
 (b) methods that only appear in the repackaged version of the apps (new methods), and (c) methods that only appear in the
 original version of the apps (deleted methods).
-Our \cds has an average similarity score of \review{(90.39)\%}---with the follow distribution \review{($87$ of
-app pairs have a similarity score of less than 25\%, $49$ of app pairs
-between 25\% and 50\%,  $353$ of the apps between 50\% and 75\%,
-and $3,587$ of the apps with more than 75\%). The \sds presents a similarity index average of (89.41\%). }
+Our \cds has an average similarity score of \review{(90.39)\%}, with the following distribution: 87 of
+app pairs have a similarity score of less than 25\%, 49 of app pairs
+between 25\% and 50\%,  353 of the apps between 50\% and 75\%,
+and 3,587 of the apps with more than 75\%). The \sds presents a similarity index average of (89.41\%).
 
 
 After executing our experiments, we identified the  most frequently abused sensitive APIs called by the repackaged version of our samples.
