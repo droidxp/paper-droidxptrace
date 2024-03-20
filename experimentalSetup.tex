@@ -41,8 +41,8 @@ Secondly, during the execution of our experiments, we encountered recurrent issu
 Other problems occurred after the execution of the apps in the Android emulator, while analysing the apps and the execution logs .
 More specifically, we encountered failures while instrumenting 919 original apps from our initial dataset, including both \repack and \amc. After removing these original apps
 from our dataset, we were left with a total of 5,875 pairs (original/repackaged) of apps. Among these pairs, 430 repackaged apps could not be instrumented.
-A total of 588 failures occurred while analysing the original or repackaged version of the apps and their execution logs, resulting in a dataset containing a total of 4,806 pairs.
-Finally, we were not able to install four apps in the version of the Android emulator (API level 28) we used in our research.
+A total of 586 failures occurred while analysing the original or repackaged version of the apps and their execution logs, resulting in a dataset containing a total of 4,742 pairs.
+Finally, we were not able to install five apps in the version of the Android emulator (API level 28) we used in our research.
 Compared to our experience building our dataset, a larger percentage of failures have been reported in previous research~\cite{DBLP:conf/wcre/BaoLL18}.
 
 
@@ -50,7 +50,7 @@ Third, we queried the \vt repository
 to identify original versions of apps labeled as malware. Samples with such labels were excluded from our dataset,
 as the \mas assumes that the original version of an app is not malware (otherwise, the repackaged versions might
 also exhibit malicious behavior). \vt is a widely recognized tool that scans software assets, including Android apps,
-using over 60 antivirus engines~\cite{DBLP:journals/ese/KhanmohammadiEH19}. Thus, we excluded 726 samples from our dataset that
+using over 60 antivirus engines~\cite{DBLP:journals/ese/KhanmohammadiEH19}. Thus, we excluded 661 samples from our dataset that
 do not satisfy this constraint.
 
 In the end, we are left with our final dataset (hereafter \cds) of \apps apps which we use in our study. 
