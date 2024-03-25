@@ -23,7 +23,7 @@ we summarize in the following.
 
 %\item \textbf{Effect of trace analysis (RQ2).} We do not find any gain of enriching the vanilla \mas with trace analysis in terms of accuracy ($F_1$ score). Although the use of traces reduces the number of false negatives (improving recall), it also increases the number of false positives with a similar proportion---which does not change the $F_1$ score significantly. Nonetheless, for the context of malware identification, we believe that the gain in terms of recall might justify the use of trace analysis.
 
-\item \textbf{Similarity Analysis (RQ2).} Our results bring evidence about the nonexistence of an 
+\item \textbf{Similarity Analysis (RQ2).} \review{Must review here !!!}Our results bring evidence about the nonexistence of an 
   association between the similarity of the original and repackaged versions of an app
   and the ability of the \mas to correctly
   classify a repackaged version of an app as a malware. Therefore,
@@ -42,13 +42,13 @@ we summarize in the following.
   \review{Our experimental findings provide evidence that the extensions to the \mas,
     investigated in this study, result in a modest improvement in accuracy. That is, even with the combined
     integration of both extensions (see Section~\ref{sec:combination}), the accuracy achieved in the \cds is significantly
-    lower when compared to the results obtained in the \sds, with a notable disparity of 0.65 as opposed to 0.89.}
+    lower when compared to the results obtained in the \sds, with a notable disparity of 0.60 as opposed to 0.89.}
 
 \end{itemize}
 
 
 
-Although the \gps family explains the drop in the recall of the \mas, other  reasons might explain the reduced precision of the \mas in the \cds. First, the lack of balance in the datasets might partially explain the low precision of the \mas in the \cds. Second, we only label a repackaged version of an app as malware if \vt reports that at least two engines find suspicious behavior in that asset. This decision might be considered an over-constraint. When we relax this constraint and label an assets as malware whenever at least one engine finds suspicious behavior, the precision of the \mas increases from \review{0.69} to \review{0.79}---still significantly smaller than the \mas precision for the \sds.
+Although the \gps family explains the drop in the recall of the \mas, other  reasons might explain the reduced precision of the \mas in the \cds. First, the lack of balance in the datasets might partially explain the low precision of the \mas in the \cds. Second, we only label a repackaged version of an app as malware if \vt reports that at least two engines find suspicious behavior in that asset. This decision might be considered an over-constraint. When we relax this constraint and label an assets as malware whenever at least one engine finds suspicious behavior, the precision of the \mas increases from \review{0.52} to \review{0.54}---still significantly smaller than the \mas precision for the \sds.
 
 \begin{comment} First, the proportion of malware samples in the
 datasets differs. That is, \vt labels \review{$66.95$\%} of the repackaged version of the apps in the \cds as malware---contrasting with 67.64\% of the samples that \vt labels as malware in the \sds.

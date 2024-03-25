@@ -51,7 +51,7 @@ and wrongly labeled the repackaged version of seven apps as malware (FP column).
     \hline
     \sds (102)    & 62   & 7   & 7   & 0.89      & 0.89   & 0.89  \\
     %\mas + Traces  & \sds (102)   & 67   & 18  & 2   & 0.78      & 0.97   & 0.87  \\
-    \cds (4,076)    & 1,423  & 610 & 1,306 & 0.69       & 0.52   & 0.59  \\
+    \cds (4,076)    & 1,061  & 334 & 1,581 & 0.76       & 0.40   & 0.52  \\
     %\mas + Traces  & \cds (1203)   & 214  & 326 & 245 & 0.39      & 0.46   & 0.42  \\ 
     \hline
   \end{tabular}
@@ -69,7 +69,7 @@ and wrongly labeled the repackaged version of seven apps as malware (FP column).
 
 
 {\bf \cds.} Surprisingly, considering our complete dataset (\apps apps), the \mas
-labels a total of \review{$2,033$} repackaged apps as malware (\review{$49.41$\%} of the total number of repackaged
+labels a total of \review{$1,395$} repackaged apps as malware (\review{$34.22$\%} of the total number of repackaged
 apps)---for which the repackaged version calls at least one additional sensitive API.
 Our analysis also reveals a {\bf negative result} related to the accuracy of the approach: here,
 the accuracy is much lower in comparison to what we reported for the
@@ -85,7 +85,7 @@ DroidBot drops significantly.
   The \mas for malware detection
   leads to a substantially lower performance on the
   \cds (\apps pairs of apps),
-  dropping the \fone from $89\%$ to $0.59\%$ in comparison to
+  dropping the \fone from 0.89 to \fscore in comparison to
   what we observed in the \sds.}
 
 
@@ -119,7 +119,7 @@ the average \sscore of the complete dataset is
   \label{fig:ss}
 \end{figure}
 % \fh{at table 1 I inserted at second columns the sample amount}
-
+\review{At this point, we must review the numbers and discuss}
 Here we hypothesize that \sscore might have an
 association with the accuracy of the \mas and could perhaps explain
 the differences in the accuracy results we report for both
@@ -225,14 +225,14 @@ perform when considering only the gappusin samples?}
 
 The confusion matrix of Table~\ref{tab:gappusin} summarizes the accuracy assessment of the \mas considering
 only the \gps samples in the \cds. Note that \vt classifies as malware all repackaged versions in the \gps
-family and that for \appsGpsFN samples \review{($76.66$\%)}, the \mas was not able to correctly identify
+family and that for \appsGpsFN samples \review{($87.50$\%)}, the \mas was not able to correctly identify
 a repackaged version of an app as a malware (recall of \review{0.1}). 
 %Merging the outcomes of both approaches (that is, the vanilla \mas and
 %the \mas with traces), leads to a recall of
 %$\frac{27}{198} = 0.13$. 
 Further, if we remove the \gps
 samples from the \cds, the recall
-of the \mas increases to \review{0.72} (\review{still small when compared with the original studies}). 
+of the \mas increases to \review{0.70} (\review{still small when compared with the original studies}). 
 
 \begin{table}[ht]
   \caption{Confusion matrix of the \mas when considering only the
@@ -242,14 +242,14 @@ of the \mas increases to \review{0.72} (\review{still small when compared with t
 \multirow{2}{*}{Actual Condition}   & \multicolumn{2}{c}{Predicted Condition} \\ 
                                     & Benign    & Malware   \\ \hline 
   Benign  (0)                       & TN (0)    & FP (0)    \\
-  Malware (\appsGps)                     & FN (\appsGpsFN)  & TP (312)   \\ \hline
+  Malware (\appsGps)                     & FN (\appsGpsFN)  & TP (167)   \\ \hline
 \end{tabular}
 \label{tab:gappusin}
 \end{table}
 
 
 \tb{4}{The \mas fails to correctly
-  identify \review{$76.66$\%} of the samples from the \gps family
+  identify \review{$87.50$\%} of the samples from the \gps family
   as a malware. This is the main reason for the low
   recall of the \mas in the \cds.}
 
