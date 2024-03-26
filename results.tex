@@ -119,7 +119,6 @@ the average \sscore of the complete dataset is
   \label{fig:ss}
 \end{figure}
 % \fh{at table 1 I inserted at second columns the sample amount}
-\review{At this point, we must review the numbers and discuss}
 Here we hypothesize that \sscore might have an
 association with the accuracy of the \mas and could perhaps explain
 the differences in the accuracy results we report for both
@@ -135,21 +134,17 @@ As such, we test the following null hypothesis:
   \mas for malware detection. 
 \end{quote}
 
-The results of the logistic regression suggest that we should
-not reject our null hypothesis ($p$-value $=$ 0.89)(\review{Most review this number}). This finding suggests
-that the \mas is not more likely to assign a correct label to
-a repackaged app in the cases where its \sscore with the original
-app is high (or small). This is an expected result, since
-we found a higher accuracy on the \sds, even though  the
-\sscore of the original and repackage apps in both datasets
-do not differ significantly.
+The results of the logistic regression suggest that we should reject our null hypothesis ($p$-value $=$ $2.22\cdot10^{-16}$). This finding indicates that the accuracy of \mas is influenced by the similarity between the original and repackaged versions of an app.
+
+
+%This finding suggests that the \mas is more likely to assign a correct label to a repackaged app in the cases where its \sscore with the original app is small. %This is an expected result, since we found a higher accuracy on the \sds, even though  the \sscore of the original and repackage apps in both datasets do not differ significantly.
 
 %\kn{I am a bit confused here. Higher similariy score implies the app pairs are close to each other, making the detection easier? Or maybe I misundertood it here.}
 
-\tb{3}{There is no significant association between
+\tb{3}{There is an association between
   the \sscore and the \mas performance, which means that
   the similarity between the original and repackaged versions of
-  an app is not sufficient to explain the performance
+  an app can explain the performance
   of the \mas for malware classification.}
 
 
@@ -158,11 +153,10 @@ To clarify the lack of association between
 \cds into ten clusters---according to the \sscore. We then
 estimate the percentage of correct classifications for each cluster, as
 we show in Table~\ref{tab:ss-clusters}. Note that the \mas
-achieves the highest percentage of correct classification (75.13\%) for the second
-cluster (cId = 2), which
-presents an average \sscore of 0.55\%. Nonetheless, the
-cluster cId = 10, with larger number of samples (1414) and \sscore (0.99\%), presents
-a percentage of correct classifications around 35.60\%
+achieves the highest percentage of correct classification (70.40\%) for the fifth cluster (cId = 5), which
+presents an average \sscore of 0.88. Nonetheless, the
+cluster cId = 6, with larger number of samples (1248) and \sscore (0.91\%), presents
+a percentage of correct classifications around 26.68\%
 
 
 \begin{table}[ht]
@@ -175,16 +169,16 @@ a percentage of correct classifications around 35.60\%
     \begin{tabular}{rrrrr}   \hline
  cId & \sscore & Samples & Correct Answers & \% \\ \hline
 
-1 &   0.09 &  99 &  62 & 62.63 \\ 
-  2 &    0.55 & 189 & 142 & 75.13 \\ 
-  3 &    0.67 & 285 & 104 & 36.49 \\ 
-  4 &    0.79 & 453 & 127 & 28.04 \\ 
-  5 &    0.87 & 150 & 48 & 32.00 \\ 
-  6 &    0.90 & 252 & 157 & 62.30 \\ 
-  7 &    0.94 & 173 &  66 & 38.15 \\ 
-  8 &    0.96 & 137 &  100 & 72.99 \\ 
-  9 &    0.98 & 187 & 115 & 61.50 \\ 
-  10 &   0.99 & 1414 & 502 & 35.60 \\ \hline
+1 &    0.02 & 261 &  77 & 29.50 \\ 
+  2 &    0.49 & 230 & 121 & 52.61 \\ 
+  3 &    0.71 & 175 & 106 & 60.57 \\ 
+  4 &    0.80 & 140 &  59 & 42.14 \\ 
+  5 &   0.88 & 125 &  88 & 70.40 \\ 
+  6 &    0.91 & 1248 & 333 & 26.68 \\ 
+  7 &    0.94 & 398 &  95 & 23.87 \\ 
+  8 &    0.97 & 165 &  90 & 54.55 \\ 
+  9 &    0.98 &  93 &  46 & 49.46 \\ 
+  10 &    0.99 & 141 &  46 & 32.62 \\ \hline
 
 
  \end{tabular}
@@ -193,16 +187,15 @@ a percentage of correct classifications around 35.60\%
  \end{table}
 
 
-
 \subsection{Assessment Based on Malware Family}
 %\fh{inserted a little introduction about malware family}
 
 
 %\kn{I feel we need some definition of what we mean by a family of malware. Words like gappusin etc donot have big meaning for people outside this domain}
 As we discussed in the previous
-section, the similarity assessment does not explain the low performance of the
+section, the similarity assessment can explain the low performance of the
 \mas on the \cds. Since the \cds covers a wide range of malware families, we investigate the
-hypothesis that the malware families in the \cds could
+hypothesis that the malware families in the \cds also could
 explain the poor performance of the \mas on the \cds.
 Indeed, in the \cds, we identified a total of
 \review{116 malware families}, though the most frequent
