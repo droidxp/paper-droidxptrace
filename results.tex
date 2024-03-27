@@ -107,8 +107,11 @@ over the two datasets we use in our research
 (the \sds and the \cds).
 Recall that the \sscore measures how similar the
 original and repackaged versions of an app are.
+The SmallDS exhibits an average \sscore of 0.89 (with a median of 0.99 and standard deviation of 0.25),
+whereas the complete dataset averages a \sscore of 0.90 (with a median of 0.98 and standard deviation of 0.18). 
+
 The average \sscore of the
-\sds is 0.89 (median of 0.99 and sd of 0.25). Contrasting,
+\sds is 0.89 (median of 0.99 and sd of 0.25); while
 the average \sscore of the complete dataset is
 \review{0.90} (median of \review{0.98} and sd of \review{0.18}).
 
@@ -119,14 +122,21 @@ the average \sscore of the complete dataset is
   \label{fig:ss}
 \end{figure}
 % \fh{at table 1 I inserted at second columns the sample amount}
-Here we check if \sscore might have an association with the accuracy of the \mas and could perhaps explain the differences in the accuracy results we report for both datasets. We first use Logistic Regression to assess the strength of the association between accuracy and the \sscore. To this analysis, we removed the occurrences of true negatives (i.e., the repackaged version is benign according to \vt and the \mas correctly label the repackaged version as benign). As such, we test the following null hypothesis:
+
+In this section we investigate how the \sscore influences the accuracy of the \mas. We employ
+Logistic Regression to quantify the relationship between them. For this analysis, instances of true
+negatives (i.e., cases where the repackaged version is benign according to \vt and the \mas
+correctly labels it as benign) are excluded.
+As such, we test the following null hypothesis:
 
 \begin{quote}
   {\bf $H_0$} \sscore does not influence the accuracy of the
   \mas for malware detection. 
 \end{quote}
 
-The results of the logistic regression suggest that we should reject our null hypothesis ($p$-value $=$ $2.22\cdot10^{-16}$). This finding indicates that the accuracy of \mas is influenced by the similarity between the original and repackaged versions of an app.
+The results of the logistic regression suggest that we should reject our null hypothesis ($p$-value $=$ $2.22\cdot10^{-16}$).
+This finding indicates that the accuracy of the \mas is influenced by the similarity between the original and repackaged versions
+of an app.
 
 
 %This finding suggests that the \mas is more likely to assign a correct label to a repackaged app in the cases where its \sscore with the original app is small. %This is an expected result, since we found a higher accuracy on the \sds, even though  the \sscore of the original and repackage apps in both datasets do not differ significantly.
@@ -147,7 +157,7 @@ estimate the percentage of correct classifications for each cluster, as
 we show in Table~\ref{tab:ss-clusters}. Note that the \mas
 achieves the highest percentage of correct classification (70.40\%) for the third cluster (cId = 3), which
 presents an average \sscore of (0.67). Nonetheless, the
-cluster cId = 10, with larger number of samples (1248) and \sscore (0.99), presents a percentage of correct classifications around 26.68\%
+cluster cId = 10, with larger number of samples (1248) and \sscore (0.99), presents a percentage of correct classifications of 26.68\%
 
 
 \begin{table}[ht]
