@@ -157,11 +157,10 @@ estimate the percentage of correct classifications for each cluster, as
 we show in Table~\ref{tab:ss-clusters}. Note that the \mas
 achieves the highest percentage of correct classification (70.40\%) for the third cluster (cId = 3), which
 presents an average \sscore of (0.67). Nonetheless, the
-cluster cId = 10, with larger number of samples (1248) and \sscore (0.99), presents a percentage of correct classifications of 26.68\%
-
+cluster cId = 10, with larger number of samples (1248) and \sscore (0.99), presents a percentage of correct classifications of 26.68\%. We can observe that as the average similarity rate decreases, there is a tendency toward greater accuracy in the \mas. Hence, the low average similarity score could explain the poor performance of the \mas on the \cds, especially considering that most samples exhibit a high average similarity of 0.99.
 
 \begin{table}[ht]
-  \caption{Characteristics of the clusters. Note there is no specific
+  \caption{Characteristics of the clusters. Note there is a specific
     pattern associating the percentage of
     correct answers with the \sscore.
    For this analysis, we removed the true negatives in our dataset.}
@@ -170,7 +169,7 @@ cluster cId = 10, with larger number of samples (1248) and \sscore (0.99), prese
     \begin{tabular}{rrrrr}   \hline
  cId & \sscore & Samples & Correct Answers & \% \\ \hline
 
-1 &  0.13 &  67 &  39 & 58.21 \\ 
+1 &  0.09 &  93 &  46 & 49.46 \\ 
   2 &  0.55 & 175 & 106 & 60.57 \\ 
   3 &  0.67 & 125 &  88 & 70.40 \\ 
   4 &  0.79 & 165 &  90 & 54.55 \\ 
