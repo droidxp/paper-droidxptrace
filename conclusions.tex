@@ -7,6 +7,8 @@ this paper reported the results of an empirical study that reproduces previous r
 using a larger and more diverse dataset---in comparison to the datasets used in previous research. To our surprise, compared to published results,
 the performance of the \mas drops significantly for our comprehensive dataset. This result is explained by the presence of some malware families, for which the \mas fails to correctly classify. 
 
+\rb{We should rethink this section, perhaps recovering the ISSTA revision.}
+
 \review{We also report the results of a reverse engineering effort, whose goal was to understand the features from one of the families (\fm{gappusin}), that
 compromises the performance of the \mas. Our reverse engineering effort revealed common changing patterns in the \gps repackaged versions of original apps, which mostly use reflection to download an external
 \texttt{apk} asset for handling advertisements without introducing additional calls to sensitive APIs. This type of change adversely affects the \mas ability for malware identification. These negative results demonstrate how far we are from utilizing the \mas for malware classification.}

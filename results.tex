@@ -194,10 +194,11 @@ cluster cId = 10, with larger number of samples (1,248) and \sscore (0.99), pres
 
 %\kn{I feel we need some definition of what we mean by a family of malware. Words like gappusin etc donot have big meaning for people outside this domain}
 As we discussed in the previous
-section, the similarity assessment can explain the low performance of the
+section, the similarity assessment partially explains the low performance of the
 \mas on the \cds. Since the \cds covers a wide range of malware families, we investigate the
-hypothesis that the malware families in the \cds also could
-explain the poor performance of the \mas on the \cds.
+hypothesis that the diversity of malware families in
+the \cds also contributes to
+the poor performance of the \mas on the \cds.
 Indeed, in the \cds, we identified a total of
 \review{116 malware families}, though the most frequent
 ones are \gps (\appsGps samples), \fm{revmob} (207 samples), \fm{dowgin} (183 samples) and \emph{airpush} (120 samples). Together, they
@@ -213,21 +214,17 @@ repackaged apps \vt labels as malware in the \sds.
 Most important, in the \sds, there is just one
 sample from the \gps family and no sample from \fm{revmob} family. This observation
 leads us to the question: \emph{how does the \mas
-perform when considering only samples from these families ?}
+perform when considering only samples from these families?}
 }
-
 
 
 The confusion matrix of Table~\ref{tab:gappusin} summarizes the accuracy assessment of the \mas considering
 only the \gps and \fm{revmob} samples in the \cds. Note that \vt classifies as malware all repackaged versions in the \gps and \fm{revmob}
-family. From \gps family, 1,170 samples ($87.5$\%), and from \fm{revmob} family 92 sample ($44.44$), the \mas was not able to correctly identify
-a repackaged version of an app as a malware. 
-%Merging the outcomes of both approaches (that is, the vanilla \mas and
-%the \mas with traces), leads to a recall of
-%$\frac{27}{198} = 0.13$. 
-Further, if we remove the \gps and \fm{revmob}
-samples from the \cds, the recall
-of the \mas increases to 0.72, (still small when compared with the original studies). 
+family.It is worth noting that the \mas failed to correctly classify
+1,170 (87.5\%) samples of \gps as malware. Similarly,
+92 samples (44.44\%) from \emph{revmov} were not classified as malware.
+Furthermore, if we exclude the \gps and \emph{revmov} samples from the \cds, the recall of the \mas increases to 0.72, which, although improved, remains relatively low compared to the original studies.
+
 
 \begin{table}[ht]
   \caption{Confusion matrix of the \mas when considering only the
@@ -273,7 +270,7 @@ decompilation process are difficult to understand in full (due to code obfuscati
 the goal of this modification is to change the behaviour of the benign version, so that it can
 download a different version of the \texttt{data.apk} 
 asset. Figure~\ref{code:onReceive} shows
-the code pattern of the \texttt{onReceive} method presents in the samples. This modification
+the code pattern of the \texttt{onReceive} method present in the samples. This modification
 typically uses a new method (\texttt{public void a(Context)})
 the repackaged versions often introduce into the same class (\texttt{AdReciver}).
 Since there is no extra call to sensitive APIs, the \mas fails to label
