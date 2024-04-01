@@ -36,9 +36,7 @@ investigated in this study, result in a modest improvement in accuracy. That is,
 
 
 \review{
-Although some families explains the drop in the recall of the \mas, other reasons might explain the reduced precision of the \mas in the \cds. First, the lack of balance in the datasets might partially explain the low precision of the \mas in the \cds, since 
-it could lead to sub estimated detection performance~\cite{DBLP:conf/kbse/HuLZLSTL23}.
-Second, we only label a repackaged version of an app as malware if \vt reports that at least two engines find suspicious behavior in that asset. This decision might be considered an over-constraint. However, when we relax this constraint and label an asset as malware whenever at least one engine detects suspicious behavior, despite improving precision to 0.87, we decrease recall to 0.39. In general, the accuracy of the \mas remain the same 0.54---still significantly smaller than the \mas precision for the \sds.}
+Although some families explains the drop in the recall of the \mas, other reasons might explain the reduced precision of the \mas in the \cds. First, the distribution of samples equally between families in the datasets might partially explain the low precision of the \mas in the \cds. Second, we only label a repackaged version of an app as malware if \vt reports that at least two engines find suspicious behavior in that asset. This decision might be considered an over-constraint. However, when we relax this constraint and label an asset as malware whenever at least one engine detects suspicious behavior, despite improving precision to 0.87, we decrease recall to 0.39. In general, the accuracy of the \mas remain the same 0.54---still significantly smaller than the \mas precision for the \sds.}
 
 \begin{comment} First, the proportion of malware samples in the
 datasets differs. That is, \vt labels \review{$66.95$\%} of the repackaged version of the apps in the \cds as malware---contrasting with 67.64\% of the samples that \vt labels as malware in the \sds.
