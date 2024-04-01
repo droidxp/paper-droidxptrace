@@ -212,7 +212,7 @@ and \fm{youmi} (5 samples) account for
 73.91\% of the families considering the 69
 repackaged apps \vt labels as malware in the \sds.
 Most important, in the \sds, there is just one
-sample from the \gps family and no sample from \fm{revmob} family. This observation
+sample from the \gps family and no sample from \fm{revmob} family, two of the most frequent families in our \cds. This observation
 leads us to the question: \emph{how does the \mas
 perform when considering only samples from these families?}
 }
@@ -241,24 +241,21 @@ Furthermore, if we exclude the \gps and \emph{revmov} samples from the \cds, the
 \label{tab:gappusin}
 \end{table}
 
-
+\review{
 \tb{4}{The \mas fails to correctly
-  identify $87.50$\% of the samples from the \gps family and $44.44\%$ of the samples from the \fm{revmob}
-  as a malware. The high false negative rate of some families, is the reason for the low recall of the \mas in the \cds.}
-
-
+  identify $87.50$\% of the samples from the \gps family and $44.44\%$ of the samples from the \fm{revmob} as a malware. Just like \sscore, the presence of some malware families with high false negative rate, also influence the low recall of the \mas in the \cds.}
+}
+\review{
 We further analyze the samples from \gps malware family in our dataset, given its
-relevance to the negative result we present in our paper. First,
-Figure~\ref{fig:hist-gappusin} shows a histogram of the \sscore for the samples
-in the \gps family. Note that most of the repackaged versions from the
-\gps family are quite similar to the original versions (average \sscore
+relevance to the negative result we present in our paper. First, we analysed the \sscore of its samples. Figure~\ref{fig:hist-gappusin} shows a histogram of the \sscore for the samples
+in the \gps family. Note that most of the repackaged versions are quite similar to the original versions (average \sscore
 of 0.94, median \sscore of 0.99, and sd of 0.16). We also reengineer
 a sample of 30 \gps malware, using the \texttt{SimiDroid}\footnote{https://github.com/lilicoding/SimiDroid},
 \texttt{apktool}~\footnote{https://ibotpeaches.github.io/Apktool/},
 and \texttt{smali2java}~\footnote{https://github.com/AlexeySoshin/smali2java} tools.
 Considering this sample of 30 \gps malware, the median \sscore is 0.99. In addition,
 the repackaged version of the apps changes 4.96 methods (on average). Table~\ref{tab:simidroid-outputs} summarizes
-the outputs of \texttt{SimiDroid} for this sample of \gps apps.
+the outputs of \texttt{SimiDroid} for this sample of \gps apps.}
 
 The similarity assessment of this sample of 30 \gps malware reveals a few modification patterns when comparing the original and the
 repackaged versions of the apps. First, no instance in this \gps sample dataset
