@@ -51,7 +51,7 @@ and wrongly labeled the repackaged version of seven apps as malware (FP column).
     \hline
     \sds (102)    & 62   & 7   & 7   & 0.89      & 0.89   & 0.89  \\
     %\mas + Traces  & \sds (102)   & 67   & 18  & 2   & 0.78      & 0.97   & 0.87  \\
-    \cds (4,076)    & 1,061  & 334 & 1,581 & 0.76       & 0.40   & 0.52  \\
+    \cds (4,076)    & 1,175  & 220 & 1,720 & 0.84       & 0.40   & 0.54  \\
     %\mas + Traces  & \cds (1203)   & 214  & 326 & 245 & 0.39      & 0.46   & 0.42  \\ 
     \hline
   \end{tabular}
@@ -157,7 +157,7 @@ estimate the percentage of correct classifications for each cluster, as
 we show in Table~\ref{tab:ss-clusters}. Note that the \mas
 achieves the highest percentage of correct classification (70.40\%) for the third cluster (cId = 3), which
 presents an average \sscore of (0.67). Nonetheless, the
-cluster cId = 10, with larger number of samples (1248) and \sscore (0.99), presents a percentage of correct classifications of 26.68\%. We can observe that as the average similarity rate decreases, there is a tendency toward greater accuracy in the \mas. Hence, the average similarity score could explain the poor performance of the \mas on the \cds, especially considering that most samples exhibit a high average similarity of 0.99.
+cluster cId = 10, with larger number of samples (1,248) and \sscore (0.99), presents a percentage of correct classifications of 26.68\%. We can observe that as the average similarity rate decreases, there is a tendency toward greater accuracy in the \mas. Hence, the average similarity score could explain the poor performance of the \mas on the \cds, especially considering that most samples exhibit a high average similarity of 0.99.
 
 \begin{table}[ht]
   \caption{Characteristics of the clusters. Note there is a specific
@@ -201,9 +201,9 @@ explain the poor performance of the \mas on the \cds.
 Indeed, in the \cds, we identified a total of
 \review{116 malware families}, though the most frequent
 ones are \gps (\appsGps samples), \fm{revmob} (207 samples), \fm{dowgin} (183 samples) and \emph{airpush} (120 samples). Together, they
-account for \review{$67.68$\%} of the repackaged apps in our \cds labeled as malware according to \vt.
+account for \review{$63.79$\%} of the repackaged apps in our \cds labeled as malware according to \vt.
 
-This family distribution in the \cds is
+\review{This family distribution in the \cds is
 different from the family
 distribution in the \sds---where the
 families \fm{kuguo} (34 samples), \fm{dowgin} (12 samples),
@@ -211,41 +211,43 @@ and \fm{youmi} (5 samples) account for
 73.91\% of the families considering the 69
 repackaged apps \vt labels as malware in the \sds.
 Most important, in the \sds, there is just one
-sample from the \gps family. This observation
+sample from the \gps family and no sample from \fm{revmob} family. This observation
 leads us to the question: \emph{how does the \mas
-perform when considering only the gappusin samples?}
+perform when considering only samples from these families ?}
+}
 
 
 
 The confusion matrix of Table~\ref{tab:gappusin} summarizes the accuracy assessment of the \mas considering
-only the \gps samples in the \cds. Note that \vt classifies as malware all repackaged versions in the \gps
-family and that for \appsGpsFN samples \review{($87.50$\%)}, the \mas was not able to correctly identify
-a repackaged version of an app as a malware (recall of \review{0.1}). 
+only the \gps and \fm{revmob} samples in the \cds. Note that \vt classifies as malware all repackaged versions in the \gps and \fm{revmob}
+family. From \gps family, 1,170 samples ($87.5$\%), and from \fm{revmob} family 92 sample ($44.44$), the \mas was not able to correctly identify
+a repackaged version of an app as a malware. 
 %Merging the outcomes of both approaches (that is, the vanilla \mas and
 %the \mas with traces), leads to a recall of
 %$\frac{27}{198} = 0.13$. 
-Further, if we remove the \gps
+Further, if we remove the \gps and \fm{revmob}
 samples from the \cds, the recall
-of the \mas increases to \review{0.70} (\review{still small when compared with the original studies}). 
+of the \mas increases to 0.72, (still small when compared with the original studies). 
 
 \begin{table}[ht]
   \caption{Confusion matrix of the \mas when considering only the
-  samples from the \gps family in the \cds.}
+  samples from the \gps and \fm{revmob} family in the \cds.}
 \centering
 \begin{tabular}{r|cc} \hline
 \multirow{2}{*}{Actual Condition}   & \multicolumn{2}{c}{Predicted Condition} \\ 
                                     & Benign    & Malware   \\ \hline 
-  Benign  (0)                       & TN (0)    & FP (0)    \\
-  Malware (\appsGps)                     & FN (\appsGpsFN)  & TP (167)   \\ \hline
+  Benign   (0)                       & TN (0)    & FP (0)    \\
+  Gappusin (\appsGps)                     & FN (\appsGpsFN)  & TP (167)   \\
+  Revmob (207)                     & FN (92)  & TP (115)   \\
+  \hline
 \end{tabular}
 \label{tab:gappusin}
 \end{table}
 
 
 \tb{4}{The \mas fails to correctly
-  identify \review{$87.50$\%} of the samples from the \gps family
-  as a malware. This is the main reason for the low
-  recall of the \mas in the \cds.}
+  identify $87.50$\% of the samples from the \gps family and $44.44\%$ of the samples from the \fm{revmob}
+  as a malware. The high false negative rate of some families, is the reason for the low recall of the \mas in the \cds.}
 
 
 We further analyze the samples from \gps malware family in our dataset, given its

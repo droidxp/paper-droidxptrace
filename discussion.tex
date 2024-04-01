@@ -24,26 +24,21 @@ we summarize in the following.
 %\item \textbf{Effect of trace analysis (RQ2).} We do not find any gain of enriching the vanilla \mas with trace analysis in terms of accuracy ($F_1$ score). Although the use of traces reduces the number of false negatives (improving recall), it also increases the number of false positives with a similar proportion---which does not change the $F_1$ score significantly. Nonetheless, for the context of malware identification, we believe that the gain in terms of recall might justify the use of trace analysis.
 
 \item \textbf{Similarity Analysis (RQ2).} Our results bring evidence about the existence of an association between the similarity of the original and repackaged versions of an app and the ability of the \mas to correctly classify a repackaged version of an app as a malware. Therefore, the similarity assessment can explain the low performance of the \mas to identify malware in the \cds.
-
-\item \textbf{Malware Family Analysis (RQ3).} The results indicate that a specific family
-  (\gps)  is responsible for the largest number of false
-  negatives in the complete dataset. The \gps family corresponds to a particular type of
-  Adware, designed to automatically display advertisements while an app is running. After reverse engineering
-  a sample of 30 \gps malware, we confirmed that the \mas cannot identify the
-  patterns of changes introduced in the repackaged versions of the apps. The prevalence of the \gps family
-  in the \cds largely explains the poor performance of the \mas for malware classification in the large dataset. 
+\review{
+\item \textbf{Malware Family Analysis (RQ3).} The results indicate that a some families are responsible for the largest number of false negatives in the complete dataset. We specifically investigated one malware family described as \gps, which corresponds to a particular type of
+Adware, designed to automatically display advertisements while an app is running. After reverse engineering a sample of 30 \gps malware, we confirmed that the \mas cannot identify the patterns of changes introduced in the repackaged versions of the apps. The prevalence of the \gps family in the \cds contributed to explaining the poor performance of the \mas for malware classification in the large dataset. }
 
 \item \textbf{Efficiency gain with the \mas extensions (RQ4).}
-  \review{Our experimental findings provide evidence that the extensions to the \mas,
-    investigated in this study, result in a modest improvement in accuracy. That is, even with the combined
-    integration of both extensions (see Section~\ref{sec:combination}), the accuracy achieved in the \cds is significantly
-    lower when compared to the results obtained in the \sds, with a notable disparity of 0.60 as opposed to 0.89.}
+Our experimental findings provide evidence that the extensions to the \mas,
+investigated in this study, result in a modest improvement in accuracy. That is, even with the combined integration of both extensions (see Section~\ref{sec:combination}), the accuracy achieved in the \cds is significantly lower when compared to the results obtained in the \sds, with a notable disparity of 0.62 as opposed to 0.89.
 
 \end{itemize}
 
 
-
-Although the \gps family explains the drop in the recall of the \mas, other  reasons might explain the reduced precision of the \mas in the \cds. First, the lack of balance in the datasets might partially explain the low precision of the \mas in the \cds. Second, we only label a repackaged version of an app as malware if \vt reports that at least two engines find suspicious behavior in that asset. This decision might be considered an over-constraint. However, when we relax this constraint and label an assets as malware whenever at least one engine finds suspicious behavior, the precision of the \mas increases from \review{0.52} to \review{0.54}---still significantly smaller than the \mas precision for the \sds.
+\review{
+Although some families explains the drop in the recall of the \mas, other reasons might explain the reduced precision of the \mas in the \cds. First, the lack of balance in the datasets might partially explain the low precision of the \mas in the \cds, since 
+it could lead to sub estimated detection performance~\cite{DBLP:conf/kbse/HuLZLSTL23}.
+Second, we only label a repackaged version of an app as malware if \vt reports that at least two engines find suspicious behavior in that asset. This decision might be considered an over-constraint. However, when we relax this constraint and label an asset as malware whenever at least one engine detects suspicious behavior, despite improving precision to 0.87, we decrease recall to 0.39. In general, the accuracy of the \mas remain the same 0.54---still significantly smaller than the \mas precision for the \sds.}
 
 \begin{comment} First, the proportion of malware samples in the
 datasets differs. That is, \vt labels \review{$66.95$\%} of the repackaged version of the apps in the \cds as malware---contrasting with 67.64\% of the samples that \vt labels as malware in the \sds.
@@ -66,9 +61,9 @@ apps were malware. Our triangulation with \vt reveals this is not true. Although
 the \mas presents a good accuracy for the \sds ($F_1$ = \fscoreSmall), 
 in the presence of a large dataset the \mas accuracy drops significantly ($F_1$ = \fscore). 
 
-We also reveal that a specific family in the \cds is responsible for a large number of false negatives,
+\review{We also reveal that a some families in the \cds are responsible for a large number of false negatives,
 compromising the accuracy of the \mas.
-Altogether, the takeaways of this research are twofold:
+Altogether, the takeaways of this research are twofold:}
 
 \begin{itemize}
   \item Negative result: the \mas for malware detection exhibits a much higher false negative rate than previous research reported. 
